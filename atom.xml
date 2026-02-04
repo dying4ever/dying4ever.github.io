@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.dying4ever.cyou</id>
-    <title>Frostbitten Carpe Diem</title>
-    <subtitle></subtitle>
+    <title></title>
+    <subtitle>Frostbitten Carpe Diem</subtitle>
     <icon>https://www.dying4ever.cyou/assets/favicon.ico</icon>
     <link href="https://www.dying4ever.cyou" />
     <author>
-      <name>Frostbitten Carpe Diem</name>
+      <name>曾阿牛</name>
     </author>
     <updated>2026-02-03T17:16:47.000Z</updated>
     <entry>

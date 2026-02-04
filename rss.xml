@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <rss version="2.0">
     <channel>
-        <title>Frostbitten Carpe Diem</title>
-        <subtitle></subtitle>
+        <title></title>
+        <subtitle>Frostbitten Carpe Diem</subtitle>
         <icon>https://www.dying4ever.cyou/assets/favicon.ico</icon>
         <link>https://www.dying4ever.cyou</link>
         <author>
-          <name>Frostbitten Carpe Diem</name>
+          <name>曾阿牛</name>
         </author>
-        <description></description>
+        <description>Por Una Cabeza</description>
         <language>zh-CN</language>
         <pubDate>Wed, 04 Feb 2026 01:16:47 +0800</pubDate>
         <lastBuildDate>Wed, 04 Feb 2026 01:16:47 +0800</lastBuildDate>
