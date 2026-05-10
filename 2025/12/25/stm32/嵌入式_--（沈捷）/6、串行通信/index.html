@@ -1,0 +1,642 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"><meta name="renderer" content="webkit"><link rel="icon" type="image/ico" sizes="32x32" href="/assets/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.jpg"><link rel="alternate" href="/rss.xml" title="终南山下，活死人墓" type="application/rss+xml"><link rel="alternate" href="/atom.xml" title="终南山下，活死人墓" type="application/atom+xml"><link rel="alternate" type="application/json" title="终南山下，活死人墓" href="https://www.dying4ever.cyou/feed.json"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="preconnect" href="https://at.alicdn.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CFredericka%20the%20Great:400,400italic,700,700italic%7CNoto%20Serif%20JP:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic%7CInconsolata:400,400italic,700,700italic&amp;display=swap&amp;subset=latin,latin-ext" media="none" onload="this.media='all'"><link rel="modulepreload" href="/js/siteInit.js"><link rel="modulepreload" href="/js/nyx-player-65SXYNHT.js"><link rel="modulepreload" href="/js/copy-tex-7UF7DT2A.js"><link rel="modulepreload" href="/js/post-X4P2N4F4.js"><link rel="modulepreload" href="/js/chunk-7DZRMTBP.js"><link rel="modulepreload" href="/js/index.esm-2W6OBGI7.js"><link rel="modulepreload" href="/js/chunk-HJSTZ4VX.js"><link rel="modulepreload" href="/js/chunk-XWHAJBZM.js"><link rel="stylesheet" href="/css/siteInit.css" media="none" onload="this.media='all'"><link rel="preload" href="/images/banner.webp" as="image" fetchpriority="high"><meta name="keywords" content="stm32,"><meta name="description" content="Por Una Cabeza"><link rel="canonical" href="https://www.dying4ever.cyou/2025/12/25/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/"><link rel="stylesheet" href="/css/post.css?v=0.5.4"><link rel="stylesheet" href="/css/mermaid.css?v=0.5.4"><!-- 临时处理--><link rel="stylesheet" media="none" onload="this.media='all'" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><title>6、串行通信</title><meta name="generator" content="Hexo 7.3.0"></head><body itemscope="" itemtype="http://schema.org/WebPage"><div id="loading"><div class="cat"><div class="body"></div><div class="head"><div class="face"></div></div><div class="foot"><div class="tummy-end"></div><div class="bottom"></div><div class="legs left"></div><div class="legs right"></div></div><div class="paw"><div class="hands left"></div><div class="hands right"></div></div></div></div><div id="pagefind_mount"></div><div id="container"><header id="header" itemscope="" itemtype="http://schema.org/WPHeader"><div class="inner"><div id="brand"><div class="pjax"><h1 itemprop="name headline">6、串行通信</h1><div class="meta"><span class="item" title="创建时间：2025-12-25 15:24:30"><span class="icon"><i class="ic i-calendar"></i></span><span class="text">发表于</span><time itemprop="dateCreated datePublished" datetime="2025-12-25T15:24:30+08:00">2025-12-25</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span class="text">本文字数</span><span>12k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span class="text">阅读时长</span><span>11 分钟</span></span></div></div></div><nav id="nav"><div class="inner"><div class="toggle"><div class="lines" aria-label="切换导航栏"><span class="line"></span><span class="line"></span><span class="line"></span></div></div><ul class="menu"><li class="item title"><a href="/" rel="start">Frostbitten Carpe Diem</a></li></ul><ul class="right" id="rightNav"><li class="item theme"><i class="ic i-sun"></i></li><li class="item search"><i class="ic i-search"></i></li></ul></div></nav></div><div class="pjax" id="imgs"><img src="/images/banner.webp" loading="eager" decoding="async" fetchpriority="high" alt="终南山下，活死人墓"></div></header><div id="waves"><svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path></defs><g class="parallax"><use xlink:href="#gentle-wave" x="48" y="0"></use><use xlink:href="#gentle-wave" x="48" y="3"></use><use xlink:href="#gentle-wave" x="48" y="5"></use><use xlink:href="#gentle-wave" x="48" y="7"></use></g></svg></div><main><div class="inner"><div class="pjax" id="main"><div class="article wrap"><div class="breadcrumb" itemlistelement="" itemscope="" itemtype="https://schema.org/BreadcrumbList"><i class="ic i-home"></i><span><a href="/">首页</a></span><i class="ic i-angle-right"></i><span itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/categories/stm32/" itemprop="item" rel="index" title="分类于stm32"><span itemprop="name">stm32<meta itemprop="position" content="0"></span></a></span><i class="ic i-angle-right"></i><span class="current" itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/categories/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F-%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/" itemprop="item" rel="index" title="分类于嵌入式_--（沈捷）"><span itemprop="name">嵌入式_--（沈捷）<meta itemprop="position" content="1"></span></a></span></div><article class="post block" itemscope="itemscope" itemtype="http://schema.org/Article" data-pagefind-body="data-pagefind-body" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://www.dying4ever.cyou/2025/12/25/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/"><span hidden="hidden" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="image" content="/assets/head.png"><meta itemprop="name" content="曾阿牛"><meta itemprop="description" content="welcome my blog, Por Una Cabeza"></span><span hidden="hidden" itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="终南山下，活死人墓"></span><div class="body md" itemprop="articleBody"><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wzzkaifa/p/19031126#%E4%B8%80%E3%80%81%E9%80%9A%E4%BF%A1%E6%8E%A5%E5%8F%A3">https://www.cnblogs.com/wzzkaifa/p/19031126#一、通信接口</a></p>
+<h2 id="一-通信接口分类"><a class="anchor" href="#一-通信接口分类">#</a> 一、通信接口分类</h2>
+<table>
+<thead>
+<tr>
+<th><strong>名称</strong></th>
+<th><strong>引脚</strong></th>
+<th><strong>双工</strong></th>
+<th><strong>时钟</strong></th>
+<th><strong>电平</strong></th>
+<th><strong>设备</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USART</td>
+<td>TX、RX</td>
+<td><mark>全双工</mark></td>
+<td>异步</td>
+<td>单端</td>
+<td>点对点</td>
+</tr>
+<tr>
+<td>I2C</td>
+<td><strong>SCL</strong>、SDA</td>
+<td>半双工</td>
+<td>同步</td>
+<td>单端</td>
+<td>多设备</td>
+</tr>
+<tr>
+<td>SPI</td>
+<td><strong>SCLK</strong>、MOSI、MISO、CS</td>
+<td><mark>全双工</mark></td>
+<td>同步</td>
+<td>单端</td>
+<td>多设备</td>
+</tr>
+<tr>
+<td>CAN</td>
+<td>CAN_H、CAN_L</td>
+<td>半双工</td>
+<td>异步</td>
+<td>差分</td>
+<td>多设备</td>
+</tr>
+<tr>
+<td>USB</td>
+<td>DP、DM</td>
+<td>半双工</td>
+<td>异步</td>
+<td>差分</td>
+<td>点对点</td>
+</tr>
+</tbody>
+</table>
+<h4 id="细分"><a class="anchor" href="#细分">#</a> 细分：</h4>
+<ul>
+<li><strong>UART (Universal Asynchronous Receiver/Transmitter):&nbsp;最基础的点对点串行协议。像两个人面对面聊天。</strong></li>
+</ul>
+<blockquote>
+<p><strong>TX&nbsp;(Transmit)</strong>：&nbsp;发数据的引脚。STM32的嘴巴。</p>
+<p><strong>RX&nbsp;(Receive)：</strong>&nbsp;收数据的引脚。STM32的耳朵。</p>
+<p><strong>(可选)&nbsp;RTS/CTS</strong>: 硬件流控引脚，用于协调发送速度（防止数据淹没对方）。</p>
+<p>（uart是通用异步收/发器，usart通用同步/异步收/发器，相较于UART多一个时钟输出，无时钟输入）</p>
+</blockquote>
+<ul>
+<li><strong>I2C (Inter-Integrated Circuit):&nbsp;多设备共享“总线”的低速串行协议。像一个小组讨论，大家共用一条电话线，靠“名字”（地址）区分。</strong></li>
+</ul>
+<blockquote>
+<p><strong>SCL&nbsp;(Serial Clock)：</strong>&nbsp;时钟线。由主设备产生，像打拍子指挥节奏。大家共用。</p>
+<p><strong>SDA&nbsp;(Serial Data)：</strong>&nbsp;数据线。主从设备都通过它收发数据。大家共用。</p>
+<p>注意：&nbsp;I2C总线需要上拉电阻（通常4.7KΩ）连接到电源（3.3V），让总线在空闲时保持高电平。</p>
+</blockquote>
+<ul>
+<li><strong>SPI (Serial Peripheral Interface):&nbsp;高速全双工串行协议，通常点对点或点对少量设备。像两个人用两条专用电话线同时说和听。</strong></li>
+</ul>
+<blockquote>
+<p><strong>SCK&nbsp;(Serial Clock)：</strong>&nbsp;时钟线。由主设备产生，指挥节奏。</p>
+<p><strong>MOSI&nbsp;(Master Out Slave In)：</strong>&nbsp;主设备发，从设备收的数据线。</p>
+<p><strong>MISO&nbsp;(Master In Slave Out)：</strong>&nbsp;主设备收，从设备发的数据线。</p>
+<p><strong>NSS / CS&nbsp;(Slave Select / Chip Select)：</strong>&nbsp;片选线。由主设备控制，低电平有效。拉低哪条线，就选中哪个从设备进行对话。主设备可以有多个CS引脚连接不同从设备。</p>
+</blockquote>
+<ul>
+<li><strong>USB (Universal Serial Bus):&nbsp;复杂但强大的通用串行总线协议。</strong></li>
+</ul>
+<blockquote>
+<p><strong>DP&nbsp;(Data Positive)</strong></p>
+<p><strong>DM&nbsp;(Data Negative)</strong></p>
+<p>专用差分信号线对，需要符合USB规范的硬件设计。</p>
+</blockquote>
+<ul>
+<li><strong>CAN (Controller Area Network):&nbsp;主要用于汽车、工业的可靠网络协议。</strong></li>
+</ul>
+<blockquote>
+<p><strong>CAN_H&nbsp;(CAN High)</strong></p>
+<p><strong>CAN_L&nbsp;(CAN Low)</strong></p>
+<p>专用差分信号线对，需要终端电阻(120Ω)。<br>
+<strong>通信方式：设备与设备之间的连接方式</strong></p>
+</blockquote>
+<h2 id="二-通信方式"><a class="anchor" href="#二-通信方式">#</a> 二、 通信方式：</h2>
+<h3 id="1-串行并行"><a class="anchor" href="#1-串行并行">#</a> 1、串行并行</h3>
+<blockquote>
+<p><strong>串行</strong>&nbsp;：&nbsp;一根或几根线，一次传1个比特(bit)。&nbsp;节省引脚，<strong>适合远距离（相对并行）</strong>，是主流。UART, I2C, SPI, USB, CAN都是串行。</p>
+<p><strong>并行</strong>：&nbsp;<strong>多根线</strong>（如8根, 16根），一次传多个比特(一个字节或字)。&nbsp;速度快，但引脚占用多，线间干扰大，<strong>距离短</strong>。STM32内部总线常用，外部用得少了（如老式打印机接口）。</p>
+<p><strong>有线</strong>&nbsp;vs&nbsp;<strong>无线</strong>：STM32本身通常处理有线协议，无线（如WiFi, BLE）常通过额外模块（如ESP8266, HC-05）用UART/SPI连接STM32。<br>
+<img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_15.avif" alt=""></p>
+</blockquote>
+<h3 id="2-双工模式"><a class="anchor" href="#2-双工模式">#</a> 2、双工模式</h3>
+<ul>
+<li>
+<p>比喻：对话的方向限制。是只能一方说（单工）？还是能轮流说（半双工）？还是能同时说和听（全双工）？</p>
+</li>
+<li>
+<p><mark>**单工</mark>：&nbsp;数据只能单向流动**。例如：只读传感器、广播（电台发送，收音机只能接收）。STM32较少纯粹单工。</p>
+</li>
+<li>
+<p><mark>**半双工</mark>：&nbsp;数据可以双向流动，但同一时间只能一个方向**。就像对讲机，说完“Over”才能听。I2C是半双工&nbsp;(SDA线同一时刻只能一个设备驱动)。CAN也是半双工&nbsp;(总线竞争)。</p>
+</li>
+<li>
+<p><mark>**全双工</mark>：数据可以同时双向流动。就像打电话，能边说边听**。UART、SPI是典型全双工&nbsp;(有独立的TX/RX线或MOSI/MISO线)。注意：&nbsp;SPI虽然是物理全双工，但实际应用中，有时从设备在收到主设备命令前并不知道要发什么数据，所以主设备发的可能是命令，从设备发的可能是数据，看起来像半双工，但硬件上具备同时收发的能力。</p>
+</li>
+</ul>
+<h3 id="13时钟特性"><a class="anchor" href="#13时钟特性">#</a> <strong>1.3时钟特性</strong></h3>
+<ul>
+<li>
+<p>比喻：对话的语速或节拍器。</p>
+</li>
+<li>
+<p><strong>同步通信 ：&nbsp;通信双方共用同一个时钟信号来同步数据的发送和接收</strong>。主设备提供时钟(SCK/SCL)，像指挥拍子。<mark>SPI，I2C是同步通信</mark>。（没有起始位，停止位！！）</p>
+</li>
+</ul>
+<blockquote>
+<p>优点：&nbsp;速度快，<strong>抗干扰</strong>相对好（因为有时钟边沿采样）。</p>
+<p>缺点：&nbsp;需要额外的时钟线。时钟频率限制通信距离。</p>
+</blockquote>
+<ul>
+<li><strong>异步通信</strong>：&nbsp;没有共享的时钟线。双方事先<strong>约定好一个速度（<mark>波特率</mark>），依靠数据帧内部的<mark>起始位、停止位</mark>来同步每个字节。</strong><mark>UART是异步通信</mark>。</li>
+</ul>
+<blockquote>
+<p>优点：&nbsp;只需要两根数据线(TX/RX)，适合<strong>远距离</strong>（相对）。</p>
+<p>缺点：&nbsp;需要精确的波特率发生器，双方波特率误差不能太大（通常&lt;3%），速度相对同步通信慢。更容易受干扰（没有时钟边沿约束）。</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>波特率 (Baud Rate)：</strong>&nbsp;衡量异步通信速度的单位，表示每秒传输的符号数(1个符号通常代表1个比特bit)。常用值：9600, 19200, 38400, 115200等。波特率越高，速度越快，但对时钟精度和信号质量要求越高。</p>
+</li>
+<li>
+<p><strong>时钟频率 (SCK/SCL)：</strong>&nbsp;衡量同步通信速度的单位（Hz）。SPI可达几十MHz，I2C标准模式100KHz，快速模式400KHz，高速模式3.4MHz等。</p>
+</li>
+</ul>
+<h3 id="4-信号传输方式"><a class="anchor" href="#4-信号传输方式">#</a> 4、信号传输方式</h3>
+<ul>
+<li><strong>单端信号</strong><br>
+用1根信号线 + 公共地线（GND）传输数据。</li>
+</ul>
+<blockquote>
+<p><strong>逻辑状态</strong>由信号线对地（GND）的电压差决定：</p>
+<p>逻辑1：信号线电压 &gt; 高电平阈值（如3.3V系统为2.0V）<br>
+逻辑0：信号线电压 &lt; 低电平阈值（如0.8V）</p>
+<p><strong>通俗比喻</strong>：像一个人用嗓门音量大小传递信息：</p>
+<p>大喊（高电平） = 1<br>
+小声（低电平） = 0<br>
+参考点是环境背景噪音（相当于GND）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>电路简单，成本低（少1根线）</td>
+<td>抗干扰能力差</td>
+</tr>
+<tr>
+<td>功耗较低</td>
+<td>传输距离短（通常&lt;1米）</td>
+</tr>
+<tr>
+<td>适合低速通信</td>
+<td>地线噪声直接影响信号</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>差分信号</strong><br>
+用2根相位相反的信号线传输数据（无地线依赖）：</li>
+</ul>
+<p>D+（正向信号线）<br>
+D-（反向信号线）</p>
+<blockquote>
+<p><strong>逻辑状态</strong>由两根线之间的电压差决定：</p>
+<p>逻辑1：D+电压 - D-电压 &gt; +阈值（如+200mV）<br>
+逻辑0：D+电压 - D-电压 &lt; -阈值（如-200mV）</p>
+<p><strong>通俗比喻</strong>：像两个人用反义词对暗号：</p>
+<p>A说“高”，B说“低” → 表示1<br>
+A说“低”，B说“高” → 表示0&gt;<br>
+外界干扰同时影响两人（如噪音+10dB），但暗号差值不变。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>超强抗干扰（抑制共模噪声）</td>
+<td>电路复杂（多1根线）</td>
+</tr>
+<tr>
+<td>传输距离远（可达百米）</td>
+<td>功耗较高</td>
+</tr>
+<tr>
+<td>高速传输（GHz级）</td>
+<td>成本更高</td>
+</tr>
+<tr>
+<td>降低电磁辐射（EMI）</td>
+<td>需阻抗匹配</td>
+</tr>
+</tbody>
+</table>
+<p><strong>差异总结</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th><strong>单端信号</strong></th>
+<th><strong>差分信号</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>信号线数</td>
+<td>1根 + GND</td>
+<td>2根（D+和D-）</td>
+</tr>
+<tr>
+<td>抗干扰</td>
+<td>弱（依赖GND质量）</td>
+<td>极强（抵消共模噪声）</td>
+</tr>
+<tr>
+<td>传输距离</td>
+<td>短（&lt;1米）</td>
+<td>长（可达100米+）</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>低速（通常&lt;10Mbps）</td>
+<td>高速（可达Gbps）</td>
+</tr>
+<tr>
+<td>成本</td>
+<td>低</td>
+<td>高（多1根线+专用芯片）</td>
+</tr>
+<tr>
+<td>噪声辐射</td>
+<td>高（电流经地线形成环路）</td>
+<td>低（磁场相互抵消）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="15设备特性"><a class="anchor" href="#15设备特性">#</a> <strong>1.5设备特性</strong></h3>
+<p>点对点：俩个设备直接传输数据<br>
+多设备：<strong>需要寻址以确定通信对象</strong></p>
+<h2 id="三-串口通信"><a class="anchor" href="#三-串口通信">#</a> 三、串口通信</h2>
+<p><img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_15_1.avif" alt=""><br>
+<strong>USB转串口模块</strong>:芯片型号CH340(将串口协议转换为USB协议),实现串口和电脑通信。<br>
+<strong>陀螺仪传感器模块</strong>：可测量角速度，加速度等姿态参数，左右各四个引脚，一边串口引脚，一边I2C引脚。<br>
+<strong>蓝牙串口模块</strong>：四个角是串口通信引脚，芯片可以和手机互联，实现手机遥控单片机功能</p>
+<h4 id="硬件电路"><a class="anchor" href="#硬件电路">#</a> 硬件电路：</h4>
+<p><img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_16.avif" alt=""></p>
+<h4 id="电平标准"><a class="anchor" href="#电平标准">#</a> 电平标准</h4>
+<p>电平标准是数据1和数据0的表达方式，是传输线缆中人为规定的电压与数据的对应关系，串口常用的电平标准有如下三种：</p>
+<ul>
+<li><strong>TTL电平：</strong>+3.3V或+5V表示1，0V表示0</li>
+<li><strong>RS232电平：</strong>-3<sub>-15V表示1，+3</sub>+15V表示0<br>
+一般在大型机器使用，由于环境可能恶劣，静电干扰较大，因此电瓶电压比较大，允许波动范围也大。</li>
+<li>**RS485电平：<strong>两线压差+2<sub>+6V表示1，-2</sub>-6V表示0（差分信号）</strong><br>
+差分信号抗干扰能力强。其通信距离可达上千米。</li>
+</ul>
+<p>(**TTL ↔ RS232：**必须使用电平转换芯片（如MAX3232）。)<br>
+<img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_17_2.avif" alt=""></p>
+<h4 id="串口参数"><a class="anchor" href="#串口参数">#</a> 串口参数</h4>
+<ul>
+<li><strong>波特率</strong>：串口通信的速率</li>
+</ul>
+<blockquote>
+<p>串口一般异步通信，需要双方确定通信速率（波特率，每秒传输码元的个数，二进制情况下，一个码元为一个比特，此时波特率=比特率）。<br>
+每位比特（bit）的持续时间&nbsp;T = 1 / 波特率。<br>
+优先选用&nbsp;11.0592MHz&nbsp;晶振（可被常用波特率整除）<br>
+72MHz系统时钟下，9600波特率误差仅0.14%（推荐）</p>
+</blockquote>
+<ul>
+<li><strong>起始位</strong>：标志一个数据帧的开始，固定为低电平</li>
+<li><strong>数据位</strong>：数据帧的有效载荷，1为高电平，0为低电平，低位先行</li>
+</ul>
+<blockquote>
+<p>若发送数据超过设定位数，高位会被截断。</p>
+</blockquote>
+<ul>
+<li><strong>校验位</strong>：用于数据验证，根据数据位计算得来</li>
+</ul>
+<blockquote>
+<p>三种方式：无校验，奇校验（数据位+校验位=奇数个1），偶校验<br>
+但是若俩个数据发送过程都出错，奇偶校验就检测不出来错误。<br>
+串口助手中，数据位为有效载荷，校验位是独立的1位</p>
+</blockquote>
+<ul>
+<li><strong>停止位</strong>：用于数据帧间隔，固定为高电平</li>
+</ul>
+<h4 id="串口数据帧整体结构传输数据最小单位"><a class="anchor" href="#串口数据帧整体结构传输数据最小单位">#</a> 串口数据帧整体结构（传输数据最小单位）</h4>
+<p>串口发送的字节格式，由串口协议规定。<br>
+串口每个字节都装载在一个数据帧，每个数据帧都由起始位，数据位和停止位组成。数据位8个代表一个字节8位。</p>
+<p><strong>数据帧结构：</strong><br>
+<strong>空闲态：</strong></p>
+<ul>
+<li>通信未开始时，TX/RX线<strong>保持高电平</strong>（逻辑1）。</li>
+</ul>
+<p><strong>起始位（Start Bit）：</strong></p>
+<ul>
+<li>1个比特的<strong>低电平</strong>（0），向接收方宣告“数据开始传输！”</li>
+<li>关键作用：实现帧同步（接收方检测到下降沿即启动计时）。</li>
+</ul>
+<p><strong>数据位（Data Bits）：</strong></p>
+<ul>
+<li>5~9个比特（通常选8位，兼容ASCII）</li>
+<li>传输顺序：<mark>LSB（最低位）先传！</mark><br>
+例如发送字符&nbsp;'A' (0x41 = 二进制 01000001)：<br>
+实际传输顺序为&nbsp;1→0→0→0→0→0→1→0（从D0到D7）</li>
+</ul>
+<p><strong>校验位（Parity Bit）：</strong></p>
+<ul>
+<li>可选，1个比特，用于检错（不能纠错）：
+<ul>
+<li>奇校验（Odd）：数据位+校验位的“1”总数=奇数</li>
+<li>偶校验（Even）：数据位+校验位的“1”总数=偶数。</li>
+</ul>
+</li>
+</ul>
+<p>例：0x41 (01000001)有2个“1”（偶数），若用偶校验则校验位=0</p>
+<p><strong>停止位（Stop Bit）：</strong></p>
+<ul>
+<li>1~2个比特的<strong>高电平</strong>（1）&nbsp;，表示“本帧结束”</li>
+<li>强制拉高，为下一帧起始位的下降沿做准备。</li>
+</ul>
+<h6 id="数据位8位无校验位"><a class="anchor" href="#数据位8位无校验位">#</a> 数据位8位，无校验位：</h6>
+<p><img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_16_1.avif" alt=""></p>
+<h6 id="数据位9位有校验位"><a class="anchor" href="#数据位9位有校验位">#</a> 数据位9位，有校验位：</h6>
+<p><img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_16_2.avif" alt=""></p>
+<h6 id="串口通信实际波形"><a class="anchor" href="#串口通信实际波形">#</a> <strong>串口通信实际波形</strong>：</h6>
+<p><img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_16_3.avif" alt=""><br>
+1000 000us/9600 ≈104us，所以为9600波特率（9600bits/s）</p>
+<h4 id="上面的都是异步"><a class="anchor" href="#上面的都是异步">#</a> 上面的都是异步：</h4>
+<p><img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_16_4.avif" alt=""></p>
+<h2 id="四-usart"><a class="anchor" href="#四-usart">#</a> 四、USART</h2>
+<ul>
+<li>USART（Universal Synchronous/Asynchronous Receiver/Transmitter）通用同步/异步收发器</li>
+</ul>
+<blockquote>
+<p>相较于UART模式，多一个时钟输出。&gt;<br>
+USART=UART+同步通信扩展功能</p>
+</blockquote>
+<p>USART 与 UART 的本质区别</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th><strong>UART</strong></th>
+<th><strong>USART</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>通信模式</td>
+<td>仅异步</td>
+<td>同步 + 异步</td>
+</tr>
+<tr>
+<td>时钟线</td>
+<td>无</td>
+<td>同步模式需SCLK引脚</td>
+</tr>
+<tr>
+<td>协议支持</td>
+<td>基础串行协议</td>
+<td>支持LIN、智能卡、IrDA等</td>
+</tr>
+<tr>
+<td>硬件复杂度</td>
+<td>简单</td>
+<td>更复杂（寄存器更多）</td>
+</tr>
+<tr>
+<td>STM32资源</td>
+<td>部分型号仅有UART</td>
+<td>主流型号均有USART</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>USART是STM32内部集成的硬件外设，可根据数据寄存器的一个字节数据自动生成数据帧时序，从TX引脚发送出去，也可自动接收RX引脚的数据帧时序，拼接为一个字节数据，存放在数据寄存器里</li>
+<li>自带波特率发生器，最高达4.5Mbits/s</li>
+</ul>
+<blockquote>
+<p>波特率发生器相当于一个分频器。比如APB2总线72MHz，波特率发生器极性分频，得到波特率时钟（通信波特率），在此时钟下进行接收发送波形。波特率常用9600和115200.</p>
+</blockquote>
+<ul>
+<li>可配置数据位长度（8/9）、停止位长度（0.5/1/1.5/2）</li>
+<li>可选校验位（无校验/奇校验/偶校验）</li>
+<li>支持同步模式、硬件流控制、DMA、智能卡、IrDA、LIN</li>
+<li><strong>STM32F103C8T6<strong><strong>USART</strong></strong>资源：</strong>&nbsp;<strong>USART1</strong>**（APB<strong><strong>2</strong></strong>）、**&nbsp;<strong>USART2</strong>**、**&nbsp;<strong>USART3</strong></li>
+</ul>
+<h4 id="32usart六大高级功能"><a class="anchor" href="#32usart六大高级功能">#</a> 3.2USART六大高级功能</h4>
+<p><strong>1.多处理器通信（地址标记）</strong></p>
+<ul>
+<li>用途：一主多从通信（类似I2C寻址）</li>
+<li>原理：<br>
+发送特殊地址帧唤醒目标从机<br>
+从机忽略非自身地址的数据帧</li>
+<li>配置：USART_CR2&nbsp;寄存器的&nbsp;ADD0~3&nbsp;设置自身地址</li>
+</ul>
+<p><strong>2.&nbsp;硬件流控（RTS/CTS）</strong></p>
+<ul>
+<li>引脚：<br>
+RTS：输出，指示“本机准备好接收”<br>
+CTS：输入，检测“对方是否允许发送”</li>
+<li>作用：防止接收缓存溢出（尤其高速传输）</li>
+</ul>
+<p><strong>3.&nbsp;LIN总线支持</strong></p>
+<ul>
+<li>LIN Break检测：自动识别13位低电平起始符</li>
+<li>同步场生成：硬件自动发送&nbsp;0x55&nbsp;同步字节</li>
+<li>配置：USART_CR2&nbsp;寄存器的&nbsp;LINEN&nbsp;使能</li>
+</ul>
+<p><strong>4.&nbsp;智能卡模式（ISO 7816）</strong></p>
+<ul>
+<li>支持T=0/T=1协议（SIM卡、金融IC卡）</li>
+<li>自动生成ETU（Elementary Time Unit）时钟</li>
+<li>硬件校验奇偶错误并重传</li>
+</ul>
+<p><strong>5.&nbsp;IrDA红外编码</strong></p>
+<ul>
+<li>内置编解码器：将数据转为3/16位脉宽红外信号</li>
+<li>支持SIR（115.2kbps）和MIR（1.152Mbps）速率</li>
+</ul>
+<p><strong>6.&nbsp;DMA联动</strong></p>
+<ul>
+<li>解放CPU：自动搬运大量数据到USART缓存</li>
+</ul>
+<h3 id="usart框图"><a class="anchor" href="#usart框图">#</a> <strong>USART框图</strong></h3>
+<p><img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_16_5.avif" alt=""></p>
+<h3 id="stm32_usart寄存器精要"><a class="anchor" href="#stm32_usart寄存器精要">#</a> <strong>STM32_USART寄存器精要</strong></h3>
+<table>
+<thead>
+<tr>
+<th>寄存器</th>
+<th>作用</th>
+<th>关键位域</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USART_SR</td>
+<td>状态寄存器</td>
+<td>RXNE(接收缓存非空),&nbsp;TC(发送完成),&nbsp;PE(校验错)</td>
+</tr>
+<tr>
+<td>USART_DR</td>
+<td>数据寄存器（读写合一）&lt;br&gt;&lt;br&gt;（TDR发送+RDR接收）</td>
+<td>写入数据启动发送，读取获取数据</td>
+</tr>
+<tr>
+<td>USART_BRR</td>
+<td>波特率寄存器（16位）</td>
+<td>存储&nbsp;USARTDIV&nbsp;值</td>
+</tr>
+<tr>
+<td>USART_CR1</td>
+<td>控制寄存器1</td>
+<td>UE(使能),&nbsp;M(字长),&nbsp;PCE(校验使能)</td>
+</tr>
+<tr>
+<td>USART_CR2</td>
+<td>控制寄存器2</td>
+<td>STOP(停止位),&nbsp;CLKEN(同步时钟使能)</td>
+</tr>
+</tbody>
+</table>
+<p>两个数据寄存器——<strong>发送数据寄存器</strong> <strong>TDR</strong>（Transmit DR）和<strong>接收数据寄存器</strong> <strong>RDR</strong>（Receive DR）。两个寄存器占用同一个地址（与51单片机串口的SBUF寄存器相似）。<br>
+在程序上只表现为一个寄存器——<strong>数据寄存器</strong> <strong>DR</strong>。但实际硬件中是分成两个寄存器，一个用于发送TDR，一个用于接收RDR。TDR只写，RDR只读。当进行写操作时，数据就写到TDR，当进行读操作时，数据就从RDR读出。</p>
+<h4 id="发送数据流程"><a class="anchor" href="#发送数据流程">#</a> <strong>发送数据流程</strong></h4>
+<p><img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_18.avif" alt=""><br>
+<strong>发送数据寄存器TDR</strong>：类似于快递站“打包台”（临时存放待发送的快递）<br>
+<strong>发送移位寄存器</strong>：快递站的“传送带”（把包裹逐个送出）</p>
+<p><img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_17.avif" alt=""><br>
+<strong>关键状态标志位（USART_</strong> <strong>SR寄存器）</strong><br>
+<strong>TXE（Transmit Data Register Empty）：</strong></p>
+<ul>
+<li>TXE=1：打包台空着，可以放新快递（CPU可写入新数据）
+<ul>
+<li>TXE=1：TDR为空（数据已转移到移位寄存器），可写入新数据</li>
+<li>写入USART_DR后自动清零</li>
+</ul>
+</li>
+<li>TXE=0：打包台被占用（正在发送）</li>
+</ul>
+<p><strong>TC（Transmission Complete）：</strong></p>
+<ul>
+<li>TC=1：所有快递已发出（包括最后的包装盒——停止位）
+<ul>
+<li>TC=1：移位寄存器发送完毕（包括停止位），一帧完成</li>
+<li>读SR寄存器 + 写USART_DR可清零</li>
+</ul>
+</li>
+<li>TC=0：还在发送中</li>
+<li>移位寄存器：像传送带一样，把数据从低位到高位逐个比特推出去</li>
+</ul>
+<p><strong>发送数据流程文字描述</strong>:<br>
+在某时刻给TDR写入0x55，在寄存器中二进制存储0101 0101。此时，<strong>硬件检测</strong>到写入的数据并检查当前<strong>移位寄存器</strong>是否有数据正在移位。如果没有，0101 0101全部移动到发送移位寄存器，准备发送。</p>
+<p>当数据从TDR移动到移位寄存器时，会置一个<strong>标志位****TXE</strong>（TX Empty），发送寄存器空。我们检查这个标志位，如果置1了，我们就可以在TDR写入下一个数据了。若TXE=1，数据没有发送，但是数据已经从TDR转移到发送移位寄存器，从而可写入新数据。此时，<strong>发送移位寄存器</strong>会在<strong>发送器控制</strong>的驱动下向右移位，一位一位地把数据输出到TX引脚。这里是向右移位的，正好和串口协议规定的低位先行一致。</p>
+<p>数据移位完成后，新的数据会再次自动地从TDR转移到发送移位寄存器。如果当前移位寄存器移位还没有完成，TDR的数据就会进行等待，一旦移位完成，就会立刻转移过来。</p>
+<p>TDR和移位寄存器的双重缓存，可保证在连续发送数据时，数据帧之间不会有空闲，提高工作效率。简单来说，<strong>数据一旦从TDR转移到移位寄存器了，不管有没有移位完成，都立刻把下一个数据放在TDR里等着，一旦移位完成，新的数据就会立刻跟上。</strong></p>
+<h4 id="接收数据流程"><a class="anchor" href="#接收数据流程">#</a> <strong>接收数据流程</strong></h4>
+<p><strong>接收移位寄存器：</strong> 快递站的“扫描仪”（逐个检查收到的快递）<br>
+<strong>接收数据寄存器RDR：</strong> 快递站的“暂存架”（存放已扫描的完整快递）<br>
+<img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_17_1.avif" alt=""></p>
+<p><strong>关键状态标志位（USART_SR寄存器）</strong><br>
+<strong>RXNE=1</strong>：暂存架上有快递待取（CPU需及时读取）<br>
+移位寄存器：像扫描仪一样，从低位到高位逐个比特组装数据<br>
+错误处理：</p>
+<ul>
+<li>停止位不对 → 标记为"破损快递"（帧错误FE）</li>
+<li>暂存架未取又来新快递 → 标记"爆仓"（溢出错误ORE）</li>
+<li></li>
+</ul>
+<p><strong>发送数据流程文字描述</strong>::<br>
+数据从RX引脚通向<strong>接收移位寄存器</strong>，在<strong>接收器控制</strong>的驱动下一位一位的读取RX电平，先放在最高位，然后往右移，移位八次之后就能接收一个字节。由于<strong>串口协议规定低位先行</strong>，因此接收移位器从高位往低位方向移动。当一个字节移位完成，一整个字节就会转移到接收数据寄存器RDR。在转移过程中产生<strong>标志位RXNE</strong>，接收数据寄存器非空。当RXNE=1时，可将数据读取。同样俩个寄存器进行缓存，当数据从移位寄存器转移到RDR时，可直接移位接收下一帧数据。</p>
+<p>发送有帧头和帧尾，接收需要剔除它们，电路内部自动执行。</p>
+<h5 id="常见问题"><a class="anchor" href="#常见问题">#</a> <strong>常见问题：</strong></h5>
+<h6 id="q1-为什么发送时要先检查txe"><a class="anchor" href="#q1-为什么发送时要先检查txe">#</a> <strong>Q1: 为什么发送时要先检查TXE？</strong></h6>
+<p>A：就像快递站——只有打包台空着（TXE=1），才能放新快递，否则会覆盖未处理的快递</p>
+<h6 id="q2-数据为什么要从低位lsb开始传"><a class="anchor" href="#q2-数据为什么要从低位lsb开始传">#</a> <strong>Q2: 数据为什么要从低位(LSB)开始传？</strong></h6>
+<p>A：就像写数字"123"——先写个位"3"，再十位"2"，最后百位"1"，接收方反过来组装即可还原</p>
+<h6 id="q3-移位寄存器怎么知道何时停止"><a class="anchor" href="#q3-移位寄存器怎么知道何时停止">#</a> **Q3: 移位寄存器怎么知道何时停止？</h6>
+<p>A：根据配置的"数据位数"（如8位）——就像扫描仪知道快递单号有几位数字。</p>
+<h6 id="q4为什么发送时要用-txe-和-tc-两个标志"><a class="anchor" href="#q4为什么发送时要用-txe-和-tc-两个标志">#</a> <strong>Q4</strong>**：为什么发送时要用&nbsp;<strong>TXE</strong>&nbsp;<strong>和</strong>&nbsp;<strong>TC</strong>&nbsp;<strong>两个标志？</strong></h6>
+<p>TXE=1（打包台空着） 只表示可以放新数据到TDR，但可能还有数据在移位寄存器没发完。</p>
+<p>TC=1 （所有快递发送完毕）表示所有数据（包括停止位）已经全部发出。</p>
+<h6 id="q5接收数据时为什么会丢数据"><a class="anchor" href="#q5接收数据时为什么会丢数据">#</a> <strong>Q5</strong>**：接收数据时为什么会丢数据？</h6>
+<p>原因1：CPU没有及时读取&nbsp;USART_DR（导致&nbsp;ORE&nbsp;溢出错误）。</p>
+<p>原因2：波特率不匹配（比如STM32设成115200，但对方发的是9600）。</p>
+<p>解决方法：</p>
+<ul>
+<li>使用DMA自动接收数据。</li>
+<li>确保双方波特率一致。</li>
+</ul>
+<h6 id="q6发送和6接收能同时进行吗"><a class="anchor" href="#q6发送和6接收能同时进行吗">#</a> <strong>Q6</strong>**：发送和6接收能同时进行吗？</h6>
+<p>可以！&nbsp;USART是&nbsp;全双工&nbsp;的，发送和接收完全独立（有各自的寄存器和引脚）。</p>
+<h2 id="五-代码"><a class="anchor" href="#五-代码">#</a> 五、代码</h2>
+<p>发送的信息都是&amp;，表示都是地址</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>HAL_UART_Receive_IT(&amp;huart1, &amp;temp,1);</span></span>
+<span class="line"><span>HAL_UART_Transmit(&amp;huart1, &amp;temp, 1, 0xffff);</span></span></code></pre>
+<p>（<strong>串口收到字节</strong>）RDR寄存器接收到一个字节数据<br>
+<strong>——》</strong><br>
+（<strong>产生中断</strong>）STM32 的 NVIC（嵌套向量中断控制器）响应 USART1 的中断请求，暂停当前任务，跳转到 USART1 对应的中断服务函数。<br>
+<strong>——》</strong><br>
+（<strong>USART1_IRQHandler</strong>）作为 USART1 中断的 “入口”，仅负责调用 HAL 库的通用中断处理函数（不直接处理具体逻辑）<br>
+<strong>——》</strong><br>
+（<strong>HAL_UART_IRQHandler</strong>）<strong>HAL 库提供的 UART 通用中断处理函数</strong>，读取 UART 的状态寄存器，判断当前中断的类型（是接收中断、发送中断还是错误中断），并分发给对应的处理分支<br>
+<strong>——》</strong><br>
+（<strong>判断 “是不是接收中断？”</strong>）：通过读取 UART 状态寄存器的 “接收数据寄存器非空” 标志位，确认当前中断是否由 “接收字节” 触发。<br>
+<strong>——》</strong><br>
+（<strong>UART_Receive_IT</strong>）读取接收数据寄存器中的字节、更新 “接收计数器”（用户提前设置的接收长度，每收 1 字节计数器减 1），同时配置下一次接收的中断（若还没接收完）<br>
+<strong>——》</strong><br>
+（<strong>判断 “接收计数器为 0？”</strong>）用户调用<code>HAL_UART_Receive_IT()</code>时指定的 “要接收的字节数”（比如要收 5 个字节，计数器初始值为 5，收 1 字节减 1）。</p>
+<p><mark>UART_Receive_IT</mark>：每收到若干个数据，调用一次回调函数；这是因为，每收到一个字节，都会把此函数的接收计数器-1，如果接收计数器为零，调用串口接收回调函数HAL_UART_RxCpltCallback。 <br>
+<mark>HAL_UART_RxCpltCallback</mark>：弱函数，在此函数中编写业务逻辑。<br>
+<img loading="lazy" src="6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1.assets/image-2025_12_25_19.avif" alt=""><br>
+while外面</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>uint8_t rf=0;</span></span>
+<span class="line"><span>uint8_t dat[1]={0xab};</span></span>
+<span class="line"><span>//硬件初始化代码：</span></span>
+<span class="line"><span>//启动一次中断接收</span></span>
+<span class="line"><span>HAL_UART_Receive_IT(&amp;huart1,dat,1);</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>&nbsp; if(rf==1)</span></span>
+<span class="line"><span>&nbsp; {</span></span>
+<span class="line"><span>&nbsp; rf=0;</span></span>
+<span class="line"><span>&nbsp; x=dat[0];</span></span>
+<span class="line"><span>//将x的高低字节交换</span></span>
+<span class="line"><span>&nbsp; dat[0]=(x&lt;&lt;4)|(x&gt;&gt;4);</span></span>
+<span class="line"><span>//查询方式发送</span></span>
+<span class="line"><span>&nbsp; HAL_UART_Transmit(&amp;huart1,dat,1,1);</span></span>
+<span class="line"><span>//启动下一轮中断接收</span></span>
+<span class="line"><span>&nbsp; HAL_UART_Receive_IT(&amp;huart1,dat,1);</span></span>
+<span class="line"><span>&nbsp; }</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>{</span></span>
+<span class="line"><span>&nbsp; if(huart==&amp;huart1)</span></span>
+<span class="line"><span>&nbsp; {</span></span>
+<span class="line"><span>&nbsp; rf=1;</span></span>
+<span class="line"><span>&nbsp; }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span></span></span></code></pre>
+<div class="tags"><a href="/tags/stm32/" rel="tag"><i class="ic i-tag"></i>stm32</a><a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F-%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/" rel="tag"><i class="ic i-tag"></i>嵌入式_--（沈捷）</a></div></div><footer><div class="meta"><span class="item"><span class="icon"><i class="ic i-calendar-check"></i></span><span class="text">更新于 </span><time title="修改时间：2026-05-10 20:18:17" itemprop="dateModified" datetime="2026-05-10T20:18:17+08:00">2026-05-10</time></span></div><div class="reward"><button><i class="ic i-heartbeat"></i>赞赏</button><p>请我喝[茶]~(￣▽￣)~*</p><div id="qr"><div><img loading="lazy" src="/assets/wechatpay.avif" alt="曾阿牛 微信支付"><p>微信支付</p></div><div><img loading="lazy" src="/assets/alipay.avif" alt="曾阿牛 支付宝"><p>支付宝</p></div></div></div><div id="copyright"><ul><li class="author"><strong>本文作者：</strong>曾阿牛<i class="ic i-at"><em>@</em></i>终南山下，活死人墓</li><li class="link"><strong>本文链接：</strong><a href="https://www.dying4ever.cyou/2025/12/25/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/" title="6、串行通信">https://www.dying4ever.cyou/2025/12/25/stm32/嵌入式_--（沈捷）/6、串行通信/</a></li><li class="license"><strong>版权声明：</strong>本站所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div></footer></article></div><div class="post-nav"><div class="item left"><a href="/2025/12/24/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/5%E3%80%81%E4%B8%AD%E6%96%AD/" rel="prev" itemprop="url" data-background-image="https://t.alcy.cc/fj?id=6" title="5、中断"><span class="type">上一篇</span><span class="category"><i class="ic i-flag"></i>嵌入式_--（沈捷）</span><h3>5、中断</h3></a></div><div class="item right"><a href="/2026/01/09/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E7%9B%B8%E5%85%B3%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/" rel="next" itemprop="url" data-background-image="https://t.alcy.cc/fj?id=5" title="具身智能相关名词解释"><span class="type">下一篇</span><span class="category"><i class="ic i-flag"></i>具身智能</span><h3>具身智能相关名词解释</h3></a></div></div><div class="wrap" id="comments"></div></div><div id="sidebar"><div class="inner"><div class="panels"><div class="inner"><div class="contents panel pjax" data-title="文章目录"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E9%80%9A%E4%BF%A1%E6%8E%A5%E5%8F%A3%E5%88%86%E7%B1%BB"><span class="toc-number">1.</span> <span class="toc-text"> 一、通信接口分类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%86%E5%88%86"><span class="toc-number">1.0.1.</span> <span class="toc-text"> 细分：</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text"> 二、 通信方式：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%B8%B2%E8%A1%8C%E5%B9%B6%E8%A1%8C"><span class="toc-number">2.1.</span> <span class="toc-text"> 1、串行并行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%8F%8C%E5%B7%A5%E6%A8%A1%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text"> 2、双工模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#13%E6%97%B6%E9%92%9F%E7%89%B9%E6%80%A7"><span class="toc-number">2.3.</span> <span class="toc-text"> 1.3时钟特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BF%A1%E5%8F%B7%E4%BC%A0%E8%BE%93%E6%96%B9%E5%BC%8F"><span class="toc-number">2.4.</span> <span class="toc-text"> 4、信号传输方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#15%E8%AE%BE%E5%A4%87%E7%89%B9%E6%80%A7"><span class="toc-number">2.5.</span> <span class="toc-text"> 1.5设备特性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1"><span class="toc-number">3.</span> <span class="toc-text"> 三、串口通信</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A1%AC%E4%BB%B6%E7%94%B5%E8%B7%AF"><span class="toc-number">3.0.1.</span> <span class="toc-text"> 硬件电路：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%B5%E5%B9%B3%E6%A0%87%E5%87%86"><span class="toc-number">3.0.2.</span> <span class="toc-text"> 电平标准</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3%E5%8F%82%E6%95%B0"><span class="toc-number">3.0.3.</span> <span class="toc-text"> 串口参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3%E6%95%B0%E6%8D%AE%E5%B8%A7%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84%E4%BC%A0%E8%BE%93%E6%95%B0%E6%8D%AE%E6%9C%80%E5%B0%8F%E5%8D%95%E4%BD%8D"><span class="toc-number">3.0.4.</span> <span class="toc-text"> 串口数据帧整体结构（传输数据最小单位）</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BD%8D8%E4%BD%8D%E6%97%A0%E6%A0%A1%E9%AA%8C%E4%BD%8D"><span class="toc-number">3.0.4.0.1.</span> <span class="toc-text"> 数据位8位，无校验位：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BD%8D9%E4%BD%8D%E6%9C%89%E6%A0%A1%E9%AA%8C%E4%BD%8D"><span class="toc-number">3.0.4.0.2.</span> <span class="toc-text"> 数据位9位，有校验位：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1%E5%AE%9E%E9%99%85%E6%B3%A2%E5%BD%A2"><span class="toc-number">3.0.4.0.3.</span> <span class="toc-text"> 串口通信实际波形：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%8A%E9%9D%A2%E7%9A%84%E9%83%BD%E6%98%AF%E5%BC%82%E6%AD%A5"><span class="toc-number">3.0.5.</span> <span class="toc-text"> 上面的都是异步：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-usart"><span class="toc-number">4.</span> <span class="toc-text"> 四、USART</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#32usart%E5%85%AD%E5%A4%A7%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD"><span class="toc-number">4.0.1.</span> <span class="toc-text"> 3.2USART六大高级功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#usart%E6%A1%86%E5%9B%BE"><span class="toc-number">4.1.</span> <span class="toc-text"> USART框图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#stm32_usart%E5%AF%84%E5%AD%98%E5%99%A8%E7%B2%BE%E8%A6%81"><span class="toc-number">4.2.</span> <span class="toc-text"> STM32_USART寄存器精要</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE%E6%B5%81%E7%A8%8B"><span class="toc-number">4.2.1.</span> <span class="toc-text"> 发送数据流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE%E6%B5%81%E7%A8%8B"><span class="toc-number">4.2.2.</span> <span class="toc-text"> 接收数据流程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">4.2.2.1.</span> <span class="toc-text"> 常见问题：</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#q1-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%91%E9%80%81%E6%97%B6%E8%A6%81%E5%85%88%E6%A3%80%E6%9F%A5txe"><span class="toc-number">4.2.2.1.1.</span> <span class="toc-text"> Q1: 为什么发送时要先检查TXE？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#q2-%E6%95%B0%E6%8D%AE%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BB%8E%E4%BD%8E%E4%BD%8Dlsb%E5%BC%80%E5%A7%8B%E4%BC%A0"><span class="toc-number">4.2.2.1.2.</span> <span class="toc-text"> Q2: 数据为什么要从低位(LSB)开始传？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#q3-%E7%A7%BB%E4%BD%8D%E5%AF%84%E5%AD%98%E5%99%A8%E6%80%8E%E4%B9%88%E7%9F%A5%E9%81%93%E4%BD%95%E6%97%B6%E5%81%9C%E6%AD%A2"><span class="toc-number">4.2.2.1.3.</span> <span class="toc-text"> **Q3: 移位寄存器怎么知道何时停止？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#q4%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%91%E9%80%81%E6%97%B6%E8%A6%81%E7%94%A8-txe-%E5%92%8C-tc-%E4%B8%A4%E4%B8%AA%E6%A0%87%E5%BF%97"><span class="toc-number">4.2.2.1.4.</span> <span class="toc-text"> Q4**：为什么发送时要用&nbsp;TXE&nbsp;和&nbsp;TC&nbsp;两个标志？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#q5%E6%8E%A5%E6%94%B6%E6%95%B0%E6%8D%AE%E6%97%B6%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E4%B8%A2%E6%95%B0%E6%8D%AE"><span class="toc-number">4.2.2.1.5.</span> <span class="toc-text"> Q5**：接收数据时为什么会丢数据？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#q6%E5%8F%91%E9%80%81%E5%92%8C6%E6%8E%A5%E6%94%B6%E8%83%BD%E5%90%8C%E6%97%B6%E8%BF%9B%E8%A1%8C%E5%90%97"><span class="toc-number">4.2.2.1.6.</span> <span class="toc-text"> Q6**：发送和6接收能同时进行吗？</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94-%E4%BB%A3%E7%A0%81"><span class="toc-number">5.</span> <span class="toc-text"> 五、代码</span></a></li></div><div class="related panel pjax" data-title="系列文章"><ul><li><a href="/2025/10/28/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/1%E3%80%81%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" rel="bookmark" title="1、嵌入式系统概述">1、嵌入式系统概述</a></li><li><a href="/2025/10/28/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/2%E3%80%81%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/" rel="bookmark" title="2、硬件基础">2、硬件基础</a></li><li><a href="/2025/11/06/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/%E7%82%B9%E7%81%AF/" rel="bookmark" title="点灯">点灯</a></li><li><a href="/2025/12/20/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/3%E3%80%81GPIO/" rel="bookmark" title="3、GPIO">3、GPIO</a></li><li><a href="/2025/12/22/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/4%E3%80%81beep%E8%9C%82%E9%B8%A3%E5%99%A8/" rel="bookmark" title="4、beep蜂鸣器">4、beep蜂鸣器</a></li><li><a href="/2025/12/24/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/5%E3%80%81%E4%B8%AD%E6%96%AD/" rel="bookmark" title="5、中断">5、中断</a></li><li class="active"><a href="/2025/12/25/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/" rel="bookmark" title="6、串行通信">6、串行通信</a></li></ul></div><div class="overview panel" data-title="站点概览"><div class="author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><img class="image" loading="lazy" decoding="async" itemprop="image" alt="曾阿牛" src="/assets/head.avif"><p class="name" itemprop="name">曾阿牛</p><div class="description" itemprop="description">Por Una Cabeza</div></div><nav class="state"><div class="item posts"><a href="/archives/"><span class="count">100</span><span class="name">文章</span></a></div><div class="item categories"><a href="/categories/"><span class="count">22</span><span class="name">分类</span></a></div><div class="item tags"><a href="/tags/"><span class="count">24</span><span class="name">标签</span></a></div></nav><div class="social"><a target="_blank" rel="noopener" href="https://github.com/dying4ever" class="item github" title="https://github.com/dying4ever"><i class="ic i-github"></i></a><a href="mailto:zhangjingxuan@163.com" class="item email" title="mailto:zhangjingxuan@163.com"><i class="ic i-envelope"></i></a><a target="_blank" rel="noopener" href="https://www.douban.com/people/244425591/?_i=0227803GjjhEfb" class="item douban" title="https://www.douban.com/people/244425591/?_i=0227803GjjhEfb"><i class="ic i-douban"></i></a></div><div class="menu"><li class="item"><a href="/" rel="section"><i class="ic i-home"></i>首页</a></li><li class="item dropdown"><a href="#" onclick="return false;"><i class="ic i-user"></i>关于</a><ul class="submenu"><li class="item"><a href="/about/" rel="section"><i class="ic i-user"></i>关于我</a></li></ul></li><li class="item dropdown"><a href="#" onclick="return false;"><i class="ic i-feather"></i>文章</a><ul class="submenu"><li class="item"><a href="/archives/" rel="section"><i class="ic i-list-alt"></i>归档</a></li><li class="item"><a href="/categories/" rel="section"><i class="ic i-th"></i>分类</a></li><li class="item"><a href="/tags/" rel="section"><i class="ic i-tags"></i>标签</a></li></ul></li><li class="item"><a href="/friends/" rel="section"><i class="ic i-heart"></i>友链</a></li></div></div></div></div><ul id="quick"><li class="prev pjax"><a href="/2026/01/09/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E7%9B%B8%E5%85%B3%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a></li><li class="up"><i class="ic i-arrow-up"></i></li><li class="down"><i class="ic i-arrow-down"></i></li><li class="next pjax"><a href="/2025/12/24/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/5%E3%80%81%E4%B8%AD%E6%96%AD/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a></li><li class="percent"></li></ul></div></div><div class="dimmer"></div></div><div id="player"></div></main><footer id="footer"><div class="inner"><div class="widgets"><div class="rpost pjax"><h2>最新评论</h2></div></div><div class="status"><div class="copyright">© 2025 -<span itemprop="copyrightYear">2026</span><span class="with-love"><i class="ic i-sakura rotate"></i></span><span class="author" itemprop="copyrightHolder">曾阿牛 @ Frostbitten Carpe Diem</span></div><div class="count"><span class="post-meta-item-icon"><i class="ic i-chart-area"></i></span><span title="站点总字数">955k 字</span><span class="post-meta-divider"> | </span><span class="post-meta-item-icon"><i class="ic i-coffee"></i></span><span title="站点阅读时长">14:28</span></div><div class="powered-by">基于 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> &amp; Theme.<a target="_blank" rel="noopener" href="https://github.com/theme-shoka-x/hexo-theme-shokaX/">ShokaX</a></div></div></div></footer></div><script data-config="" type="text/javascript">var LOCAL = {
+    ispost: true,
+    path: `2025/12/25/stm32/嵌入式_--（沈捷）/6、串行通信/`,
+    favicon: {
+        show: `不负韶华`,
+        hide: `以梦为马！`
+    },
+    search: {
+        placeholder: "文章搜索",
+        empty: "关于 「 ${query} 」，什么也没搜到",
+        stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    nocopy: "false",
+    copyright: `复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。`,
+    copy_tex: false,
+    katex: false,
+    mermaid: false,
+    audio: undefined,
+    nocopy: false,
+    outime: true,
+    template: `<div class="note warning"><p><span class="label warning">文章时效性提示</span><br>这是一篇发布于 {{publish}} 天前，最后一次更新在 {{updated}} 天前的文章，部分信息可能已经发生改变，请注意甄别。</p></div>`,
+    quiz: {
+        choice: `单选题`,
+        multiple: `多选题`,
+        true_false: `判断题`,
+        essay: `问答题`,
+        gap_fill: `填空题`,
+        mistake: `错题备注`
+    }
+};
+</script><script src="/js/siteInit.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script></body></html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"><meta name="renderer" content="webkit"><link rel="icon" type="image/ico" sizes="32x32" href="/assets/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon.jpg"><link rel="alternate" href="/rss.xml" title="终南山下，活死人墓" type="application/rss+xml"><link rel="alternate" href="/atom.xml" title="终南山下，活死人墓" type="application/atom+xml"><link rel="alternate" type="application/json" title="终南山下，活死人墓" href="https://www.dying4ever.cyou/feed.json"><link rel="preconnect" href="https://s4.zstatic.net"><link rel="preconnect" href="https://at.alicdn.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CFredericka%20the%20Great:400,400italic,700,700italic%7CNoto%20Serif%20JP:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic%7CInconsolata:400,400italic,700,700italic&amp;display=swap&amp;subset=latin,latin-ext" media="none" onload="this.media='all'"><link rel="modulepreload" href="/js/siteInit.js"><link rel="modulepreload" href="/js/nyx-player-65SXYNHT.js"><link rel="modulepreload" href="/js/copy-tex-7UF7DT2A.js"><link rel="modulepreload" href="/js/post-X4P2N4F4.js"><link rel="modulepreload" href="/js/chunk-7DZRMTBP.js"><link rel="modulepreload" href="/js/index.esm-2W6OBGI7.js"><link rel="modulepreload" href="/js/chunk-HJSTZ4VX.js"><link rel="modulepreload" href="/js/chunk-XWHAJBZM.js"><link rel="stylesheet" href="/css/siteInit.css" media="none" onload="this.media='all'"><link rel="preload" href="/images/banner.webp" as="image" fetchpriority="high"><meta name="keywords" content="Python,"><meta name="description" content="Por Una Cabeza"><link rel="canonical" href="https://www.dying4ever.cyou/2026/01/30/Python/pytorch/1.pytorch%E5%9F%BA%E7%A1%80/"><link rel="stylesheet" href="/css/post.css?v=0.5.4"><link rel="stylesheet" href="/css/mermaid.css?v=0.5.4"><!-- 临时处理--><link rel="stylesheet" media="none" onload="this.media='all'" href="https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/katex.min.css"><title>1.pytorch基础</title><meta name="generator" content="Hexo 7.3.0"></head><body itemscope="" itemtype="http://schema.org/WebPage"><div id="loading"><div class="cat"><div class="body"></div><div class="head"><div class="face"></div></div><div class="foot"><div class="tummy-end"></div><div class="bottom"></div><div class="legs left"></div><div class="legs right"></div></div><div class="paw"><div class="hands left"></div><div class="hands right"></div></div></div></div><div id="pagefind_mount"></div><div id="container"><header id="header" itemscope="" itemtype="http://schema.org/WPHeader"><div class="inner"><div id="brand"><div class="pjax"><h1 itemprop="name headline">1.pytorch基础</h1><div class="meta"><span class="item" title="创建时间：2026-01-30 00:35:16"><span class="icon"><i class="ic i-calendar"></i></span><span class="text">发表于</span><time itemprop="dateCreated datePublished" datetime="2026-01-30T00:35:16+08:00">2026-01-30</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span class="text">本文字数</span><span>8.9k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span class="text">阅读时长</span><span>8 分钟</span></span></div></div></div><nav id="nav"><div class="inner"><div class="toggle"><div class="lines" aria-label="切换导航栏"><span class="line"></span><span class="line"></span><span class="line"></span></div></div><ul class="menu"><li class="item title"><a href="/" rel="start">Frostbitten Carpe Diem</a></li></ul><ul class="right" id="rightNav"><li class="item theme"><i class="ic i-sun"></i></li><li class="item search"><i class="ic i-search"></i></li></ul></div></nav></div><div class="pjax" id="imgs"><img src="/images/banner.webp" loading="eager" decoding="async" fetchpriority="high" alt="终南山下，活死人墓"></div></header><div id="waves"><svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path></defs><g class="parallax"><use xlink:href="#gentle-wave" x="48" y="0"></use><use xlink:href="#gentle-wave" x="48" y="3"></use><use xlink:href="#gentle-wave" x="48" y="5"></use><use xlink:href="#gentle-wave" x="48" y="7"></use></g></svg></div><main><div class="inner"><div class="pjax" id="main"><div class="article wrap"><div class="breadcrumb" itemlistelement="" itemscope="" itemtype="https://schema.org/BreadcrumbList"><i class="ic i-home"></i><span><a href="/">首页</a></span><i class="ic i-angle-right"></i><span itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/categories/Python/" itemprop="item" rel="index" title="分类于Python"><span itemprop="name">Python<meta itemprop="position" content="0"></span></a></span><i class="ic i-angle-right"></i><span class="current" itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/categories/Python/pytorch/" itemprop="item" rel="index" title="分类于pytorch"><span itemprop="name">pytorch<meta itemprop="position" content="1"></span></a></span></div><article class="post block" itemscope="itemscope" itemtype="http://schema.org/Article" data-pagefind-body="data-pagefind-body" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://www.dying4ever.cyou/2026/01/30/Python/pytorch/1.pytorch%E5%9F%BA%E7%A1%80/"><span hidden="hidden" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="image" content="/assets/head.png"><meta itemprop="name" content="曾阿牛"><meta itemprop="description" content="welcome my blog, Por Una Cabeza"></span><span hidden="hidden" itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="终南山下，活死人墓"></span><div class="body md" itemprop="articleBody"><p><a target="_blank" rel="noopener" href="https://www.runoob.com/pytorch/pytorch-tutorial.html">https://www.runoob.com/pytorch/pytorch-tutorial.html</a><br>
+PyTorch 是一个开源的深度学习框架，以其灵活性和动态计算图而广受欢迎。</p>
+<p>PyTorch 主要有以下几个基础概念：张量（Tensor）、自动求导（Autograd）、神经网络模块（nn.Module）、优化器（optim）等。</p>
+<h3 id="pytorch-架构图"><a class="anchor" href="#pytorch-架构图">#</a> PyTorch 架构图</h3>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span></span></span>
+<span class="line"><span>┌─────────────────────────────────────────────────────────────┐</span></span>
+<span class="line"><span>│                    PyTorch 生态系统                          │</span></span>
+<span class="line"><span>├─────────────────────────────────────────────────────────────┤</span></span>
+<span class="line"><span>│  torchvision  │  torchtext  │  torchaudio  │  其他专业库     │</span></span>
+<span class="line"><span>├─────────────────────────────────────────────────────────────┤</span></span>
+<span class="line"><span>│                     PyTorch 核心                            │</span></span>
+<span class="line"><span>├───────────────┬─────────────────┬───────────────────────────┤</span></span>
+<span class="line"><span>│   torch.nn    │   torch.optim   │      torch.utils          │</span></span>
+<span class="line"><span>│   (神经网络)   │   (优化器)      │      (工具函数)             │</span></span>
+<span class="line"><span>├───────────────┼─────────────────┼───────────────────────────┤</span></span>
+<span class="line"><span>│               │                 │   torch.utils.data        │</span></span>
+<span class="line"><span>│  torch 核心    │  autograd       │   (数据加载)               │</span></span>
+<span class="line"><span>│  (张量计算)    │  (自动微分)       │                           │</span></span>
+<span class="line"><span>└───────────────┴─────────────────┴───────────────────────────┘</span></span></code></pre>
+<p>PyTorch 采用<strong>分层架构</strong>设计，从上层到底层依次为：</p>
+<p><strong>1、Python API（顶层）</strong></p>
+<ul>
+<li><code>torch</code>：核心张量计算（类似NumPy，支持GPU）。</li>
+<li><code>torch.nn</code>：神经网络层、损失函数等。</li>
+<li><code>torch.autograd</code>：自动微分（反向传播）。</li>
+<li>开发者直接调用的接口，简单易用。</li>
+</ul>
+<p><strong>2、C++核心（中层）</strong></p>
+<ul>
+<li><strong>ATen</strong>：张量运算核心库（400+操作）。</li>
+<li><strong>JIT</strong>：即时编译优化模型。</li>
+<li><strong>Autograd引擎</strong>：自动微分的底层实现。</li>
+<li>高性能计算，连接Python与底层硬件。</li>
+</ul>
+<p><strong>3、基础库（底层）</strong></p>
+<ul>
+<li><strong>TH/THNN</strong>：C语言实现的基础张量和神经网络操作。</li>
+<li><strong>THC/THCUNN</strong>：对应的CUDA（GPU）版本。</li>
+<li>直接操作硬件（CPU/GPU），极致优化速度。</li>
+</ul>
+<p><strong>执行流程</strong>：<br>
+Python代码 → C++核心计算 → 底层CUDA/C库加速 → 返回结果。<br>
+<img loading="lazy" src="1.pytorch%E5%9F%BA%E7%A1%80.assets/image-2026_01_30_00.avif" alt=""></p>
+<h2 id="张量tensor"><a class="anchor" href="#张量tensor">#</a> 张量（Tensor）</h2>
+<p>张量（Tensor）是 PyTorch 中的核心数据结构，用于存储和操作多维数组。</p>
+<p>张量可以视为一个多维数组，支持加速计算的操作。</p>
+<p>在 PyTorch 中，张量的概念类似于 NumPy 中的数组，但是 PyTorch 的张量可以运行在不同的设备上，比如 CPU 和 GPU，这使得它们非常适合于进行大规模并行计算，特别是在深度学习领域。</p>
+<ul>
+<li>
+<p><strong>维度（Dimensionality）</strong>：张量的维度指的是数据的多维数组结构。例如，一个标量（0维张量）是一个单独的数字，一个向量（1维张量）是一个一维数组，一个矩阵（2维张量）是一个二维数组，以此类推。</p>
+</li>
+<li>
+<p><strong>形状（Shape）</strong>：张量的形状是指每个维度上的大小。例如，一个形状为<code>(3, 4)</code>的张量意味着它有3行4列。</p>
+</li>
+<li>
+<p><strong>数据类型（Dtype）</strong>：张量中的数据类型定义了存储每个元素所需的内存大小和解释方式。PyTorch支持多种数据类型，包括整数型（如<code>torch.int8</code>、<code>torch.int32</code>）、浮点型（如<code>torch.float32</code>、<code>torch.float64</code>）和布尔型（<code>torch.bool</code>）。</p>
+</li>
+</ul>
+<p><strong>张量创建：</strong></p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>import torch</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 创建一个 2x3 的全 0 张量</span></span>
+<span class="line"><span>a = torch.zeros(2, 3)</span></span>
+<span class="line"><span>print(a)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 创建一个 2x3 的全 1 张量</span></span>
+<span class="line"><span>b = torch.ones(2, 3)</span></span>
+<span class="line"><span>print(b)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 创建一个 2x3 的随机数张量</span></span>
+<span class="line"><span>c = torch.randn(2, 3)</span></span>
+<span class="line"><span>print(c)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 从 NumPy 数组创建张量</span></span>
+<span class="line"><span>import numpy as np</span></span>
+<span class="line"><span>numpy_array = np.array([[1, 2], [3, 4]])</span></span>
+<span class="line"><span>tensor_from_numpy = torch.from_numpy(numpy_array)</span></span>
+<span class="line"><span>print(tensor_from_numpy)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 在指定设备（CPU/GPU）上创建张量</span></span>
+<span class="line"><span>device = torch.device("cuda" if torch.cuda.is_available() else "cpu")</span></span>
+<span class="line"><span>d = torch.randn(2, 3, device=device)</span></span>
+<span class="line"><span>print(d)</span></span></code></pre>
+<p>输出结果类似如下：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>tensor([[0., 0., 0.],</span></span>
+<span class="line"><span>        [0., 0., 0.]])</span></span>
+<span class="line"><span>tensor([[1., 1., 1.],</span></span>
+<span class="line"><span>        [1., 1., 1.]])</span></span>
+<span class="line"><span>tensor([[ 1.0189, -0.5718, -1.2814],</span></span>
+<span class="line"><span>        [-0.5865,  1.0855,  1.1727]])</span></span>
+<span class="line"><span>tensor([[1, 2],</span></span>
+<span class="line"><span>        [3, 4]])</span></span>
+<span class="line"><span>tensor([[-0.3360,  0.2203,  1.3463],</span></span>
+<span class="line"><span>        [-0.5982, -0.2704,  0.5429]])</span></span></code></pre>
+<p><strong>常用张量操作：</strong></p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span># 张量相加</span></span>
+<span class="line"><span>e = torch.randn(2, 3)</span></span>
+<span class="line"><span>f = torch.randn(2, 3)</span></span>
+<span class="line"><span>print(e + f)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 逐元素乘法</span></span>
+<span class="line"><span>print(e * f)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 张量的转置</span></span>
+<span class="line"><span>g = torch.randn(3, 2)</span></span>
+<span class="line"><span>print(g.t())  # 或者 g.transpose(0, 1)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 张量的形状</span></span>
+<span class="line"><span>print(g.shape)  # 返回形状</span></span></code></pre>
+<h3 id="张量与设备"><a class="anchor" href="#张量与设备">#</a> 张量与设备</h3>
+<p>PyTorch 张量可以存在于不同的设备上，包括CPU和GPU，你可以将张量移动到 GPU 上以加速计算：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>if torch.cuda.is_available():</span></span>
+<span class="line"><span>    tensor_gpu = tensor_from_list.to('cuda')  # 将张量移动到GPU</span></span></code></pre>
+<h3 id="梯度和自动微分"><a class="anchor" href="#梯度和自动微分">#</a> 梯度和自动微分</h3>
+<p>PyTorch的张量支持自动微分，这是深度学习中的关键特性。当你创建一个需要梯度的张量时，PyTorch可以自动计算其梯度：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span># 创建一个需要梯度的张量</span></span>
+<span class="line"><span>tensor_requires_grad = torch.tensor([1.0], requires_grad=True)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 进行一些操作</span></span>
+<span class="line"><span>tensor_result = tensor_requires_grad * 2</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 计算梯度</span></span>
+<span class="line"><span>tensor_result.backward()</span></span>
+<span class="line"><span>print(tensor_requires_grad.grad)  # 输出梯度</span></span></code></pre>
+<h3 id="内存和性能"><a class="anchor" href="#内存和性能">#</a> 内存和性能</h3>
+<p>PyTorch 张量还提供了一些内存管理功能，比如.clone()、.detach() 和 .to() 方法，它们可以帮助你优化内存使用和提高性能。</p>
+<h2 id="自动求导autograd"><a class="anchor" href="#自动求导autograd">#</a> 自动求导（Autograd）</h2>
+<p>自动求导（Automatic Differentiation，简称Autograd）是深度学习框架中的一个核心特性，它允许计算机自动计算数学函数的导数。</p>
+<p>在深度学习中，自动求导主要用于两个方面：<strong>一是在训练神经网络时计算梯度</strong>，<strong>二是进行反向传播算法的实现</strong>。</p>
+<p>自动求导基于链式法则（Chain Rule），这是一个用于计算复杂函数导数的数学法则。链式法则表明，复合函数的导数是其各个组成部分导数的乘积。在深度学习中，模型通常是由许多层组成的复杂函数，自动求导能够高效地计算这些层的梯度。</p>
+<p><strong>动态图与静态图：</strong></p>
+<ul>
+<li><strong>动态图（Dynamic Graph）</strong>：在动态图中，计算图在运行时动态构建。每次执行操作时，计算图都会更新，这使得调试和修改模型变得更加容易。PyTorch使用的是动态图。</li>
+<li><strong>静态图（Static Graph）</strong>：在静态图中，计算图在开始执行之前构建完成，并且不会改变。TensorFlow最初使用的是静态图，但后来也支持动态图。</li>
+</ul>
+<p>PyTorch 提供了自动求导功能，通过 autograd 模块来自动计算梯度。</p>
+<p>torch.Tensor 对象有一个 requires_grad 属性，用于指示是否需要计算该张量的梯度。</p>
+<p>当你创建一个 requires_grad=True 的张量时，PyTorch 会自动跟踪所有对它的操作，以便在之后计算梯度。</p>
+<p>创建需要梯度的张量:</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span># 创建一个需要计算梯度的张量</span></span>
+<span class="line"><span>x = torch.randn(2, 2, requires_grad=True)</span></span>
+<span class="line"><span>print(x)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 执行某些操作</span></span>
+<span class="line"><span>y = x + 2</span></span>
+<span class="line"><span>z = y * y * 3</span></span>
+<span class="line"><span>out = z.mean()</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>print(out)</span></span></code></pre>
+<p>输出结果类似如下：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>tensor([[-0.1908,  0.2811],</span></span>
+<span class="line"><span>        [ 0.8068,  0.8002]], requires_grad=True)</span></span>
+<span class="line"><span>tensor(18.1469, grad_fn=&lt;MeanBackward0&gt;)</span></span></code></pre>
+<h3 id="反向传播backpropagation"><a class="anchor" href="#反向传播backpropagation">#</a> 反向传播（Backpropagation）</h3>
+<p>一旦定义了计算图，可以通过&nbsp;.backward()&nbsp;方法来计算梯度。</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span># 反向传播，计算梯度</span></span>
+<span class="line"><span>out.backward()</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 查看 x 的梯度</span></span>
+<span class="line"><span>print(x.grad)</span></span></code></pre>
+<p>在神经网络训练中，自动求导主要用于实现反向传播算法。</p>
+<p>反向传播是一种通过计算损失函数关于网络参数的梯度来训练神经网络的方法。在每次迭代中，网络的前向传播会计算输出和损失，然后反向传播会计算损失关于每个参数的梯度，并使用这些梯度来更新参数。</p>
+<h3 id="停止梯度计算"><a class="anchor" href="#停止梯度计算">#</a> 停止梯度计算</h3>
+<p>如果你不希望某些张量的梯度被计算（例如，当你不需要反向传播时），可以使用&nbsp;torch.no_grad()&nbsp;或设置&nbsp;requires_grad=False。</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span># 使用 torch.no_grad() 禁用梯度计算</span></span>
+<span class="line"><span>with torch.no_grad():</span></span>
+<span class="line"><span>    y = x * 2</span></span></code></pre>
+<h2 id="神经网络nnmodule"><a class="anchor" href="#神经网络nnmodule">#</a> 神经网络（nn.Module）</h2>
+<p>神经网络是一种模仿人脑神经元连接的计算模型，由多层节点（神经元）组成，用于学习数据之间的复杂模式和关系。</p>
+<p>神经网络通过调整神经元之间的连接权重来优化预测结果，这一过程涉及前向传播、损失计算、反向传播和参数更新。</p>
+<p>神经网络的类型包括前馈神经网络、卷积神经网络（CNN）、循环神经网络（RNN）和长短期记忆网络（LSTM），它们在图像识别、语音处理、自然语言处理等多个领域都有广泛应用。</p>
+<p>PyTorch 提供了一个非常方便的接口来构建神经网络模型，即&nbsp;torch.nn.Module。</p>
+<p>我们可以继承 nn.Module 类并定义自己的网络层。</p>
+<p>创建一个简单的神经网络：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span></span></span>
+<span class="line"><span>import torch.nn as nn</span></span>
+<span class="line"><span>import torch.optim as optim</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 定义一个简单的全连接神经网络</span></span>
+<span class="line"><span>class SimpleNN(nn.Module):</span></span>
+<span class="line"><span>    def __init__(self):</span></span>
+<span class="line"><span>        super(SimpleNN, self).__init__()</span></span>
+<span class="line"><span>        self.fc1 = nn.Linear(2, 2)  # 输入层到隐藏层</span></span>
+<span class="line"><span>        self.fc2 = nn.Linear(2, 1)  # 隐藏层到输出层</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    def forward(self, x):</span></span>
+<span class="line"><span>        x = torch.relu(self.fc1(x))  # ReLU 激活函数</span></span>
+<span class="line"><span>        x = self.fc2(x)</span></span>
+<span class="line"><span>        return x</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 创建网络实例</span></span>
+<span class="line"><span>model = SimpleNN()</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 打印模型结构</span></span>
+<span class="line"><span>print(model)</span></span></code></pre>
+<p>输出结果：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>SimpleNN(</span></span>
+<span class="line"><span>  (fc1): Linear(in_features=2, out_features=2, bias=True)</span></span>
+<span class="line"><span>  (fc2): Linear(in_features=2, out_features=1, bias=True)</span></span>
+<span class="line"><span>)</span></span></code></pre>
+<p><strong>训练过程：</strong></p>
+<ol>
+<li><strong>前向传播（Forward Propagation）</strong>： 在前向传播阶段，输入数据通过网络层传递，每层应用权重和激活函数，直到产生输出。</li>
+<li><strong>计算损失（Calculate Loss）</strong>： 根据网络的输出和真实标签，计算损失函数的值。</li>
+<li><strong>反向传播（Backpropagation）</strong>： 反向传播利用自动求导技术计算损失函数关于每个参数的梯度。</li>
+<li><strong>参数更新（Parameter Update）</strong>： 使用优化器根据梯度更新网络的权重和偏置。</li>
+<li><strong>迭代（Iteration）</strong>： 重复上述过程，直到模型在训练数据上的性能达到满意的水平。</li>
+</ol>
+<h3 id="前向传播与损失计算"><a class="anchor" href="#前向传播与损失计算">#</a> 前向传播与损失计算</h3>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span># 随机输入</span></span>
+<span class="line"><span>x = torch.randn(1, 2)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 前向传播</span></span>
+<span class="line"><span>output = model(x)</span></span>
+<span class="line"><span>print(output)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 定义损失函数（例如均方误差 MSE）</span></span>
+<span class="line"><span>criterion = nn.MSELoss()</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 假设目标值为 1</span></span>
+<span class="line"><span>target = torch.randn(1, 1)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 计算损失</span></span>
+<span class="line"><span>loss = criterion(output, target)</span></span>
+<span class="line"><span>print(loss)</span></span></code></pre>
+<h3 id="优化器optimizers"><a class="anchor" href="#优化器optimizers">#</a> 优化器（Optimizers）</h3>
+<p>优化器在训练过程中更新神经网络的参数，以减少损失函数的值。<br>
+PyTorch 提供了多种优化器，例如 SGD、Adam 等。<br>
+使用优化器进行参数更新：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span># 定义优化器（使用 Adam 优化器）</span></span>
+<span class="line"><span>optimizer = optim.Adam(model.parameters(), lr=0.001)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 训练步骤</span></span>
+<span class="line"><span>optimizer.zero_grad()  # 清空梯度</span></span>
+<span class="line"><span>loss.backward()  # 反向传播</span></span>
+<span class="line"><span>optimizer.step()  # 更新参数</span></span></code></pre>
+<h2 id="训练模型"><a class="anchor" href="#训练模型">#</a> 训练模型</h2>
+<p>训练模型是机器学习和深度学习中的核心过程，旨在通过大量数据学习模型参数，以便模型能够对新的、未见过的数据做出准确的预测。</p>
+<p>训练模型通常包括以下几个步骤：</p>
+<ol>
+<li><strong>数据准备</strong>：
+<ul>
+<li>收集和处理数据，包括清洗、标准化和归一化。</li>
+<li>将数据分为训练集、验证集和测试集。</li>
+</ul>
+</li>
+<li><strong>定义模型</strong>：
+<ul>
+<li>选择模型架构，例如决策树、神经网络等。</li>
+<li>初始化模型参数（权重和偏置）。</li>
+</ul>
+</li>
+<li><strong>选择损失函数</strong>：
+<ul>
+<li>根据任务类型（如分类、回归）选择合适的损失函数。</li>
+</ul>
+</li>
+<li><strong>选择优化器</strong>：
+<ul>
+<li>选择一个优化算法，如SGD、Adam等，来更新模型参数。</li>
+</ul>
+</li>
+<li><strong>前向传播</strong>：
+<ul>
+<li>在每次迭代中，将输入数据通过模型传递，计算预测输出。</li>
+</ul>
+</li>
+<li><strong>计算损失</strong>：
+<ul>
+<li>使用损失函数评估预测输出与真实标签之间的差异。</li>
+</ul>
+</li>
+<li><strong>反向传播</strong>：
+<ul>
+<li>利用自动求导计算损失相对于模型参数的梯度。</li>
+</ul>
+</li>
+<li><strong>参数更新</strong>：
+<ul>
+<li>根据计算出的梯度和优化器的策略更新模型参数。</li>
+</ul>
+</li>
+<li><strong>迭代优化</strong>：
+<ul>
+<li>重复步骤5-8，直到模型在验证集上的性能不再提升或达到预定的迭代次数。</li>
+</ul>
+</li>
+<li><strong>评估和测试</strong>：
+<ul>
+<li>使用测试集评估模型的最终性能，确保模型没有过拟合。</li>
+</ul>
+</li>
+<li><strong>模型调优</strong>：
+<ul>
+<li>根据模型在测试集上的表现进行调参，如改变学习率、增加正则化等。</li>
+</ul>
+</li>
+<li><strong>部署模型</strong>：
+<ul>
+<li>将训练好的模型部署到生产环境中，用于实际的预测任务。</li>
+</ul>
+</li>
+</ol>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>import torch</span></span>
+<span class="line"><span>import torch.nn as nn</span></span>
+<span class="line"><span>import torch.optim as optim</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 1. 定义一个简单的神经网络模型</span></span>
+<span class="line"><span>class SimpleNN(nn.Module):</span></span>
+<span class="line"><span>    def __init__(self):</span></span>
+<span class="line"><span>        super(SimpleNN, self).__init__()</span></span>
+<span class="line"><span>        self.fc1 = nn.Linear(2, 2)  # 输入层到隐藏层</span></span>
+<span class="line"><span>        self.fc2 = nn.Linear(2, 1)  # 隐藏层到输出层</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    def forward(self, x):</span></span>
+<span class="line"><span>        x = torch.relu(self.fc1(x))  # ReLU 激活函数</span></span>
+<span class="line"><span>        x = self.fc2(x)</span></span>
+<span class="line"><span>        return x</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 2. 创建模型实例</span></span>
+<span class="line"><span>model = SimpleNN()</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 3. 定义损失函数和优化器</span></span>
+<span class="line"><span>criterion = nn.MSELoss()  # 均方误差损失函数</span></span>
+<span class="line"><span>optimizer = optim.Adam(model.parameters(), lr=0.001)  # Adam 优化器</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 4. 假设我们有训练数据 X 和 Y</span></span>
+<span class="line"><span>X = torch.randn(10, 2)  # 10 个样本，2 个特征</span></span>
+<span class="line"><span>Y = torch.randn(10, 1)  # 10 个目标值</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 5. 训练循环</span></span>
+<span class="line"><span>for epoch in range(100):  # 训练 100 轮</span></span>
+<span class="line"><span>    optimizer.zero_grad()  # 清空之前的梯度</span></span>
+<span class="line"><span>    output = model(X)  # 前向传播</span></span>
+<span class="line"><span>    loss = criterion(output, Y)  # 计算损失</span></span>
+<span class="line"><span>    loss.backward()  # 反向传播</span></span>
+<span class="line"><span>    optimizer.step()  # 更新参数</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 每 10 轮输出一次损失</span></span>
+<span class="line"><span>    if (epoch+1) % 10 == 0:</span></span>
+<span class="line"><span>        print(f'Epoch [{epoch+1}/100], Loss: {loss.item():.4f}')</span></span></code></pre>
+<p>输出结果如下：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>Epoch [10/100], Loss: 1.7180</span></span>
+<span class="line"><span>Epoch [20/100], Loss: 1.6352</span></span>
+<span class="line"><span>Epoch [30/100], Loss: 1.5590</span></span>
+<span class="line"><span>Epoch [40/100], Loss: 1.4896</span></span>
+<span class="line"><span>Epoch [50/100], Loss: 1.4268</span></span>
+<span class="line"><span>Epoch [60/100], Loss: 1.3704</span></span>
+<span class="line"><span>Epoch [70/100], Loss: 1.3198</span></span>
+<span class="line"><span>Epoch [80/100], Loss: 1.2747</span></span>
+<span class="line"><span>Epoch [90/100], Loss: 1.2346</span></span>
+<span class="line"><span>Epoch [100/100], Loss: 1.1991</span></span></code></pre>
+<p>在每 10 轮，程序会输出当前的损失值，帮助我们跟踪模型的训练进度。随着训练的进行，损失值应该会逐渐降低，表示模型在不断学习并优化其参数。</p>
+<p>训练模型是一个迭代的过程，需要不断地调整和优化，直到达到满意的性能。这个过程涉及到大量的实验和调优，目的是使模型在新的、未见过的数据上也能有良好的泛化能力。</p>
+<h2 id="设备device"><a class="anchor" href="#设备device">#</a> 设备（Device）</h2>
+<p>PyTorch 允许你将模型和数据移动到 GPU 上进行加速。<br>
+使用&nbsp;torch.device&nbsp;来指定计算设备。<br>
+将模型和数据移至 GPU:</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>device = torch.device("cuda" if torch.cuda.is_available() else "cpu")</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 将模型移动到设备</span></span>
+<span class="line"><span>model.to(device)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 将数据移动到设备</span></span>
+<span class="line"><span>X = X.to(device)</span></span>
+<span class="line"><span>Y = Y.to(device)</span></span></code></pre>
+<div class="tags"><a href="/tags/Python/" rel="tag"><i class="ic i-tag"></i>Python</a><a href="/tags/pytorch/" rel="tag"><i class="ic i-tag"></i>pytorch</a></div></div><footer><div class="meta"><span class="item"><span class="icon"><i class="ic i-calendar-check"></i></span><span class="text">更新于 </span><time title="修改时间：2026-05-10 21:05:07" itemprop="dateModified" datetime="2026-05-10T21:05:07+08:00">2026-05-10</time></span></div><div class="reward"><button><i class="ic i-heartbeat"></i>赞赏</button><p>请我喝[茶]~(￣▽￣)~*</p><div id="qr"><div><img loading="lazy" src="/assets/wechatpay.avif" alt="曾阿牛 微信支付"><p>微信支付</p></div><div><img loading="lazy" src="/assets/alipay.avif" alt="曾阿牛 支付宝"><p>支付宝</p></div></div></div><div id="copyright"><ul><li class="author"><strong>本文作者：</strong>曾阿牛<i class="ic i-at"><em>@</em></i>终南山下，活死人墓</li><li class="link"><strong>本文链接：</strong><a href="https://www.dying4ever.cyou/2026/01/30/Python/pytorch/1.pytorch%E5%9F%BA%E7%A1%80/" title="1.pytorch基础">https://www.dying4ever.cyou/2026/01/30/Python/pytorch/1.pytorch基础/</a></li><li class="license"><strong>版权声明：</strong>本站所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div></footer></article></div><div class="post-nav"><div class="item left"><a href="/2026/01/15/ai%E8%A7%86%E9%A2%91/%E5%9B%B4%E6%94%BB%E5%85%89%E6%98%8E%E9%A1%B6/" rel="prev" itemprop="url" data-background-image="https://t.alcy.cc/fj?id=4" title="围攻光明顶"><span class="type">上一篇</span><span class="category"><i class="ic i-flag"></i>ai视频</span><h3>围攻光明顶</h3></a></div><div class="item right"><a href="/2026/01/30/Python/pytorch/2.PyTorch_%E5%BC%A0%E9%87%8F%EF%BC%88Tensor%EF%BC%89/" rel="next" itemprop="url" data-background-image="https://t.alcy.cc/fj?id=3" title="2.PyTorch_张量（Tensor）"><span class="type">下一篇</span><span class="category"><i class="ic i-flag"></i>pytorch</span><h3>2.PyTorch_张量（Tensor）</h3></a></div></div><div class="wrap" id="comments"></div></div><div id="sidebar"><div class="inner"><div class="panels"><div class="inner"><div class="contents panel pjax" data-title="文章目录"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#pytorch-%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="toc-number">1.</span> <span class="toc-text"> PyTorch 架构图</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%A0%E9%87%8Ftensor"><span class="toc-number"></span> <span class="toc-text"> 张量（Tensor）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%A0%E9%87%8F%E4%B8%8E%E8%AE%BE%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text"> 张量与设备</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A2%AF%E5%BA%A6%E5%92%8C%E8%87%AA%E5%8A%A8%E5%BE%AE%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text"> 梯度和自动微分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%92%8C%E6%80%A7%E8%83%BD"><span class="toc-number">3.</span> <span class="toc-text"> 内存和性能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%B1%82%E5%AF%BCautograd"><span class="toc-number"></span> <span class="toc-text"> 自动求导（Autograd）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%ADbackpropagation"><span class="toc-number">1.</span> <span class="toc-text"> 反向传播（Backpropagation）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%81%9C%E6%AD%A2%E6%A2%AF%E5%BA%A6%E8%AE%A1%E7%AE%97"><span class="toc-number">2.</span> <span class="toc-text"> 停止梯度计算</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9Cnnmodule"><span class="toc-number"></span> <span class="toc-text"> 神经网络（nn.Module）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E5%90%91%E4%BC%A0%E6%92%AD%E4%B8%8E%E6%8D%9F%E5%A4%B1%E8%AE%A1%E7%AE%97"><span class="toc-number">1.</span> <span class="toc-text"> 前向传播与损失计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%8C%96%E5%99%A8optimizers"><span class="toc-number">2.</span> <span class="toc-text"> 优化器（Optimizers）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B"><span class="toc-number"></span> <span class="toc-text"> 训练模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E5%A4%87device"><span class="toc-number"></span> <span class="toc-text"> 设备（Device）</span></a></li></div><div class="related panel pjax" data-title="系列文章"><ul><li class="active"><a href="/2026/01/30/Python/pytorch/1.pytorch%E5%9F%BA%E7%A1%80/" rel="bookmark" title="1.pytorch基础">1.pytorch基础</a></li><li><a href="/2026/01/30/Python/pytorch/2.PyTorch_%E5%BC%A0%E9%87%8F%EF%BC%88Tensor%EF%BC%89/" rel="bookmark" title="2.PyTorch_张量（Tensor）">2.PyTorch_张量（Tensor）</a></li><li><a href="/2026/01/31/Python/pytorch/3.Pytorch%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%9F%BA%E7%A1%80/" rel="bookmark" title="3.Pytorch神经网络基础">3.Pytorch神经网络基础</a></li></ul></div><div class="overview panel" data-title="站点概览"><div class="author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><img class="image" loading="lazy" decoding="async" itemprop="image" alt="曾阿牛" src="/assets/head.avif"><p class="name" itemprop="name">曾阿牛</p><div class="description" itemprop="description">Por Una Cabeza</div></div><nav class="state"><div class="item posts"><a href="/archives/"><span class="count">100</span><span class="name">文章</span></a></div><div class="item categories"><a href="/categories/"><span class="count">22</span><span class="name">分类</span></a></div><div class="item tags"><a href="/tags/"><span class="count">24</span><span class="name">标签</span></a></div></nav><div class="social"><a target="_blank" rel="noopener" href="https://github.com/dying4ever" class="item github" title="https://github.com/dying4ever"><i class="ic i-github"></i></a><a href="mailto:zhangjingxuan@163.com" class="item email" title="mailto:zhangjingxuan@163.com"><i class="ic i-envelope"></i></a><a target="_blank" rel="noopener" href="https://www.douban.com/people/244425591/?_i=0227803GjjhEfb" class="item douban" title="https://www.douban.com/people/244425591/?_i=0227803GjjhEfb"><i class="ic i-douban"></i></a></div><div class="menu"><li class="item"><a href="/" rel="section"><i class="ic i-home"></i>首页</a></li><li class="item dropdown"><a href="#" onclick="return false;"><i class="ic i-user"></i>关于</a><ul class="submenu"><li class="item"><a href="/about/" rel="section"><i class="ic i-user"></i>关于我</a></li></ul></li><li class="item dropdown"><a href="#" onclick="return false;"><i class="ic i-feather"></i>文章</a><ul class="submenu"><li class="item"><a href="/archives/" rel="section"><i class="ic i-list-alt"></i>归档</a></li><li class="item"><a href="/categories/" rel="section"><i class="ic i-th"></i>分类</a></li><li class="item"><a href="/tags/" rel="section"><i class="ic i-tags"></i>标签</a></li></ul></li><li class="item"><a href="/friends/" rel="section"><i class="ic i-heart"></i>友链</a></li></div></div></div></div><ul id="quick"><li class="prev pjax"><a href="/2026/01/30/Python/pytorch/2.PyTorch_%E5%BC%A0%E9%87%8F%EF%BC%88Tensor%EF%BC%89/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a></li><li class="up"><i class="ic i-arrow-up"></i></li><li class="down"><i class="ic i-arrow-down"></i></li><li class="next pjax"><a href="/2026/01/15/ai%E8%A7%86%E9%A2%91/%E5%9B%B4%E6%94%BB%E5%85%89%E6%98%8E%E9%A1%B6/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a></li><li class="percent"></li></ul></div></div><div class="dimmer"></div></div><div id="player"></div></main><footer id="footer"><div class="inner"><div class="widgets"><div class="rpost pjax"><h2>最新评论</h2></div></div><div class="status"><div class="copyright">© 2025 -<span itemprop="copyrightYear">2026</span><span class="with-love"><i class="ic i-sakura rotate"></i></span><span class="author" itemprop="copyrightHolder">曾阿牛 @ Frostbitten Carpe Diem</span></div><div class="count"><span class="post-meta-item-icon"><i class="ic i-chart-area"></i></span><span title="站点总字数">955k 字</span><span class="post-meta-divider"> | </span><span class="post-meta-item-icon"><i class="ic i-coffee"></i></span><span title="站点阅读时长">14:28</span></div><div class="powered-by">基于 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> &amp; Theme.<a target="_blank" rel="noopener" href="https://github.com/theme-shoka-x/hexo-theme-shokaX/">ShokaX</a></div></div></div></footer></div><script data-config="" type="text/javascript">var LOCAL = {
+    ispost: true,
+    path: `2026/01/30/Python/pytorch/1.pytorch基础/`,
+    favicon: {
+        show: `不负韶华`,
+        hide: `以梦为马！`
+    },
+    search: {
+        placeholder: "文章搜索",
+        empty: "关于 「 ${query} 」，什么也没搜到",
+        stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    nocopy: "false",
+    copyright: `复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。`,
+    copy_tex: false,
+    katex: false,
+    mermaid: false,
+    audio: undefined,
+    nocopy: false,
+    outime: true,
+    template: `<div class="note warning"><p><span class="label warning">文章时效性提示</span><br>这是一篇发布于 {{publish}} 天前，最后一次更新在 {{updated}} 天前的文章，部分信息可能已经发生改变，请注意甄别。</p></div>`,
+    quiz: {
+        choice: `单选题`,
+        multiple: `多选题`,
+        true_false: `判断题`,
+        essay: `问答题`,
+        gap_fill: `填空题`,
+        mistake: `错题备注`
+    }
+};
+</script><script src="/js/siteInit.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script></body></html>
