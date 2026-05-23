@@ -14,6 +14,11 @@
         <title>建站日志</title>
         <link rel="alternate" href="https://www.dying4ever.cyou/2026/05/10/%E5%BB%BA%E7%AB%99%E6%97%A5%E5%BF%97/"/>
         <content type="html">&lt;h1 id=&#34;2026-05-23&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-05-23&#34;&gt;#&lt;/a&gt; 2026-05-23&lt;/h1&gt;
+&lt;h2 id=&#34;version17&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version17&#34;&gt;#&lt;/a&gt; version17&lt;/h2&gt;
+&lt;p&gt;修复移动端字体显示问题，统一文章正文、About 页面、代码块和侧边栏在手机端的字号、行高与字体 fallback。&lt;br /&gt;
+补充 iOS / Android 浏览器文字自动放大控制，并处理表格、代码块、长英文在移动端的横向溢出。&lt;br /&gt;
+执行 &lt;code&gt;npm run clean&lt;/code&gt;、&lt;code&gt;npm run build -- --silent&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
+修改位置：&lt;code&gt;themes/shokax/source/css/_common/scaffolding/base.styl&lt;/code&gt;、&lt;code&gt;themes/shokax/source/css/_common/components/post/post.styl&lt;/code&gt;、&lt;code&gt;themes/shokax/source/css/about-page.styl&lt;/code&gt;、&lt;code&gt;themes/shokax/source/css/_common/outline/sidebar/author.styl&lt;/code&gt;、&lt;code&gt;source/_data/custom.styl&lt;/code&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;version16&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version16&#34;&gt;#&lt;/a&gt; version16&lt;/h2&gt;
 &lt;p&gt;修复移动端权衡度量体未优先应用的问题：移动端顶部标题、站名和 About 页面正文改为权衡度量体优先。&lt;br /&gt;
 保留桌面端英文数字使用 Story Script 的规则，移动端回到更稳的中文字体排版。&lt;br /&gt;
