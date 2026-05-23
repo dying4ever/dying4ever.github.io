@@ -22,6 +22,10 @@
             <category term="Obsidian" scheme="https://www.dying4ever.cyou/tags/Obsidian/" />
             <pubDate>Sun, 10 May 2026 19:35:08 +0800</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;2026-05-23&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-05-23&#34;&gt;#&lt;/a&gt; 2026-05-23&lt;/h1&gt;
+&lt;h2 id=&#34;version20&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version20&#34;&gt;#&lt;/a&gt; version20&lt;/h2&gt;
+&lt;p&gt;回退上一版字体子集预加载方案，移除 &lt;code&gt;QuanHengDuLiang-site.woff2&lt;/code&gt;，恢复权衡度量体完整 woff2 与 &lt;code&gt;font-display: swap&lt;/code&gt;。&lt;br /&gt;
+保留此前移动端字体链和分类卡片头图修复，避免影响其他页面样式。&lt;br /&gt;
+修改位置：&lt;code&gt;themes/shokax/layout/_partials/head/head.pug&lt;/code&gt;、&lt;code&gt;themes/shokax/source/css/_common/scaffolding/base.styl&lt;/code&gt;、&lt;code&gt;source/_data/custom.styl&lt;/code&gt;、&lt;code&gt;source/fonts/&lt;/code&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;version19&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version19&#34;&gt;#&lt;/a&gt; version19&lt;/h2&gt;
 &lt;p&gt;修复自定义字体首次加载时先显示默认字体的问题：为权衡度量体生成当前站点用字子集 &lt;code&gt;QuanHengDuLiang-site.woff2&lt;/code&gt;，并在页面头部预加载。&lt;br /&gt;
 将权衡度量体的 &lt;code&gt;font-display&lt;/code&gt; 从 &lt;code&gt;swap&lt;/code&gt; 调整为 &lt;code&gt;block&lt;/code&gt;，减少 PC 和移动端字体加载完成后的明显跳变。&lt;br /&gt;
