@@ -14,6 +14,26 @@
         <title>建站日志</title>
         <link rel="alternate" href="https://www.dying4ever.cyou/2026/05/10/%E5%BB%BA%E7%AB%99%E6%97%A5%E5%BF%97/"/>
         <content type="html">&lt;h1 id=&#34;2026-05-23&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-05-23&#34;&gt;#&lt;/a&gt; 2026-05-23&lt;/h1&gt;
+&lt;h2 id=&#34;version13&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version13&#34;&gt;#&lt;/a&gt; version13&lt;/h2&gt;
+&lt;p&gt;接入 Story Script 字体，仅用于顶部导航和 About 页面中的英文、数字及常用英文标点。&lt;br /&gt;
+通过 &lt;code&gt;unicode-range&lt;/code&gt; 限定字体范围，中文仍保留权衡度量体或原中文字体。&lt;br /&gt;
+执行 &lt;code&gt;npm run build -- --silent&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
+修改位置：&lt;code&gt;source/fonts/StoryScript-Regular.ttf&lt;/code&gt;、&lt;code&gt;source/_data/custom.styl&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;version12&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version12&#34;&gt;#&lt;/a&gt; version12&lt;/h2&gt;
+&lt;p&gt;调整权衡度量体的使用范围，仅用于顶部导航、站点标题和 About 页面正文。&lt;br /&gt;
+其他 Markdown 文章恢复原有字体栈，避免全站正文被新字体影响。&lt;br /&gt;
+执行 &lt;code&gt;npm run build -- --silent&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
+修改位置：&lt;code&gt;source/_data/custom.styl&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;version11&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version11&#34;&gt;#&lt;/a&gt; version11&lt;/h2&gt;
+&lt;p&gt;接入权衡度量体作为站点试用字体，字体文件放入 &lt;code&gt;source/fonts/&lt;/code&gt;。&lt;br /&gt;
+保留切换前的样式备份，便于后续回滚到原字体栈。&lt;br /&gt;
+执行 &lt;code&gt;npm run build&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
+修改位置：&lt;code&gt;source/_data/custom.styl&lt;/code&gt;、&lt;code&gt;source/fonts/QuanHengDuLiang-v0.1.ttf&lt;/code&gt;、&lt;code&gt;docs/backups/custom.before-quanheng-font.styl&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;version10&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version10&#34;&gt;#&lt;/a&gt; version10&lt;/h2&gt;
+&lt;p&gt;修复文章赞赏区二维码显示尺寸不一致的问题。&lt;br /&gt;
+将微信和支付宝收款码统一为固定显示尺寸，保留原图比例并避免裁切二维码。&lt;br /&gt;
+执行 &lt;code&gt;npm run build&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
+修改位置：&lt;code&gt;themes/shokax/source/css/_common/components/post/reward.styl&lt;/code&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;version9&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version9&#34;&gt;#&lt;/a&gt; version9&lt;/h2&gt;
 &lt;p&gt;更新文章赞赏功能收款码，加入微信支付和支付宝收款图片。&lt;br /&gt;
 赞赏配置继续使用 Shokax 现有 &lt;code&gt;/wechatpay.png&lt;/code&gt; 与 &lt;code&gt;/alipay.png&lt;/code&gt; 路径。&lt;br /&gt;
