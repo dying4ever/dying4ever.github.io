@@ -14,6 +14,11 @@
         <title>建站日志</title>
         <link rel="alternate" href="https://www.dying4ever.cyou/2026/05/10/%E5%BB%BA%E7%AB%99%E6%97%A5%E5%BF%97/"/>
         <content type="html">&lt;h1 id=&#34;2026-05-23&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-05-23&#34;&gt;#&lt;/a&gt; 2026-05-23&lt;/h1&gt;
+&lt;h2 id=&#34;version9&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version9&#34;&gt;#&lt;/a&gt; version9&lt;/h2&gt;
+&lt;p&gt;更新文章赞赏功能收款码，加入微信支付和支付宝收款图片。&lt;br /&gt;
+赞赏配置继续使用 Shokax 现有 &lt;code&gt;/wechatpay.png&lt;/code&gt; 与 &lt;code&gt;/alipay.png&lt;/code&gt; 路径。&lt;br /&gt;
+执行 &lt;code&gt;npm run build -- --silent&lt;/code&gt; 检查生成结果，Build passed，并执行 &lt;code&gt;npx hexo deploy&lt;/code&gt; 发布网页。&lt;br /&gt;
+修改位置：&lt;code&gt;source/wechatpay.png&lt;/code&gt;、&lt;code&gt;source/alipay.png&lt;/code&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;version8&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version8&#34;&gt;#&lt;/a&gt; version8&lt;/h2&gt;
 &lt;p&gt;移除侧边栏 EMAIL 信息，仅保留 LOCATION: NANJING。&lt;br /&gt;
 将 52MB 的 Python PDF 加入 Hexo ignore，保留源文件但不再生成和上传到 GitHub Pages。&lt;br /&gt;
