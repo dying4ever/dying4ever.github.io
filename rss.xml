@@ -22,6 +22,11 @@
             <category term="Obsidian" scheme="https://www.dying4ever.cyou/tags/Obsidian/" />
             <pubDate>Sun, 10 May 2026 19:35:08 +0800</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;2026-05-23&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-05-23&#34;&gt;#&lt;/a&gt; 2026-05-23&lt;/h1&gt;
+&lt;h2 id=&#34;version19&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version19&#34;&gt;#&lt;/a&gt; version19&lt;/h2&gt;
+&lt;p&gt;修复自定义字体首次加载时先显示默认字体的问题：为权衡度量体生成当前站点用字子集 &lt;code&gt;QuanHengDuLiang-site.woff2&lt;/code&gt;，并在页面头部预加载。&lt;br /&gt;
+将权衡度量体的 &lt;code&gt;font-display&lt;/code&gt; 从 &lt;code&gt;swap&lt;/code&gt; 调整为 &lt;code&gt;block&lt;/code&gt;，减少 PC 和移动端字体加载完成后的明显跳变。&lt;br /&gt;
+执行 &lt;code&gt;npm run clean&lt;/code&gt;、&lt;code&gt;npm run build -- --silent&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
+修改位置：&lt;code&gt;source/fonts/QuanHengDuLiang-site.woff2&lt;/code&gt;、&lt;code&gt;themes/shokax/layout/_partials/head/head.pug&lt;/code&gt;、&lt;code&gt;themes/shokax/source/css/_common/scaffolding/base.styl&lt;/code&gt;、&lt;code&gt;source/_data/custom.styl&lt;/code&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;version18&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version18&#34;&gt;#&lt;/a&gt; version18&lt;/h2&gt;
 &lt;p&gt;修复分类页卡片头图不显示的问题：为分类卡片补充默认 CSS 变量，避免 &lt;code&gt;background-image&lt;/code&gt; 因缺省变量整条失效。&lt;br /&gt;
 分类头图改为复用主题随机图片批量逻辑，每个一级分类生成不同图片；同时将自定义字体转换为 woff2 并优先加载，移除 Google Fonts 外链以减少移动端加载压力。&lt;br /&gt;
