@@ -14,6 +14,16 @@
         <title>建站日志</title>
         <link rel="alternate" href="https://www.dying4ever.cyou/2026/05/10/%E5%BB%BA%E7%AB%99%E6%97%A5%E5%BF%97/"/>
         <content type="html">&lt;h1 id=&#34;2026-05-23&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-05-23&#34;&gt;#&lt;/a&gt; 2026-05-23&lt;/h1&gt;
+&lt;h2 id=&#34;version16&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version16&#34;&gt;#&lt;/a&gt; version16&lt;/h2&gt;
+&lt;p&gt;修复移动端权衡度量体未优先应用的问题：移动端顶部标题、站名和 About 页面正文改为权衡度量体优先。&lt;br /&gt;
+保留桌面端英文数字使用 Story Script 的规则，移动端回到更稳的中文字体排版。&lt;br /&gt;
+执行 &lt;code&gt;npm run clean&lt;/code&gt;、&lt;code&gt;npm run build -- --silent&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
+修改位置：&lt;code&gt;themes/shokax/source/css/_common/outline/header/menu.styl&lt;/code&gt;、&lt;code&gt;brand.styl&lt;/code&gt;、&lt;code&gt;themes/shokax/source/css/about-page.styl&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;version15&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version15&#34;&gt;#&lt;/a&gt; version15&lt;/h2&gt;
+&lt;p&gt;调整移动端字体适配：收紧移动端顶部站名宽度、字号和字距，避免 Story Script 在窄屏溢出。&lt;br /&gt;
+优化 About 页面移动端标题、正文、表格字号和换行，提升手机阅读稳定性。&lt;br /&gt;
+执行 &lt;code&gt;npm run clean&lt;/code&gt;、&lt;code&gt;npm run build -- --silent&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
+修改位置：&lt;code&gt;themes/shokax/source/css/_common/outline/header/menu.styl&lt;/code&gt;、&lt;code&gt;brand.styl&lt;/code&gt;、&lt;code&gt;themes/shokax/source/css/about-page.styl&lt;/code&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;version14&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version14&#34;&gt;#&lt;/a&gt; version14&lt;/h2&gt;
 &lt;p&gt;修复线上字体不生效问题：字体文件已上传，但旧 CSS 未重新生成，线上缺少 &lt;code&gt;@font-face&lt;/code&gt; 规则。&lt;br /&gt;
 将字体声明和导航/About 字体规则写入主题实际参与构建的 Stylus 文件，并执行 &lt;code&gt;npm run clean&lt;/code&gt; 后重新生成。&lt;br /&gt;
