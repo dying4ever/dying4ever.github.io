@@ -22,6 +22,11 @@
             <category term="Obsidian" scheme="https://www.dying4ever.cyou/tags/Obsidian/" />
             <pubDate>Sun, 10 May 2026 19:35:08 +0800</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;2026-05-23&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-05-23&#34;&gt;#&lt;/a&gt; 2026-05-23&lt;/h1&gt;
+&lt;h2 id=&#34;version14&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version14&#34;&gt;#&lt;/a&gt; version14&lt;/h2&gt;
+&lt;p&gt;修复线上字体不生效问题：字体文件已上传，但旧 CSS 未重新生成，线上缺少 &lt;code&gt;@font-face&lt;/code&gt; 规则。&lt;br /&gt;
+将字体声明和导航/About 字体规则写入主题实际参与构建的 Stylus 文件，并执行 &lt;code&gt;npm run clean&lt;/code&gt; 后重新生成。&lt;br /&gt;
+执行 &lt;code&gt;npm run clean&lt;/code&gt;、&lt;code&gt;npm run build -- --silent&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
+修改位置：&lt;code&gt;themes/shokax/source/css/_common/scaffolding/base.styl&lt;/code&gt;、&lt;code&gt;themes/shokax/source/css/_common/outline/header/menu.styl&lt;/code&gt;、&lt;code&gt;brand.styl&lt;/code&gt;、&lt;code&gt;themes/shokax/source/css/about-page.styl&lt;/code&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;version13&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version13&#34;&gt;#&lt;/a&gt; version13&lt;/h2&gt;
 &lt;p&gt;接入 Story Script 字体，仅用于顶部导航和 About 页面中的英文、数字及常用英文标点。&lt;br /&gt;
 通过 &lt;code&gt;unicode-range&lt;/code&gt; 限定字体范围，中文仍保留权衡度量体或原中文字体。&lt;br /&gt;
