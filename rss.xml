@@ -22,6 +22,12 @@
             <category term="Obsidian" scheme="https://www.dying4ever.cyou/tags/Obsidian/" />
             <pubDate>Sun, 10 May 2026 19:35:08 +0800</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;2026-05-23&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-05-23&#34;&gt;#&lt;/a&gt; 2026-05-23&lt;/h1&gt;
+&lt;h2 id=&#34;version8&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version8&#34;&gt;#&lt;/a&gt; version8&lt;/h2&gt;
+&lt;p&gt;移除侧边栏 EMAIL 信息，仅保留 LOCATION: NANJING。&lt;br /&gt;
+将 52MB 的 Python PDF 加入 Hexo ignore，保留源文件但不再生成和上传到 GitHub Pages。&lt;br /&gt;
+补充白天模式侧边栏显式覆盖，避免浅色主题下 profile card 仍显示深色。&lt;br /&gt;
+执行 &lt;code&gt;npm run build -- --silent&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
+修改位置：&lt;code&gt;themes/shokax/layout/_partials/sidebar/overview.pug&lt;/code&gt;、&lt;code&gt;source/_data/custom.styl&lt;/code&gt;、&lt;code&gt;_config.yml&lt;/code&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;version7&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version7&#34;&gt;#&lt;/a&gt; version7&lt;/h2&gt;
 &lt;p&gt;调整首页 hero 文案，将首页主句改为“生命是一袭华美的袍，爬满了蚤子。”。&lt;br /&gt;
 首页简介改为更偏个人表达的版本：整理技术笔记、项目过程、所见所得与所思所想。&lt;br /&gt;
