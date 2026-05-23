@@ -14,6 +14,12 @@
         <title>建站日志</title>
         <link rel="alternate" href="https://www.dying4ever.cyou/2026/05/10/%E5%BB%BA%E7%AB%99%E6%97%A5%E5%BF%97/"/>
         <content type="html">&lt;h1 id=&#34;2026-05-23&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-05-23&#34;&gt;#&lt;/a&gt; 2026-05-23&lt;/h1&gt;
+&lt;h2 id=&#34;version18&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version18&#34;&gt;#&lt;/a&gt; version18&lt;/h2&gt;
+&lt;p&gt;修复分类页卡片头图不显示的问题：为分类卡片补充默认 CSS 变量，避免 &lt;code&gt;background-image&lt;/code&gt; 因缺省变量整条失效。&lt;br /&gt;
+分类头图改为复用主题随机图片批量逻辑，每个一级分类生成不同图片；同时将自定义字体转换为 woff2 并优先加载，移除 Google Fonts 外链以减少移动端加载压力。&lt;br /&gt;
+移动端补充 &lt;code&gt;StoryScriptLatin&lt;/code&gt; 与 &lt;code&gt;QuanHengDuLiang&lt;/code&gt; 字体链，确保手机端标题、正文、About 与侧边栏能加载本地字体。&lt;br /&gt;
+执行 &lt;code&gt;npm run clean&lt;/code&gt;、&lt;code&gt;npm run build -- --silent&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
+修改位置：&lt;code&gt;themes/shokax/layout/page.pug&lt;/code&gt;、&lt;code&gt;themes/shokax/layout/_partials/head/head.pug&lt;/code&gt;、&lt;code&gt;themes/shokax/source/css/category-cards.styl&lt;/code&gt;、&lt;code&gt;themes/shokax/source/css/_common/scaffolding/base.styl&lt;/code&gt;、&lt;code&gt;source/_data/custom.styl&lt;/code&gt;、&lt;code&gt;source/fonts/&lt;/code&gt;。&lt;/p&gt;
 &lt;h2 id=&#34;version17&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version17&#34;&gt;#&lt;/a&gt; version17&lt;/h2&gt;
 &lt;p&gt;修复移动端字体显示问题，统一文章正文、About 页面、代码块和侧边栏在手机端的字号、行高与字体 fallback。&lt;br /&gt;
 补充 iOS / Android 浏览器文字自动放大控制，并处理表格、代码块、长英文在移动端的横向溢出。&lt;br /&gt;
