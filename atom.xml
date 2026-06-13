@@ -13,8 +13,15 @@
         <id>https://www.dying4ever.cyou/2026/05/10/%E5%BB%BA%E7%AB%99%E6%97%A5%E5%BF%97/</id>
         <title>建站日志</title>
         <link rel="alternate" href="https://www.dying4ever.cyou/2026/05/10/%E5%BB%BA%E7%AB%99%E6%97%A5%E5%BF%97/"/>
-        <content type="html">&lt;h1 id=&#34;2026-06-09&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-06-09&#34;&gt;#&lt;/a&gt; 2026-06-09&lt;/h1&gt;
+        <content type="html">&lt;h1 id=&#34;2026-06-14&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-06-14&#34;&gt;#&lt;/a&gt; 2026-06-14&lt;/h1&gt;
 &lt;h2 id=&#34;version1&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
+&lt;p&gt;将项目根目录“图库”中的 19 张图片转换为 WebP，并输出到 &lt;code&gt;source/images/gallery/&lt;/code&gt; 作为首页封面图库。&lt;br /&gt;
+新增首页随机封面脚本，每次打开页面为置顶文章和精选分类随机分配图库图片；同一轮分配不重复，图库用完后才重新洗牌复用。&lt;br /&gt;
+执行命令：npm run build、npm run dev。&lt;br /&gt;
+结果：Build passed。&lt;br /&gt;
+修改位置：source/images/gallery、source/js/gallery-random-covers.js、themes/shokax/layout/_partials/layout.pug。&lt;/p&gt;
+&lt;h1 id=&#34;2026-06-09&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-06-09&#34;&gt;#&lt;/a&gt; 2026-06-09&lt;/h1&gt;
+&lt;h2 id=&#34;version1-2&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1-2&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
 &lt;p&gt;优化字体与首屏加载：将权衡度量体改为按本站实际标题和 About 用字生成的 woff2 子集，删除未引用的完整 ttf/woff2 字体文件。&lt;br /&gt;
 继续保留 Story Script 与权衡度量体的视觉效果，但移动端正文使用稳定中文 fallback，避免大字体阻塞首屏。&lt;br /&gt;
 确认首页、分类页、About 不再引用远程随机图、阿里 iconfont、JetBrains CDN、Google Fonts 和已关闭播放器预加载。&lt;br /&gt;
@@ -120,7 +127,7 @@
 按 Hexo deploy 配置发布到 &lt;code&gt;dying4ever/dying4ever.github.io&lt;/code&gt;。&lt;br /&gt;
 执行 &lt;code&gt;npm run build -- --silent&lt;/code&gt; 和 &lt;code&gt;npx hexo deploy&lt;/code&gt;。&lt;br /&gt;
 修改位置：&lt;code&gt;source/_posts/建站日志.md&lt;/code&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;version1-2&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1-2&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
+&lt;h2 id=&#34;version1-3&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1-3&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
 &lt;p&gt;统一建站日志格式，按 &lt;code&gt;AGENT.md&lt;/code&gt; 改为日期一级标题、version 二级标题。&lt;br /&gt;
 精选分类封面改回与置顶文章相同的远程封面池，并由首页统一分配，避免同页分类封面 URL 重复。&lt;br /&gt;
 About 页面回退到最早的第一版文案。&lt;br /&gt;
@@ -149,18 +156,18 @@ About 页面回退到最早的第一版文案。&lt;br /&gt;
 发现 4000 端口被 &lt;code&gt;FoxitProtect&lt;/code&gt; 占用，当前 Hexo 实时预览使用 5000 端口。&lt;br /&gt;
 执行 &lt;code&gt;npm run clean&lt;/code&gt; 和 &lt;code&gt;npm run build&lt;/code&gt;，Build passed。&lt;br /&gt;
 修改位置：&lt;code&gt;source/_posts/建站日志.md&lt;/code&gt;、&lt;code&gt;D:\Obsidian 笔记目录\know\建站日志.md&lt;/code&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;version1-3&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1-3&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
+&lt;h2 id=&#34;version1-4&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1-4&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
 &lt;p&gt;完成第一轮页面美化：调整首页入口、About 页面、Projects 页面和基础阅读样式。&lt;br /&gt;
 执行 &lt;code&gt;npm run build&lt;/code&gt; 检查生成结果，Build passed。&lt;br /&gt;
 修改位置：&lt;code&gt;themes/shokax/layout/index.pug&lt;/code&gt;、&lt;code&gt;source/about/index.md&lt;/code&gt;、&lt;code&gt;source/projects/index.md&lt;/code&gt;、&lt;code&gt;source/_data/custom.styl&lt;/code&gt;、&lt;code&gt;_config.shokax.yml&lt;/code&gt;。&lt;/p&gt;
 &lt;h1 id=&#34;2026-02-28&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-02-28&#34;&gt;#&lt;/a&gt; 2026-02-28&lt;/h1&gt;
-&lt;h2 id=&#34;version1-4&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1-4&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
+&lt;h2 id=&#34;version1-5&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1-5&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
 &lt;p&gt;拖了许久，完善了置顶发布。&lt;/p&gt;
 &lt;h1 id=&#34;2026-02-06&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-02-06&#34;&gt;#&lt;/a&gt; 2026-02-06&lt;/h1&gt;
-&lt;h2 id=&#34;version1-5&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1-5&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
+&lt;h2 id=&#34;version1-6&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1-6&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
 &lt;p&gt;改善了一些字体 bug，参考了一些自我介绍格式，又测了一次 MBTI。&lt;/p&gt;
 &lt;h1 id=&#34;2026-02-04&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#2026-02-04&#34;&gt;#&lt;/a&gt; 2026-02-04&lt;/h1&gt;
-&lt;h2 id=&#34;version1-6&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1-6&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
+&lt;h2 id=&#34;version1-7&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#version1-7&#34;&gt;#&lt;/a&gt; version1&lt;/h2&gt;
 &lt;p&gt;经大佬指点，Hugo 框架转用 Hexo 框架，主题框架更加丰富完善。&lt;br /&gt;
 时间范围：26.2.4-26.2.5。&lt;/p&gt;
 &lt;hr /&gt;
