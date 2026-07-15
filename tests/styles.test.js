@@ -30,3 +30,12 @@ test('keeps cover and home in one visual space during the transition', () => {
   assert.ok(css.includes('/images/mountain-cover.webp'));
   assert.ok(!css.includes('/images/mountain-cover.png'));
 });
+
+test('uses one title system and one hero anchor system', () => {
+  assert.match(css, /\.site-title\s*\{[\s\S]*?font-family:\s*var\(--font-display\)/);
+  assert.match(css, /\.site-title__line\s*\{[\s\S]*?display:\s*block/);
+  assert.match(css, /--hero-copy-top:/);
+  assert.match(css, /--hero-copy-width:/);
+  assert.match(css, /\.hero-eyebrow\s*\{/);
+  assert.match(css, /\.hero-vertical\s*\{/);
+});

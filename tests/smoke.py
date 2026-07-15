@@ -49,7 +49,45 @@ def exercise_desktop(browser):
     )
 
     page.goto(BASE_URL, wait_until="networkidle")
-    assert page.locator("#cover-title").inner_text() == "终南山下，活死人墓"
+    title_contract = page.evaluate(
+        """
+        () => {
+          const cover = document.querySelector('#cover-title');
+          const home = document.querySelector('#home-heading');
+          const coverVertical = document.querySelector('.cover__side-copy');
+          const homeVertical = document.querySelector('.home-hero__vertical');
+          const coverRect = cover.getBoundingClientRect();
+          const homeRect = home.getBoundingClientRect();
+          const coverStyle = getComputedStyle(cover);
+          const homeStyle = getComputedStyle(home);
+          const coverVerticalStyle = getComputedStyle(coverVertical);
+          const homeVerticalStyle = getComputedStyle(homeVertical);
+          return {
+            coverLines: cover.querySelectorAll('.site-title__line').length,
+            homeLines: home.querySelectorAll('.site-title__line').length,
+            sameFont: coverStyle.fontFamily === homeStyle.fontFamily,
+            sameFill: coverStyle.backgroundImage === homeStyle.backgroundImage,
+            leftDelta: Math.abs(coverRect.left - homeRect.left),
+            topDelta: Math.abs(coverRect.top - homeRect.top),
+            sameVerticalFont: coverVerticalStyle.fontFamily === homeVerticalStyle.fontFamily,
+            sameVerticalSize: coverVerticalStyle.fontSize === homeVerticalStyle.fontSize,
+            sameVerticalSpacing: coverVerticalStyle.letterSpacing === homeVerticalStyle.letterSpacing,
+            sameVerticalRight: coverVerticalStyle.right === homeVerticalStyle.right,
+          };
+        }
+        """
+    )
+    assert title_contract["coverLines"] == 2, title_contract
+    assert title_contract["homeLines"] == 2
+    assert title_contract["sameFont"]
+    assert title_contract["sameFill"]
+    assert title_contract["leftDelta"] <= 1
+    assert title_contract["topDelta"] <= 2
+    assert title_contract["sameVerticalFont"]
+    assert title_contract["sameVerticalSize"]
+    assert title_contract["sameVerticalSpacing"]
+    assert title_contract["sameVerticalRight"]
+    assert page.locator("#cover-title").inner_text().replace("\n", "") == "终南山下，活死人墓"
     page.screenshot(path=PREVIEWS / "desktop-cover.png", full_page=False)
     assert_no_horizontal_overflow(page, "desktop cover")
 
@@ -68,6 +106,7 @@ def exercise_desktop(browser):
         "element => Number.parseFloat(getComputedStyle(element).opacity)"
     )
     assert transition_title_opacity > 0.45
+    assert page.locator("[data-transition-title] .site-title__line").count() == 2
     assert home_landscape_opacity > 0.2
     assert cover_opacity > 0
     page.screenshot(path=PREVIEWS / "desktop-transition.png", full_page=False)

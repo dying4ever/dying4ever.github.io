@@ -44,12 +44,15 @@
 
   .home-hero {
     min-height: auto;
+    padding-top: var(--hero-copy-top);
     padding-bottom: 5rem;
   }
 
   .home-hero__copy {
-    width: min(40rem, 84vw);
-    margin-top: 3rem;
+    position: relative;
+    top: auto;
+    left: auto;
+    width: var(--hero-copy-width);
   }
 
   .home-hero__title {
@@ -94,6 +97,8 @@
 @media (max-width: 640px) {
   :root {
     --header-height: 4.2rem;
+    --hero-copy-top: clamp(7rem, 22vh, 12rem);
+    --hero-copy-width: calc(100% - 2 * var(--page-pad));
   }
 
   .cover::after {
@@ -106,8 +111,6 @@
   }
 
   .cover__content {
-    top: 46%;
-    width: calc(100% - 2 * var(--page-pad));
     text-align: center;
   }
 
@@ -115,10 +118,17 @@
     letter-spacing: 0.16em;
   }
 
+  .cover__title,
+  .home-hero__title {
+    --title-size: clamp(2.7rem, 13vw, 4.6rem);
+  }
+
   .cover__title {
-    max-width: 7em;
     margin-inline: auto;
-    font-size: clamp(3rem, 16vw, 5.2rem);
+  }
+
+  .cover__title .site-title__line {
+    margin-inline: auto;
   }
 
   .cover__subtitle {
@@ -165,16 +175,11 @@
   }
 
   .home-hero {
-    padding-top: calc(var(--header-height) + 3rem);
+    padding-top: var(--hero-copy-top);
   }
 
   .home-hero__copy {
-    width: 100%;
-    margin-top: 1rem;
-  }
-
-  .home-hero__title {
-    font-size: clamp(2.8rem, 14vw, 4.6rem);
+    width: var(--hero-copy-width);
   }
 
   .portal-grid {

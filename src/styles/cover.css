@@ -159,25 +159,31 @@
   clip-path: polygon(0 0, 100% 0, 100% 100%, 4% 100%, 23% 48%);
 }
 
-.cover__content {
+.cover__content,
+.home-hero__copy {
   position: absolute;
-  z-index: 10;
-  top: 50%;
+  top: var(--hero-copy-top);
   left: var(--page-pad);
-  width: min(43rem, 49vw);
-  transform: translateY(-49%);
+  width: var(--hero-copy-width);
 }
 
-.cover__eyebrow {
+.cover__content {
+  z-index: 10;
+}
+
+.hero-eyebrow {
   margin: 0 0 clamp(1.1rem, 2.2vw, 2rem);
-  color: var(--gold);
   font-family: var(--font-latin);
   font-size: clamp(0.64rem, 0.75vw, 0.78rem);
+  line-height: 1;
   letter-spacing: 0.24em;
 }
 
-.cover__title {
-  max-width: 8em;
+.cover__eyebrow {
+  color: var(--gold);
+}
+
+.site-title {
   margin: 0;
   color: transparent;
   background:
@@ -186,12 +192,21 @@
   background-clip: text;
   -webkit-background-clip: text;
   font-family: var(--font-display);
-  font-size: clamp(3.3rem, 7.4vw, 8.9rem);
+  font-size: var(--title-size);
   font-weight: 400;
   line-height: 0.95;
   letter-spacing: 0.035em;
-  text-wrap: balance;
   filter: drop-shadow(0 0.1em 0.3em rgba(0, 0, 0, 0.4));
+}
+
+.site-title__line {
+  display: block;
+  width: max-content;
+  white-space: nowrap;
+}
+
+.cover__title {
+  --title-size: clamp(3.3rem, 7.4vw, 8.9rem);
 }
 
 .transition-title {
@@ -200,21 +215,9 @@
   top: 0;
   left: 0;
   max-width: none;
-  margin: 0;
-  color: transparent;
   visibility: hidden;
   pointer-events: none;
   opacity: 0;
-  background:
-    repeating-linear-gradient(90deg, var(--gold-bright) 0 2px, transparent 2px 6px),
-    linear-gradient(var(--paper), var(--gold));
-  background-clip: text;
-  -webkit-background-clip: text;
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: 0.035em;
-  text-wrap: balance;
-  filter: drop-shadow(0 0.1em 0.3em rgba(0, 0, 0, 0.4));
   transform-origin: top left;
   will-change: transform, opacity;
 }
@@ -280,18 +283,21 @@
   width: 56vw;
 }
 
-.cover__side-copy {
+.hero-vertical {
   position: absolute;
-  z-index: 10;
   top: 50%;
   right: clamp(1.1rem, 2.2vw, 2.5rem);
   margin: 0;
-  color: var(--gold);
   font-family: var(--font-display);
   font-size: 0.83rem;
   letter-spacing: 0.42em;
   writing-mode: vertical-rl;
   transform: translateY(-50%);
+}
+
+.cover__side-copy {
+  z-index: 10;
+  color: var(--gold);
 }
 
 .cover__prompt {
