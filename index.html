@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN" data-blog-base="http://localhost:5000/">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="终南山下，活死人墓——记录技术、电影、生活与创造的沉浸式个人博客入口。"
+    />
+    <meta name="theme-color" content="#0d0d0c" />
+    <title>终南山下，活死人墓</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#home">跳过开场，进入主页</a>
+
+    <section id="cover" class="cover" aria-labelledby="cover-title">
+      <div class="cover__scene" aria-hidden="true">
+        <div class="cover__panel cover__panel--1" data-panel="0"></div>
+        <div class="cover__panel cover__panel--2" data-panel="1"></div>
+        <div class="cover__panel cover__panel--3" data-panel="2"></div>
+        <div class="cover__panel cover__panel--4" data-panel="3"></div>
+        <div class="cover__panel cover__panel--5" data-panel="4"></div>
+        <div class="cover__panel cover__panel--6" data-panel="5"></div>
+        <div class="cover__panel cover__panel--7" data-panel="6"></div>
+        <div class="cover__panel cover__panel--8" data-panel="7"></div>
+      </div>
+
+      <div class="fog fog--back" aria-hidden="true"></div>
+      <div class="fog fog--mid" aria-hidden="true"></div>
+      <div class="fog fog--front" aria-hidden="true"></div>
+      <div class="rain" aria-hidden="true"></div>
+      <div class="curtain curtain--left" aria-hidden="true"></div>
+      <div class="curtain curtain--right" aria-hidden="true"></div>
+
+      <div class="cover__line cover__line--left" aria-hidden="true"></div>
+      <div class="cover__line cover__line--right" aria-hidden="true"></div>
+
+      <div class="cover__content">
+        <p class="cover__eyebrow">A PERSONAL ARCHIVE · 2026</p>
+        <h1 id="cover-title" class="cover__title" data-site-title>
+          终南山下，活死人墓
+        </h1>
+        <p class="cover__subtitle" data-site-subtitle>山云开卷，风雨入页</p>
+        <button id="enter-button" class="cover__enter" type="button" aria-label="进入博客主页">
+          <span>进入</span>
+          <span class="cover__enter-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+
+      <p class="cover__side-copy" aria-hidden="true">观天地之大 · 记一段跋涉</p>
+      <p class="cover__prompt">滚动或点击进入 <span aria-hidden="true">↓</span></p>
+    </section>
+
+    <main id="home" class="home" tabindex="-1">
+      <header class="site-header">
+        <a class="site-mark" href="#home" aria-label="返回沉浸式主页">
+          <span class="site-mark__mountain" aria-hidden="true">⌁</span>
+          <span>DYING4EVER</span>
+        </a>
+        <nav class="site-nav" aria-label="主要导航">
+          <a href="/about/" data-blog-path="about">关于我</a>
+          <a href="/categories/" data-blog-path="categories">分类</a>
+          <a href="#friend-links">友链</a>
+          <a href="/archives/" data-blog-path="archives">归档</a>
+        </nav>
+        <button id="replay-opening" class="replay" type="button">重看开场</button>
+      </header>
+
+      <section class="home-hero" aria-labelledby="home-heading">
+        <div class="home-hero__landscape" aria-hidden="true"></div>
+        <div class="home-hero__copy">
+          <p class="section-kicker">FIELD JOURNAL · NOTES / FILM / LIFE / PROJECTS</p>
+          <h2 id="home-heading" class="home-hero__title" data-home-heading data-site-title tabindex="-1">
+            终南山下，活死人墓
+          </h2>
+          <p class="home-hero__statement" data-site-statement>
+            自此，我要写技术，我要写电影，我要写心路，我要写风月。
+          </p>
+          <a class="home-hero__scroll" href="#overview">继续向下 <span aria-hidden="true">↓</span></a>
+        </div>
+
+        <div id="portal-grid" class="portal-grid" aria-label="博客内容入口">
+          <a class="portal" href="/categories/">NOTES</a>
+          <a class="portal" href="/categories/">FILM</a>
+          <a class="portal" href="/categories/">LIFE</a>
+          <a class="portal" href="/projects/">SOME PROJECTS</a>
+        </div>
+
+        <p class="home-hero__vertical" aria-hidden="true">所见 · 所得 · 所思 · 所想</p>
+      </section>
+
+      <section id="overview" class="overview" aria-labelledby="overview-title">
+        <div class="overview__heading reveal-on-scroll">
+          <p class="section-kicker">02 · AFTER THE CURTAIN</p>
+          <h2 id="overview-title">在技术、电影与长期记录之间</h2>
+        </div>
+
+        <div class="overview__top">
+          <article class="about-card reveal-on-scroll">
+            <p class="section-kicker">ABOUT ME</p>
+            <h3>曾阿牛</h3>
+            <p data-about-summary>一个喜欢记录，也仍在寻找载体的人。</p>
+            <a href="/about/" data-blog-path="about">更多关于我 <span aria-hidden="true">→</span></a>
+          </article>
+
+          <article class="log-card reveal-on-scroll">
+            <p class="section-kicker">BUILD LOG</p>
+            <h3>建站日志</h3>
+            <ol data-log-list>
+              <li>让博客继续生长，也让每次修改留下痕迹。</li>
+            </ol>
+            <a href="/2026/05/10/建站日志/" data-blog-path="2026/05/10/建站日志">查看全部日志</a>
+          </article>
+        </div>
+
+        <div class="category-overview reveal-on-scroll">
+          <div class="category-overview__intro">
+            <p class="section-kicker">CATEGORIES</p>
+            <h3>分类</h3>
+            <p>把内容分成四个方向，也记录彼此之间偶然发生的关联。</p>
+          </div>
+          <div class="category-overview__grid" data-category-list></div>
+        </div>
+
+        <div id="friend-links" class="friend-links reveal-on-scroll">
+          <span>友情链接将在原博客中继续维护</span>
+          <a href="/" data-blog-path="">进入原博客 <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+    </main>
+
+    <noscript>
+      <div class="noscript-notice">
+        动画需要 JavaScript；你仍可访问
+        <a href="/about/">关于我</a>、<a href="/categories/">分类</a>、
+        <a href="/archives/">归档</a>和<a href="/projects/">项目</a>。
+      </div>
+    </noscript>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
