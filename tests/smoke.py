@@ -54,6 +54,24 @@ def exercise_desktop(browser):
     assert_no_horizontal_overflow(page, "desktop cover")
 
     page.mouse.wheel(0, 520)
+    page.wait_for_timeout(1900)
+    assert page.evaluate(
+        "document.documentElement.classList.contains('is-transitioning')"
+    ), "transition completed before the cinematic bridge could be observed"
+    transition_title_opacity = page.locator("[data-transition-title]").evaluate(
+        "element => Number.parseFloat(getComputedStyle(element).opacity)"
+    )
+    home_landscape_opacity = page.locator(".home-hero__landscape").evaluate(
+        "element => Number.parseFloat(getComputedStyle(element).opacity)"
+    )
+    cover_opacity = page.locator("#cover").evaluate(
+        "element => Number.parseFloat(getComputedStyle(element).opacity)"
+    )
+    assert transition_title_opacity > 0.45
+    assert home_landscape_opacity > 0.2
+    assert cover_opacity > 0
+    page.screenshot(path=PREVIEWS / "desktop-transition.png", full_page=False)
+
     page.wait_for_function(
         "document.documentElement.classList.contains('is-open')", timeout=5000
     )
@@ -76,6 +94,11 @@ def exercise_desktop(browser):
     assert page.locator("[data-portal='notes']").inner_text().find("NOTES") >= 0
     page.screenshot(path=PREVIEWS / "desktop-home.png", full_page=False)
     assert_no_horizontal_overflow(page, "desktop home")
+
+    initial_scroll = page.evaluate("window.scrollY")
+    page.mouse.wheel(0, 360)
+    page.wait_for_timeout(300)
+    assert page.evaluate("window.scrollY") > initial_scroll, "wheel remained locked after opening"
 
     page.locator("#overview").scroll_into_view_if_needed()
     page.wait_for_timeout(350)

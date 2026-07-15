@@ -241,6 +241,7 @@
   }
 
   .fog,
+  .home-fog,
   .rain {
     display: none;
   }

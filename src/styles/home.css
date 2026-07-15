@@ -48,7 +48,7 @@
   backdrop-filter: blur(10px);
   opacity: 0;
   transform: translateY(-1rem);
-  transition: opacity 700ms ease 700ms, transform 900ms var(--ease-out) 600ms;
+  transition: opacity 700ms ease, transform 900ms var(--ease-out);
 }
 
 .is-open .site-header {
@@ -178,10 +178,52 @@
   background:
     linear-gradient(90deg, rgba(9, 10, 9, 0.96) 0 26%, rgba(9, 10, 9, 0.54) 52%, rgba(9, 10, 9, 0.72)),
     linear-gradient(180deg, rgba(9, 10, 9, 0.38), transparent 42%, #0d0d0c 100%),
-    url("/images/mountain-cover.png") center / cover no-repeat;
+    url("/images/mountain-cover.webp") center / cover no-repeat;
   filter: saturate(0.42) sepia(0.18) contrast(1.08);
   transform: scale(1.02) translate3d(calc(var(--scene-x, 0) * -0.8%), calc(var(--scene-y, 0) * -0.6%), 0);
   transition: transform 240ms ease-out;
+  will-change: transform, opacity, filter;
+}
+
+.is-transitioning .home-hero__landscape {
+  transition: none;
+}
+
+.home-fog {
+  position: absolute;
+  z-index: 1;
+  left: -24%;
+  width: 148%;
+  pointer-events: none;
+  opacity: 0;
+  filter: blur(20px);
+  background:
+    radial-gradient(ellipse at 13% 54%, rgba(222, 228, 225, 0.48) 0 7%, transparent 27%),
+    radial-gradient(ellipse at 41% 44%, rgba(207, 219, 216, 0.38) 0 9%, transparent 30%),
+    radial-gradient(ellipse at 73% 62%, rgba(229, 232, 226, 0.4) 0 9%, transparent 30%),
+    radial-gradient(ellipse at 94% 40%, rgba(204, 215, 216, 0.34) 0 6%, transparent 25%);
+  will-change: transform, opacity;
+}
+
+.home-fog--back {
+  top: 32%;
+  height: 28%;
+  animation: home-fog-drift-left 34s ease-in-out infinite alternate;
+}
+
+.home-fog--front {
+  top: 61%;
+  height: 34%;
+  filter: blur(26px);
+  animation: home-fog-drift-right 24s ease-in-out infinite alternate;
+}
+
+.is-open .home-fog--back {
+  opacity: 0.15;
+}
+
+.is-open .home-fog--front {
+  opacity: 0.24;
 }
 
 .home-hero__copy {
@@ -191,7 +233,7 @@
   margin-top: clamp(8vh, 13vh, 10rem);
   opacity: 0;
   transform: translateX(-3rem);
-  transition: opacity 900ms ease 780ms, transform 1.1s var(--ease-out) 720ms;
+  transition: opacity 900ms ease, transform 1.1s var(--ease-out);
 }
 
 .is-open .home-hero__copy {
@@ -248,7 +290,12 @@
   font-size: 0.72rem;
   letter-spacing: 0.38em;
   writing-mode: vertical-rl;
+  opacity: 0;
   transform: translateY(-50%);
+}
+
+.is-open .home-hero__vertical {
+  opacity: 1;
 }
 
 .portal-grid {
@@ -260,7 +307,7 @@
   left: 37vw;
   opacity: 0;
   transform: translate3d(2rem, 1rem, 0) scale(0.97);
-  transition: opacity 900ms ease 980ms, transform 1.2s var(--ease-out) 900ms;
+  transition: opacity 900ms ease, transform 1.2s var(--ease-out);
 }
 
 .is-open .portal-grid {
@@ -437,7 +484,7 @@
   inset: 0;
   content: "";
   opacity: 0.1;
-  background: url("/images/mountain-cover.png") center bottom / cover no-repeat;
+  background: url("/images/mountain-cover.webp") center bottom / cover no-repeat;
   filter: grayscale(1) contrast(1.25);
   mask-image: linear-gradient(180deg, transparent, black 42%, transparent 95%);
 }
@@ -622,4 +669,12 @@
 @keyframes portal-float {
   from { translate: 0 -3px; }
   to { translate: 0 6px; }
+}
+
+@keyframes home-fog-drift-left {
+  to { transform: translate3d(-7%, 1.5%, 0) scale(1.05); }
+}
+
+@keyframes home-fog-drift-right {
+  to { transform: translate3d(8%, -1%, 0) scale(1.06); }
 }

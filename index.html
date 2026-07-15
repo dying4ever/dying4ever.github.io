@@ -16,6 +16,7 @@
 
     <section id="cover" class="cover" aria-labelledby="cover-title">
       <div class="cover__scene" aria-hidden="true">
+        <div class="cover__landscape" data-cover-landscape></div>
         <div class="cover__panel cover__panel--1" data-panel="0"></div>
         <div class="cover__panel cover__panel--2" data-panel="1"></div>
         <div class="cover__panel cover__panel--3" data-panel="2"></div>
@@ -52,6 +53,10 @@
       <p class="cover__prompt">滚动或点击进入 <span aria-hidden="true">↓</span></p>
     </section>
 
+    <div class="transition-title" data-transition-title data-site-title aria-hidden="true">
+      终南山下，活死人墓
+    </div>
+
     <main id="home" class="home" tabindex="-1">
       <header class="site-header">
         <a class="site-mark" href="#home" aria-label="返回沉浸式主页">
@@ -69,6 +74,8 @@
 
       <section class="home-hero" aria-labelledby="home-heading">
         <div class="home-hero__landscape" aria-hidden="true"></div>
+        <div class="home-fog home-fog--back" aria-hidden="true"></div>
+        <div class="home-fog home-fog--front" aria-hidden="true"></div>
         <div class="home-hero__copy">
           <p class="section-kicker">FIELD JOURNAL · NOTES / FILM / LIFE / PROJECTS</p>
           <h2 id="home-heading" class="home-hero__title" data-home-heading data-site-title tabindex="-1">

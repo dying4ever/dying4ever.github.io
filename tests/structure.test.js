@@ -20,3 +20,11 @@ test('contains static fallback routes', async () => {
     assert.ok(html.includes(route), `missing ${route}`);
   }
 });
+
+test('contains shared transition layers between cover and homepage', async () => {
+  const html = await readHtml();
+  assert.match(html, /data-transition-title/);
+  assert.match(html, /data-cover-landscape/);
+  assert.match(html, /home-fog--back/);
+  assert.match(html, /home-fog--front/);
+});
