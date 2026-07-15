@@ -26,3 +26,12 @@ test('normalizes blog paths', () => {
     'http://localhost:5000/about/',
   );
 });
+
+test('uses real Hexo-derived overview content', () => {
+  assert.match(SITE_CONTENT.aboutSummary, /曾阿牛/);
+  assert.equal(SITE_CONTENT.logEntries.length, 3);
+  assert.deepEqual(
+    SITE_CONTENT.categories.map((item) => item.id),
+    ['notes', 'film', 'life', 'projects'],
+  );
+});
