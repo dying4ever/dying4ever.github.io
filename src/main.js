@@ -1,5 +1,8 @@
 import { SITE_CONTENT, getBlogUrl, getPortalItems } from './content.js';
 import { initMotion } from './motion.js';
+import './styles/tokens.css';
+import './styles/base.css';
+import './styles/cover.css';
 
 function portalTemplate(item, index) {
   return `

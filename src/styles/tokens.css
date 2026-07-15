@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "QuanHeng";
+  src: url("/fonts/QuanHengDuLiang-subset.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Story Script";
+  src: url("/fonts/StoryScript-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+  --ink: #0d0d0c;
+  --ink-soft: #171816;
+  --mountain: #243746;
+  --gold: #b79a68;
+  --gold-bright: #d1b985;
+  --paper: #ddd4c0;
+  --paper-muted: #a8a08f;
+  --cinnabar: #8f2f28;
+  --line: rgba(183, 154, 104, 0.27);
+  --veil: rgba(8, 10, 10, 0.7);
+  --font-display: "QuanHeng", "Songti SC", "STSong", "Noto Serif SC", serif;
+  --font-serif: "Songti SC", "STSong", "Noto Serif SC", serif;
+  --font-latin: "Story Script", "Baskerville", "Times New Roman", serif;
+  --font-body: "Noto Serif SC", "Songti SC", "Microsoft YaHei", serif;
+  --ease-curtain: cubic-bezier(0.77, 0, 0.18, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --page-pad: clamp(1.25rem, 3.7vw, 4.5rem);
+  --header-height: clamp(4.5rem, 7vw, 6.5rem);
+  --z-home: 1;
+  --z-cover: 100;
+  --z-skip: 200;
+}
