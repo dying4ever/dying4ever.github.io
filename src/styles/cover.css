@@ -9,7 +9,6 @@
   background:
     radial-gradient(circle at 53% 44%, rgba(146, 166, 177, 0.2), transparent 34%),
     var(--mountain);
-  transition: visibility 0s linear 1.8s;
 }
 
 .cover::after {

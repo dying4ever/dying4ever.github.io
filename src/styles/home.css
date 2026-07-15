@@ -211,6 +211,10 @@
   text-shadow: 0 0.2rem 1.6rem rgba(0, 0, 0, 0.5);
 }
 
+.home-hero__title:focus {
+  outline: none;
+}
+
 .home-hero__statement {
   max-width: 27rem;
   margin: clamp(1.5rem, 3vw, 2.7rem) 0 0;
