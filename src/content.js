@@ -1,5 +1,6 @@
 export const SITE_CONTENT = Object.freeze({
   title: '终南山下，活死人墓',
+  titleLines: Object.freeze(['终南山下，', '活死人墓']),
   subtitle: '山云开卷，风雨入页',
   statement: '自此，我要写技术，我要写电影，我要写心路，我要写风月。',
   aboutSummary:

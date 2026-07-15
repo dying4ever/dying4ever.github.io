@@ -28,3 +28,9 @@ test('contains shared transition layers between cover and homepage', async () =>
   assert.match(html, /home-fog--back/);
   assert.match(html, /home-fog--front/);
 });
+
+test('renders every display title as the same two fixed lines', async () => {
+  const html = await readHtml();
+  assert.equal((html.match(/class="site-title(?:\s|")/g) ?? []).length, 3);
+  assert.equal((html.match(/class="site-title__line"/g) ?? []).length, 6);
+});

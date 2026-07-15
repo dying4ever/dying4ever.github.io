@@ -5,6 +5,7 @@ import { SITE_CONTENT, getBlogUrl, getPortalItems } from '../src/content.js';
 test('uses the approved Chinese identity', () => {
   assert.equal(SITE_CONTENT.title, '终南山下，活死人墓');
   assert.equal(SITE_CONTENT.subtitle, '山云开卷，风雨入页');
+  assert.deepEqual(SITE_CONTENT.titleLines, ['终南山下，', '活死人墓']);
 });
 
 test('exposes four real blog portals', () => {

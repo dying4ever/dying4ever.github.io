@@ -23,9 +23,19 @@ function portalTemplate(item, index) {
     </a>`;
 }
 
+export function renderSiteTitle(node, lines) {
+  const titleLines = lines.map((text) => {
+    const line = node.ownerDocument.createElement('span');
+    line.className = 'site-title__line';
+    line.textContent = text;
+    return line;
+  });
+  node.replaceChildren(...titleLines);
+}
+
 export function renderPage({ blogBase = document.documentElement.dataset.blogBase } = {}) {
   document.querySelectorAll('[data-site-title]').forEach((node) => {
-    node.textContent = SITE_CONTENT.title;
+    renderSiteTitle(node, SITE_CONTENT.titleLines);
   });
   document.querySelector('[data-site-subtitle]').textContent = SITE_CONTENT.subtitle;
   document.querySelector('[data-site-statement]').textContent = SITE_CONTENT.statement;
