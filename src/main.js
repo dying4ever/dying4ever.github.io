@@ -1,4 +1,5 @@
 import { SITE_CONTENT, getBlogUrl, getPortalItems } from './content.js';
+import { initMotion } from './motion.js';
 
 function portalTemplate(item, index) {
   return `
@@ -34,3 +35,7 @@ export function renderPage({ blogBase = document.documentElement.dataset.blogBas
 }
 
 renderPage();
+
+initMotion({
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+});
