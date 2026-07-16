@@ -57,6 +57,7 @@ export function initMotion({
     cover.inert = true;
     gsap.set(transitionTitle, { autoAlpha: 0 });
     clearHomeAnimationProps();
+    view.dispatchEvent(new Event('immersive:opened'));
     homeHeading?.focus({ preventScroll: true });
   };
 

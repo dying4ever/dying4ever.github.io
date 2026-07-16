@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" data-blog-base="http://localhost:5000/">
+<html lang="zh-CN" data-blog-base="/">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -68,13 +68,16 @@
         <nav class="site-nav" aria-label="主要导航">
           <a href="/about/" data-blog-path="about">关于我</a>
           <a href="/categories/" data-blog-path="categories">分类</a>
-          <a href="#friend-links">友链</a>
+          <a href="/friends/" data-blog-path="friends">友链</a>
           <a href="/archives/" data-blog-path="archives">归档</a>
+          <a href="/legacy/">旧版</a>
         </nav>
         <button id="replay-opening" class="replay" type="button">重看开场</button>
       </header>
 
-      <section class="home-hero" aria-labelledby="home-heading">
+      <section id="scroll-story" class="scroll-story" aria-label="从主页进入序章的滚动叙事">
+        <div class="scroll-story__sticky" data-story-stage>
+          <section class="home-hero" aria-labelledby="home-heading">
         <div class="home-hero__landscape" aria-hidden="true"></div>
         <div class="home-fog home-fog--back" aria-hidden="true"></div>
         <div class="home-fog home-fog--front" aria-hidden="true"></div>
@@ -87,7 +90,7 @@
           <p class="home-hero__statement" data-site-statement>
             自此，我要写技术，我要写电影，我要写心路，我要写风月。
           </p>
-          <a class="home-hero__scroll" href="#overview">继续向下 <span aria-hidden="true">↓</span></a>
+          <a class="home-hero__scroll" href="#prologue">继续向下 <span aria-hidden="true">↓</span></a>
         </div>
 
         <div id="portal-grid" class="portal-grid" aria-label="博客内容入口">
@@ -98,6 +101,67 @@
         </div>
 
         <p class="home-hero__vertical hero-vertical" aria-hidden="true">所见 · 所得 · 所思 · 所想</p>
+          </section>
+
+          <div class="story-world" data-story-landscape aria-hidden="true">
+            <div class="story-world__image"></div>
+            <div class="story-world__stripes"></div>
+            <div class="story-world__ink story-world__ink--left"></div>
+            <div class="story-world__ink story-world__ink--right"></div>
+            <div class="story-cloud story-cloud--back" data-story-cloud></div>
+            <div class="story-cloud story-cloud--mid" data-story-cloud></div>
+            <div class="story-cloud story-cloud--front" data-story-cloud></div>
+
+            <svg class="bird-flock" data-bird-flock viewBox="0 0 420 120" role="img" aria-label="飞鸟掠过山间">
+              <g>
+                <path d="M12 62 Q23 49 35 62 Q46 49 58 62" />
+                <path d="M78 42 Q88 31 99 42 Q110 31 121 42" />
+                <path d="M138 73 Q150 59 163 73 Q175 59 188 73" />
+                <path d="M205 35 Q215 24 226 35 Q236 24 247 35" />
+                <path d="M264 58 Q275 45 287 58 Q298 45 310 58" />
+                <path d="M329 26 Q338 17 348 26 Q357 17 367 26" />
+                <path d="M366 78 Q377 66 389 78 Q400 66 412 78" />
+              </g>
+            </svg>
+
+            <div class="story-world__focus">
+              <p>SCENE 02 · THE DISTANCE BETWEEN</p>
+              <strong>山水退远，文字渐近</strong>
+              <span>继续滚动</span>
+            </div>
+          </div>
+
+          <article class="prologue-panel" aria-labelledby="prologue-title">
+            <div class="prologue-panel__frame">
+              <div class="prologue-panel__intro">
+                <p class="prologue-panel__kicker">PROLOGUE · 序</p>
+                <h2 id="prologue-title">写作，<br />以及趁早</h2>
+                <p>一段关于等待、发表与快乐的文字，留在从山水进入博客的途中。</p>
+                <footer data-prologue-attribution></footer>
+              </div>
+              <blockquote class="prologue-panel__quote prologue-panel__body">
+                <p data-prologue-part="0"></p>
+                <p data-prologue-part="1"></p>
+                <p data-prologue-part="2"></p>
+              </blockquote>
+            </div>
+          </article>
+        </div>
+        <span id="prologue" class="scroll-story__anchor" aria-hidden="true"></span>
+      </section>
+
+      <section id="about-story" class="about-story" aria-labelledby="about-story-title">
+        <div class="about-story__copy reveal-on-scroll">
+          <p class="section-kicker">ABOUT ME · 关于我</p>
+          <h2 id="about-story-title">曾阿牛</h2>
+          <p data-about-story></p>
+          <a href="/about/" data-blog-path="about">读完整介绍 <span aria-hidden="true">→</span></a>
+        </div>
+        <blockquote class="about-story__statement reveal-on-scroll">
+          自此，我要写技术，我要写电影，<br />
+          我要写心路，我要写风月。
+        </blockquote>
+        <p class="about-story__vertical" aria-hidden="true">在山水与文字之间 · 留下一段路</p>
       </section>
 
       <section id="overview" class="overview" aria-labelledby="overview-title">
@@ -120,7 +184,7 @@
             <ol data-log-list>
               <li>让博客继续生长，也让每次修改留下痕迹。</li>
             </ol>
-            <a href="/2026/05/10/建站日志/" data-blog-path="2026/05/10/建站日志">查看全部日志</a>
+            <a href="/changelog/" data-blog-path="changelog">查看全部日志</a>
           </article>
         </div>
 
@@ -134,8 +198,8 @@
         </div>
 
         <div id="friend-links" class="friend-links reveal-on-scroll">
-          <span>友情链接将在原博客中继续维护</span>
-          <a href="/" data-blog-path="">进入原博客 <span aria-hidden="true">↗</span></a>
+          <span>友情链接与交换信息在 Markdown 页面中继续维护</span>
+          <a href="/friends/" data-blog-path="friends">查看友链 <span aria-hidden="true">↗</span></a>
         </div>
       </section>
     </main>

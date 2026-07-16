@@ -1,0 +1,231 @@
+---
+title: STL_逻辑监测_baseline
+date: 2026-06-04 15:27:19
+sticky: 1
+categories:
+    - 具身智能
+    - 具身智能安全
+    - STL
+tags:
+    - 具身智能
+    - 具身智能安全
+    - STL
+---
+
+# STL / 逻辑监测 baseline 论文整理
+
+> 主题定位：这组论文用于支撑“基于 STL 的 VLA 运行时监测”中的形式化监测 baseline。排序不是按时间，而是按学习和实验使用优先级：先看可落地工具，再看理论基础，再看机器人任务、可微训练、不确定观测和新工具。
+
+---
+
+## 1. [RTAMT -- Runtime Robustness Monitors with Application to CPS and Robotics](https://arxiv.org/abs/2501.18608)
+
+**发表日期：2025-01-22（arXiv 提交；期刊版本发表于 2024）**
+
+**技术细节总结：** RTAMT 的核心不是提出新的机器人策略，而是提供可直接调用的 STL 定量监测工具链。它把 STL 公式解析、在线/离线监测、离散/稠密时间语义、ROS/Simulink 接口统一到一个工程框架里。和 Robust Online Monitoring 相比，它更偏工具实现；和 STLCG 相比，它更偏运行时监测，而不是训练时反向传播；和 mstlo 相比，它的优势是机器人/CPS 集成案例更成熟。
+
+**定位：最适合工程实现的 STL runtime monitor baseline，尤其适合 ROS/VLA 系统集成。**
+
+**原文摘要：**
+
+> In this paper, we present Real-Time Analog Monitoring Tool (RTAMT), a tool for quantitative monitoring of Signal Temporal Logic (STL) specifications. The library implements a flexible architecture that supports: (1) various environments connected by an Application Programming Interface (API) in Python, (2) various flavors of temporal logic specification and robustness notion such as STL, including an interface-aware variant that distinguishes between input and output variables, and (3) discrete-time and dense-time interpretation of STL with generation of online and offline monitors. We specifically focus on robotics and Cyber-Physical Systems (CPSs) applications, showing how to integrate RTAMT with (1) the Robot Operating System (ROS) and (2) MATLAB/Simulink environments. We evaluate the tool by demonstrating several use scenarios involving service robotic and avionic applications.
+
+**中文翻译：**
+
+> 本文提出 Real-Time Analog Monitoring Tool（RTAMT），这是一个用于对信号时序逻辑（STL）规范进行定量监测的工具。该库实现了灵活的架构，支持：（1）通过 Python API 连接不同运行环境；（2）多种时序逻辑规范和鲁棒性定义，包括 STL 以及区分输入/输出变量的接口感知变体；（3）离散时间和稠密时间 STL 解释，并能生成在线与离线监测器。文章重点面向机器人和信息物理系统（CPS）应用，展示了 RTAMT 如何与 ROS 和 MATLAB/Simulink 集成，并通过服务机器人和航空电子应用案例验证工具的使用场景。
+
+- **具体方法：**
+  - 构建 Python API 形式的 STL 定量监测工具。
+  - 支持 online/offline monitoring、discrete-time/dense-time STL。
+  - 支持 STL robustness 计算，并能与 ROS、MATLAB/Simulink 连接。
+
+- **效果 / 贡献 / 创新点：**
+  - 对你的方向最直接：可以作为 `STL + VLA` 的工程 baseline。
+  - 可以在 VLA 执行过程中实时读取机器人状态、末端位姿、目标距离、障碍物距离等信号，并输出 STL robustness。
+  - 适合用来对比：无监控、阈值监控、STL Boolean Monitor、STL Robustness Monitor。
+
+---
+
+## 2. [Robust Online Monitoring of Signal Temporal Logic](https://arxiv.org/abs/1506.08234)
+
+**发表日期：2015-06-26（arXiv 提交）**
+
+**技术细节总结：** 这篇文章解决的是 STL 在线监测的基础语义问题：执行轨迹还没完整产生时，如何判断公式目前可能满足、可能违反，或者还无法确定。它引入针对 partial trace 的鲁棒监测语义，用区间形式描述当前证据。和 RTAMT 相比，它更偏理论基础；和传统离线 STL 监测相比，它允许在执行过程中提前给出判断。
+
+**定位：STL 在线鲁棒监测的理论基础，适合放在 related work 最前面。**
+
+**原文摘要：**
+
+> Signal Temporal Logic (STL) is a formalism used to rigorously specify requirements of cyberphysical systems (CPS), i.e., systems mixing digital or discrete components in interaction with a continuous environment or analog components. STL is naturally equipped with a quantitative semantics which can be used for various purposes: from assessing the robustness of a specification to guiding searches over the input and parameter space with the goal of falsifying the given property over system behaviors. Algorithms have been proposed and implemented for offline computation of such quantitative semantics, but only few methods exist for an online setting, where one would want to monitor the satisfaction of a formula during simulation. In this paper, we formalize a semantics for robust online monitoring of partial traces, i.e., traces for which there might not be enough data to decide the Boolean satisfaction (and to compute its quantitative counterpart). We propose an efficient algorithm to compute it and demonstrate its usage on two large scale real-world case studies coming from the automotive domain and from CPS education in a Massively Open Online Course (MOOC) setting. We show that savings in computationally expensive simulations far outweigh any overheads incurred by an online approach.
+
+**中文翻译：**
+
+> 信号时序逻辑（STL）是一种形式化方法，用于严格描述信息物理系统（CPS）的需求，即数字/离散组件与连续环境或模拟组件交互的系统。STL 天然具有定量语义，可用于多种目的，例如评估规范的鲁棒性，或引导对输入和参数空间的搜索以发现系统行为中违反给定性质的情况。已有算法可以离线计算这种定量语义，但在线场景下的方法较少，而在线场景需要在仿真过程中监测公式是否满足。本文形式化了部分轨迹的鲁棒在线监测语义，即在数据尚不足以判断布尔满足性及其定量对应值时的轨迹。作者提出了高效计算算法，并在汽车领域和 CPS 在线课程的大规模真实案例中展示其用途。结果表明，在线方法在计算昂贵仿真中节省的成本远大于其带来的额外开销。
+
+- **具体方法：**
+  - 针对“部分轨迹”定义 STL robust online monitoring 语义。
+  - 使用 Robust Satisfaction Intervals（RoSI）描述当前轨迹对公式满足/违反的可能区间。
+  - 在仿真尚未结束时就提前判断公式是否可能满足或违反。
+
+- **效果 / 贡献 / 创新点：**
+  - 奠定了 STL online monitor 的基本理论。
+  - 对 VLA 场景很有用：机器人执行时轨迹是逐步生成的，monitor 不能等整段轨迹结束后再判断。
+  - 可作为你 STL runtime monitor 的理论 baseline。
+
+---
+
+## 3. [SpaTiaL: monitoring and planning of robotic tasks using spatio-temporal logic specifications](https://link.springer.com/article/10.1007/s10514-023-10145-1)
+
+**发表日期：2023-11-03（Springer Online Published）**
+
+**技术细节总结：** SpaTiaL 的重点是把机器人任务中的对象关系显式写成空间逻辑和时间逻辑，例如“杯子在盘子旁边”“先放置再填充”。它比普通 STL 更面向物体级 manipulation task，不只看连续信号曲线，也看对象之间的空间关系。和 RTAMT/Robust Online Monitoring 相比，它更接近 VLA 的自然语言任务语义；和 Code-as-Monitor 相比，它使用显式逻辑规范，而不是由 VLM 生成代码。
+
+**定位：机器人任务级“空间 + 时间逻辑”监测与规划 baseline，和具身操作任务非常接近。**
+
+**原文摘要：**
+
+> Many tasks require robots to manipulate objects while satisfying a complex interplay of spatial and temporal constraints. For instance, a table setting robot first needs to place a mug and then fill it with coffee, while satisfying spatial relations such as forks need to placed left of plates. We propose the spatio-temporal framework SpaTiaL that unifies the specification, monitoring, and planning of object-oriented robotic tasks in a robot-agnostic fashion. SpaTiaL is able to specify diverse spatial relations between objects and temporal task patterns. Our experiments with recorded data, simulations, and real robots demonstrate how SpaTiaL provides real-time monitoring and facilitates online planning. SpaTiaL is open source and easily expandable to new object relations and robotic applications.
+
+**中文翻译：**
+
+> 许多任务要求机器人在操作物体时满足复杂的空间和时间约束。例如，一个摆桌子的机器人需要先放置杯子，再往杯子里倒咖啡，同时还要满足叉子应放在盘子左侧等空间关系。本文提出了时空框架 SpaTiaL，以与具体机器人无关的方式统一面向对象机器人任务的规范、监测和规划。SpaTiaL 能够描述物体之间多样的空间关系和时间任务模式。作者通过记录数据、仿真和真实机器人实验表明，SpaTiaL 能够提供实时监测并促进在线规划。SpaTiaL 是开源的，并且易于扩展到新的物体关系和机器人应用。
+
+- **具体方法：**
+  - 提出 SpaTiaL 框架，用于描述物体之间的空间关系和时间约束。
+  - 将任务规范、执行监测和在线规划统一起来。
+  - 支持对象中心的机器人任务描述，而不是只监测机器人自身状态。
+
+- **效果 / 贡献 / 创新点：**
+  - 比普通 STL 更贴近 VLA 机械臂操作，因为 VLA 任务通常涉及物体关系：抓取、靠近、远离、放入、先后顺序。
+  - 可作为“逻辑监测用于机器人任务”的强 related work。
+  - 适合支撑你将自然语言任务转化为时空逻辑约束的论述。
+
+---
+
+## 4. [Optimization-based Motion Planning and Runtime Monitoring for Robotic Agent with Space and Time Tolerances](https://www.sciencedirect.com/science/article/pii/S2405896320333590)
+
+**发表日期：2020（IFAC-PapersOnLine, Vol. 53, Issue 2）**
+
+**技术细节总结：** 这篇把 STL 公式转成 MILP 约束，用优化器生成满足时空容差的参考轨迹，并在运行时用预测轨迹的 robustness 触发 MPC 自纠正。它的特点是“规划—监测—纠正”都在模型驱动框架内完成。和你的 STL+VLA 方向相比，它依赖明确动力学模型和优化控制器；你的方法则可以把 STL monitor 外接到黑盒或半黑盒 VLA policy 上。
+
+**定位：传统机器人 STL 规划 + runtime monitoring + self-correction baseline。**
+
+**原文摘要：**
+
+> We present an optimization-based approach for robot planning, monitoring and self-correction problems under signal temporal logic specifications (STL). The STL specifications are translated into mixed-integer linear constraints, and we generate the reference trajectory by solving a mixed-integer-linear-programming (MILP) to maximize the overall space and time tolerances. During runtime execution, a prediction module is constantly evaluating the robustness degree of the predicted trajectory, and a self-correction module based on event-triggered model predictive control (MPC) has been designed to predict and correct possible future violations of the specifications. Simulation results show that with our approach, the robotic agent is able to generate a path that satisfies the STL specifications while maximizing space and time tolerances, and able to make corrections when there are possible violations of the specifications during runtime execution.
+
+**中文翻译：**
+
+> 本文提出一种基于优化的方法，用于解决信号时序逻辑（STL）规范下的机器人规划、监测和自纠正问题。STL 规范被转换为混合整数线性约束，并通过求解混合整数线性规划（MILP）生成参考轨迹，以最大化整体空间和时间容差。在运行时执行过程中，一个预测模块持续评估预测轨迹的鲁棒度，另一个基于事件触发模型预测控制（MPC）的自纠正模块用于预测并纠正未来可能出现的规范违反。仿真结果表明，该方法能够生成满足 STL 规范且最大化空间和时间容差的路径，并在运行时可能违反规范时进行纠正。
+
+- **具体方法：**
+  - 将 STL 公式转化为 MILP 约束。
+  - 通过优化生成最大化空间/时间容差的参考轨迹。
+  - 运行时用预测模块评估未来轨迹的 STL robustness，并用事件触发 MPC 自纠正。
+
+- **效果 / 贡献 / 创新点：**
+  - 展示了 STL 不仅能做检测，还能驱动规划和纠正。
+  - 可作为你对比传统方法的 baseline：传统方法依赖模型、MILP、MPC；你的方法则将 STL monitor 接到 VLA policy 外部。
+  - 适合写成“model-based STL planning/monitoring baseline”。
+
+---
+
+## 5. [Backpropagation through Signal Temporal Logic Specifications: Infusing Logical Structure into Gradient-Based Methods](https://arxiv.org/abs/2008.00097)
+
+**发表日期：2020-07-31（arXiv v1；2021-12-27 v3；IJRR 版本发表于 2022）**
+
+**技术细节总结：** STLCG 的核心是把 STL robustness 计算写成 computation graph，使逻辑约束可以参与梯度反向传播。它适合把 STL 变成训练损失或优化目标，而不是只在运行时做告警。和 RTAMT 相比，它偏可微训练；和 Optimization-based STL+MPC 相比，它更适合神经网络/梯度优化系统。
+
+**定位：可微 STL baseline，适合未来把 STL 约束加入 VLA 微调或策略优化。**
+
+**原文摘要：**
+
+> This paper presents a technique, named STLCG, to compute the quantitative semantics of Signal Temporal Logic (STL) formulas using computation graphs. STLCG provides a platform which enables the incorporation of logical specifications into robotics problems that benefit from gradient-based solutions. Specifically, STL is a powerful and expressive formal language that can specify spatial and temporal properties of signals generated by both continuous and hybrid systems. The quantitative semantics of STL provide a robustness metric, i.e., how much a signal satisfies or violates an STL specification. In this work, we devise a systematic methodology for translating STL robustness formulas into computation graphs. With this representation, and by leveraging off-the-shelf automatic differentiation tools, we are able to efficiently backpropagate through STL robustness formulas and hence enable a natural and easy-to-use integration of STL specifications with many gradient-based approaches used in robotics. Through a number of examples stemming from various robotics applications, we demonstrate that STLCG is versatile, computationally efficient, and capable of incorporating human-domain knowledge into the problem formulation.
+
+**中文翻译：**
+
+> 本文提出一种名为 STLCG 的技术，用计算图计算信号时序逻辑（STL）公式的定量语义。STLCG 提供了一个平台，使逻辑规范能够融入受益于梯度方法的机器人问题中。具体而言，STL 是一种强大且表达力丰富的形式化语言，能够描述连续系统和混合系统生成信号的空间与时间性质。STL 的定量语义提供了鲁棒性度量，即一个信号在多大程度上满足或违反 STL 规范。本文提出一种系统方法，将 STL 鲁棒性公式转换为计算图。借助这种表示和现成的自动微分工具，作者能够高效地对 STL 鲁棒性公式进行反向传播，从而使 STL 规范能够自然、易用地集成进机器人领域常用的梯度方法。通过多个机器人应用案例，作者展示了 STLCG 的通用性、计算效率，以及将人类领域知识融入问题建模的能力。
+
+- **具体方法：**
+  - 将 STL robustness 公式转化为 computation graph。
+  - 使用自动微分工具对 STL robustness 进行反向传播。
+  - 将逻辑规范作为可微约束或损失项接入机器人优化问题。
+
+- **效果 / 贡献 / 创新点：**
+  - 从“运行时监测”扩展到“训练时逻辑约束”。
+  - 对你的后续扩展很重要：可以把 STL robustness 作为 VLA/RL/trajectory optimization 的训练信号。
+  - 可作为 `STL-guided training` 或 `differentiable formal specification` 的 baseline。
+
+---
+
+## 6. [A Truly Robust Signal Temporal Logic: Monitoring Safety Properties of Interacting Cyber-Physical Systems under Uncertain Observation](https://www.mdpi.com/1999-4893/15/4/126)
+
+**发表日期：2022-04-11（MDPI Algorithms Published）**
+
+**技术细节总结：** 这篇关注观测不确定性下的 STL 监测：传感器值有误差、部分状态不可观测时，监测器如何仍然给出可靠判断。它的区别在于把测量误差、部分观测和系统动态模型纳入监测语义。对 VLA 很有用，因为 VLA monitor 的输入常来自目标检测、深度估计、相机位姿和夹爪状态，这些信号天然存在噪声。
+
+**定位：不确定观测下的 STL 监测 baseline，适合 VLA 中视觉估计误差、目标检测误差、深度噪声等问题。**
+
+**原文摘要：**
+
+> Signal Temporal Logic is a linear-time temporal logic designed for classifying the time-dependent signals originating from continuous-state or hybrid-state dynamical systems according to formal specifications. It has been conceived as a tool for systematizing the monitoring of cyber-physical systems, supporting the automatic translation of complex safety specifications into monitoring algorithms, faithfully representing their semantics. Almost all algorithms hitherto suggested do, however, assume perfect identity between the sensor readings, informing the monitor about the system state and the actual ground truth. Only recently have Visconti et al. addressed the issue of inexact measurements, taking up the simple model of interval-bounded per-sample error that is unrelated, in the sense of chosen afresh, across samples. We expand their analysis by decomposing the error into an unknown yet fixed offset and an independent per-sample error and show that in this setting, monitoring of temporal properties no longer coincides with collecting Boolean combinations of state predicates evaluated in each time instant over best-possible per-sample state estimates, but can be genuinely more informative in that it infers determinate truth values for monitoring conditions that interval-based evaluation remains inconclusive about. For the model-free as well as for the linear model-based case, we provide optimal evaluation algorithms based on affine arithmetic and SAT modulo theory, solving over linear arithmetic. The resulting algorithms provide conclusive monitoring verdicts in many cases where state estimations inherently remain inconclusive. In their model-based variants, they can simultaneously address the issues of uncertain sensing and partial observation.
+
+**中文翻译：**
+
+> 信号时序逻辑是一种线性时间时序逻辑，用于根据形式化规范对来自连续状态或混合状态动态系统的时间相关信号进行分类。它被设计为系统化监测信息物理系统的工具，支持将复杂安全规范自动转换为监测算法，并忠实表示其语义。然而，几乎所有已有算法都假设传感器读数与系统真实状态完全一致。近期 Visconti 等人才开始处理不精确测量问题，他们采用的是每个采样点具有区间有界误差且各采样之间相互无关的简单模型。本文扩展了这一分析，将误差分解为未知但固定的偏置和独立的逐采样误差，并表明在这种设定下，时序性质监测不再等同于对每个时刻最佳状态估计上的状态谓词做布尔组合；相反，它能够在区间评估仍不确定时推断出确定的监测真值。对于无模型和线性模型两种情况，作者分别基于仿射算术和 SAT modulo theory 提供了最优评估算法，在线性算术上求解。所得算法在许多状态估计本身仍不确定的情况下，也能给出确定的监测结论；在基于模型的变体中，还能同时处理传感不确定和部分观测问题。
+
+- **具体方法：**
+  - 将观测误差分解为固定偏置和逐样本误差。
+  - 使用 affine arithmetic 和 SMT/SAT modulo theory 对不确定信号进行 STL 监测。
+  - 支持无模型和线性模型两种情况。
+
+- **效果 / 贡献 / 创新点：**
+  - 解决“monitor 输入信号不可靠”的问题。
+  - 对 VLA 很关键：VLA 的任务状态通常来自视觉检测、深度估计、物体跟踪，天然有噪声。
+  - 可作为 `uncertainty-aware STL monitoring` 的 related work。
+
+---
+
+## 7. [mstlo: Efficient Online Monitoring of Signal Temporal Logic](https://arxiv.org/abs/2605.26847)
+
+**发表日期：2026-05-26（arXiv v1；2026-05-28 v2）**
+
+**技术细节总结：** mstlo 的重点是高性能在线监测实现，使用 Rust + Python bindings，并通过 bottom-up dynamic programming、operator caching、streaming extremum computation 提升大时域和深层嵌套公式的效率。和 RTAMT 相比，它更新、更强调性能；和 Robust Online Monitoring 相比，它更偏工具和算法工程。
+
+**定位：最新高性能 STL online monitoring 工具，可作为 RTAMT 之外的新工具 baseline。**
+
+**原文摘要：**
+
+> We present mstlo (mistletoe), a Rust library for high-performance online monitoring of signal temporal logic (STL), with Python bindings. The library provides: (i) a unified interface for multiple STL semantics, including Robust Satisfaction Intervals (RoSI) and Boolean evaluation with early verdicts; (ii) an incremental monitoring algorithm based on bottom-up dynamic programming with per-operator caching and streaming extremum computation for temporal operators; and (iii) an embedded STL domain-specific language for both Rust and Python implementations, with procedural macros in Rust for static syntax checking. Benchmarks show scalability and performance improvements over state-of-the-art tools, especially for formulas with large temporal depth and deep nesting.
+
+**中文翻译：**
+
+> 本文提出 mstlo（mistletoe），这是一个用于高性能在线监测信号时序逻辑（STL）的 Rust 库，并提供 Python 绑定。该库提供：（1）统一接口以支持多种 STL 语义，包括 Robust Satisfaction Intervals（RoSI）和具有提前判定能力的布尔评估；（2）一种基于自底向上动态规划、逐算子缓存和时序算子流式极值计算的增量监测算法；（3）面向 Rust 和 Python 的嵌入式 STL 领域专用语言，并在 Rust 中通过过程宏进行静态语法检查。基准测试显示，mstlo 相比现有先进工具具有更好的可扩展性和性能，尤其适用于时间深度大、嵌套层级深的公式。
+
+- **具体方法：**
+  - 使用 Rust 实现高性能 STL 在线监测，并提供 Python 接口。
+  - 支持 RoSI、Boolean early verdict、增量式动态规划、算子缓存。
+  - 提供嵌入式 STL DSL，便于编写和检查公式。
+
+- **效果 / 贡献 / 创新点：**
+  - 强调性能和可扩展性，适合长时序、深嵌套公式。
+  - 对 VLA 运行时部署有潜力：如果 monitor 频率高、公式复杂，性能会比传统 Python 实现更重要。
+  - 可作为“最新 STL 工具链”参考，但工程成熟度可能需要进一步验证。
+
+---
+
+# 建议实验 baseline 组合
+
+```text
+Baseline 1: No Monitor
+Baseline 2: Threshold Rule Monitor
+Baseline 3: RTAMT Boolean STL Monitor
+Baseline 4: RTAMT Robustness STL Monitor
+Baseline 5: SpaTiaL-style object-relation monitor
+Baseline 6: STLCG-style differentiable STL loss, if training is involved
+Baseline 7: mstlo high-performance online STL monitor, if real-time frequency matters
+```
+
+# 对你课题的直接写法
+
+> 这些工作说明 STL 已经能够在 CPS 与机器人系统中提供可解释、可量化、可在线运行的逻辑监测能力。但传统 STL 监测通常面向模型驱动系统、轨迹规划或已有控制器，而 VLA 模型的动作来自视觉-语言-动作策略，具有开放世界语义、不确定视觉输入和执行失败风险。因此，将 STL 作为 VLA 执行轨迹的外部 runtime monitor，可以连接形式化验证和具身智能策略执行。

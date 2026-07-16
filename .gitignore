@@ -1,4 +1,9 @@
 node_modules/
 dist/
 .vite/
+.vite-homepage/
+.content-dev/
+.legacy-source/
+.legacy-dev/
+tests/__pycache__/
 *.log

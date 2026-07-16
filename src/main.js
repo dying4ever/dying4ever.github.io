@@ -1,10 +1,12 @@
 import { SITE_CONTENT, getBlogUrl, getPortalItems } from './content.js';
 import { initMotion } from './motion.js';
+import { initScrollStory } from './scroll-story.js';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/cover.css';
 import './styles/home.css';
 import './styles/responsive.css';
+import './styles/scroll-story.css';
 
 function portalTemplate(item, index) {
   return `
@@ -33,7 +35,12 @@ export function renderSiteTitle(node, lines) {
   node.replaceChildren(...titleLines);
 }
 
-export function renderPage({ blogBase = document.documentElement.dataset.blogBase } = {}) {
+export function renderPage({
+  blogBase = document.documentElement.dataset.blogBase,
+  blogOrigin = window.location.origin,
+} = {}) {
+  const resolvedBlogBase = new URL(blogBase || '/', blogOrigin).href;
+
   document.querySelectorAll('[data-site-title]').forEach((node) => {
     renderSiteTitle(node, SITE_CONTENT.titleLines);
   });
@@ -41,14 +48,19 @@ export function renderPage({ blogBase = document.documentElement.dataset.blogBas
   document.querySelector('[data-site-statement]').textContent = SITE_CONTENT.statement;
 
   document.querySelectorAll('[data-blog-path]').forEach((link) => {
-    link.href = getBlogUrl(link.dataset.blogPath, blogBase);
+    link.href = getBlogUrl(link.dataset.blogPath, resolvedBlogBase);
   });
 
-  document.querySelector('#portal-grid').innerHTML = getPortalItems(blogBase)
+  document.querySelector('#portal-grid').innerHTML = getPortalItems(resolvedBlogBase)
     .map(portalTemplate)
     .join('');
 
   document.querySelector('[data-about-summary]').textContent = SITE_CONTENT.aboutSummary;
+  document.querySelectorAll('[data-prologue-part]').forEach((node, index) => {
+    node.textContent = SITE_CONTENT.prologueParts[index] ?? '';
+  });
+  document.querySelector('[data-prologue-attribution]').textContent = SITE_CONTENT.prologueAttribution;
+  document.querySelector('[data-about-story]').textContent = SITE_CONTENT.aboutStory;
   document.querySelector('[data-log-list]').innerHTML = SITE_CONTENT.logEntries
     .map(
       (entry) => `
@@ -64,7 +76,7 @@ export function renderPage({ blogBase = document.documentElement.dataset.blogBas
     .map((item, index) => {
       const route = item.id === 'projects' ? 'projects' : 'categories';
       return `
-        <a class="category-mini" href="${getBlogUrl(route, blogBase)}">
+        <a class="category-mini" href="${getBlogUrl(route, resolvedBlogBase)}">
           <span class="category-mini__index">0${index + 1}</span>
           <span class="category-mini__label">${item.label}</span>
           <span class="category-mini__detail">${item.zh} · ${item.detail}</span>
@@ -78,6 +90,7 @@ renderPage();
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 initMotion({ reducedMotion });
+initScrollStory({ reducedMotion });
 
 if (!reducedMotion && window.matchMedia('(pointer: fine)').matches) {
   let pointerFrame = 0;

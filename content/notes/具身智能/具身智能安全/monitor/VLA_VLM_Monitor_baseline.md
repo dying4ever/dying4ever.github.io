@@ -1,0 +1,467 @@
+---
+title: VLA_VLM_Monitor_baseline
+date: 2026-06-04 15:26:33
+sticky: 1
+categories:
+    - 具身智能
+    - 具身智能安全
+    - monitor
+tags:
+    - 具身智能
+    - 具身智能安全
+    - monitor
+---
+
+# VLA / VLM Monitor baseline 论文整理
+
+> 主题定位：这组论文用于支撑“VLA-Monitor / VLA 运行时失败检测与恢复”的相关工作。排序不是按时间，而是按学习和实验优先级：最前面先放一篇逻辑约束机器人学习的前置工作，帮助连接 `STL/LTL` 与机器人策略；随后看最接近 `STL + VLA` 的 monitor 工作，再看失败推理、恢复、动作级监测、轨迹级监测和内生式状态监控。
+
+---
+
+## 1. [Temporal Logic Imitation: Learning Plan-Satisficing Motion Policies from Demonstrations](https://arxiv.org/abs/2206.04632)
+
+**发表日期：2022-06-09（arXiv v1）；CoRL 2022；PMLR 205:94-105（proceedings 2023）**
+
+**技术细节总结：** 这篇文章不是 VLA/VLM monitor，但非常适合放在 VLA-Monitor 文档最前面作为“逻辑约束机器人策略学习”的前置工作。它使用 **LTL** 描述离散任务计划，用 **task automaton** 处理任务级重规划，用 **DS motion policy** 保证连续运动的 reachability，再通过 **mode boundary modulation** 保证 mode invariance。它和 Code-as-Monitor、FailSafe、Sentinel-VLA 的核心差异是：它不依赖 VLM/VLA，而是把形式化逻辑直接嵌入传统模仿学习策略；你的 `STL + VLA` 可以理解为把这类形式化逻辑约束思想迁移到 VLA 运行时监测与恢复中。
+
+**定位：LTL + 模仿学习 + 机器人任务恢复；适合作为 `STL/LTL → 机器人策略执行 → Monitor/Recovery` 的理论前置 baseline。**
+
+**原文摘要：**
+
+> Learning from demonstration (LfD) has successfully solved tasks featuring a long time horizon. However, when the problem complexity also includes human-in-the-loop perturbations, state-of-the-art approaches do not guarantee the successful reproduction of a task. In this work, we identify the roots of this challenge as the failure of a learned continuous policy to satisfy the discrete plan implicit in the demonstration. By utilizing modes (rather than subgoals) as the discrete abstraction and motion policies with both mode invariance and goal reachability properties, we prove our learned continuous policy can simulate any discrete plan specified by a linear temporal logic (LTL) formula. Consequently, an imitator is robust to both task- and motion-level perturbations and guaranteed to achieve task success.
+
+**中文翻译：**
+
+> 从示范学习（LfD）已经成功解决了具有长时间跨度的任务。然而，当问题复杂性还包含人类在环扰动时，现有方法无法保证任务能够被成功复现。本文指出，这一挑战的根源在于：学到的连续策略没有满足示范中隐含的离散计划。作者使用 **modes** 而不是 subgoals 作为离散抽象，并结合同时具有 **mode invariance** 和 **goal reachability** 性质的运动策略，证明学到的连续策略可以模拟任意由 **线性时序逻辑（LTL）公式**指定的离散计划。因此，模仿器能够同时对任务级扰动和运动级扰动保持鲁棒，并保证任务成功。
+
+- **具体方法：**
+    
+    - 将任务抽象为多个 **mode**，每个 mode 对应一类传感器状态或机器人-环境配置。
+        
+    - 用 **LTL 公式**描述合法的 mode transition，并将 LTL 转换为 task automaton。
+        
+    - 每个 mode 内学习一个具有全局渐近稳定性的 **Dynamical System motion policy**，用于保证 goal reachability。
+        
+    - 当扰动导致意外 mode transition 时，task automaton 会重新规划合法的 mode sequence。
+        
+    - 通过在线估计 mode boundary，并使用 modulation matrix 调整 DS 向量场，避免连续策略反复离开当前 mode，从而保证 mode invariance。
+        
+    - 其核心保证可以概括为：离散自动机保证任务级计划满足 LTL，连续 DS 策略通过 invariance 与 reachability 保证能够模拟该离散计划。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 提出 **Temporal Logic Imitation（TLI）** 问题，把模仿学习从“模仿连续轨迹”提升为“模仿满足逻辑计划的连续执行”。
+        
+    - 证明了在给定假设下，LTL-DS 生成的连续系统轨迹可以满足任意 LTL specification。
+        
+    - 在多步 scooping 任务中，未加 modulation 的 DS 可能因 mode invariance failure 反复失败；加入 modulation 后能够避免循环并完成任务。
+        
+    - 真实 Franka 机械臂实验中，系统能应对运动级扰动和任务级扰动，并通过 LTL 重规划恢复执行。
+        
+    - 对你的启发：可以把 VLA 失败拆成 **invariance failure** 和 **reachability failure**，用 STL monitor 分别表达“始终保持安全/接触/姿态约束”和“在规定时间内到达目标/完成阶段”。
+        
+    - 与 `STL + VLA` 的关系：本文是 **LTL + LfD + DS**，你的方向可以强调 **STL + VLA + runtime monitoring**，从传统可证明策略迁移到现代 VLA 黑盒策略。
+        
+
+---
+
+## 2. [Code-as-Monitor: Constraint-aware Visual Programming for Reactive and Proactive Robotic Failure Detection](https://arxiv.org/abs/2412.04455)
+
+**发表日期：2024-12-05（arXiv v1；2025-03-21 v3；CVPR 2025）**
+
+**技术细节总结：** CaM 的核心是让 VLM 把任务失败检测转成时空约束满足问题，再生成可执行代码实时检查。它同时处理 reactive failure detection 和 proactive failure prevention。和 STL+VLA 最接近，但区别是：CaM 的约束来自 VLM 生成代码，灵活但形式化保证弱；STL 方法的约束由逻辑公式表达，鲁棒度可解释、可验证。
+
+**定位：和 `STL + VLA` 最接近的非 STL baseline；它用 VLM 生成代码做时空约束监测。**
+
+**原文摘要：**
+
+> Automatic detection and prevention of open-set failures are crucial in closed-loop robotic systems. Recent studies often struggle to simultaneously identify unexpected failures reactively after they occur and prevent foreseeable ones proactively. To this end, we propose Code-as-Monitor (CaM), a novel paradigm leveraging the vision-language model (VLM) for both open-set reactive and proactive failure detection. The core of our method is to formulate both tasks as a unified set of spatio-temporal constraint satisfaction problems and use VLM-generated code to evaluate them for real-time monitoring. To enhance the accuracy and efficiency of monitoring, we further introduce constraint elements that abstract constraint-related entities or their parts into compact geometric elements. This approach offers greater generality, simplifies tracking, and facilitates constraint-aware visual programming by leveraging these elements as visual prompts. Experiments show that CaM achieves a 28.7% higher success rate and reduces execution time by 31.8% under severe disturbances compared to baselines across three simulators and a real-world setting. Moreover, CaM can be integrated with open-loop control policies to form closed-loop systems, enabling long-horizon tasks in cluttered scenes with dynamic environments.
+
+**中文翻译：**
+
+> 在闭环机器人系统中，自动检测和预防开放集失败至关重要。现有研究通常难以同时做到：在意外失败发生后进行反应式识别，以及在可预见失败发生前进行主动预防。为此，本文提出 Code-as-Monitor（CaM），这是一种利用视觉语言模型（VLM）进行开放集反应式和主动式失败检测的新范式。其核心方法是将两类任务统一表述为时空约束满足问题，并使用 VLM 生成的代码对其进行实时监测。为了提高监测准确性和效率，作者进一步提出 constraint elements，将与约束相关的实体或其局部抽象成紧凑的几何元素。该方法具有更好的通用性，简化了跟踪，并通过这些元素作为视觉提示促进约束感知的视觉编程。实验显示，在三个仿真器和真实环境中，相比 baseline，CaM 在强干扰下成功率提高 28.7%，执行时间减少 31.8%。此外，CaM 可与开环控制策略集成形成闭环系统，使机器人能够在杂乱、动态环境中执行长时程任务。
+
+- **具体方法：**
+    
+    - 将 reactive failure detection 和 proactive failure prevention 统一为 spatio-temporal constraint satisfaction。
+        
+    - 使用 VLM 生成可执行监测代码。
+        
+    - 使用 constraint elements 抽象关键物体、部件和几何关系。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 是你 `STL + VLA` 的最强对照之一。
+        
+    - CaM 的约束由 VLM 生成代码表达；你的方案可强调 STL 的形式化语义、可验证性和 robustness score。
+        
+    - 可作为实验 baseline：VLM-generated code monitor vs STL formal monitor。
+        
+
+---
+
+## 3. [AHA: A Vision-Language-Model for Detecting and Reasoning Over Failures in Robotic Manipulation](https://arxiv.org/abs/2410.00371)
+
+**发表日期：2024-10-01（arXiv 提交）**
+
+**技术细节总结：** AHA 把机器人失败检测建模为自由形式的自然语言推理任务，并用 FailGen 从成功轨迹中程序化生成失败数据。它输出“是否失败”和“为什么失败”。和 CaM 相比，AHA 更偏语义解释，不生成实时监控代码；和 STL monitor 相比，它依赖学习到的 VLM 推理，而不是形式化逻辑公式。
+
+**定位：机器人操作失败检测与自然语言解释的重要 baseline。**
+
+**原文摘要：**
+
+> Robotic manipulation in open-world settings requires not only task execution but also the ability to detect and learn from failures. While recent advances in vision-language models (VLMs) and large language models (LLMs) have improved robots' spatial reasoning and problem-solving abilities, they still struggle with failure recognition, limiting their real-world applicability. We introduce AHA, an open-source VLM designed to detect and reason about failures in robotic manipulation using natural language. By framing failure detection as a free-form reasoning task, AHA identifies failures and provides detailed, adaptable explanations across different robots, tasks, and environments. We fine-tuned AHA using FailGen, a scalable framework that generates the first large-scale dataset of robotic failure trajectories, the AHA dataset. FailGen achieves this by procedurally perturbing successful demonstrations from simulation. Despite being trained solely on the AHA dataset, AHA generalizes effectively to real-world failure datasets, robotic systems, and unseen tasks. It surpasses the second-best model (GPT-4o in-context learning) by 10.3% and exceeds the average performance of six compared models including five state-of-the-art VLMs by 35.3% across multiple metrics and datasets. We integrate AHA into three manipulation frameworks that utilize LLMs/VLMs for reinforcement learning, task and motion planning, and zero-shot trajectory generation. AHA's failure feedback enhances these policies' performances by refining dense reward functions, optimizing task planning, and improving sub-task verification, boosting task success rates by an average of 21.4% across all three tasks compared to GPT-4 models.
+
+**中文翻译：**
+
+> 开放世界中的机器人操作不仅需要执行任务，还需要检测失败并从失败中学习。虽然视觉语言模型（VLM）和大语言模型（LLM）的进展提升了机器人的空间推理和问题解决能力，但它们仍然难以识别失败，这限制了其真实世界适用性。本文提出 AHA，这是一个开源 VLM，专门用于以自然语言检测和推理机器人操作失败。通过将失败检测表述为自由形式推理任务，AHA 能够在不同机器人、任务和环境中识别失败并提供详细、可适应的解释。作者使用 FailGen 对 AHA 进行微调，FailGen 是一个可扩展框架，通过程序化扰动仿真中的成功示范，生成首个大规模机器人失败轨迹数据集 AHA dataset。尽管 AHA 仅在该数据集上训练，它仍能有效泛化到真实失败数据集、不同机器人系统和未见任务。AHA 在多个指标和数据集上比第二好的模型（GPT-4o in-context learning）高 10.3%，比包括五个 SOTA VLM 在内的六个模型平均表现高 35.3%。作者还将 AHA 集成到强化学习、任务与运动规划、零样本轨迹生成三个操作框架中，通过优化密集奖励、任务规划和子任务验证，使三个任务的成功率相比 GPT-4 模型平均提升 21.4%。
+
+- **具体方法：**
+    
+    - 用 FailGen 程序化扰动成功示范，生成失败轨迹数据。
+        
+    - 将 failure detection 建模为 free-form natural language reasoning。
+        
+    - 微调 VLM，使其输出失败判断和失败解释。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 建立了 VLM failure reasoning 的强 baseline。
+        
+    - 优势是开放世界语义解释强；局限是形式化约束和实时数值 robustness 不如 STL。
+        
+    - 可与 STL monitor 互补：STL 负责确定性约束检测，AHA/VLM 负责语义解释。
+        
+
+---
+
+## 4. [FailSafe: Reasoning and Recovery from Failures in Vision-Language-Action Models](https://arxiv.org/abs/2510.01642)
+
+**发表日期：2025-10-02（arXiv v1；2025-10-27 v2）**
+
+**技术细节总结：** FailSafe 的重点是 VLA 失败后的可执行恢复动作，而不只是判断失败。它自动生成 failure cases 与 recovery actions，并训练 FailSafe-VLM 接入 OpenVLA、OpenVLA-OFT、pi0-FAST 等主策略。和 AHA 相比，它更强调恢复动作；和 Sentinel-VLA 相比，它更像外挂恢复模块，而不是把监控能力内生到 VLA 架构中。
+
+**定位：直接面向 VLA 的失败检测与恢复 baseline，测试了 OpenVLA 系列。**
+
+**原文摘要：**
+
+> Recent advances in robotic manipulation have integrated low-level robotic control into Vision-Language Models (VLMs), extending them into Vision-Language-Action (VLA) models. Although state-of-the-art VLAs achieve strong performance in downstream robotic applications, supported by large-scale crowd-sourced robot training data, they still inevitably encounter failures during execution. Enabling robots to reason about and recover from unpredictable and abrupt failures remains a critical challenge. Existing robotic manipulation datasets, collected in either simulation or the real world, primarily provide only ground-truth trajectories, leaving robots unable to recover once failures occur. Moreover, the few datasets that address failure detection typically offer only textual explanations, which are difficult to utilize directly in VLA models. To address this gap, we introduce FailSafe, a novel failure generation and recovery system that automatically produces diverse failure cases paired with executable recovery actions. FailSafe can be seamlessly applied to any manipulation task in any simulator, enabling scalable creation of failure-action data. To demonstrate its effectiveness, we fine-tune LLaVa-OneVision-7B (LLaVa-OV-7B) to build FailSafe-VLM. Experimental results show that FailSafe-VLM successfully helps robotic arm detect and recover from potential failures, improving the performance of three state-of-the-art VLA models pi0-FAST, OpenVLA, OpenVLA-OFT) by up to 22.6% on average across several tasks in Maniskill. Furthermore, FailSafe-VLM could generalize across different spatial configurations, camera viewpoints, and robotic embodiments. We plan to release the FailSafe code to the community.
+
+**中文翻译：**
+
+> 近年来，机器人操作研究将低层机器人控制集成进视觉语言模型（VLM），将其扩展为视觉-语言-动作（VLA）模型。虽然 SOTA VLA 在下游机器人应用中表现强劲，并受益于大规模众包机器人训练数据，但它们在执行过程中仍不可避免地会失败。让机器人能够推理并从不可预测、突发的失败中恢复，仍是关键挑战。现有机器人操作数据集无论来自仿真还是真实环境，主要只提供真实轨迹，使机器人一旦失败就无法恢复。此外，少数涉及失败检测的数据集通常只提供文本解释，很难直接用于 VLA 模型。为解决这一空缺，本文提出 FailSafe，这是一个新的失败生成与恢复系统，能够自动生成多样失败案例，并配对可执行恢复动作。FailSafe 可无缝应用于任何仿真器中的任意操作任务，从而可扩展地创建失败-动作数据。为验证有效性，作者微调 LLaVa-OneVision-7B 构建 FailSafe-VLM。实验结果表明，FailSafe-VLM 能帮助机械臂检测并恢复潜在失败，使 pi0-FAST、OpenVLA、OpenVLA-OFT 三个 SOTA VLA 模型在 ManiSkill 多任务上平均最高提升 22.6%。此外，FailSafe-VLM 能泛化到不同空间配置、相机视角和机器人本体。作者计划开源 FailSafe 代码。
+
+- **具体方法：**
+    
+    - 自动生成 diverse failure cases。
+        
+    - 为失败案例配对 executable recovery actions。
+        
+    - 微调 LLaVA-OneVision-7B 得到 FailSafe-VLM，并接入 VLA 执行闭环。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 直接和 OpenVLA、OpenVLA-OFT、pi0-FAST 对比，与你方向高度相关。
+        
+    - 重点在“失败后恢复”；你的 STL 可强调“运行时形式化检测 + 提前预警”。
+        
+    - 可作为 `VLA recovery baseline`。
+        
+
+---
+
+## 5. [Sentinel-VLA: A Metacognitive VLA Model with Active Status Monitoring for Dynamic Reasoning and Error Recovery](https://arxiv.org/abs/2605.01191)
+
+**发表日期：2026-05-02（arXiv v1；2026-05-28 v2）**
+
+**技术细节总结：** Sentinel-VLA 的特点是把 active status monitoring 做进 VLA 系统内部，形成类似元认知的执行状态检查机制。它只在初始规划或检测到异常时触发更复杂的推理和恢复。和 FailSafe 外挂式恢复不同，它更偏架构级内生监控；和 STL 外部 monitor 相比，它可学习性更强，但形式化约束和可验证性较弱。
+
+**定位：最像“VLA 内生监控模块”的工作，属于 VLA-monitor 架构级 baseline。**
+
+**原文摘要：**
+
+> Vision-language-action (VLA) models have advanced the field of embodied manipulation by harnessing broad world knowledge and strong generalization. However, current VLA models still face several key challenges, including limited reasoning capability, lack of status monitoring, and difficulty in self-correction. In this paper, we introduce Sentinel-VLA, a metacognitive VLA model equipped with an active “sentinel” module to monitor real-time execution status. Only when necessary, such as during initial planning or upon detecting an error, the model triggers a dynamic reasoning or formulate error recovery solutions. This on-demand reasoning mechanism ensures robust decision-making while minimizing computational overhead. Notably, all training data (spanning 44 tasks and over 2.6 million transitions) is automatically generated and annotated through our designed pipeline. We also propose the Self-Evolving Continual Learning (SECL) algorithm, which allows Sentinel-VLA to identify its capability boundaries and automatically collect data for expansion, paired with Orthogonal Continual Adapter (OC-Adapter) to constrain parameter updates to an orthogonal space, thereby preventing catastrophic forgetting. Real-world experiments demonstrate that Sentinel-VLA boosts the task success rate by over 30% compared to the SOTA model, PI0. We will open-source all the code, weights, and data generation pipeline.
+
+**中文翻译：**
+
+> 视觉-语言-动作（VLA）模型通过利用广泛的世界知识和强泛化能力，推动了具身操作领域的发展。然而，当前 VLA 模型仍面临若干关键挑战，包括推理能力有限、缺乏状态监控、自我纠正困难。本文提出 Sentinel-VLA，这是一种具有元认知能力的 VLA 模型，配备主动“sentinel”模块，用于监控实时执行状态。只有在必要时，例如初始规划或检测到错误时，模型才触发动态推理或生成错误恢复方案。这种按需推理机制在降低计算开销的同时保证鲁棒决策。值得注意的是，所有训练数据（覆盖 44 个任务、超过 260 万 transitions）均由作者设计的流水线自动生成和标注。作者还提出 Self-Evolving Continual Learning（SECL）算法，使 Sentinel-VLA 能够识别自身能力边界并自动收集扩展数据，同时配合 Orthogonal Continual Adapter（OC-Adapter）将参数更新约束到正交空间，从而避免灾难性遗忘。真实世界实验表明，Sentinel-VLA 相比 SOTA 模型 PI0 任务成功率提升超过 30%。作者将开源代码、权重和数据生成流水线。
+
+- **具体方法：**
+    
+    - 在 VLA 中加入 active sentinel module。
+        
+    - 只有初始规划或检测到错误时才触发动态推理/恢复。
+        
+    - 使用自动数据生成与标注流水线，并结合 SECL 与 OC-Adapter 做持续学习。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 从“外部 monitor”走向“模型内部状态监控”。
+        
+    - 可作为你论文中最强相关工作之一。
+        
+    - 区别点：Sentinel-VLA 是架构级学习式监控；你的 STL 是外部形式化 runtime monitor，更易解释和验证。
+        
+
+---
+
+## 6. [Hide-and-Seek in Trajectories: Discovering Failure Signals for VLA Runtime Monitoring](https://arxiv.org/abs/2605.30834)
+
+**发表日期：2026-05-29（arXiv 提交）**
+
+**技术细节总结：** Hide-and-Seek 把 VLA failure detection 看成 coarse supervision 问题：只有整条轨迹成功/失败标签，没有逐步失败标注。它用 inter-trajectory 和 intra-trajectory contrastive objectives 在轨迹中定位局部失败信号。和动作级 monitor 相比，它更依赖学习局部失败片段；和 STL monitor 相比，它从数据中发现失败信号，而不是人工指定逻辑约束。
+
+**定位：直接写 VLA runtime monitoring 的最新工作，关注轨迹级标签下的失败信号发现。**
+
+**原文摘要：**
+
+> Vision-Language-Action (VLA) models enable robots to follow natural language instructions and generalize across diverse tasks, but they remain vulnerable to execution failures that compromise reliability in real-world deployment. Detecting such failures during execution is therefore critical for the robust deployment of embodied systems. Existing failure detection methods either rely on expensive action resampling or external models, while alternatives propagate trajectory-level labels uniformly across every timestep, obscuring localized failure signals. In this paper, we propose Hide-and-Seek, a framework that formulates VLA failure detection as a coarsely supervised learning problem. By combining inter-trajectory and intra-trajectory contrastive objectives, Hide-and-Seek localizes failure-indicative actions and induces temporally structured failure signals from trajectory-level supervision alone, without any step-level annotation. We evaluate Hide-and-Seek on LIBERO, VLABench, and a real-world robotic platform across three representative VLA policies: OpenVLA, $π_0$, and $π_{0.5}$. Our method achieves state-of-the-art multi-task failure detection performance with a practical accuracy--timeliness trade-off under conformal prediction, and generalizes well to both seen and unseen tasks.
+
+**中文翻译：**
+
+> 视觉-语言-动作（VLA）模型使机器人能够遵循自然语言指令并泛化到多样任务，但它们仍容易出现执行失败，从而影响真实部署中的可靠性。因此，在执行过程中检测这些失败，对于具身系统的鲁棒部署至关重要。现有失败检测方法要么依赖昂贵的动作重采样或外部模型，要么将轨迹级标签均匀传播到每个时间步，从而掩盖局部失败信号。本文提出 Hide-and-Seek，将 VLA 失败检测表述为粗监督学习问题。通过结合轨迹间和轨迹内对比目标，Hide-and-Seek 能够定位表示失败的动作，并仅从轨迹级监督中诱导出具有时间结构的失败信号，而不需要逐步标注。作者在 LIBERO、VLABench 和真实机器人平台上评估了 OpenVLA、$π_0$、$π_{0.5}$ 三种代表性 VLA 策略。该方法在 conformal prediction 下实现了 SOTA 多任务失败检测性能，并在准确性与及时性之间取得实用平衡，同时能很好泛化到已见和未见任务。
+
+- **具体方法：**
+    
+    - 将 VLA failure detection 建模为 coarsely supervised learning。
+        
+    - 使用 inter-trajectory 与 intra-trajectory contrastive objectives。
+        
+    - 从 trajectory-level label 中定位局部失败动作，不需要 step-level annotation。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 直接面向 VLA runtime monitoring。
+        
+    - 使用 OpenVLA、$π_0$、$π_{0.5}$ 等 VLA 作为评估对象。
+        
+    - 可作为数据驱动轨迹失败检测 baseline；你的 STL 方法不依赖失败轨迹标签，而依赖形式化任务规范。
+        
+
+---
+
+## 7. [How VLAs Fail Differently: Black-Box Action Monitoring Reveals Architecture-Specific Failure Signatures](https://arxiv.org/abs/2605.28726)
+
+**发表日期：2026-05-27（arXiv 提交；ICRA 2026 Workshop 非归档）**
+
+**技术细节总结：** 这篇从 VLA 输出动作本身寻找失败征兆，例如 direction reversal、jerk、velocity violation。它强调不同 VLA 架构的失败模式不同，不能用同一个动作监测器通吃。和 VLM 图像监控相比，它不看视觉语义，只看动作序列；和 STL monitor 相比，它更轻量，但表达不了复杂任务时序关系。
+
+**定位：动作级 black-box runtime monitor baseline，适合低层安全监测对比。**
+
+**原文摘要：**
+
+> We discover that VLA architectures fail in fundamentally different, predictable ways at the motor-command level. Running VQ-BeT, Diffusion Policy, and ACT on identical evaluation protocols (n=450 episodes across PushT and ALOHA 14-DOF bimanual manipulation), we find: (1) direction reversal rate is a universal failure predictor across all three architectures (AUROC=0.93, 0.79, 0.91; p<0.001); (2) jerk monitoring is predictive only for discrete-token architectures, following a discrete-to-continuous gradient (0.88, 0.69, 0.41); (3) velocity violations alone are non-predictive everywhere (AUROC 0.41-0.69), yet velocity checking is the most common safety mechanism in VLA deployment code; and (4) for continuous-family VLAs, velocity monitoring provides effectively zero predictive signal (AUROC=0.52 on ACT, 0.41 on Diffusion), proving that architecture-matched monitor selection is essential. These results quantify a monitoring consequence of the well-known discrete/continuous VLA distinction: the two families produce qualitatively different failure signatures that require different monitors. No single monitor works universally; architecture-matched selection is required. This finding was enabled by SafeContract, a training-free, black-box action monitoring toolkit with conformal calibration. Code: [https://github.com/krishnam94/vla-edge](https://github.com/krishnam94/vla-edge)
+
+**中文翻译：**
+
+> 本文发现，不同 VLA 架构在电机命令层面会以根本不同但可预测的方式失败。作者在相同评估协议下运行 VQ-BeT、Diffusion Policy 和 ACT，共 450 个 episodes，覆盖 PushT 和 ALOHA 14 自由度双臂操作任务。结果发现：（1）方向反转率是三种架构通用的失败预测指标（AUROC 分别为 0.93、0.79、0.91，$p<0.001$）；（2）jerk 监测只对离散 token 架构具有预测性，并呈现从离散到连续的梯度变化（0.88、0.69、0.41）；（3）单独使用速度违规在所有场景中都不具备预测性（AUROC 0.41–0.69），但速度检查却是 VLA 部署代码中最常见的安全机制；（4）对于连续型 VLA，速度监测几乎不提供有效预测信号（ACT 上 AUROC=0.52，Diffusion 上 AUROC=0.41），证明必须根据架构选择匹配的 monitor。这些结果量化了离散/连续 VLA 区分带来的监测后果：两类模型产生性质不同的失败特征，需要不同监测器。不存在通用 monitor，必须进行架构匹配选择。这一发现由 SafeContract 支持，SafeContract 是一个无需训练、黑盒动作监测工具，并带有 conformal calibration。
+
+- **具体方法：**
+    
+    - 只监测 VLA 输出动作序列，不依赖内部模型权重。
+        
+    - 比较 direction reversal、jerk、velocity violation 等动作级指标。
+        
+    - 使用 SafeContract 做 training-free black-box action monitoring。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 说明不同 VLA 架构需要不同 monitor。
+        
+    - 对你的底层安全层很有参考价值：STL 可以表达速度、加速度、jerk、距离等动作/状态约束。
+        
+    - 可作为 `action-level monitor baseline`。
+        
+
+---
+
+## 8. [Automating Robot Failure Recovery Using Vision-Language Models With Optimized Prompts](https://arxiv.org/abs/2409.03966)
+
+**发表日期：2024-09-06（arXiv 提交）**
+
+**技术细节总结：** 这篇把 VLM 当作黑盒恢复控制器，通过优化视觉提示、文本提示和推理分解来提升失败检测、问题分析和恢复计划生成。它的技术重点是 prompt optimization，而不是训练专门 monitor。和 AHA/ARMOR 相比，它更轻量；和 STL+VLA 相比，它缺少显式时序逻辑约束。
+
+**定位：VLM 作为黑盒失败检测与恢复控制器的 baseline。**
+
+**原文摘要：**
+
+> Current robot autonomy struggles to operate beyond the assumed Operational Design Domain (ODD), the specific set of conditions and environments in which the system is designed to function, while the real-world is rife with uncertainties that may lead to failures. Automating recovery remains a significant challenge. Traditional methods often rely on human intervention to manually address failures or require exhaustive enumeration of failure cases and the design of specific recovery policies for each scenario, both of which are labor-intensive. Foundational Vision-Language Models (VLMs), which demonstrate remarkable common-sense generalization and reasoning capabilities, have broader, potentially unbounded ODDs. However, limitations in spatial reasoning continue to be a common challenge for many VLMs when applied to robot control and motion-level error recovery. In this paper, we investigate how optimizing visual and text prompts can enhance the spatial reasoning of VLMs, enabling them to function effectively as black-box controllers for both motion-level position correction and task-level recovery from unknown failures. Specifically, the optimizations include identifying key visual elements in visual prompts, highlighting these elements in text prompts for querying, and decomposing the reasoning process for failure detection and control generation. In experiments, prompt optimizations significantly outperform pre-trained Vision-Language-Action Models in correcting motion-level position errors and improve accuracy by 65.78% compared to VLMs with unoptimized prompts. Additionally, for task-level failures, optimized prompts enhanced the success rate by 5.8%, 5.8%, and 7.5% in VLMs' abilities to detect failures, analyze issues, and generate recovery plans, respectively, across a wide range of unknown errors in Lego assembly.
+
+**中文翻译：**
+
+> 当前机器人自治系统很难在假定的运行设计域（ODD）之外工作，而真实世界充满可能导致失败的不确定性。自动恢复仍是重要挑战。传统方法往往依赖人工干预来手动处理失败，或需要穷举失败案例并为每种场景设计特定恢复策略，两者都很耗费人力。基础视觉语言模型（VLM）展现出显著的常识泛化和推理能力，具有更宽泛、甚至潜在无限的 ODD。然而，当 VLM 用于机器人控制和运动级错误恢复时，空间推理能力不足仍是常见挑战。本文研究如何通过优化视觉和文本提示增强 VLM 的空间推理能力，使其能够作为黑盒控制器，有效进行运动级位置纠正和未知失败的任务级恢复。具体优化包括识别视觉提示中的关键视觉元素，在文本提示中突出这些元素，并分解失败检测与控制生成的推理过程。实验表明，prompt 优化在纠正运动级位置错误时显著优于预训练 VLA 模型，并相较未优化 prompt 的 VLM 提高 65.78% 准确率。此外，在任务级失败中，优化 prompt 分别使 VLM 在失败检测、问题分析和恢复计划生成能力上提升 5.8%、5.8% 和 7.5%，覆盖乐高装配中的多种未知错误。
+
+- **具体方法：**
+    
+    - 优化 visual prompt 和 text prompt。
+        
+    - 显式突出关键视觉元素。
+        
+    - 分解 failure detection、issue analysis、control/recovery generation。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 不训练新模型，通过 prompt engineering 提升 VLM monitor/recovery 能力。
+        
+    - 可作为轻量 baseline：GPT-4o/Qwen-VL + optimized prompt。
+        
+    - 和 STL 的区别：VLM prompt 依赖语义推理，STL 依赖形式化信号约束。
+        
+
+---
+
+## 9. [RACER: Rich Language-Guided Failure Recovery Policies for Imitation Learning](https://arxiv.org/abs/2409.14674)
+
+**发表日期：2024-09-23（arXiv 提交）**
+
+**技术细节总结：** RACER 使用 supervisor-actor 框架：VLM supervisor 在线生成细粒度语言纠错指导，actor policy 根据语言指导输出动作。它的重点是用丰富语言监督训练恢复策略。和 FailSafe 相比，它更像训练一个语言条件 actor；和 AHA 相比，它不止解释失败，还把语言指导接到动作策略。
+
+**定位：VLM supervisor + visuomotor actor 的语言指导失败恢复 baseline。**
+
+**原文摘要：**
+
+> Developing robust and correctable visuomotor policies for robotic manipulation is challenging due to the lack of self-recovery mechanisms from failures and the limitations of simple language instructions in guiding robot actions. To address these issues, we propose a scalable data generation pipeline that automatically augments expert demonstrations with failure recovery trajectories and fine-grained language annotations for training. We then introduce Rich languAge-guided failure reCovERy (RACER), a supervisor-actor framework, which combines failure recovery data with rich language descriptions to enhance robot control. RACER features a vision-language model (VLM) that acts as an online supervisor, providing detailed language guidance for error correction and task execution, and a language-conditioned visuomotor policy as an actor to predict the next actions. Our experimental results show that RACER outperforms the state-of-the-art Robotic View Transformer (RVT) on RLbench across various evaluation settings, including standard long-horizon tasks, dynamic goal-change tasks and zero-shot unseen tasks, achieving superior performance in both simulated and real world environments. Videos and code are available at: [https://rich-language-failure-recovery.github.io](https://rich-language-failure-recovery.github.io/).
+
+**中文翻译：**
+
+> 为机器人操作开发鲁棒且可纠正的视觉运动策略很困难，原因在于缺乏从失败中自恢复的机制，同时简单语言指令在指导机器人动作方面也存在局限。为解决这些问题，本文提出一种可扩展数据生成流水线，自动为专家示范增强失败恢复轨迹和细粒度语言标注。随后作者提出 RACER（Rich languAge-guided failure reCovERy），这是一个 supervisor-actor 框架，将失败恢复数据与丰富语言描述结合，以增强机器人控制。RACER 中的视觉语言模型（VLM）作为在线监督器，为错误纠正和任务执行提供详细语言指导；语言条件视觉运动策略作为 actor，用于预测下一步动作。实验结果表明，RACER 在 RLBench 的多种评估设置中优于 SOTA Robotic View Transformer（RVT），包括标准长时程任务、动态目标变化任务和零样本未见任务，并在仿真和真实环境中取得更优性能。视频和代码见项目页面。
+
+- **具体方法：**
+    
+    - 自动扩展专家示范，加入失败恢复轨迹和语言标注。
+        
+    - VLM 作为 online supervisor，输出细粒度语言纠错指导。
+        
+    - 语言条件 visuomotor policy 作为 actor 输出动作。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 从“检测失败”进一步走向“用语言指导恢复”。
+        
+    - 可作为 VLM supervisor baseline。
+        
+    - 你的 STL 可作为 supervisor 的触发器：当 STL robustness 低于阈值时触发语言/动作恢复模块。
+        
+
+---
+
+## 10. [Can We Detect Failures Without Failure Data? Uncertainty-Aware Runtime Failure Detection for Imitation Learning Policies](https://arxiv.org/abs/2503.08558)
+
+**发表日期：2025-03-11（arXiv v1；2025-06-20 v3）**
+
+**技术细节总结：** FAIL-Detect 不依赖失败数据，而是从成功数据中学习与失败相关的标量信号，把运行时失败检测建模为 sequential OOD detection，并用 conformal prediction 量化不确定性。和 AHA/FailSafe 相比，它不需要生成失败轨迹；和 STL monitor 相比，它是统计/不确定性方法，不提供显式任务逻辑语义。
+
+**定位：不依赖 failure data 的 runtime failure detection baseline。**
+
+**原文摘要：**
+
+> Recent years have witnessed impressive robotic manipulation systems driven by advances in imitation learning and generative modeling, such as diffusion- and flow-based approaches. As robot policy performance increases, so does the complexity and time horizon of achievable tasks, inducing unexpected and diverse failure modes that are difficult to predict a priori. To enable trustworthy policy deployment in safety-critical human environments, reliable runtime failure detection becomes important during policy inference. However, most existing failure detection approaches rely on prior knowledge of failure modes and require failure data during training, which imposes a significant challenge in practicality and scalability. In response to these limitations, we present FAIL-Detect, a modular two-stage approach for failure detection in imitation learning-based robotic manipulation. To accurately identify failures from successful training data alone, we frame the problem as sequential out-of-distribution (OOD) detection. We first distill policy inputs and outputs into scalar signals that correlate with policy failures and capture epistemic uncertainty. FAIL-Detect then employs conformal prediction (CP) as a versatile framework for uncertainty quantification with statistical guarantees. Empirically, we thoroughly investigate both learned and post-hoc scalar signal candidates on diverse robotic manipulation tasks. Our experiments show learned signals to be mostly consistently effective, particularly when using our novel flow-based density estimator. Furthermore, our method detects failures more accurately and faster than state-of-the-art (SOTA) failure detection baselines. These results highlight the potential of FAIL-Detect to enhance the safety and reliability of imitation learning-based robotic systems as they progress toward real-world deployment.
+
+**中文翻译：**
+
+> 近年来，模仿学习和生成建模（如 diffusion 和 flow 方法）的进展推动了令人印象深刻的机器人操作系统。随着机器人策略性能提升，可完成任务的复杂度和时间跨度也增加，从而产生难以预先预测的意外且多样的失败模式。为了在安全关键的人类环境中可信部署策略，策略推理期间的可靠运行时失败检测变得重要。然而，大多数现有失败检测方法依赖对失败模式的先验知识，并需要训练阶段的失败数据，这在实用性和可扩展性上带来巨大挑战。针对这些限制，本文提出 FAIL-Detect，这是一种用于基于模仿学习的机器人操作失败检测的模块化两阶段方法。为了仅从成功训练数据中准确识别失败，作者将问题表述为序列式分布外（OOD）检测。首先，将策略输入和输出蒸馏为与策略失败相关、并能捕捉认知不确定性的标量信号。随后，FAIL-Detect 使用 conformal prediction（CP）作为具有统计保证的不确定性量化框架。实验系统研究了不同机器人操作任务中的 learned 和 post-hoc 标量信号候选。结果表明，learned signals 通常更稳定有效，尤其是在使用作者提出的 flow-based density estimator 时。此外，该方法比 SOTA 失败检测 baseline 更准确、更快速。这些结果显示 FAIL-Detect 有潜力提升基于模仿学习的机器人系统在真实部署中的安全性与可靠性。
+
+- **具体方法：**
+    
+    - 将 failure detection 建模为 sequential OOD detection。
+        
+    - 从成功数据中学习与失败相关的 scalar signals。
+        
+    - 使用 conformal prediction 进行不确定性量化。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 不需要 failure data，适合真实机器人数据稀缺场景。
+        
+    - 可作为 uncertainty-aware failure monitor baseline。
+        
+    - 与 STL 的区别：FAIL-Detect 是统计不确定性检测；STL 是任务/安全约束检测。
+        
+
+---
+
+## 11. [Scaling Cross-Environment Failure Reasoning Data for Vision-Language Robotic Manipulation / Guardian](https://arxiv.org/abs/2512.01946)
+
+**发表日期：2025-12-01（arXiv v1；2026-03-30 v3；arXiv 题名为 Scaling Cross-Environment Failure Reasoning Data for Vision-Language Robotic Manipulation）**
+
+**技术细节总结：** 这篇的核心是扩展跨环境失败推理数据 FailCoT，并训练多视角 VLM Guardian 做规划与执行验证。它更强调 failure dataset scaling、step-by-step reasoning traces 和跨环境泛化。和 AHA 类似都用合成失败数据，但 Guardian 更突出多视角和跨 benchmark 泛化；和 STL monitor 相比，它依赖数据规模和 VLM 推理能力。
+
+**定位：规划错误 + 执行错误检测 benchmark 与 VLM baseline。**
+
+**原文摘要：**
+
+> Robust robotic manipulation requires reliable failure detection and recovery. Although current Vision-Language Models (VLMs) show promise, their accuracy and generalization are limited by the scarcity of failure data. To address this data gap, we propose an automatic robot failure synthesis approach that procedurally perturbs successful trajectories to generate diverse planning and execution failures. This method produces not only binary classification labels but also fine-grained failure categories and step-by-step reasoning traces in both simulation and the real world. With it, we construct three new failure detection benchmarks: RLBench-Fail, BridgeDataV2-Fail, and UR5-Fail, substantially expanding the diversity and scale of existing failure datasets. We then train Guardian, a VLM with multi-view images for detailed failure reasoning and detection. Guardian achieves state-of-the-art performance on both existing and newly introduced benchmarks. It also effectively improves task success rates when integrated into a state-of-the-art manipulation system in simulation and real robots, demonstrating the impact of our generated failure data.
+
+**中文翻译：**
+
+> 鲁棒机器人操作需要可靠的失败检测和恢复。虽然当前视觉语言模型（VLM）展现出潜力，但其准确性和泛化能力受限于失败数据稀缺。为解决这一数据缺口，本文提出一种自动机器人失败合成方法，通过程序化扰动成功轨迹，生成多样的规划失败和执行失败。该方法不仅产生二分类标签，还在仿真和真实环境中生成细粒度失败类别和逐步推理轨迹。基于此，作者构建了三个新的失败检测 benchmark：RLBench-Fail、BridgeDataV2-Fail 和 UR5-Fail，大幅扩展了现有失败数据集的多样性和规模。随后作者训练 Guardian，这是一个使用多视角图像进行详细失败推理和检测的 VLM。Guardian 在已有和新引入的 benchmark 上都取得 SOTA 表现。当集成到 SOTA 操作系统中时，它也能有效提高仿真和真实机器人中的任务成功率，证明了生成失败数据的作用。
+
+- **具体方法：**
+    
+    - 通过扰动成功轨迹自动合成 planning failures 和 execution failures。
+        
+    - 构建 RLBench-Fail、BridgeDataV2-Fail、UR5-Fail 三个 benchmark。
+        
+    - 训练多视角 VLM Guardian 进行失败检测与推理。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 强调失败数据集与 benchmark 构建。
+        
+    - 将失败分成规划错误和执行错误，适合你给 VLA failure taxonomy 做参考。
+        
+    - 可以作为 VLM benchmark baseline，但与 STL monitor 的形式化约束方向不同。
+        
+
+---
+
+## 12. [Self-Refining Vision Language Model for Robotic Failure Detection and Reasoning](https://arxiv.org/abs/2602.12405)
+
+**发表日期：2026-02-12（arXiv 提交）**
+
+**技术细节总结：** ARMOR 把失败检测和失败推理设计成多轮 self-refinement：模型基于上一轮输出继续修正检测结果和自然语言理由，并用 self-certainty 选择更可信的结果。和 AHA 相比，它强调迭代自我修正；和 FAIL-Detect 相比，它能输出开放式语言解释；和 STL monitor 相比，它解释能力强，但形式化约束弱。
+
+**定位：自我细化式 VLM failure detection/reasoning baseline，模型名 ARMOR。**
+
+**原文摘要：**
+
+> Reasoning about failures is crucial for building reliable and trustworthy robotic systems. Prior approaches either treat failure reasoning as a closed-set classification problem or assume access to ample human annotations. Failures in the real world are typically subtle, combinatorial, and difficult to enumerate, whereas rich reasoning labels are expensive to acquire. We address this problem by introducing ARMOR: Adaptive Round-based Multi-task mOdel for Robotic failure detection and reasoning. We formulate detection and reasoning as a multi-task self-refinement process, where the model iteratively predicts detection outcomes and natural language reasoning conditioned on past outputs. During training, ARMOR learns from heterogeneous supervision - large-scale sparse binary labels and small-scale rich reasoning annotations - optimized via a combination of offline and online imitation learning. At inference time, ARMOR generates multiple refinement trajectories and selects the most confident prediction via a self-certainty metric. Experiments across diverse environments show that ARMOR achieves state-of-the-art performance by improving over the previous approaches by up to 30% on failure detection rate and up to 100% in reasoning measured through LLM fuzzy match score, demonstrating robustness to heterogeneous supervision and open-ended reasoning beyond predefined failure modes. We provide additional visualizations on our website: [https://sites.google.com/utexas.edu/armor](https://sites.google.com/utexas.edu/armor)
+
+**中文翻译：**
+
+> 对失败进行推理对于构建可靠、可信的机器人系统至关重要。已有方法要么将失败推理视为闭集分类问题，要么假设拥有大量人工标注。真实世界中的失败通常微妙、组合性强且难以穷举，而丰富的推理标签获取成本很高。为解决这一问题，本文提出 ARMOR：Adaptive Round-based Multi-task mOdel for Robotic failure detection and reasoning。作者将检测和推理表述为多任务自我细化过程，模型基于过去输出迭代预测检测结果和自然语言推理。在训练中，ARMOR 从异构监督中学习，包括大规模稀疏二分类标签和小规模丰富推理标注，并结合离线和在线模仿学习优化。推理阶段，ARMOR 生成多条细化轨迹，并通过 self-certainty metric 选择最有信心的预测。跨多样环境的实验表明，ARMOR 达到 SOTA，相比已有方法失败检测率最高提升 30%，在通过 LLM fuzzy match score 衡量的推理能力上最高提升 100%，展示了其对异构监督和超出预定义失败模式的开放式推理的鲁棒性。作者在网站提供了更多可视化结果。
+
+- **具体方法：**
+    
+    - 将 failure detection 和 reasoning 设计为 multi-task self-refinement。
+        
+    - 使用大规模稀疏二分类标签 + 小规模丰富推理标签。
+        
+    - 推理阶段生成多条 refinement trajectories，并用 self-certainty 选择结果。
+        
+- **效果 / 贡献 / 创新点：**
+    
+    - 强调在少量丰富推理标注下提升 failure reasoning。
+        
+    - 可作为更强的 VLM reasoning monitor baseline。
+        
+    - 与 STL 的区别：ARMOR 强在语言解释，STL 强在形式化约束和可量化监测。
+        
+
+---
+
+# 建议实验 baseline 组合
+
+Baseline 1: No Monitor  
+Baseline 2: Rule-based Threshold Monitor  
+Baseline 3: Action-level Monitor, such as direction reversal / jerk / velocity violation  
+Baseline 4: VLM Prompt Monitor, such as optimized GPT-4o/Qwen-VL prompt  
+Baseline 5: Code-as-Monitor  
+Baseline 6: AHA-style failure reasoning monitor  
+Baseline 7: FailSafe-style failure recovery monitor  
+Baseline 8: Sentinel-VLA-style internal active status monitoring, if reproducible  
+Baseline 9: Hide-and-Seek trajectory-level runtime monitor, if failure trajectories are available
+
+# 对你课题的直接写法
+
+> 现有 VLA/VLM monitor 研究主要沿着三条路线发展：第一类使用 VLM 对图像、轨迹或多视角观测进行失败检测和自然语言解释；第二类将失败恢复动作或语言指导引入闭环控制；第三类从动作序列或轨迹标签中学习运行时失败信号。这些方法在开放世界语义理解和失败恢复方面具有优势，但通常依赖训练数据、外部 VLM 推理或统计失败信号。相比之下，STL-based monitor 可以把任务约束、安全约束和时间约束表达为形式化公式，并在 VLA 执行过程中输出可解释的 Boolean verdict 和 quantitative robustness，从而为 VLA 部署提供更可验证的运行时安全层。

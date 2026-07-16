@@ -1,8 +1,6 @@
-# 终南山下，活死人墓 · 沉浸式入口
+# 终南山下，活死人墓
 
-这是原 Hexo 博客的独立实验入口。它负责山雨封面、云幕开场和沉浸式主页；文章、分类、归档与正文仍由 `F:\hugo\hexo\blog` 提供。
-
-`blog` 与 `new` 均为只读来源，本项目不会修改它们。
+独立的沉浸式 Markdown 博客。首页负责山雨封面、云幕转场与长卷叙事；Notes、Film、Life、Projects、分类、归档、About、友链、建站日志和文章正文都由本项目静态生成，不依赖 Hexo。
 
 ## 本地实时预览
 
@@ -11,9 +9,45 @@ npm install
 npm run dev
 ```
 
-打开：<http://127.0.0.1:4173/>
+打开 <http://127.0.0.1:4173/>。修改首页源码或 `content/` 下的 Markdown 后，预览会自动刷新。
 
-Vite 会监听文件变化，保存 HTML、CSS 或 JavaScript 后浏览器自动刷新。
+导航中的“旧版”指向 `/legacy/`，用于保留迁移前的 Hexo/ShokaX 静态站。旧版与新站同域，不会打开另一个开发服务。
+
+## Markdown 目录
+
+```text
+content/
+├── notes/       旧博客一次迁移后的全部技术、论文与普通笔记
+├── film/        电影与影评
+├── life/        生活、旅行和随笔
+├── projects/    项目记录
+└── pages/       About、友链、项目说明和建站日志
+```
+
+对应路径分别是 `content/notes/`、`content/film/`、`content/life/`、`content/projects/` 与 `content/pages/`。
+
+以后直接把 Markdown 与同名 `.assets` 文件夹放进对应父目录。旧文章保留原日期路由：
+
+```text
+/YYYY/MM/DD/文件名/
+```
+
+文章抬头沿用原格式：
+
+```yaml
+---
+title: 文章标题
+date: 2026-07-16 18:00:00
+categories:
+  - 分类
+tags:
+  - 标签
+desc: 可选摘要
+sticky: 0
+---
+```
+
+`title` 和 `date` 必填；`categories`、`tags`、`desc`、`sticky` 可选。相对图片路径会在构建时随文章复制并保持可访问。
 
 ## 检查与构建
 
@@ -22,41 +56,16 @@ npm test
 npm run build
 ```
 
-浏览器烟雾测试使用工作区已有的 Playwright 与 Microsoft Edge：
+生产文件输出到 `dist/`，包含 131 篇已迁移 Notes、全部索引页、文章资源、`404.html` 和自定义域名 `www.dying4ever.cyou`。本地存在被 Git 忽略的 `.legacy-source/` 时，构建还会生成 `dist/legacy/`；旧版根路径会自动改写为 `/legacy/`。
+
+浏览器验收：
 
 ```powershell
-& 'C:\Users\asus-\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
-  'C:\Users\asus-\.codex\skills\webapp-testing\scripts\with_server.py' `
-  --server "npm run dev" --port 4173 --timeout 40 -- `
-  'C:\Users\asus-\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' `
-  'F:\hugo\hexo\immersive\tests\smoke.py'
+python tests/smoke.py
 ```
 
-测试覆盖桌面滚轮开幕、四个入口、内容总览、资源/控制台错误、手机布局和减少动态效果模式。
+验收覆盖桌面开幕动画、山水长卷、序章、所有内容入口、131 篇 Notes、分类、归档、文章图片、手机菜单、横向溢出和控制台错误。
 
-## 博客链接基址
+## 部署
 
-开发时，`index.html` 的 `<html data-blog-base>` 指向：
-
-```text
-http://localhost:5000/
-```
-
-独立部署前将它改成：
-
-```text
-https://www.dying4ever.cyou/
-```
-
-所有导航与入口链接均由 `src/content.js` 和 `data-blog-path` 统一生成。
-
-## 首期范围
-
-- 山、云、雨和舞台边幕组成的全屏封面
-- 点击、滚轮、触摸和键盘触发的开幕动画
-- Notes、Film、Life、Some Projects 四个不规则入口
-- 原博客 About 与建站日志内容摘要
-- 桌面、平板、手机和减少动态效果适配
-- “重看开场”入口
-
-首期不复制 Markdown、不替换 ShokaX 首页，也不自动部署线上版本。
+将 `dist/` 作为静态站点根目录发布。`public/CNAME` 会随构建进入产物，用于 `https://www.dying4ever.cyou/`。发布产物中的 `/legacy/` 是一次迁移后的旧版快照，不参与新站 Markdown 渲染。

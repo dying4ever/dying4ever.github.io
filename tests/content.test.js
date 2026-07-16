@@ -9,16 +9,19 @@ test('uses the approved Chinese identity', () => {
 });
 
 test('exposes four real blog portals', () => {
-  assert.deepEqual(getPortalItems('http://localhost:5000').map((item) => item.id), [
+  const portals = getPortalItems('http://localhost:4173');
+  assert.deepEqual(portals.map((item) => item.id), [
     'notes',
     'film',
     'life',
     'projects',
   ]);
-  assert.equal(
-    getPortalItems('http://localhost:5000')[3].href,
-    'http://localhost:5000/projects/',
-  );
+  assert.deepEqual(portals.map((item) => new URL(item.href).pathname), [
+    '/notes/',
+    '/film/',
+    '/life/',
+    '/projects/',
+  ]);
 });
 
 test('normalizes blog paths', () => {
@@ -26,11 +29,17 @@ test('normalizes blog paths', () => {
     getBlogUrl('about', 'http://localhost:5000/'),
     'http://localhost:5000/about/',
   );
+  assert.equal(
+    getBlogUrl('archives', '/', 'https://www.dying4ever.cyou/'),
+    'https://www.dying4ever.cyou/archives/',
+  );
 });
 
-test('uses real Hexo-derived overview content', () => {
+test('uses standalone Markdown overview content', () => {
   assert.match(SITE_CONTENT.aboutSummary, /曾阿牛/);
   assert.equal(SITE_CONTENT.logEntries.length, 3);
+  assert.equal(SITE_CONTENT.logEntries[0].date, '2026.07.16');
+  assert.match(SITE_CONTENT.logEntries[0].title, /独立|Markdown/);
   assert.deepEqual(
     SITE_CONTENT.categories.map((item) => item.id),
     ['notes', 'film', 'life', 'projects'],

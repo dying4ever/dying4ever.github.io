@@ -16,10 +16,14 @@ html:not(.is-open) body {
   overflow: hidden;
 }
 
-html.is-open,
-html.is-open body {
+html.is-open {
   overflow-x: clip;
   overflow-y: auto;
+}
+
+html.is-open body {
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 body {

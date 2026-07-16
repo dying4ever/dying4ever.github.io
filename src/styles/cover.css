@@ -225,7 +225,7 @@
 .cover__subtitle {
   margin: clamp(1.2rem, 2.7vw, 2.5rem) 0 0;
   color: var(--gold-bright);
-  font-family: var(--font-display);
+  font-family: var(--font-reading);
   font-size: clamp(1rem, 1.5vw, 1.5rem);
   letter-spacing: 0.22em;
 }

@@ -5,21 +5,29 @@ export const SITE_CONTENT = Object.freeze({
   statement: '自此，我要写技术，我要写电影，我要写心路，我要写风月。',
   aboutSummary:
     '我叫曾阿牛。一直喜欢记录，也一直寻找载体；这里留下技术、电影、生活，以及仍在发生的变化。',
+  prologueParts: Object.freeze([
+    '以前我一直这样想着：等我的书出版了，我要走到每一个报摊上去看看。我要我最喜欢的蓝绿的封面，给报摊子上开一扇夜蓝的小窗户；人们可以在窗口看月亮，看热闹。',
+    '我要问报贩，装出不相干的样子：“销路还好吗？——太贵了，这么贵，真还有人买吗？”呵，出名要趁早呀！来得太晚的话，快乐也不那么痛快。',
+    '最初在校刊上登两篇文章，也是发了疯似的高兴着，自己读了一遍又一遍，每一次都像是第一次见到。就现在已经没那么容易兴奋了。所以更加要催：快，快，迟了来不及了，来不及了。',
+  ]),
+  prologueAttribution: '——张爱玲《传奇》',
+  aboutStory:
+    '我叫曾阿牛。名字借自张无忌流落蝴蝶谷时的化名。一直喜欢记录，也一直寻找合适的载体；从技术笔记、电影和生活片段，到一路上仍未想明白的问题，都在这里慢慢留下。',
   logEntries: Object.freeze([
     {
-      date: '2026.06.14',
-      title: '修复内容同步链路',
-      description: '规范文章 front-matter，让 Obsidian 与 Hexo 继续稳定同行。',
+      date: '2026.07.16',
+      title: '迁移为独立 Markdown 站点',
+      description: '首页、分类、归档、About、项目、友链和文章全部由新项目静态生成。',
     },
     {
-      date: '2026.06.14',
-      title: '接入 Obsidian 镜像同步',
-      description: '用真实目录同步保留 Markdown 与图片资源。',
+      date: '2026.07.16',
+      title: '完成电影式滚动转场',
+      description: '补齐云雾、推镜、飞鸟与明暗桥接，并统一小字号阅读字体。',
     },
     {
-      date: '2026.06.09',
-      title: '重整首屏素材与字体',
-      description: '压缩字体与封面，让第一次抵达更轻、更安静。',
+      date: '2026.07.16',
+      title: '修复分类与归档内容链路',
+      description: '分类页显示 Markdown 引言，归档恢复 131 篇文章入口并完善移动端。',
     },
   ]),
   categories: Object.freeze([
@@ -30,9 +38,14 @@ export const SITE_CONTENT = Object.freeze({
   ]),
 });
 
-export function getBlogUrl(pathname, base = 'https://www.dying4ever.cyou/') {
+export function getBlogUrl(
+  pathname,
+  base = '/',
+  origin = 'https://www.dying4ever.cyou/',
+) {
   const normalized = `${pathname}`.replace(/^\/+|\/+$/g, '');
-  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+  const resolvedBase = new URL(base, origin).href;
+  const normalizedBase = resolvedBase.endsWith('/') ? resolvedBase : `${resolvedBase}/`;
   return new URL(`${normalized}/`, normalizedBase).href;
 }
 
@@ -43,7 +56,7 @@ export function getPortalItems(base) {
       label: 'NOTES',
       zh: '笔记',
       description: '阅读、思考与技术记录',
-      href: getBlogUrl('categories', base),
+      href: getBlogUrl('notes', base),
       image: '/images/window-notes.webp',
     },
     {
@@ -51,7 +64,7 @@ export function getPortalItems(base) {
       label: 'FILM',
       zh: '影评',
       description: '光影之间，留下故事',
-      href: getBlogUrl('categories', base),
+      href: getBlogUrl('film', base),
       image: '/images/window-film.webp',
     },
     {
@@ -59,7 +72,7 @@ export function getPortalItems(base) {
       label: 'LIFE',
       zh: '生活',
       description: '行走、日常与片刻',
-      href: getBlogUrl('categories', base),
+      href: getBlogUrl('life', base),
       image: '/images/window-life.webp',
     },
     {
