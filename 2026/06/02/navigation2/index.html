@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="navigation2" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>navigation2 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>navigation2</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-06-02T14:09:27">2026-06-02</time>
+    <span class="content-meta__categories"><a href="/categories/%E5%AF%BC%E8%88%AA/">导航</a><a href="/categories/navigation2/">navigation2</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E5%AF%BC%E8%88%AA/">导航</a><a href="/tags/navigation2/">navigation2</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#ros-2-navigation2">ROS 2 Navigation2</a></li><li class="article-toc__level-2"><a href="#1.-nav2-%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%9C%E7%94%A8">1. Nav2 的基本作用</a></li><li class="article-toc__level-2"><a href="#2.-nav2-%E5%92%8C-slam-%E7%9A%84%E5%85%B3%E7%B3%BB">2. Nav2 和 SLAM 的关系</a></li><li class="article-toc__level-2"><a href="#3.-nav2-%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%BC%8F">3. Nav2 的两种常见模式</a></li><li class="article-toc__level-2"><a href="#4.-nav2-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97">4. Nav2 核心模块</a></li><li class="article-toc__level-2"><a href="#5.-nav2-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B">5. Nav2 工作流程</a></li><li class="article-toc__level-2"><a href="#6.-%E5%85%B3%E9%94%AE%E8%AF%9D%E9%A2%98">6. 关键话题</a></li><li class="article-toc__level-2"><a href="#7.-%E5%85%B3%E9%94%AE-tf-%E5%9D%90%E6%A0%87%E5%85%B3%E7%B3%BB">7. 关键 TF 坐标关系</a></li><li class="article-toc__level-2"><a href="#8.-costmap-%E4%BB%A3%E4%BB%B7%E5%9C%B0%E5%9B%BE">8. Costmap 代价地图</a></li><li class="article-toc__level-2"><a href="#9.-planner-%E5%92%8C-controller">9. Planner 和 Controller</a></li><li class="article-toc__level-2"><a href="#10.-behavior-tree-%E8%A1%8C%E4%B8%BA%E6%A0%91">10. Behavior Tree 行为树</a></li><li class="article-toc__level-2"><a href="#11.-%E7%9C%9F%E6%9C%BA%E8%BF%90%E8%A1%8C-nav2-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9D%A1%E4%BB%B6">11. 真机运行 Nav2 的基本条件</a></li><li class="article-toc__level-2"><a href="#12.-%E5%B8%B8%E8%A7%81%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B">12. 常见启动流程</a></li><li class="article-toc__level-2"><a href="#13.-%E5%B8%B8%E8%A7%81%E5%8F%82%E6%95%B0">13. 常见参数</a></li><li class="article-toc__level-2"><a href="#14.-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5">14. 常见问题排查</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="ros-2-navigation2" tabindex="-1">ROS 2 Navigation2</h1>
+<p>Navigation2，简称 Nav2，是 ROS 2 中的自主导航框架，主要作用是让移动机器人基于地图、定位、传感器和目标点，自主规划路径、避开障碍物，并输出速度指令控制底盘运动。</p>
+<h2 id="1.-nav2-%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BD%9C%E7%94%A8" tabindex="-1">1. Nav2 的基本作用</h2>
+<p>Nav2 解决的是“机器人如何从当前位置自主移动到目标点”的问题。它并不负责底盘电机的底层控制，而是根据地图和传感器信息计算运动指令，最终发布 <code>/cmd_vel</code> 给底盘驱动节点。</p>
+<pre class="code-frame"><code class="hljs language-text">地图 + 定位 + 传感器 + 目标点
+        ↓
+Navigation2
+        ↓
+/cmd_vel
+        ↓
+底盘驱动
+        ↓
+机器人运动
+</code></pre>
+<h2 id="2.-nav2-%E5%92%8C-slam-%E7%9A%84%E5%85%B3%E7%B3%BB" tabindex="-1">2. Nav2 和 SLAM 的关系</h2>
+<p>SLAM 主要负责建图和定位，Nav2 主要负责路径规划和运动控制。</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>作用</th>
+<th>常见输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SLAM</td>
+<td>建图与定位</td>
+<td><code>/map</code>、<code>map → odom</code></td>
+</tr>
+<tr>
+<td>AMCL</td>
+<td>已知地图下定位</td>
+<td><code>/amcl_pose</code>、<code>map → odom</code></td>
+</tr>
+<tr>
+<td>Nav2</td>
+<td>路径规划、避障、控制</td>
+<td><code>/cmd_vel</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="3.-nav2-%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%BC%8F" tabindex="-1">3. Nav2 的两种常见模式</h2>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>说明</th>
+<th>常用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SLAM 建图导航</td>
+<td>边建图边导航，SLAM 发布地图和定位信息</td>
+<td>新环境建图</td>
+</tr>
+<tr>
+<td>已知地图导航</td>
+<td>加载已有地图，用 AMCL 定位，再由 Nav2 导航</td>
+<td>固定场地巡逻、服务机器人</td>
+</tr>
+</tbody>
+</table>
+<p>建图阶段通常使用 SLAM Toolbox 或 Cartographer；已有地图导航阶段通常使用 map_server 加载地图，AMCL 负责定位，Nav2 负责规划和控制。</p>
+<h2 id="4.-nav2-%E6%A0%B8%E5%BF%83%E6%A8%A1%E5%9D%97" tabindex="-1">4. Nav2 核心模块</h2>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Map Server</td>
+<td>加载并发布静态地图 <code>/map</code></td>
+</tr>
+<tr>
+<td>AMCL</td>
+<td>根据激光雷达和地图估计机器人位姿</td>
+</tr>
+<tr>
+<td>Planner Server</td>
+<td>全局路径规划，决定从当前位置到目标点的大致路线</td>
+</tr>
+<tr>
+<td>Controller Server</td>
+<td>局部路径跟踪，计算实时速度指令</td>
+</tr>
+<tr>
+<td>Costmap</td>
+<td>代价地图，表示哪里能走、哪里不能走</td>
+</tr>
+<tr>
+<td>BT Navigator</td>
+<td>行为树导航器，负责组织导航任务流程</td>
+</tr>
+<tr>
+<td>Behavior Server</td>
+<td>恢复行为，如原地旋转、后退、清除代价地图</td>
+</tr>
+<tr>
+<td>Lifecycle Manager</td>
+<td>管理 Nav2 各节点的生命周期状态</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5.-nav2-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B" tabindex="-1">5. Nav2 工作流程</h2>
+<pre class="code-frame"><code class="hljs language-text">1. 加载地图
+2. AMCL 或 SLAM 提供机器人定位
+3. 用户在 RViz 或程序中发送目标点
+4. Planner Server 规划全局路径
+5. Controller Server 跟踪路径并实时避障
+6. Nav2 发布 /cmd_vel
+7. 底盘驱动接收速度指令并控制机器人运动
+8. 到达目标点或执行恢复行为
+</code></pre>
+<h2 id="6.-%E5%85%B3%E9%94%AE%E8%AF%9D%E9%A2%98" tabindex="-1">6. 关键话题</h2>
+<table>
+<thead>
+<tr>
+<th>话题</th>
+<th>类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/map</code></td>
+<td><code>nav_msgs/OccupancyGrid</code></td>
+<td>地图</td>
+</tr>
+<tr>
+<td><code>/scan</code></td>
+<td><code>sensor_msgs/LaserScan</code></td>
+<td>激光雷达数据</td>
+</tr>
+<tr>
+<td><code>/odom</code></td>
+<td><code>nav_msgs/Odometry</code></td>
+<td>里程计</td>
+</tr>
+<tr>
+<td><code>/tf</code></td>
+<td>TFMessage</td>
+<td>动态坐标变换</td>
+</tr>
+<tr>
+<td><code>/tf_static</code></td>
+<td>TFMessage</td>
+<td>静态坐标变换</td>
+</tr>
+<tr>
+<td><code>/cmd_vel</code></td>
+<td><code>geometry_msgs/Twist</code></td>
+<td>速度控制指令</td>
+</tr>
+<tr>
+<td><code>/goal_pose</code></td>
+<td><code>geometry_msgs/PoseStamped</code></td>
+<td>导航目标点</td>
+</tr>
+<tr>
+<td><code>/amcl_pose</code></td>
+<td><code>geometry_msgs/PoseWithCovarianceStamped</code></td>
+<td>AMCL 定位结果</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7.-%E5%85%B3%E9%94%AE-tf-%E5%9D%90%E6%A0%87%E5%85%B3%E7%B3%BB" tabindex="-1">7. 关键 TF 坐标关系</h2>
+<p>Nav2 对 TF 要求很严格，常见坐标关系如下：</p>
+<pre class="code-frame"><code class="hljs language-text">map → odom → base_link/base_footprint → laser
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>坐标系</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>map</code></td>
+<td>全局地图坐标系，和地图绑定</td>
+</tr>
+<tr>
+<td><code>odom</code></td>
+<td>里程计坐标系，短时间连续但会漂移</td>
+</tr>
+<tr>
+<td><code>base_link</code></td>
+<td>机器人本体坐标系</td>
+</tr>
+<tr>
+<td><code>base_footprint</code></td>
+<td>机器人底盘投影坐标系</td>
+</tr>
+<tr>
+<td><code>laser</code></td>
+<td>激光雷达坐标系</td>
+</tr>
+</tbody>
+</table>
+<p>一般情况下，<code>odom → base_link</code> 由底盘里程计发布，<code>base_link → laser</code> 由 URDF 或静态 TF 发布，<code>map → odom</code> 由 AMCL 或 SLAM 发布。</p>
+<h2 id="8.-costmap-%E4%BB%A3%E4%BB%B7%E5%9C%B0%E5%9B%BE" tabindex="-1">8. Costmap 代价地图</h2>
+<p>Costmap 是 Nav2 判断障碍物和可通行区域的重要模块。它会把环境划分为可通行区域、障碍物区域、未知区域和膨胀区域。</p>
+<table>
+<thead>
+<tr>
+<th>Costmap</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Global Costmap</td>
+<td>用于全局路径规划</td>
+</tr>
+<tr>
+<td>Local Costmap</td>
+<td>用于局部避障和路径跟踪</td>
+</tr>
+</tbody>
+</table>
+<p>常见 layer 包括 Static Layer、Obstacle Layer、Voxel Layer 和 Inflation Layer。Static Layer 来自静态地图，Obstacle Layer 来自激光雷达等传感器，Inflation Layer 用来给障碍物周围增加安全距离。</p>
+<h2 id="9.-planner-%E5%92%8C-controller" tabindex="-1">9. Planner 和 Controller</h2>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>作用</th>
+<th>常见算法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Planner Server</td>
+<td>规划从起点到终点的全局路径</td>
+<td>NavFn、Smac Planner、Theta*</td>
+</tr>
+<tr>
+<td>Controller Server</td>
+<td>跟踪路径并输出速度指令</td>
+<td>DWB、Regulated Pure Pursuit、MPPI</td>
+</tr>
+</tbody>
+</table>
+<p>简单理解：Planner 负责“走哪条路”，Controller 负责“怎么沿着这条路走”。</p>
+<h2 id="10.-behavior-tree-%E8%A1%8C%E4%B8%BA%E6%A0%91" tabindex="-1">10. Behavior Tree 行为树</h2>
+<p>Nav2 使用行为树组织导航流程，不是简单地规划一次路径就一直执行。导航过程中如果失败，可以自动执行恢复行为。</p>
+<pre class="code-frame"><code class="hljs language-text">接收目标点 → 计算路径 → 跟踪路径 → 判断是否失败 → 恢复行为 → 重新规划 → 到达目标点
+</code></pre>
+<p>常见恢复行为包括：清除代价地图、原地旋转、后退、等待、重新规划等。</p>
+<h2 id="11.-%E7%9C%9F%E6%9C%BA%E8%BF%90%E8%A1%8C-nav2-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%9D%A1%E4%BB%B6" tabindex="-1">11. 真机运行 Nav2 的基本条件</h2>
+<table>
+<thead>
+<tr>
+<th>条件</th>
+<th>要求</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底盘驱动</td>
+<td>能订阅 <code>/cmd_vel</code>，发布 <code>/odom</code></td>
+</tr>
+<tr>
+<td>激光雷达</td>
+<td>能发布 <code>/scan</code></td>
+</tr>
+<tr>
+<td>TF</td>
+<td><code>map → odom → base_link → laser</code> 完整</td>
+</tr>
+<tr>
+<td>地图</td>
+<td>有 <code>map.yaml</code> 和 <code>map.pgm</code></td>
+</tr>
+<tr>
+<td>URDF</td>
+<td>正确描述机器人本体和传感器位置</td>
+</tr>
+<tr>
+<td>参数文件</td>
+<td>配置 Nav2 各模块参数</td>
+</tr>
+</tbody>
+</table>
+<p>如果这些条件不满足，Nav2 很容易出现无法定位、无法规划、机器人不动或原地转圈等问题。</p>
+<h2 id="12.-%E5%B8%B8%E8%A7%81%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B" tabindex="-1">12. 常见启动流程</h2>
+<p>建图阶段：</p>
+<pre class="code-frame"><code class="hljs language-bash"><span class="hljs-comment"># 启动底盘、雷达、TF</span>
+ros2 launch your_robot_bringup robot.launch.py
+
+<span class="hljs-comment"># 启动 SLAM</span>
+ros2 launch slam_toolbox online_async_launch.py
+
+<span class="hljs-comment"># 启动 Nav2</span>
+ros2 launch nav2_bringup navigation_launch.py
+
+<span class="hljs-comment"># 保存地图</span>
+ros2 run nav2_map_server map_saver_cli -f ~/map
+</code></pre>
+<p>已有地图导航阶段：</p>
+<pre class="code-frame"><code class="hljs language-bash"><span class="hljs-comment"># 启动底盘、雷达、TF</span>
+ros2 launch your_robot_bringup robot.launch.py
+
+<span class="hljs-comment"># 启动 Nav2 并加载地图</span>
+ros2 launch nav2_bringup bringup_launch.py map:=/home/xxx/map.yaml use_sim_time:=False
+</code></pre>
+<h2 id="13.-%E5%B8%B8%E8%A7%81%E5%8F%82%E6%95%B0" tabindex="-1">13. 常见参数</h2>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>robot_radius</code> / <code>footprint</code></td>
+<td>机器人尺寸</td>
+</tr>
+<tr>
+<td><code>inflation_radius</code></td>
+<td>障碍物膨胀半径</td>
+</tr>
+<tr>
+<td><code>max_vel_x</code></td>
+<td>最大前进速度</td>
+</tr>
+<tr>
+<td><code>max_vel_theta</code></td>
+<td>最大角速度</td>
+</tr>
+<tr>
+<td><code>transform_tolerance</code></td>
+<td>TF 时间容差</td>
+</tr>
+<tr>
+<td><code>obstacle_max_range</code></td>
+<td>障碍物检测最大距离</td>
+</tr>
+<tr>
+<td><code>raytrace_max_range</code></td>
+<td>清除障碍物的最大射线距离</td>
+</tr>
+</tbody>
+</table>
+<p>调试真机时，速度参数建议先设小一些，防止机器人运动过快导致撞墙或定位失败。</p>
+<h2 id="14.-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5" tabindex="-1">14. 常见问题排查</h2>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>可能原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RViz 中机器人不在地图上</td>
+<td>AMCL 未定位、初始位姿未设置、TF 缺失</td>
+</tr>
+<tr>
+<td>机器人规划路径但不动</td>
+<td><code>/cmd_vel</code> 没发布，或底盘没有订阅 <code>/cmd_vel</code></td>
+</tr>
+<tr>
+<td>机器人原地转圈</td>
+<td>TF 方向错误、雷达方向错误、局部控制器参数不合适</td>
+</tr>
+<tr>
+<td>机器人贴墙走</td>
+<td><code>inflation_radius</code> 太小或机器人尺寸设置错误</td>
+</tr>
+<tr>
+<td>机器人认为前方全是障碍</td>
+<td>激光雷达 TF 错误，costmap 参数异常</td>
+</tr>
+<tr>
+<td>报 TF timeout</td>
+<td>时间同步问题，TF 发布频率低，<code>use_sim_time</code> 设置错误</td>
+</tr>
+</tbody>
+</table>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/06/02/slam/"><small>上一篇</small><strong>slam</strong></a>
+        <a href="/2026/06/02/FAST-LIVO/"><small>下一篇</small><strong>FAST-LIVO</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

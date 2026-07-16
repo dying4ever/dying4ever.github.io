@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="hsv知识" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>hsv知识 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>hsv知识</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-11-02T18:02:41">2025-11-02</time>
+    <span class="content-meta__categories"><a href="/categories/Python/">Python</a><a href="/categories/opencv/">opencv</a></span>
+    <span class="content-meta__tags"><a href="/tags/Python/">Python</a><a href="/tags/opencv/">opencv</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#%E4%B8%80%E3%80%81hsv-%E7%9A%84%E4%B8%89%E4%B8%AA%E9%80%9A%E9%81%93%E5%90%AB%E4%B9%89">一、HSV 的三个通道含义</a></li><li class="article-toc__level-2"><a href="#%E4%BA%8C%E3%80%81%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E4%B8%BE%E4%BE%8B">二、直观理解举例</a></li><li class="article-toc__level-2"><a href="#%E4%B8%89%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88-opencv-%E7%9A%84-h-%E6%98%AF-0~180-%E8%80%8C%E4%B8%8D%E6%98%AF-0~360%EF%BC%9F">三、为什么 OpenCV 的 H 是 0~180 而不是 0~360？</a></li><li class="article-toc__level-2"><a href="#%E5%9B%9B%E3%80%81%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9B%B4%E8%A7%89%E6%80%BB%E7%BB%93">四、可视化直觉总结</a></li><li class="article-toc__level-2"><a href="#%E4%BA%94%E3%80%81%E5%AE%9E%E7%94%A8%E7%BB%8F%E9%AA%8C">五、实用经验</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="%E4%B8%80%E3%80%81hsv-%E7%9A%84%E4%B8%89%E4%B8%AA%E9%80%9A%E9%81%93%E5%90%AB%E4%B9%89" tabindex="-1">一、HSV 的三个通道含义</h2>
+<table>
+<thead>
+<tr>
+<th>通道</th>
+<th>名称</th>
+<th>范围（OpenCV）</th>
+<th>物理意义</th>
+<th>举例说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>H</strong></td>
+<td>Hue（色相）</td>
+<td><strong>0 ~ 180</strong></td>
+<td>表示颜色种类（红、橙、黄、绿、蓝、紫）</td>
+<td>红=0 / 180、黄≈30、绿≈60、蓝≈120</td>
+</tr>
+<tr>
+<td><strong>S</strong></td>
+<td>Saturation（饱和度）</td>
+<td><strong>0 ~ 255</strong></td>
+<td>表示颜色的“纯度”或“鲜艳程度”</td>
+<td>0=灰色调、255=纯色</td>
+</tr>
+<tr>
+<td><strong>V</strong></td>
+<td>Value（亮度 / 明度）</td>
+<td><strong>0 ~ 255</strong></td>
+<td>表示颜色的亮暗程度</td>
+<td>0=黑、255=最亮</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%E4%BA%8C%E3%80%81%E7%9B%B4%E8%A7%82%E7%90%86%E8%A7%A3%E4%B8%BE%E4%BE%8B" tabindex="-1">二、直观理解举例</h2>
+<table>
+<thead>
+<tr>
+<th>颜色</th>
+<th>H（色相）</th>
+<th>S（饱和度）</th>
+<th>V（亮度）</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>白色</td>
+<td>任意</td>
+<td><strong>0</strong></td>
+<td><strong>高（&gt;200）</strong></td>
+<td>无色、高亮</td>
+</tr>
+<tr>
+<td>灰色</td>
+<td>任意</td>
+<td><strong>0</strong></td>
+<td><strong>中等（80~200）</strong></td>
+<td>无色、中亮度</td>
+</tr>
+<tr>
+<td>黑色</td>
+<td>任意</td>
+<td><strong>0</strong></td>
+<td><strong>低（&lt;50）</strong></td>
+<td>无色、低亮度</td>
+</tr>
+<tr>
+<td>红色</td>
+<td>0</td>
+<td>高</td>
+<td>高</td>
+<td>色相在红色段</td>
+</tr>
+<tr>
+<td>黄色</td>
+<td>30</td>
+<td>高</td>
+<td>高</td>
+<td>典型黄线颜色</td>
+</tr>
+<tr>
+<td>绿色</td>
+<td>60</td>
+<td>高</td>
+<td>高</td>
+<td>草地、树木区域</td>
+</tr>
+<tr>
+<td>蓝色</td>
+<td>120</td>
+<td>高</td>
+<td>高</td>
+<td>天空或路面反光</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%E4%B8%89%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88-opencv-%E7%9A%84-h-%E6%98%AF-0~180-%E8%80%8C%E4%B8%8D%E6%98%AF-0~360%EF%BC%9F" tabindex="-1">三、为什么 OpenCV 的 H 是 0~180 而不是 0~360？</h2>
+<ul>
+<li>
+<p>HSV 的理论值：<br>
+Hue ∈ [0°, 360°]（角度表示颜色圆环）</p>
+</li>
+<li>
+<p>但 OpenCV 使用 8-bit 存储，因此缩小为一半：<br>
+<strong>H = 0~180 → 对应实际 0°~360°。</strong><br>
+例如：</p>
+<table>
+<thead>
+<tr>
+<th>实际角度</th>
+<th>OpenCV 中的 H 值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0°（红色）</td>
+<td>0</td>
+</tr>
+<tr>
+<td>60°（黄色）</td>
+<td>30</td>
+</tr>
+<tr>
+<td>120°（绿色）</td>
+<td>60</td>
+</tr>
+<tr>
+<td>180°（青色）</td>
+<td>90</td>
+</tr>
+<tr>
+<td>240°（蓝色）</td>
+<td>120</td>
+</tr>
+<tr>
+<td>300°（品红）</td>
+<td>150</td>
+</tr>
+<tr>
+<td>360°（回到红色）</td>
+<td>180</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<hr>
+<h2 id="%E5%9B%9B%E3%80%81%E5%8F%AF%E8%A7%86%E5%8C%96%E7%9B%B4%E8%A7%89%E6%80%BB%E7%BB%93" tabindex="-1">四、可视化直觉总结</h2>
+<p>可以这样理解：</p>
+<p><code>H —— 决定“是什么颜色” S —— 决定“颜色的浓度” V —— 决定“颜色的亮度”</code></p>
+<p>举个例子：</p>
+<ul>
+<li>
+<p>(H=30, S=200, V=250) → 鲜艳的黄色</p>
+</li>
+<li>
+<p>(H=30, S=50, V=250) → 淡黄色（接近白）</p>
+</li>
+<li>
+<p>(H=30, S=200, V=100) → 深黄色（偏棕）</p>
+</li>
+<li>
+<p>(任意H, S=0, V=250) → 纯白</p>
+</li>
+<li>
+<p>(任意H, S=0, V=0) → 纯黑</p>
+</li>
+</ul>
+<hr>
+<h2 id="%E4%BA%94%E3%80%81%E5%AE%9E%E7%94%A8%E7%BB%8F%E9%AA%8C" tabindex="-1">五、实用经验</h2>
+<p>在做图像处理时：</p>
+<ul>
+<li>
+<p><strong>提取白色</strong>：低 S，高 V</p>
+</li>
+<li>
+<p><strong>提取黄色</strong>：H 在 15~35，S/V 都较高</p>
+</li>
+<li>
+<p><strong>提取黑色</strong>：低 V（&lt;50），S 不重要</p>
+</li>
+<li>
+<p><strong>提取灰色</strong>：低 S，V 中等</p>
+</li>
+</ul>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/10/28/2、硬件基础/"><small>上一篇</small><strong>2、硬件基础</strong></a>
+        <a href="/2025/11/06/点灯/"><small>下一篇</small><strong>点灯</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

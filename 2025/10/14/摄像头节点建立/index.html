@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="摄像头节点建立" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>摄像头节点建立 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>摄像头节点建立</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-10-14T20:21:49">2025-10-14</time>
+    <span class="content-meta__categories"><a href="/categories/ros2/">ros2</a></span>
+    <span class="content-meta__tags"><a href="/tags/ros2/">ros2</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#%E4%B8%80%E3%80%81%E6%9E%84%E5%BB%BA%E5%8C%85">一、构建包</a></li><li class="article-toc__level-2"><a href="#%E4%BA%8C-%E3%80%81%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96">二 、安装依赖</a></li><li class="article-toc__level-2"><a href="#%E4%B8%89%E3%80%81%E7%BC%96%E5%86%99%E4%B8%BB%E8%8A%82%E7%82%B9%E6%96%87%E4%BB%B6">三、编写主节点文件</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="%E4%B8%80%E3%80%81%E6%9E%84%E5%BB%BA%E5%8C%85" tabindex="-1">一、构建包</h2>
+<p>进入并创建包：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">cd ~/ros2_ws/src
+ros2 pkg create --build-type ament_python vision_node
+
+</code></pre>
+<p>这会生成一个包结构：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">vision_node/
+ ├── package.xml
+ ├── setup.cfg
+ ├── setup.py
+ └── vision_node/
+     └── __init__.py
+</code></pre>
+<h2 id="%E4%BA%8C-%E3%80%81%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96" tabindex="-1">二 、安装依赖</h2>
+<p>节点要用到：</p>
+<ul>
+<li><code>rclpy</code>（ROS 2 Python 客户端）</li>
+<li><code>cv_bridge</code>（ROS 图像格式转换）</li>
+<li><code>opencv-python</code>（图像处理</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo apt install ros-foxy-cv-bridge
+pip3 install opencv-python
+</code></pre>
+<h2 id="%E4%B8%89%E3%80%81%E7%BC%96%E5%86%99%E4%B8%BB%E8%8A%82%E7%82%B9%E6%96%87%E4%BB%B6" tabindex="-1">三、编写主节点文件</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">cd ~/ros2_ws/src/vision_node/vision_node
+touch vision_node.py
+chmod +x vision_node.py
+</code></pre>
+<h6 id="vision_node%E6%A8%A1%E6%9D%BF%EF%BC%9A" tabindex="-1">vision_node模板：</h6>
+<pre class="code-frame"><code class="hljs language-plaintext">#!/usr/bin/env python3
+import rclpy
+from rclpy.node import Node
+from sensor_msgs.msg import Imu, Image
+from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Twist
+from cv_bridge import CvBridge
+import cv2
+
+class VisionNode(Node):
+    def __init__(self):
+        super().__init__(&#x27;vision_node&#x27;)
+        self.get_logger().info(&quot;VisionNode started!&quot;)
+
+        # 初始化 OpenCV 视频流（摄像头或视频文件）
+        # - 视频文件路径（如 &quot;videos/test.mp4&quot;）
+        # - 图片路径（如 &quot;images/frame1.jpg&quot;）
+        #self.cap = cv2.VideoCapture(0)  # 改成路径例如 &#x27;video.mp4&#x27; 读取文件
+        self.cap = cv2.VideoCapture(&quot;/home/zhangjingxuan/cvtest/src/vision_node/1.mp4&quot;)
+
+        # 创建 ROS 订阅者
+        self.create_subscription(Imu, &#x27;/imu&#x27;, self.imu_callback, 10)
+        self.create_subscription(Odometry, &#x27;/odom&#x27;, self.odom_callback, 10)
+
+        # 创建 ROS 发布者
+        self.cmd_pub = self.create_publisher(Twist, &#x27;/cmd_vel&#x27;, 10)
+
+        # 创建图像桥
+        self.bridge = CvBridge()
+
+        # 创建定时器（30Hz）
+        self.timer = self.create_timer(1/30.0, self.timer_callback)
+
+    def imu_callback(self, msg: Imu):
+        self.get_logger().info_once(&quot;IMU 订阅成功&quot;)
+        ax = msg.linear_acceleration.x
+        ay = msg.linear_acceleration.y
+        az = msg.linear_acceleration.z
+        self.get_logger().debug(f&quot;IMU Accel: {ax:.2f}, {ay:.2f}, {az:.2f}&quot;)
+
+    def odom_callback(self, msg: Odometry):
+        self.get_logger().info_once(&quot;Odom 订阅成功&quot;)
+        pos = msg.pose.pose.position
+        self.get_logger().debug(f&quot;Odom Pos: x={pos.x:.2f}, y={pos.y:.2f}&quot;)
+
+    def timer_callback(self):
+        ret, frame = self.cap.read()
+        #frame = cv2.imread(self.input_source)
+        if not ret:
+            self.get_logger().warn(&quot;读取视频失败或结束&quot;)
+            return
+
+        # 简单显示视频帧
+        cv2.imshow(&quot;VisionNode View&quot;, frame)
+        cv2.waitKey(1)
+
+        # 示例：发布简单控制命令
+        twist = Twist()
+        twist.linear.x = 0.1
+        twist.angular.z = 0.0
+        self.cmd_pub.publish(twist)
+
+    def destroy_node(self):
+        self.get_logger().info(&quot;Shutting down VisionNode...&quot;)
+        self.cap.release()
+        cv2.destroyAllWindows()
+        super().destroy_node()
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = VisionNode()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+if __name__ == &#x27;__main__&#x27;:
+    main()
+
+
+</code></pre>
+<h6 id="setup.py%E6%A8%A1%E6%9D%BF%EF%BC%9A" tabindex="-1">setup.py模板：</h6>
+<pre class="code-frame"><code class="hljs language-plaintext">from setuptools import find_packages, setup
+
+package_name = &#x27;vision_node&#x27;
+
+setup(
+    name=package_name,
+    version=&#x27;0.0.0&#x27;,
+    packages=find_packages(exclude=[&#x27;test&#x27;]),
+    data_files=[
+        (&#x27;share/ament_index/resource_index/packages&#x27;,
+            [&#x27;resource/&#x27; + package_name]),
+        (&#x27;share/&#x27; + package_name, [&#x27;package.xml&#x27;]),
+    ],
+    install_requires=[&#x27;setuptools&#x27;],
+    zip_safe=True,
+    maintainer=&#x27;zhangjingxuan&#x27;,
+    maintainer_email=&#x27;1607782513@qq.com&#x27;,
+    description=&#x27;i love u&#x27;,
+    license=&#x27;MIT&#x27;,
+    tests_require=[&#x27;pytest&#x27;],
+    entry_points={
+        &#x27;console_scripts&#x27;: [
+        &#x27;vision_node = vision_node.vision_node:main&#x27;
+        ],
+    },
+)
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/10/14/版本信息/"><small>上一篇</small><strong>版本信息</strong></a>
+        <a href="/2025/10/18/yolov5_+_python_+_tensorrt/"><small>下一篇</small><strong>yolov5_+_python_+_tensorrt</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

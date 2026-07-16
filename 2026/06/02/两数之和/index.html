@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="两数之和" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>两数之和 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>两数之和</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-06-02T16:57:28">2026-06-02</time>
+    <span class="content-meta__categories"><a href="/categories/%E5%8A%9B%E6%89%A3/">力扣</a><a href="/categories/hot100/">hot100</a><a href="/categories/py/">py</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E5%8A%9B%E6%89%A3/">力扣</a><a href="/tags/hot100/">hot100</a><a href="/tags/py/">py</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    
+    <article class="article-paper">
+      <div class="markdown-body"><pre class="code-frame"><code class="hljs language-plaintext">class Solution {
+
+public:
+
+    vector&lt;int&gt; twoSum(vector&lt;int&gt;&amp; nums, int target) {
+
+        int n = nums.size();
+
+        for (int i = 0;i&lt;n;i++){
+
+            for (int j=i+1;j&lt;n;j++){
+
+                if (nums[i]==target - nums[j]){
+
+                            return {i, j};
+
+                            }
+
+                    }
+
+        }
+
+        return {};
+    }
+
+};
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/06/02/README/"><small>上一篇</small><strong>README</strong></a>
+        <a href="/2026/06/04/Afford-VLA--Action-Aligned-Visual-Planning-via-Internalized-Affordance-K2U43GTL/"><small>下一篇</small><strong>Afford-VLA--Action-Aligned-Visual-Planning-via-Internalized-Affordance-K2U43GTL</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

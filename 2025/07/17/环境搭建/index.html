@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="环境搭建" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>环境搭建 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>环境搭建</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/ubuntu/">ubuntu</a></span>
+    <span class="content-meta__tags"><a href="/tags/ubuntu/">ubuntu</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#ubuntu%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83">ubuntu如何创建虚拟环境</a></li><li class="article-toc__level-3"><a href="#%E4%BD%BF%E7%94%A8-venv-%E6%A8%A1%E5%9D%97%23">使用 venv 模块 #</a></li><li class="article-toc__level-3"><a href="#%E4%BD%BF%E7%94%A8-virtualenv-%E5%B7%A5%E5%85%B7%23">使用 virtualenv 工具 #</a></li><li class="article-toc__level-3"><a href="#%E4%BD%BF%E7%94%A8-conda%EF%BC%88anaconda-%E6%88%96-miniconda%EF%BC%89%23">使用 conda（Anaconda 或 Miniconda） #</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h1 id="ubuntu%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83" tabindex="-1"><a href="https://www.cnblogs.com/cloud-2-jane/p/18805803" target="_blank" rel="noreferrer noopener">ubuntu如何创建虚拟环境</a></h1>
+<p>在 Ubuntu 系统中，你可以使用不同的工具来创建 Python 虚拟环境，以下为你介绍几种常见的方法。</p>
+<h3 id="%E4%BD%BF%E7%94%A8-venv-%E6%A8%A1%E5%9D%97%23" tabindex="-1">使用 venv 模块<a href="https://www.cnblogs.com/cloud-2-jane/p/18805803#%E4%BD%BF%E7%94%A8-venv-%E6%A8%A1%E5%9D%97" target="_blank" rel="noreferrer noopener">#</a></h3>
+<p><code>venv</code> 是 Python 3 标准库中自带的虚拟环境创建工具，无需额外安装，使用起来简单方便。</p>
+<h4 id="%E6%AD%A5%E9%AA%A4%E5%A6%82%E4%B8%8B" tabindex="-1">步骤如下</h4>
+<ol>
+<li><strong>安装 Python 3 和 venv（如果尚未安装）</strong>：
+通常 Ubuntu 系统会预装 Python 3，但为了确保 <code>venv</code> 可用，你可以执行以下命令：</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> apt update
+<span class="hljs-built_in">sudo</span> apt install python3 python3-venv
+</code></pre>
+<ol>
+<li><strong>创建虚拟环境</strong>：
+打开终端，进入你希望创建虚拟环境的目录，然后执行以下命令：</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-bash">python3 -m venv myenv
+</code></pre>
+<p>这里的 <code>myenv</code> 是虚拟环境的名称，你可以根据需要进行修改。</p>
+<ol>
+<li><strong>激活虚拟环境</strong>：</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-bash"><span class="hljs-built_in">source</span> myenv/bin/activate
+</code></pre>
+<p>激活后，终端的命令行提示符通常会显示当前激活的虚拟环境名称。</p>
+<ol>
+<li><strong>使用虚拟环境</strong>：
+在激活的虚拟环境中，你可以使用 <code>pip</code> 来安装和管理 Python 包，这些包只会安装在当前虚拟环境中，不会影响系统全局的 Python 环境。例如：</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-bash">pip install numpy
+</code></pre>
+<ol>
+<li><strong>停用虚拟环境</strong>：
+当你完成工作后，可以使用以下命令停用虚拟环境：</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-bash">deactivate
+</code></pre>
+<h3 id="%E4%BD%BF%E7%94%A8-virtualenv-%E5%B7%A5%E5%85%B7%23" tabindex="-1">使用 virtualenv 工具<a href="https://www.cnblogs.com/cloud-2-jane/p/18805803#%E4%BD%BF%E7%94%A8-virtualenv-%E5%B7%A5%E5%85%B7" target="_blank" rel="noreferrer noopener">#</a></h3>
+<p><code>virtualenv</code> 是一个功能强大且广泛使用的第三方虚拟环境管理工具，它支持 Python 2 和 Python 3，并且提供了更多的配置选项。</p>
+<h4 id="%E6%AD%A5%E9%AA%A4%E5%A6%82%E4%B8%8B-1" tabindex="-1">步骤如下</h4>
+<ol>
+<li><strong>安装 virtualenv</strong>：
+使用 <code>pip</code> 来安装 <code>virtualenv</code>：</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-bash">pip install virtualenv
+</code></pre>
+<p>如果你希望在系统全局环境中安装，可以使用 <code>sudo</code>：</p>
+<pre class="code-frame"><code class="hljs language-bash"><span class="hljs-built_in">sudo</span> pip install virtualenv
+</code></pre>
+<ol>
+<li><strong>创建虚拟环境</strong>：
+进入你希望创建虚拟环境的目录，然后执行以下命令：</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-bash">virtualenv myenv
+</code></pre>
+<p>如果你想指定 Python 版本，可以使用 <code>-p</code> 选项，例如指定使用 Python 3.9：</p>
+<pre class="code-frame"><code class="hljs language-bash">virtualenv -p /usr/bin/python3.9 myenv
+</code></pre>
+<ol>
+<li><strong>激活和停用虚拟环境</strong>：
+激活和停用虚拟环境的方法与 <code>venv</code> 相同：</li>
+</ol>
+<ul>
+<li>激活：</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-bash"><span class="hljs-built_in">source</span> myenv/bin/activate
+</code></pre>
+<ul>
+<li>停用：</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-bash">deactivate
+</code></pre>
+<h3 id="%E4%BD%BF%E7%94%A8-conda%EF%BC%88anaconda-%E6%88%96-miniconda%EF%BC%89%23" tabindex="-1">使用 conda（Anaconda 或 Miniconda）<a href="https://www.cnblogs.com/cloud-2-jane/p/18805803#%E4%BD%BF%E7%94%A8-condaanaconda-%E6%88%96-miniconda" target="_blank" rel="noreferrer noopener">#</a></h3>
+<p><code>conda</code> 是 Anaconda 和 Miniconda 发行版自带的包管理和环境管理工具，它不仅可以管理 Python 包，还可以管理其他语言的包，并且可以方便地创建和管理不同 Python 版本的虚拟环境。</p>
+<h4 id="%E6%AD%A5%E9%AA%A4%E5%A6%82%E4%B8%8B-2" tabindex="-1">步骤如下</h4>
+<ol>
+<li><strong>安装 Anaconda 或 Miniconda</strong>：
+从官方网站（<a href="https://www.anaconda.com/products/distribution" target="_blank" rel="noreferrer noopener">https://www.anaconda.com/products/distribution</a> 或 <a href="https://docs.conda.io/en/latest/miniconda.html%EF%BC%89%E4%B8%8B%E8%BD%BD%E9%80%82%E5%90%88%E4%BD%A0%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC%EF%BC%8C%E7%84%B6%E5%90%8E%E5%9C%A8%E7%BB%88%E7%AB%AF%E4%B8%AD%E6%89%A7%E8%A1%8C%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC%EF%BC%8C%E6%8C%89%E7%85%A7%E6%8F%90%E7%A4%BA%E5%AE%8C%E6%88%90%E5%AE%89%E8%A3%85%E3%80%82" target="_blank" rel="noreferrer noopener">https://docs.conda.io/en/latest/miniconda.html）下载适合你系统的安装脚本，然后在终端中执行安装脚本，按照提示完成安装。</a></li>
+<li><strong>创建虚拟环境</strong>：</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-bash">conda create -n myenv python=3.9
+</code></pre>
+<p>这里的 <code>-n</code> 选项指定虚拟环境的名称，<code>python=3.9</code> 指定使用 Python 3.9 版本。</p>
+<ol>
+<li><strong>激活和停用虚拟环境</strong>：</li>
+</ol>
+<ul>
+<li>激活：</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-bash">conda activate myenv
+</code></pre>
+<ul>
+<li>停用：</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-bash">conda deactivate
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/绪论/"><small>上一篇</small><strong>绪论</strong></a>
+        <a href="/2025/07/17/udev/"><small>下一篇</small><strong>udev</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

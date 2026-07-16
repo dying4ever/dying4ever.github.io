@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="串口DMA" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>串口DMA · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>串口DMA</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/stm32/">stm32</a></span>
+    <span class="content-meta__tags"><a href="/tags/stm32/">stm32</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#%E4%B8%B2%E5%8F%A3dma%2B%E7%A9%BA%E9%97%B2%E4%B8%AD%E6%96%AD">串口DMA+空闲中断</a></li><li class="article-toc__level-3"><a href="#char--%3E-int">char -&gt; int</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="%E4%B8%B2%E5%8F%A3dma%2B%E7%A9%BA%E9%97%B2%E4%B8%AD%E6%96%AD" tabindex="-1">串口DMA+空闲中断</h3>
+<p>优势:</p>
+<p>​	1.DMA方式跟适合高速、大数据传输，cpu占用率低；</p>
+<p>​	2.DMA传输不占用cpu资源，适合实时性要求高的场景；</p>
+<p>​	3.可稳定处理突发大数据量（文件传输）；</p>
+<p>精确帧检测：</p>
+<p>​	1.空闲中断可以检测帧结束位置；</p>
+<p>​	2.无需手动计算超时时间；</p>
+<p>[文件已丢失]</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>一定要写100,不能strlen(rx_buf),HAL_UARTEx_ReceiveToIdle_DMA在uart.exit里</p>
+<p>HAL_UARTEx_RxEventCallback在uart.h里</p>
+</blockquote>
+<pre class="code-frame"><code class="hljs language-plaintext">char rx_buf[100];
+char send_buf[100];
+
+HAL_UARTEx_ReceiveToIdle_DMA(&amp;huart1,(uint8_t *)rx_buf,100);
+</code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
+{
+	if(huart -&gt;Instance == USART1)
+	{		
+			rx_flag = 1;
+			rx_size = Size;
+			HAL_UARTEx_ReceiveToIdle_DMA(&amp;huart1,(uint8_t *)rx_buf,1000);
+	}
+}
+
+void handle(void)
+{
+		if(rx_flag ==1)
+		{
+			//接收操作
+			sprintf(send_buf,&quot;%s&quot;,rx_buf);
+			HAL_UART_Transmit_DMA(&amp;huart1,(uint8_t *)send_buf,strlen(send_buf));
+			
+			//接收点灯
+			if (rx_size==1)
+            {
+            if (rx_buf[0]==&#x27;2&#x27;)
+            	led2_state = 1
+            }
+			rx_flag = 0;//标志位清零
+			memset(rx_buf,0,100);//缓冲区清零
+			
+			//处理坐标数据
+			int x1,x2,y1,y2;
+			if(sscanf(rx_buf,&quot;(%d,%d,%d,%d)&quot;,&amp;x1,&amp;y1,&amp;x2,&amp;y2)==4)
+			{
+				//处理坐标数据
+			}
+			
+			rx_flag = 0;
+			memset(rx_buf,0,100);
+			
+			//单个数字转数值
+			if（rx_size==1&amp;&amp; is_nub(rx_buf[0])）
+				result = rx_buf[0] -&#x27;0&#x27;;
+			else
+                sprintf(send_buf,&quot;error&quot;);
+                HAL_UART_Transmit_DMA(&amp;huart1,(uint8_t *)send_buf,strlen(send_buf));
+				
+		}
+}
+
+</code></pre>
+<h3 id="char--%3E-int" tabindex="-1">char -&gt; int</h3>
+<p>例如：int a = ‘9’-‘0’=9</p>
+<pre class="code-frame"><code class="hljs language-plaintext">int isnum(char a)
+{
+return (a&gt;=&#x27;0&#x27;&amp;&amp;a&lt;=&#x27;9&#x27;)
+}
+
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/定时器/"><small>上一篇</small><strong>定时器</strong></a>
+        <a href="/2025/07/17/串口/"><small>下一篇</small><strong>串口</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

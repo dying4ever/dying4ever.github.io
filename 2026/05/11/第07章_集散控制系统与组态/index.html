@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="第07章_集散控制系统与组态" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>第07章_集散控制系统与组态 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>第07章_集散控制系统与组态</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-05-11T23:20:08">2026-05-11</time>
+    <span class="content-meta__categories"><a href="/categories/plc/">plc</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E5%B7%A5%E4%B8%9A%E6%8E%A7%E5%88%B6%E8%A3%85%E5%A4%87/">工业控制装备</a><a href="/tags/S7-1200/">S7-1200</a><a href="/tags/PLC/">PLC</a><a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E7%AC%AC7%E7%AB%A0-%E9%9B%86%E6%95%A3%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E4%B8%8E%E7%BB%84%E6%80%81">第7章 集散控制系统与组态</a></li><li class="article-toc__level-2"><a href="#%E8%B5%84%E6%96%99%E6%9D%A5%E6%BA%90">资料来源</a></li><li class="article-toc__level-2"><a href="#1.-%E6%9C%AC%E7%AB%A0%E8%84%89%E7%BB%9C">1. 本章脉络</a></li><li class="article-toc__level-2"><a href="#2.-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%97%AD%E7%8E%AF%E6%8E%A7%E5%88%B6">2. 如何实现闭环控制</a></li><li class="article-toc__level-2"><a href="#3.-pid%E6%8E%A7%E5%88%B6">3. PID控制</a></li><li class="article-toc__level-2"><a href="#4.-%E4%BB%AA%E8%A1%A8%E6%8E%A7%E5%88%B6%E3%80%81plc%E6%8E%A7%E5%88%B6%E4%B8%8Edcs%E6%8E%A7%E5%88%B6%E6%AF%94%E8%BE%83">4. 仪表控制、PLC控制与DCS控制比较</a></li><li class="article-toc__level-3"><a href="#4.1-%E4%BB%AA%E8%A1%A8%E6%8E%A7%E5%88%B6">4.1 仪表控制</a></li><li class="article-toc__level-3"><a href="#4.2-plc%E6%8E%A7%E5%88%B6">4.2 PLC控制</a></li><li class="article-toc__level-3"><a href="#4.3-dcs%E6%8E%A7%E5%88%B6">4.3 DCS控制</a></li><li class="article-toc__level-2"><a href="#5.-dcs%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84">5. DCS系统架构</a></li><li class="article-toc__level-2"><a href="#6.-%E5%9B%BD%E4%BA%A7dcs%E5%8F%91%E5%B1%95">6. 国产DCS发展</a></li><li class="article-toc__level-2"><a href="#7.-%E7%A7%91%E8%BF%9Csciyon%2Fnt6000%E7%B3%BB%E7%BB%9F">7. 科远SCIYON/NT6000系统</a></li><li class="article-toc__level-3"><a href="#7.1-nt6000%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0">7.1 NT6000系统概述</a></li><li class="article-toc__level-3"><a href="#7.2-nt6000%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84">7.2 NT6000系统架构</a></li><li class="article-toc__level-3"><a href="#7.3-%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F">7.3 网络系统</a></li><li class="article-toc__level-3"><a href="#7.4-%E6%8E%A7%E5%88%B6%E5%B1%82%E7%A1%AC%E4%BB%B6">7.4 控制层硬件</a></li><li class="article-toc__level-3"><a href="#7.5-%E4%BE%9B%E7%94%B5%E9%85%8D%E7%BD%AE">7.5 供电配置</a></li><li class="article-toc__level-2"><a href="#8.-%E4%B8%8A%E4%BD%8D%E6%9C%BA%E5%92%8C%E7%BB%84%E6%80%81">8. 上位机和组态</a></li><li class="article-toc__level-2"><a href="#9.-%E5%8D%95%E9%97%AD%E7%8E%AF%E6%8E%A7%E5%88%B6%E5%92%8C%E4%B8%B2%E7%BA%A7%E6%8E%A7%E5%88%B6">9. 单闭环控制和串级控制</a></li><li class="article-toc__level-3"><a href="#9.1-%E5%8D%95%E9%97%AD%E7%8E%AFpid">9.1 单闭环PID</a></li><li class="article-toc__level-3"><a href="#9.2-%E4%B8%B2%E7%BA%A7%E6%8E%A7%E5%88%B6">9.2 串级控制</a></li><li class="article-toc__level-2"><a href="#10.-%E5%9B%BE%E8%A1%A8%E7%B4%A2%E5%BC%95">10. 图表索引</a></li><li class="article-toc__level-2"><a href="#11.-%E6%98%93%E9%94%99%E7%82%B9">11. 易错点</a></li><li class="article-toc__level-2"><a href="#12.-%E8%80%83%E5%89%8D%E8%A1%A5%E5%85%85%EF%BC%9Adcs%E7%BB%84%E6%80%81%E4%B8%8Epid%E8%B0%83%E8%8A%82%E5%B8%B8%E8%80%83%E7%82%B9">12. 考前补充：DCS组态与PID调节常考点</a></li><li class="article-toc__level-3"><a href="#12.1-dcs%E5%B7%A5%E7%A8%8B%E7%BB%84%E6%80%81%E4%B8%80%E8%88%AC%E5%86%85%E5%AE%B9">12.1 DCS工程组态一般内容</a></li><li class="article-toc__level-3"><a href="#12.2-pid%E5%8F%82%E6%95%B0%E5%BD%B1%E5%93%8D%E7%9A%84%E5%AE%9A%E6%80%A7%E5%88%A4%E6%96%AD">12.2 PID参数影响的定性判断</a></li><li class="article-toc__level-3"><a href="#12.3-%E5%8D%95%E9%97%AD%E7%8E%AF%E4%B8%8E%E4%B8%B2%E7%BA%A7%E6%8E%A7%E5%88%B6%E7%9A%84%E5%87%BA%E9%A2%98%E8%A7%92%E5%BA%A6">12.3 单闭环与串级控制的出题角度</a></li><li class="article-toc__level-3"><a href="#12.4-dcs%E4%B8%8Eplc%E9%80%89%E5%9E%8B%E5%88%A4%E6%96%AD">12.4 DCS与PLC选型判断</a></li><li class="article-toc__level-2"><a href="#13.-%E6%9C%AC%E7%AB%A0%E9%A2%84%E6%B5%8B%E9%A2%98%E4%B8%8E%E7%AD%94%E6%A1%88">13. 本章预测题与答案</a></li><li class="article-toc__level-3"><a href="#%E9%A2%981%EF%BC%9Adcs%E7%9A%84%E5%AE%9A%E4%B9%89%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F">题1：DCS的定义是什么？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%982%EF%BC%9Adcs%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F">题2：DCS的核心思想是什么？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%983%EF%BC%9Adcs%E5%9F%BA%E6%9C%AC%E7%94%B1%E5%93%AA%E4%BA%9B%E9%83%A8%E5%88%86%E7%BB%84%E6%88%90%EF%BC%9F">题3：DCS基本由哪些部分组成？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%984%EF%BC%9A%E4%BB%AA%E8%A1%A8%E6%8E%A7%E5%88%B6%E3%80%81plc%E6%8E%A7%E5%88%B6%E5%92%8Cdcs%E6%8E%A7%E5%88%B6%E5%90%84%E6%9C%89%E4%BB%80%E4%B9%88%E7%89%B9%E7%82%B9%EF%BC%9F">题4：仪表控制、PLC控制和DCS控制各有什么特点？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%985%EF%BC%9Apid%E4%B8%ADp%E3%80%81i%E3%80%81d%E5%88%86%E5%88%AB%E4%BB%A3%E8%A1%A8%E4%BB%80%E4%B9%88%E5%B7%A5%E7%A8%8B%E6%84%8F%E4%B9%89%EF%BC%9F">题5：PID中P、I、D分别代表什么工程意义？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%986%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A4%A7%E5%9E%8B%E5%8C%96%E5%B7%A5%E5%8E%82%E6%9B%B4%E9%80%82%E5%90%88dcs%E8%80%8C%E4%B8%8D%E6%98%AF%E4%B8%80%E4%B8%AAplc%E9%9B%86%E4%B8%AD%E6%8E%A7%E5%88%B6%EF%BC%9F">题6：为什么大型化工厂更适合DCS而不是一个PLC集中控制？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%987%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AFdcs%E5%86%97%E4%BD%99%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81%EF%BC%9F">题7：什么是DCS冗余？为什么重要？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%988%EF%BC%9A%E5%8D%95%E9%97%AD%E7%8E%AF%E5%92%8C%E4%B8%B2%E7%BA%A7%E6%8E%A7%E5%88%B6%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F">题8：单闭环和串级控制有什么区别？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%989%EF%BC%9Ant6000%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84dpu%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F">题9：NT6000系统中的DPU是什么？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%9810%EF%BC%9A%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%AB%99%E5%92%8C%E6%93%8D%E4%BD%9C%E5%91%98%E7%AB%99%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F">题10：工程师站和操作员站有什么区别？</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="%E7%AC%AC7%E7%AB%A0-%E9%9B%86%E6%95%A3%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E4%B8%8E%E7%BB%84%E6%80%81" tabindex="-1">第7章 集散控制系统与组态</h1>
+<h2 id="%E8%B5%84%E6%96%99%E6%9D%A5%E6%BA%90" tabindex="-1">资料来源</h2>
+<ul>
+<li>PPT：<code>第7章 集散控制系统组态=good(1).pptx</code></li>
+<li>课程前置知识：工业控制装备概述、过程控制、PID、PLC与DCS比较。</li>
+</ul>
+<h2 id="1.-%E6%9C%AC%E7%AB%A0%E8%84%89%E7%BB%9C" tabindex="-1">1. 本章脉络</h2>
+<pre class="code-frame"><code class="hljs language-text">集散控制系统与组态
+├─ 如何实现闭环控制
+│  ├─ 手动控制
+│  ├─ 仪表控制
+│  ├─ PLC控制
+│  └─ DCS控制
+├─ PID控制
+├─ DCS定义、特点与系统架构
+├─ 国产DCS发展
+├─ 科远SCIYON/NT6000系统
+│  ├─ 系统概述
+│  ├─ 系统架构
+│  ├─ 网络系统
+│  ├─ 控制层硬件
+│  └─ 人机接口配置
+├─ 科远DCS上位机使用
+└─ 单闭环/串级控制案例
+</code></pre>
+<h2 id="2.-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%97%AD%E7%8E%AF%E6%8E%A7%E5%88%B6" tabindex="-1">2. 如何实现闭环控制</h2>
+<p>PPT以物位控制为例，给出闭环控制的几种实现方式：</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>构成</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>手动控制</td>
+<td>人眼观察、人脑判断、手动操作</td>
+<td>简单但依赖人工，稳定性差</td>
+</tr>
+<tr>
+<td>仪表控制</td>
+<td>调节仪表自带PID，接传感器和执行器</td>
+<td>便宜、结构简单、组态方便，但功能有限</td>
+</tr>
+<tr>
+<td>PLC控制</td>
+<td>PLC采集4~20mA等信号，程序实现PID和逻辑</td>
+<td>可编程、可远程监控，但大量模拟量和冗余能力受限</td>
+</tr>
+<tr>
+<td>DCS控制</td>
+<td>分布式控制器、I/O、工作站、控制网络</td>
+<td>适合大规模连续过程、多回路、高可靠监控</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3.-pid%E6%8E%A7%E5%88%B6" tabindex="-1">3. PID控制</h2>
+<p>PID是工业过程控制中最基础、最常用的控制策略。</p>
+<p>公式本身：</p>
+<p>[
+u(t)=K_p e(t)+K_i\int_0^t e(\tau)d\tau+K_d\frac{de(t)}{dt}
+]</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+<th>工程理解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(u(t))</td>
+<td>控制输出</td>
+<td>阀门开度、变频器频率、加热功率等</td>
+</tr>
+<tr>
+<td>(e(t))</td>
+<td>偏差</td>
+<td>(SP-PV)</td>
+</tr>
+<tr>
+<td>(K_p)</td>
+<td>比例系数</td>
+<td>对当前误差立即反应</td>
+</tr>
+<tr>
+<td>(K_i)</td>
+<td>积分系数</td>
+<td>累计过去误差，消除静差</td>
+</tr>
+<tr>
+<td>(K_d)</td>
+<td>微分系数</td>
+<td>反映误差变化趋势，提前抑制</td>
+</tr>
+</tbody>
+</table>
+<p>适用条件：对象可近似为连续过程，测量信号较稳定，执行器可连续调节。</p>
+<p>物理/工程意义：P看现在，I看过去，D看将来。</p>
+<p>常见变形：</p>
+<p>[
+u(t)=K_p\left[e(t)+\frac{1}{T_i}\int_0^t e(\tau)d\tau+T_d\frac{de(t)}{dt}\right]
+]</p>
+<p>其中 (T_i) 是积分时间，(T_d) 是微分时间。</p>
+<p>易错点：微分对噪声敏感，液位、温度等慢过程常重点调PI；参数整定不能只追求响应快，还要考虑超调和稳定性。</p>
+<h2 id="4.-%E4%BB%AA%E8%A1%A8%E6%8E%A7%E5%88%B6%E3%80%81plc%E6%8E%A7%E5%88%B6%E4%B8%8Edcs%E6%8E%A7%E5%88%B6%E6%AF%94%E8%BE%83" tabindex="-1">4. 仪表控制、PLC控制与DCS控制比较</h2>
+<h3 id="4.1-%E4%BB%AA%E8%A1%A8%E6%8E%A7%E5%88%B6" tabindex="-1">4.1 仪表控制</h3>
+<p>优点：便宜、结构简单、组态方便。</p>
+<p>缺点：功能简单，难以适应复杂工业现场，扩展能力和集中监控能力有限。</p>
+<h3 id="4.2-plc%E6%8E%A7%E5%88%B6" tabindex="-1">4.2 PLC控制</h3>
+<p>优点：</p>
+<ul>
+<li>故障率低；</li>
+<li>组态和编程方便；</li>
+<li>可包含各种逻辑；</li>
+<li>可实现闭环回路；</li>
+<li>可远程集中监控。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>大型工控中模拟量多时实时响应受限；</li>
+<li>停机冗余功能不如DCS完善；</li>
+<li>大规模连续回路管理不如DCS专业。</li>
+</ul>
+<h3 id="4.3-dcs%E6%8E%A7%E5%88%B6" tabindex="-1">4.3 DCS控制</h3>
+<p>DCS，全称Distributed Control System，集散控制系统。</p>
+<p>核心思想：基于网络把控制任务下放到多个控制器，分布控制，集中操作。PPT中用“化工厂上千回路一个CPU依次处理风险高”说明DCS的必要性。</p>
+<p>DCS集成4C技术：</p>
+<table>
+<thead>
+<tr>
+<th>C</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Control</td>
+<td>控制</td>
+</tr>
+<tr>
+<td>CRT/Display</td>
+<td>显示/监控</td>
+</tr>
+<tr>
+<td>Computer</td>
+<td>计算机</td>
+</tr>
+<tr>
+<td>Communication</td>
+<td>通信</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5.-dcs%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84" tabindex="-1">5. DCS系统架构</h2>
+<p>DCS基本构成：</p>
+<table>
+<thead>
+<tr>
+<th>组成</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>控制器</td>
+<td>DCS核心，完成连续控制、顺序控制、运算、报警、I/O处理、通信等</td>
+</tr>
+<tr>
+<td>I/O子系统</td>
+<td>处理现场测量信号、执行器反馈、故障信号和控制输出</td>
+</tr>
+<tr>
+<td>工作站</td>
+<td>人机接口，提供图形界面、操作、监视、报警</td>
+</tr>
+<tr>
+<td>控制网络</td>
+<td>节点之间通信</td>
+</tr>
+<tr>
+<td>电源</td>
+<td>为系统和现场设备供电</td>
+</tr>
+<tr>
+<td>工程软件包</td>
+<td>开发环境、控制组态、画面组态、诊断系统</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6.-%E5%9B%BD%E4%BA%A7dcs%E5%8F%91%E5%B1%95" tabindex="-1">6. 国产DCS发展</h2>
+<p>PPT强调国产DCS崛起的工程意义：过去高端控制系统长期受国外品牌限制，国产DCS在电力、化工、石化等领域逐渐实现替代。</p>
+<p>国内DCS厂商包括：浙江中控、南京科远、和利时、杭州优稳、上海新华、国电智深等。</p>
+<p>国外厂商包括：艾默生、ABB、西门子、霍尼韦尔、横河、罗克韦尔等。</p>
+<p>考试通常不会细考历史细节，但会考：国产DCS崛起说明工业软件和控制系统自主可控的重要性。</p>
+<h2 id="7.-%E7%A7%91%E8%BF%9Csciyon%2Fnt6000%E7%B3%BB%E7%BB%9F" tabindex="-1">7. 科远SCIYON/NT6000系统</h2>
+<h3 id="7.1-nt6000%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0" tabindex="-1">7.1 NT6000系统概述</h3>
+<p>NT6000是科远智慧的分散控制系统，强调可靠、易用、智能，适用于化工、电力、冶金、环保、市政、智能制造等行业。</p>
+<h3 id="7.2-nt6000%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84" tabindex="-1">7.2 NT6000系统架构</h3>
+<p>系统通常包括操作员站、历史站、配置站/工程师站、控制站和网络系统。</p>
+<h3 id="7.3-%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F" tabindex="-1">7.3 网络系统</h3>
+<p>PPT中强调：</p>
+<ul>
+<li>结构简单；</li>
+<li>2×2冗余；</li>
+<li>可靠性高；</li>
+<li>数据刷新快；</li>
+<li>可用双绞线或光缆；</li>
+<li>支持本地/远程I/O分支；</li>
+<li>兼容多种总线协议。</li>
+</ul>
+<p>关键名词：</p>
+<table>
+<thead>
+<tr>
+<th>名词</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DPU</td>
+<td>Data Processing Unit，数据处理单元/控制处理单元</td>
+</tr>
+<tr>
+<td>EBUS</td>
+<td>系统内部I/O通信总线</td>
+</tr>
+<tr>
+<td>冗余</td>
+<td>关键部件成对配置，故障时自动切换</td>
+</tr>
+<tr>
+<td>组播通信</td>
+<td>一对多数据发布，提高网络通信效率</td>
+</tr>
+</tbody>
+</table>
+<h3 id="7.4-%E6%8E%A7%E5%88%B6%E5%B1%82%E7%A1%AC%E4%BB%B6" tabindex="-1">7.4 控制层硬件</h3>
+<p>控制柜分为主机柜、扩展柜、远程柜。</p>
+<table>
+<thead>
+<tr>
+<th>机柜</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主机柜</td>
+<td>放置控制器，如KM950，以及本地I/O</td>
+</tr>
+<tr>
+<td>扩展柜</td>
+<td>同一DPU控制且与主机柜同地点的扩展I/O柜</td>
+</tr>
+<tr>
+<td>远程柜</td>
+<td>与主机柜远距离布置的I/O柜，通过远程通信连接</td>
+</tr>
+</tbody>
+</table>
+<p>柜内常见模块：KM950控制器、DPU底座、交换机、IO转接板、IO模件、终端电阻、电源模块、强电分配板、弱电分配板、电源进线开关等。</p>
+<h3 id="7.5-%E4%BE%9B%E7%94%B5%E9%85%8D%E7%BD%AE" tabindex="-1">7.5 供电配置</h3>
+<p>DCS机柜常采用冗余供电，任一路电源故障都应报警。强电分配板用于AC220V分配，电源模块转换为DC24V、DC48V等弱电供电。</p>
+<p>工程意义：DCS面向连续生产，不能轻易停机，冗余电源和报警是可靠性设计重点。</p>
+<h2 id="8.-%E4%B8%8A%E4%BD%8D%E6%9C%BA%E5%92%8C%E7%BB%84%E6%80%81" tabindex="-1">8. 上位机和组态</h2>
+<p>上位机通常负责操作画面、报警、历史趋势、参数设定和运行监控。工程师站用于控制组态、画面组态、下载、诊断。</p>
+<p>组态不是传统意义的“写代码”而是通过图形化或参数化方式配置控制策略、I/O点、报警、趋势和画面。</p>
+<h2 id="9.-%E5%8D%95%E9%97%AD%E7%8E%AF%E6%8E%A7%E5%88%B6%E5%92%8C%E4%B8%B2%E7%BA%A7%E6%8E%A7%E5%88%B6" tabindex="-1">9. 单闭环控制和串级控制</h2>
+<h3 id="9.1-%E5%8D%95%E9%97%AD%E7%8E%AFpid" tabindex="-1">9.1 单闭环PID</h3>
+<p>单闭环只有一个控制器、一个被控量和一个执行器。</p>
+<pre class="code-frame"><code class="hljs language-text">SP → PID控制器 → 执行器 → 对象 → PV
+         ↑                       ↓
+         └────── 测量反馈 ───────┘
+</code></pre>
+<p>适合对象简单、扰动不复杂的回路，如单一液位、温度、压力控制。</p>
+<h3 id="9.2-%E4%B8%B2%E7%BA%A7%E6%8E%A7%E5%88%B6" tabindex="-1">9.2 串级控制</h3>
+<p>串级控制包含主回路和副回路。主控制器输出作为副控制器设定值，副回路快速抑制内层扰动。</p>
+<pre class="code-frame"><code class="hljs language-text">主SP → 主PID → 副SP → 副PID → 执行器 → 副对象/主对象 → 主PV
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主回路</td>
+<td>控制最终关键变量，如温度、液位</td>
+</tr>
+<tr>
+<td>副回路</td>
+<td>快速控制中间变量，如流量、压力</td>
+</tr>
+</tbody>
+</table>
+<p>适用条件：存在可测中间变量，且主要扰动先影响副回路。</p>
+<p>工程意义：副回路先消除快速扰动，主回路负责最终质量指标，系统抗扰动能力更强。</p>
+<h2 id="10.-%E5%9B%BE%E8%A1%A8%E7%B4%A2%E5%BC%95" tabindex="-1">10. 图表索引</h2>
+<table>
+<thead>
+<tr>
+<th>图表</th>
+<th>来源位置</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>手动/仪表/PLC/DCS闭环控制图</td>
+<td>第7章PPT前部</td>
+<td>比较闭环控制实现方式</td>
+</tr>
+<tr>
+<td>PID控制说明图</td>
+<td>第7章PPT前部</td>
+<td>理解P、I、D分别响应现在、过去、将来</td>
+</tr>
+<tr>
+<td>DCS系统架构图</td>
+<td>第7章PPT中前部</td>
+<td>掌握控制器、I/O、工作站、网络</td>
+</tr>
+<tr>
+<td>国产DCS案例图</td>
+<td>第7章PPT中部</td>
+<td>理解国产DCS发展意义</td>
+</tr>
+<tr>
+<td>NT6000系统架构图</td>
+<td>第7章PPT后半部分</td>
+<td>掌握科远DCS系统组成</td>
+</tr>
+<tr>
+<td>DCS机柜布置图</td>
+<td>第7章PPT后半部分</td>
+<td>认识控制柜、I/O模块、电源模块</td>
+</tr>
+<tr>
+<td>单闭环/串级控制图</td>
+<td>第7章PPT后部</td>
+<td>掌握过程控制回路结构</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11.-%E6%98%93%E9%94%99%E7%82%B9" tabindex="-1">11. 易错点</h2>
+<ol>
+<li>DCS不是单台PLC，而是分布式控制系统。</li>
+<li>DCS强调连续过程、多回路、冗余和集中监控。</li>
+<li>PLC也能做PID，但大规模过程控制中DCS更适合。</li>
+<li>仪表控制简单便宜，但难以处理复杂现场和集中管理。</li>
+<li>串级控制不是两个独立单回路，而是主控制器输出作为副控制器设定。</li>
+<li>冗余不等于备份文件，而是硬件/网络/电源等实时容错结构。</li>
+<li>上位机不是控制器本体，主要用于操作、监控、历史、报警和组态。</li>
+</ol>
+<h2 id="12.-%E8%80%83%E5%89%8D%E8%A1%A5%E5%85%85%EF%BC%9Adcs%E7%BB%84%E6%80%81%E4%B8%8Epid%E8%B0%83%E8%8A%82%E5%B8%B8%E8%80%83%E7%82%B9" tabindex="-1">12. 考前补充：DCS组态与PID调节常考点</h2>
+<h3 id="12.1-dcs%E5%B7%A5%E7%A8%8B%E7%BB%84%E6%80%81%E4%B8%80%E8%88%AC%E5%86%85%E5%AE%B9" tabindex="-1">12.1 DCS工程组态一般内容</h3>
+<table>
+<thead>
+<tr>
+<th>组态对象</th>
+<th>主要内容</th>
+<th>考试关键词</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>控制站/控制器</td>
+<td>控制器、DPU、电源、机柜、冗余配置</td>
+<td>控制层、可靠性</td>
+</tr>
+<tr>
+<td>I/O卡件</td>
+<td>AI、AO、DI、DO通道，量程和信号类型</td>
+<td>4~20mA、热电偶、开关量</td>
+</tr>
+<tr>
+<td>控制策略</td>
+<td>PID、联锁、顺控、报警逻辑</td>
+<td>功能块、回路</td>
+</tr>
+<tr>
+<td>操作画面</td>
+<td>流程图、按钮、阀门、电机、仪表显示</td>
+<td>上位机、HMI</td>
+</tr>
+<tr>
+<td>报警趋势</td>
+<td>报警限、历史数据、实时趋势</td>
+<td>监控和追溯</td>
+</tr>
+<tr>
+<td>网络通信</td>
+<td>控制网络、监控网络、现场网络</td>
+<td>分层网络、冗余</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12.2-pid%E5%8F%82%E6%95%B0%E5%BD%B1%E5%93%8D%E7%9A%84%E5%AE%9A%E6%80%A7%E5%88%A4%E6%96%AD" tabindex="-1">12.2 PID参数影响的定性判断</h3>
+<table>
+<thead>
+<tr>
+<th>参数变化</th>
+<th>响应影响</th>
+<th>过大风险</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(K_p) 增大</td>
+<td>响应加快，静差减小</td>
+<td>超调、振荡</td>
+</tr>
+<tr>
+<td>(T_i) 减小或 (K_i) 增大</td>
+<td>积分作用增强，消除静差更快</td>
+<td>积分饱和、振荡</td>
+</tr>
+<tr>
+<td>(T_d) 增大或 (K_d) 增大</td>
+<td>预测趋势，抑制快速变化</td>
+<td>放大噪声，输出抖动</td>
+</tr>
+</tbody>
+</table>
+<p>慢过程如液位、温度常用PI即可；噪声大的测量信号慎用微分。</p>
+<h3 id="12.3-%E5%8D%95%E9%97%AD%E7%8E%AF%E4%B8%8E%E4%B8%B2%E7%BA%A7%E6%8E%A7%E5%88%B6%E7%9A%84%E5%87%BA%E9%A2%98%E8%A7%92%E5%BA%A6" tabindex="-1">12.3 单闭环与串级控制的出题角度</h3>
+<ul>
+<li>单闭环：结构简单，只控制最终被控量，适合扰动少、对象简单的场合。</li>
+<li>串级控制：主回路管最终质量指标，副回路管中间变量，副回路响应要比主回路快。</li>
+<li>典型问法：为什么串级抗扰动强？因为进入副对象的扰动可先由副回路快速抑制，不必等主变量明显变化后才修正。</li>
+</ul>
+<h3 id="12.4-dcs%E4%B8%8Eplc%E9%80%89%E5%9E%8B%E5%88%A4%E6%96%AD" tabindex="-1">12.4 DCS与PLC选型判断</h3>
+<p>若题目出现“大型化工、连续生产、多模拟量、多回路、集中监控、冗余、历史趋势、报警管理”，优先答DCS；若题目出现“机械设备、离散动作、开关量逻辑、单机控制、顺序控制”，优先答PLC。</p>
+<h2 id="13.-%E6%9C%AC%E7%AB%A0%E9%A2%84%E6%B5%8B%E9%A2%98%E4%B8%8E%E7%AD%94%E6%A1%88" tabindex="-1">13. 本章预测题与答案</h2>
+<h3 id="%E9%A2%981%EF%BC%9Adcs%E7%9A%84%E5%AE%9A%E4%B9%89%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F" tabindex="-1">题1：DCS的定义是什么？</h3>
+<p>答案：DCS是Distributed Control System，即集散控制系统。它基于网络把控制任务分散到多个控制器执行，同时通过操作站、工程师站实现集中监视、操作和管理。</p>
+<h3 id="%E9%A2%982%EF%BC%9Adcs%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F" tabindex="-1">题2：DCS的核心思想是什么？</h3>
+<p>答案：核心思想是分散控制、集中操作或集中管理。控制任务分布在各控制站，降低单点集中控制风险；操作、监控、报警、组态等由上位系统集中完成。</p>
+<h3 id="%E9%A2%983%EF%BC%9Adcs%E5%9F%BA%E6%9C%AC%E7%94%B1%E5%93%AA%E4%BA%9B%E9%83%A8%E5%88%86%E7%BB%84%E6%88%90%EF%BC%9F" tabindex="-1">题3：DCS基本由哪些部分组成？</h3>
+<p>答案：DCS通常由控制器、I/O子系统、工作站、控制网络、电源和工程软件包组成。控制器完成控制运算，I/O连接现场设备，工作站提供人机界面，网络实现通信，工程软件完成组态和诊断。</p>
+<h3 id="%E9%A2%984%EF%BC%9A%E4%BB%AA%E8%A1%A8%E6%8E%A7%E5%88%B6%E3%80%81plc%E6%8E%A7%E5%88%B6%E5%92%8Cdcs%E6%8E%A7%E5%88%B6%E5%90%84%E6%9C%89%E4%BB%80%E4%B9%88%E7%89%B9%E7%82%B9%EF%BC%9F" tabindex="-1">题4：仪表控制、PLC控制和DCS控制各有什么特点？</h3>
+<p>答案：仪表控制便宜、简单、组态方便，但功能有限；PLC控制可靠、灵活、可编程，可实现逻辑和闭环，但大规模模拟量和冗余能力有限；DCS适合大规模连续过程、多回路、高可靠、集中监控的工业现场。</p>
+<h3 id="%E9%A2%985%EF%BC%9Apid%E4%B8%ADp%E3%80%81i%E3%80%81d%E5%88%86%E5%88%AB%E4%BB%A3%E8%A1%A8%E4%BB%80%E4%B9%88%E5%B7%A5%E7%A8%8B%E6%84%8F%E4%B9%89%EF%BC%9F" tabindex="-1">题5：PID中P、I、D分别代表什么工程意义？</h3>
+<p>答案：P比例反映当前偏差，I积分累计过去偏差并消除静差，D微分反映偏差变化趋势，对未来变化作提前抑制。</p>
+<h3 id="%E9%A2%986%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A4%A7%E5%9E%8B%E5%8C%96%E5%B7%A5%E5%8E%82%E6%9B%B4%E9%80%82%E5%90%88dcs%E8%80%8C%E4%B8%8D%E6%98%AF%E4%B8%80%E4%B8%AAplc%E9%9B%86%E4%B8%AD%E6%8E%A7%E5%88%B6%EF%BC%9F" tabindex="-1">题6：为什么大型化工厂更适合DCS而不是一个PLC集中控制？</h3>
+<p>答案：大型化工厂回路多、连续生产要求高、危险系数大。如果所有回路由一个CPU集中处理，实时性和可靠性风险高。DCS通过分布式控制器分担任务，并通过冗余网络和集中监控提高可靠性。</p>
+<h3 id="%E9%A2%987%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AFdcs%E5%86%97%E4%BD%99%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%8D%E8%A6%81%EF%BC%9F" tabindex="-1">题7：什么是DCS冗余？为什么重要？</h3>
+<p>答案：冗余是对关键控制器、网络、电源等采用双套或多套配置，故障时自动切换。它能减少单点故障导致停机或事故的风险，对连续生产过程尤其重要。</p>
+<h3 id="%E9%A2%988%EF%BC%9A%E5%8D%95%E9%97%AD%E7%8E%AF%E5%92%8C%E4%B8%B2%E7%BA%A7%E6%8E%A7%E5%88%B6%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F" tabindex="-1">题8：单闭环和串级控制有什么区别？</h3>
+<p>答案：单闭环只有一个控制器直接控制一个被控量；串级控制有主、副两个回路，主控制器输出作为副控制器设定值，副回路先快速抑制扰动，主回路保证最终被控量。</p>
+<h3 id="%E9%A2%989%EF%BC%9Ant6000%E7%B3%BB%E7%BB%9F%E4%B8%AD%E7%9A%84dpu%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F" tabindex="-1">题9：NT6000系统中的DPU是什么？</h3>
+<p>答案：DPU是Data Processing Unit，即数据处理单元/控制处理单元，是DCS控制层中负责数据处理、控制运算和I/O通信的重要模块。</p>
+<h3 id="%E9%A2%9810%EF%BC%9A%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%AB%99%E5%92%8C%E6%93%8D%E4%BD%9C%E5%91%98%E7%AB%99%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F" tabindex="-1">题10：工程师站和操作员站有什么区别？</h3>
+<p>答案：工程师站主要用于系统组态、控制策略配置、画面组态、下载和诊断；操作员站主要用于生产运行中的监视、操作、报警确认和趋势查看。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/05/11/第01章_工业控制装备概述/"><small>上一篇</small><strong>第01章_工业控制装备概述</strong></a>
+        <a href="/2026/05/11/第02章_可编程控制器前言与低压电器/"><small>下一篇</small><strong>第02章_可编程控制器前言与低压电器</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

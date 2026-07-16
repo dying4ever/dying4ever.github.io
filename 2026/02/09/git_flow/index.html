@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="git_flow" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>git_flow · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>git_flow</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-02-09T21:34:23">2026-02-09</time>
+    <span class="content-meta__categories"><a href="/categories/git/">git</a></span>
+    <span class="content-meta__tags"><a href="/tags/git/">git</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#main%EF%BC%88%E6%88%96-master%EF%BC%89">main（或 master）</a></li><li class="article-toc__level-3"><a href="#develop">develop</a></li><li class="article-toc__level-2"><a href="#%E5%8A%9F%E8%83%BD%E5%88%86%E6%94%AF%EF%BC%88feature%EF%BC%89">功能分支（feature）</a></li><li class="article-toc__level-2"><a href="#%E5%8F%91%E5%B8%83%E5%88%86%E6%94%AF%EF%BC%88release%EF%BC%89">发布分支（release）</a></li><li class="article-toc__level-2"><a href="#%E7%83%AD%E4%BF%AE%E5%A4%8D%E5%88%86%E6%94%AF%EF%BC%88hotfix%EF%BC%89">热修复分支（hotfix）</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<p>Git Flow 是一种<strong>基于分支的开发流程</strong>，通过固定分支角色来管理开发、发布和修复。</p>
+<h2 id="main%EF%BC%88%E6%88%96-master%EF%BC%89" tabindex="-1">main（或 master）</h2>
+<ul>
+<li>永远保持稳定和可发布的状态。</li>
+<li>每次发布一个新的版本时，都会从 <code>develop</code> 分支合并到 <code>master</code> 分支。</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-plaintext">git switch main
+git tag v1.0.0
+</code></pre>
+<h3 id="develop" tabindex="-1">develop</h3>
+<ul>
+<li>用于集成所有的开发分支。</li>
+<li>代表了最新的开发进度。</li>
+<li>功能分支、发布分支和修复分支都从这里分支出去，最终合并回这里。</li>
+</ul>
+<h2 id="%E5%8A%9F%E8%83%BD%E5%88%86%E6%94%AF%EF%BC%88feature%EF%BC%89" tabindex="-1">功能分支（feature）</h2>
+<ul>
+<li>用于开发新功能。</li>
+<li>从 <code>develop</code> 分支创建，开发完成后合并回 <code>develop</code> 分支。</li>
+<li>命名规范：<code>feature/feature-name</code>。</li>
+</ul>
+<h2 id="%E5%8F%91%E5%B8%83%E5%88%86%E6%94%AF%EF%BC%88release%EF%BC%89" tabindex="-1">发布分支（release）</h2>
+<ul>
+<li>用于准备新版本的发布。</li>
+<li>从 <code>develop</code> 分支创建，进行最后的测试和修复，然后合并回 <code>develop</code> 和 <code>master</code> 分支，并打上版本标签。</li>
+<li>命名规范：<code>release/release-name</code>。</li>
+</ul>
+<h2 id="%E7%83%AD%E4%BF%AE%E5%A4%8D%E5%88%86%E6%94%AF%EF%BC%88hotfix%EF%BC%89" tabindex="-1">热修复分支（hotfix）</h2>
+<ul>
+<li>用于修复紧急问题。</li>
+<li>从 <code>master</code> 分支创建，修复完成后合并回 <code>master</code> 和 <code>develop</code> 分支，并打上版本标签。</li>
+<li>命名规范：<code>hotfix/hotfix-name</code>。</li>
+</ul>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/02/09/git基本操作/"><small>上一篇</small><strong>git基本操作</strong></a>
+        <a href="/2026/02/10/规范/"><small>下一篇</small><strong>规范</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

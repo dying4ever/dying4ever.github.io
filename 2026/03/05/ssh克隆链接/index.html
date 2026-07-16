@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ssh克隆链接" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>ssh克隆链接 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>ssh克隆链接</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-03-05T16:13:28">2026-03-05</time>
+    <span class="content-meta__categories"><a href="/categories/git/">git</a></span>
+    <span class="content-meta__tags"><a href="/tags/git/">git</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#1-%E5%85%88%E6%A3%80%E6%9F%A5%E6%9C%89%E6%B2%A1%E6%9C%89-ssh-key">1 先检查有没有 ssh key</a></li><li class="article-toc__level-3"><a href="#2-%E7%94%9F%E6%88%90-ssh-key">2 生成 SSH key</a></li><li class="article-toc__level-3"><a href="#3-%E6%9F%A5%E7%9C%8B%E5%85%AC%E9%92%A5">3 查看公钥</a></li><li class="article-toc__level-3"><a href="#4-%E6%B7%BB%E5%8A%A0%E5%88%B0-github">4 添加到 GitHub</a></li><li class="article-toc__level-3"><a href="#5-%E6%B5%8B%E8%AF%95%E8%BF%9E%E6%8E%A5">5 测试连接</a></li><li class="article-toc__level-3"><a href="#6-%E7%94%A8-ssh-clone">6 用 SSH clone</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="1-%E5%85%88%E6%A3%80%E6%9F%A5%E6%9C%89%E6%B2%A1%E6%9C%89-ssh-key" tabindex="-1">1 先检查有没有 ssh key</h3>
+<pre class="code-frame"><code class="hljs language-bash"><span class="hljs-built_in">ls</span> ~/.ssh
+</code></pre>
+<p>如果有</p>
+<pre class="code-frame"><code class="hljs language-plaintext">id_rsa
+id_rsa.pub
+</code></pre>
+<p>说明已经有了。
+如果没有就生成。</p>
+<h3 id="2-%E7%94%9F%E6%88%90-ssh-key" tabindex="-1">2 生成 SSH key</h3>
+<pre class="code-frame"><code class="hljs language-bash">ssh-keygen -t ed25519 -C <span class="hljs-string">&quot;你的github邮箱&quot;</span>
+</code></pre>
+<p>一直回车即可。</p>
+<h3 id="3-%E6%9F%A5%E7%9C%8B%E5%85%AC%E9%92%A5" tabindex="-1">3 查看公钥</h3>
+<pre class="code-frame"><code class="hljs language-bash"><span class="hljs-built_in">cat</span> ~/.ssh/id_ed25519.pub
+</code></pre>
+<p>复制输出的一整行。</p>
+<h3 id="4-%E6%B7%BB%E5%8A%A0%E5%88%B0-github" tabindex="-1">4 添加到 GitHub</h3>
+<p>打开：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">GitHub
+Settings
+SSH and GPG keys
+New SSH Key
+</code></pre>
+<p>把刚才的 key 粘进去。</p>
+<h3 id="5-%E6%B5%8B%E8%AF%95%E8%BF%9E%E6%8E%A5" tabindex="-1">5 测试连接</h3>
+<pre class="code-frame"><code class="hljs language-bash">ssh -T git@github.com
+</code></pre>
+<p>如果成功会显示：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">Hi dying4ever! You&#x27;ve successfully authenticated
+</code></pre>
+<h3 id="6-%E7%94%A8-ssh-clone" tabindex="-1">6 用 SSH clone</h3>
+<p>不要用 https：</p>
+<pre class="code-frame"><code class="hljs language-bash">git <span class="hljs-built_in">clone</span> git@github.com:Cloud-li1/TIS-robotic_arm.git
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/02/11/手撕mimic-code代码/"><small>上一篇</small><strong>手撕mimic-code代码</strong></a>
+        <a href="/2026/03/10/codex/"><small>下一篇</small><strong>codex</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

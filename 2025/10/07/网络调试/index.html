@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="网络调试" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>网络调试 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>网络调试</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-10-07T19:40:38">2025-10-07</time>
+    <span class="content-meta__categories"><a href="/categories/ubuntu/">ubuntu</a></span>
+    <span class="content-meta__tags"><a href="/tags/ubuntu/">ubuntu</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h4 id="%E9%9B%B6%E3%80%81networkmanager%E5%92%8Cnmcli" tabindex="-1">零、NetworkManager和nmcli</h4>
+<h5 id="1.-%E5%9F%BA%E6%9C%AC%E7%9A%84%E8%BF%9E%E6%8E%A5%E7%AE%A1%E7%90%86" tabindex="-1">1. 基本的连接管理</h5>
+<pre class="code-frame"><code class="hljs language-plaintext"># 查看所有网络连接 
+nmcli connection show 
+# 查看活动连接 
+nmcli connection show --active 
+# 查看设备状态 
+nmcli device status 
+# 查看具体设备信息 
+nmcli device show eth0
+</code></pre>
+<h5 id="2.%E5%88%9B%E5%BB%BA%E9%9D%99%E6%80%81ip%E8%BF%9E%E6%8E%A5%EF%BC%9A" tabindex="-1">2.创建静态IP连接：</h5>
+<pre class="code-frame"><code class="hljs language-plaintext"># 创建静态IP连接 
+nmcli connection add type ethernet con-name static-eth0 ifname eth0 \ ip4 192.168.1.100/24 gw4 192.168.1.1 
+# 设置DNS nmcli connection modify static-eth0 ipv4.dns &quot;8.8.8.8 8.8.4.4&quot; 
+# 启用连接 nmcli connection up static-eth0
+</code></pre>
+<h5 id="3.%E5%88%9B%E5%BB%BAdhcp%E8%BF%9E%E6%8E%A5" tabindex="-1">3.创建DHCP连接</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">nmcli connection add type ethernet con-name dhcp-eth0 ifname eth0 
+nmcli connection up dhcp-eth0
+</code></pre>
+<p>4.修改现有连接</p>
+<pre class="code-frame"><code class="hljs language-plaintext"># 修改IP地址 
+nmcli connection modify eth0 ipv4.addresses 192.168.1.200/24
+# 修改网关 
+nmcli connection modify eth0 ipv4.gateway 192.168.1.1 
+# 重新激活连接使配置生效 
+nmcli connection up eth0
+</code></pre>
+<h4 id="%E4%B8%80%E3%80%81%E6%A3%80%E6%9F%A5%E4%BF%A1%E6%81%AF" tabindex="-1">一、检查信息</h4>
+<h5 id="1.%E6%A3%80%E6%9F%A5%E7%BD%91%E5%8D%A1%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F" tabindex="-1">1.检查网卡是否安装成功</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">ifconfig | grep wlan
+</code></pre>
+<p>如果没有出现信息，表示无线网卡的安装有问题，需要检查网卡本身是否为Jetson Nano（含2GB）所支持。</p>
+<h5 id="2.%E6%A3%80%E6%9F%A5%E7%BD%91%E7%BB%9C%E6%9C%8D%E5%8A%A1%E7%8A%B6%E6%80%81(networkmanager%E6%9C%8D%E5%8A%A1)" tabindex="-1">2.检查网络服务状态(<strong>NetworkManager</strong>服务)</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo systemctl status NetworkManager
+</code></pre>
+<p>如果看到状态为 inactive (dead) 或 failed，则重启它：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo systemctl restart NetworkManager
+</code></pre>
+<p>然后再运行：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">nmcli device
+</code></pre>
+<p>看看是否能列出网卡（如 <code>eth0</code>, <code>wlan0</code>）。</p>
+<h5 id="3.%E6%A3%80%E6%9F%A5%E7%BD%91%E7%BB%9C%E5%9B%BE%E6%A0%87%E8%BF%9B%E7%A8%8B" tabindex="-1">3.检查网络图标进程</h5>
+<p>检查：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">ps aux | grep nm-applet
+</code></pre>
+<p>如果只看到一行类似：
+<code>user     12345  0.0  0.1  123456  1234 pts/0    S+   13:25   0:00 grep nm-applet</code>，而没有真正的 <code>nm-applet</code> 进程，说明图标进程没启动。<br>
+可以手动启动它：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">nm-applet &amp;
+</code></pre>
+<h5 id="4.%E6%A3%80%E6%9F%A5%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E6%98%AF%E5%90%A6%E6%AD%A3%E5%B8%B8" tabindex="-1">4.检查网卡驱动是否正常</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">ip link
+</code></pre>
+<p>如果没有显示你的网卡（如 <code>wlan0</code> 或 <code>eth0</code>），可能是驱动未加载：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo modprobe &lt;驱动名&gt;
+</code></pre>
+<h5 id="5.%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3" tabindex="-1">5.查看网络接口</h5>
+<pre class="code-frame"><code class="hljs language-plaintext"># 查看网络接口 
+ip addr show 
+# 或者老式的 
+ifconfig -a 
+# 添加IP地址（注意这个添加是临时的，重启后会失效） 
+ip addr add 192.168.1.100/24 dev eth0 
+# 删除IP地址 
+ip addr del 192.168.1.100/24 dev eth0
+</code></pre>
+<h5 id="6.%E6%A3%80%E6%9F%A5%E9%A9%B1%E5%8A%A8" tabindex="-1">6.检查驱动</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo lshw -C network
+</code></pre>
+<h5 id="2.netplan%EF%BC%88jetson%E6%B2%A1%E6%9C%89%EF%BC%89" tabindex="-1">2.netplan（jetson没有）</h5>
+<h6 id="2.1netplan%E5%9F%BA%E7%A1%80%E4%BF%A1%E6%81%AF" tabindex="-1">2.1netplan基础信息</h6>
+<p><strong>Netplan</strong> 是 Ubuntu 从 <strong>17.10 版本开始引入</strong> 的一种统一网络配置工具，<br>
+它通过 YAML 文件（例如 <code>/etc/netplan/01-netcfg.yaml</code>）定义网络接口、DHCP、静态 IP、Wi-Fi 配置等。
+Netplan 本身不直接管理网络，而是：</p>
+<ul>
+<li>在启动时读取 <code>/etc/netplan/*.yaml</code></li>
+<li>然后调用底层的后端：
+<ul>
+<li><code>NetworkManager</code>（桌面系统）</li>
+<li><code>systemd-networkd</code>（服务器系统）</li>
+</ul>
+</li>
+</ul>
+<h6 id="2.2jetson%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E6%9C%89" tabindex="-1">2.2jetson为什么没有</h6>
+<p>因为 <strong>Jetson 使用的是 NVIDIA 修改过的 Ubuntu 系统</strong>（来自 L4T = Linux for Tegra），<br>
+虽然是基于 Ubuntu 22.04，但网络部分默认使用：NetworkManager直接管理网络接口，而不是通过 Netplan 配置。
+这和标准 Ubuntu 桌面略有不同，是 NVIDIA 官方设计的。
+所以：</p>
+<ul>
+<li><code>/etc/netplan/</code> 目录可能<strong>不存在或为空</strong>；</li>
+<li>网络连接由 <strong>NetworkManager</strong> 管理（GUI 或 <code>nmcli</code> 命令）；</li>
+<li>启动脚本会自动启动 <code>NetworkManager.service</code>。</li>
+</ul>
+<h4 id="%E4%BA%8C%E3%80%81%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE" tabindex="-1">二、网络配置</h4>
+<h5 id="1.%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE" tabindex="-1">1.无线网络配置</h5>
+<pre class="code-frame"><code class="hljs language-plaintext"># 扫描无线网络 
+nmcli device wifi list 
+# 连接无线网络 
+nmcli device wifi connect &quot;SSID&quot; password &quot;password&quot; 
+# 连接隐藏网络 
+nmcli device wifi connect &quot;SSID&quot; password &quot;password&quot; hidden yes
+</code></pre>
+<h5 id="2.%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86" tabindex="-1">2.网络配置文件管理</h5>
+<pre class="code-frame"><code class="hljs language-plaintext"># 重新加载配置 
+nmcli connection reload 
+# 重启NetworkManager服务 
+systemctl restart NetworkManager
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/09/09/关于梯度下降/"><small>上一篇</small><strong>关于梯度下降</strong></a>
+        <a href="/2025/10/12/git上传文件（windows）/"><small>下一篇</small><strong>git上传文件（windows）</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

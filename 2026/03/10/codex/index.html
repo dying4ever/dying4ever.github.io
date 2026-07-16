@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="codex" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>codex · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>codex</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-03-10T14:49:13">2026-03-10</time>
+    <span class="content-meta__categories"><a href="/categories/ubuntu/">ubuntu</a></span>
+    <span class="content-meta__tags"><a href="/tags/ubuntu/">ubuntu</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#%E6%8A%A5%E9%94%99">报错</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<p>配node js环境
+<a href="https://blog.csdn.net/qq_41308489/article/details/152047165" target="_blank" rel="noreferrer noopener">https://blog.csdn.net/qq_41308489/article/details/152047165</a></p>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo apt update
+sudo apt upgrade
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo bash -
+sudo apt-get install -y nodejs
+node --version
+npm --version
+</code></pre>
+<p>安装 Codex CLI：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">npm install -g @openai/codex
+</code></pre>
+<h3 id="%E6%8A%A5%E9%94%99" tabindex="-1">报错</h3>
+<p>Token exchange failed: token endpoint returned status 403 Forbidden
+这个错误通常出现在 Codex 登录流程的最后一步：浏览器完成授权后，尝试回调到本地端口，但 Codex CLI 没能接收到这个回调。</p>
+<pre class="code-frame"><code class="hljs language-plaintext">    set NO_PROXY=127.0.0.1,localhost
+    set HTTP_PROXY=http://127.0.0.1:PORT
+    set HTTPS_PROXY=http://127.0.0.1:PORT
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/03/05/ssh克隆链接/"><small>上一篇</small><strong>ssh克隆链接</strong></a>
+        <a href="/2026/03/24/Openvla_代码/"><small>下一篇</small><strong>Openvla_代码</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="udev" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>udev · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>udev</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/ubuntu/">ubuntu</a></span>
+    <span class="content-meta__tags"><a href="/tags/ubuntu/">ubuntu</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#%E9%80%9A%E4%BF%97%E7%82%B9%E8%AE%B2%EF%BC%8C%E5%AE%83%E6%98%AF%E5%B9%B2%E5%98%9B%E7%9A%84%EF%BC%9F">通俗点讲，它是干嘛的？</a></li><li class="article-toc__level-2"><a href="#%F0%9F%94%8C-%E4%B8%B2%E5%8F%A3%E7%B1%BB%E8%AE%BE%E5%A4%87%EF%BC%88tty%EF%BC%89">🔌 串口类设备（tty）</a></li><li class="article-toc__level-2"><a href="#%F0%9F%93%B7-%E6%91%84%E5%83%8F%E5%A4%B4%2F%E5%9B%BE%E5%83%8F%E8%AE%BE%E5%A4%87%EF%BC%88video%EF%BC%89">📷 摄像头/图像设备（video）</a></li><li class="article-toc__level-2"><a href="#%F0%9F%94%8B-%E8%BE%93%E5%85%A5%E7%B1%BB%E8%AE%BE%E5%A4%87%EF%BC%88input%EF%BC%89">🔋 输入类设备（input）</a></li><li class="article-toc__level-2"><a href="#%F0%9F%92%BD-%E5%AD%98%E5%82%A8%E8%AE%BE%E5%A4%87%EF%BC%88block%EF%BC%89">💽 存储设备（block）</a></li><li class="article-toc__level-2"><a href="#%F0%9F%94%A7-%E6%80%8E%E4%B9%88%E6%9F%A5%E7%9C%8B%E8%AE%BE%E5%A4%87%E5%B1%9E%E6%80%A7%EF%BC%9F">🔧 怎么查看设备属性？</a></li><li class="article-toc__level-2"><a href="#%F0%9F%94%A7-%E4%BD%A0%E5%81%9A%E8%BF%99%E4%BB%B6%E4%BA%8B%E7%9A%84%E7%9B%AE%E7%9A%84">🔧 你做这件事的目的</a></li><li class="article-toc__level-2"><a href="#%F0%9F%A7%AA-%E5%A6%82%E4%BD%95%E8%AE%A9%E5%AE%83%E7%94%9F%E6%95%88">🧪 如何让它生效</a></li><li class="article-toc__level-2"><a href="#%F0%9F%94%8C-%E4%BD%A0%E6%80%8E%E4%B9%88%E8%BF%9E-jetson%EF%BC%9F">🔌 你怎么连 Jetson？</a></li><li class="article-toc__level-3"><a href="#%E2%9C%85-%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E7%94%A8-usb-%E7%BA%BF%E8%BF%9E%E6%8E%A5-stm32-%E5%88%B0-jetson">✅ 方式一：用 USB 线连接 STM32 到 Jetson</a></li><li class="article-toc__level-3"><a href="#%E2%9C%85-%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E7%94%A8-uart%EF%BC%88tx%2Frx%EF%BC%89%E8%BF%9E%E6%8E%A5-stm32-%E5%88%B0-jetson-gpio">✅ 方式二：用 UART（TX/RX）连接 STM32 到 Jetson GPIO</a></li><li class="article-toc__level-2"><a href="#%F0%9F%A7%AA-%E5%A6%82%E4%BD%95%E7%A1%AE%E8%AE%A4-jetson-%E4%B8%8A%E7%9A%84%E4%B8%B2%E5%8F%A3%E8%B7%AF%E5%BE%84%EF%BC%9F">🧪 如何确认 Jetson 上的串口路径？</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo chmod 666 /dev/ttyACM0    //ttyTSH1(串口)
+</code></pre>
+<p><code>udev</code> 是 Linux 系统中的一个 <strong>设备管理器</strong>，全称是 <strong>userspace /dev</strong>。它的主要作用是：</p>
+<blockquote>
+<p><strong>在用户空间动态创建和管理 <code>/dev</code> 目录下的设备文件。</strong></p>
+</blockquote>
+<h3 id="%E9%80%9A%E4%BF%97%E7%82%B9%E8%AE%B2%EF%BC%8C%E5%AE%83%E6%98%AF%E5%B9%B2%E5%98%9B%E7%9A%84%EF%BC%9F" tabindex="-1">通俗点讲，它是干嘛的？</h3>
+<p>当你把一个 USB 设备（比如鼠标、串口线、摄像头）插入电脑时，Linux 系统会通过内核检测到这个硬件设备，然后 <code>udev</code> 会：</p>
+<ol>
+<li>自动创建 <code>/dev/xxx</code> 设备节点（比如 <code>/dev/ttyUSB0</code>, <code>/dev/video0</code>）；</li>
+<li>赋予它权限、所属用户组；</li>
+<li>可以用规则自动命名或创建符号链接（比如创建 <code>/dev/tarkbot_base</code>）；</li>
+<li>触发某些脚本或动作（比如你可以设定插入 U 盘就自动挂载）。</li>
+</ol>
+<h2 id="%F0%9F%94%8C-%E4%B8%B2%E5%8F%A3%E7%B1%BB%E8%AE%BE%E5%A4%87%EF%BC%88tty%EF%BC%89" tabindex="-1">🔌 串口类设备（tty）</h2>
+<table>
+<thead>
+<tr>
+<th>默认名字</th>
+<th>常见设备</th>
+<th>固定命名建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/dev/ttyUSB0</code></td>
+<td>USB 转串口模块、STM32、开发板</td>
+<td><code>/dev/arduino</code>, <code>/dev/tarkbot_base</code></td>
+</tr>
+<tr>
+<td><code>/dev/ttyACM0</code></td>
+<td>CDC USB 串口设备（如 STM32 Virtual COM）</td>
+<td><code>/dev/stm32_serial</code>, <code>/dev/ros_serial</code></td>
+</tr>
+</tbody>
+</table>
+<p>📌 固定方法：根据 <code>idVendor</code> 和 <code>idProduct</code> 写规则 + <code>SYMLINK+=</code></p>
+<hr>
+<h2 id="%F0%9F%93%B7-%E6%91%84%E5%83%8F%E5%A4%B4%2F%E5%9B%BE%E5%83%8F%E8%AE%BE%E5%A4%87%EF%BC%88video%EF%BC%89" tabindex="-1">📷 摄像头/图像设备（video）</h2>
+<table>
+<thead>
+<tr>
+<th>默认名字</th>
+<th>常见设备</th>
+<th>固定命名建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/dev/video0</code></td>
+<td>UVC 摄像头、RealSense、USB 工业相机</td>
+<td><code>/dev/front_cam</code>, <code>/dev/realsense</code></td>
+</tr>
+</tbody>
+</table>
+<p>📌 固定方法：</p>
+<ul>
+<li>可以按 USB 口位置（通过 <code>DEVPATH</code>）</li>
+<li>或者按摄像头的 <code>serial number</code>（如 RealSense）</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%94%8B-%E8%BE%93%E5%85%A5%E7%B1%BB%E8%AE%BE%E5%A4%87%EF%BC%88input%EF%BC%89" tabindex="-1">🔋 输入类设备（input）</h2>
+<table>
+<thead>
+<tr>
+<th>默认名字</th>
+<th>常见设备</th>
+<th>固定命名建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/dev/input/eventX</code></td>
+<td>键盘、鼠标、触控屏、游戏手柄</td>
+<td><code>/dev/input/keyboard</code>, <code>/dev/input/joystick</code></td>
+</tr>
+</tbody>
+</table>
+<p>📌 固定方法：用 <code>NAME</code>, <code>PHYS</code>, <code>ID_INPUT_KEYBOARD</code> 等属性判断</p>
+<hr>
+<h2 id="%F0%9F%92%BD-%E5%AD%98%E5%82%A8%E8%AE%BE%E5%A4%87%EF%BC%88block%EF%BC%89" tabindex="-1">💽 存储设备（block）</h2>
+<table>
+<thead>
+<tr>
+<th>默认名字</th>
+<th>常见设备</th>
+<th>固定命名建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/dev/sda</code>, <code>/dev/sdb1</code></td>
+<td>U 盘、移动硬盘、TF 卡</td>
+<td><code>/dev/usb_disk</code>, <code>/dev/sdcard</code></td>
+</tr>
+</tbody>
+</table>
+<p>📌 固定方法：可以按 <code>UUID</code> 或 <code>LABEL</code> 来固定挂载点，例如在 <code>/etc/fstab</code> 里挂载到 <code>/mnt/data</code></p>
+<h2 id="%F0%9F%94%A7-%E6%80%8E%E4%B9%88%E6%9F%A5%E7%9C%8B%E8%AE%BE%E5%A4%87%E5%B1%9E%E6%80%A7%EF%BC%9F" tabindex="-1">🔧 怎么查看设备属性？</h2>
+<p>插好设备后用：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">udevadm info -a -n /dev/ttyUSB0
+</code></pre>
+<p>或者摄像头：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">udevadm info -a -n /dev/video0
+</code></pre>
+<p>就能看到可用于匹配的属性：<code>idVendor</code>, <code>idProduct</code>, <code>serial</code>, <code>devpath</code> 等。</p>
+<p>//具体工程为例</p>
+<pre class="code-frame"><code class="hljs language-plaintext">cd /etc/udev/rules.d/
+sudo vi tarkbot.rules
+</code></pre>
+<p>▶ 进入 <code>udev</code> 规则目录，创建或编辑一个名为 <code>tarkbot.rules</code> 的文件，用来写自定义设备规则。</p>
+<hr>
+<pre class="code-frame"><code class="hljs language-plaintext">KERNEL==&quot;ttyACM*&quot;, ATTRS{idVendor}==&quot;1a86&quot;, ATTRS{idProduct}==&quot;55d4&quot;, MODE:=&quot;0666&quot;, SYMLINK+=&quot;tarkbot_base&quot;
+</code></pre>
+<p>这是一条具体的 <strong>udev 规则</strong>，我们分段来看：</p>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>KERNEL==&quot;ttyACM*&quot;</code></td>
+<td>匹配设备名称形如 <code>/dev/ttyACM0</code>, <code>/dev/ttyACM1</code> 的串口设备。</td>
+</tr>
+<tr>
+<td><code>ATTRS{idVendor}==&quot;1a86&quot;</code></td>
+<td>只匹配 USB 厂商 ID 是 <code>1a86</code> 的设备（常见于 CH340/CH341 串口芯片）。</td>
+</tr>
+<tr>
+<td><code>ATTRS{idProduct}==&quot;55d4&quot;</code></td>
+<td>只匹配产品 ID 是 <code>55d4</code> 的设备（对应某个特定型号的设备）。</td>
+</tr>
+<tr>
+<td><code>MODE:=&quot;0666&quot;</code></td>
+<td>设置设备文件的权限为 <code>rw-rw-rw-</code>，所有用户都能读写。</td>
+</tr>
+<tr>
+<td><code>SYMLINK+=&quot;tarkbot_base&quot;</code></td>
+<td>给设备创建一个符号链接 <code>/dev/tarkbot_base</code>，作为固定设备名。</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="%F0%9F%94%A7-%E4%BD%A0%E5%81%9A%E8%BF%99%E4%BB%B6%E4%BA%8B%E7%9A%84%E7%9B%AE%E7%9A%84" tabindex="-1">🔧 你做这件事的目的</h2>
+<ul>
+<li>避免设备名 <code>/dev/ttyACM0</code> 在插拔后变成 <code>/dev/ttyACM1</code> 等，程序出错；</li>
+<li>以后程序可以稳定使用 <code>/dev/tarkbot_base</code> 来访问底盘；</li>
+<li>所有用户都能访问串口设备（不需要加入 <code>dialout</code> 组）。</li>
+</ul>
+<hr>
+<h2 id="%F0%9F%A7%AA-%E5%A6%82%E4%BD%95%E8%AE%A9%E5%AE%83%E7%94%9F%E6%95%88" tabindex="-1">🧪 如何让它生效</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo udevadm control --reload
+sudo udevadm trigger
+</code></pre>
+<ol>
+<li>然后重新插拔设备；</li>
+<li>查看是否成功创建：</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-plaintext">ls -l /dev/tarkbot_base
+</code></pre>
+<p>//</p>
+<p><strong>你用 Jetson 接 GPS 模块</strong>，模块只有 TX/RX 两个引脚：你用的是 <code>/dev/ttyTHS1</code>。</p>
+<p><strong>你插一个 Arduino UNO 到 Jetson 或 PC 的 USB 口</strong>：它会出现在 <code>/dev/ttyACM0</code>。</p>
+<p>//</p>
+<p>你用 <strong>STM32 接 Jetson</strong>，根据连接方式不同，Jetson 上会出现的设备路径也不一样，下面是详细对比👇</p>
+<hr>
+<h2 id="%F0%9F%94%8C-%E4%BD%A0%E6%80%8E%E4%B9%88%E8%BF%9E-jetson%EF%BC%9F" tabindex="-1">🔌 你怎么连 Jetson？</h2>
+<h3 id="%E2%9C%85-%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E7%94%A8-usb-%E7%BA%BF%E8%BF%9E%E6%8E%A5-stm32-%E5%88%B0-jetson" tabindex="-1">✅ <strong>方式一：用 USB 线连接 STM32 到 Jetson</strong></h3>
+<p>如果你是通过 USB（比如 STM32 的 USB OTG 或 USB FS 接口）直接连接 Jetson，就会出现：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">/dev/ttyACM0
+</code></pre>
+<p>或者是 <code>/dev/ttyACM1</code>、<code>/dev/ttyUSB0</code>，具体取决于：</p>
+<table>
+<thead>
+<tr>
+<th>设备类型</th>
+<th>Jetson 上的表现</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STM32 使用 USB CDC (虚拟串口)</td>
+<td><code>/dev/ttyACM0</code></td>
+<td>使用 STM32CubeMX 配置 USB CDC 类</td>
+</tr>
+<tr>
+<td>使用 USB 转串口芯片（CH340/CP2102）</td>
+<td><code>/dev/ttyUSB0</code></td>
+<td>STM32 的 TX/RX 接到 USB 转串口模块</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>✅ 这是最常见、最方便的方式，系统自动识别，适合串口调试、数据传输、ROS 串口节点。</p>
+</blockquote>
+<hr>
+<h3 id="%E2%9C%85-%E6%96%B9%E5%BC%8F%E4%BA%8C%EF%BC%9A%E7%94%A8-uart%EF%BC%88tx%2Frx%EF%BC%89%E8%BF%9E%E6%8E%A5-stm32-%E5%88%B0-jetson-gpio" tabindex="-1">✅ <strong>方式二：用 UART（TX/RX）连接 STM32 到 Jetson GPIO</strong></h3>
+<p>比如你从 STM32 的 TX/RX 直接连到 Jetson Nano 的 GPIO UART 引脚（通常是 <code>/dev/ttyTHS1</code> 或 <code>/dev/ttyS0</code>）：</p>
+<ul>
+<li>这时 Jetson 上不会有新设备出现</li>
+<li>你手动使用 <code>/dev/ttyTHS1</code>（或其他 UART 设备）与 STM32 通信</li>
+<li>你需要设置好串口参数（波特率、停止位、校验位）</li>
+</ul>
+<blockquote>
+<p>⚠️ 注意要确保电平兼容（Jetson 通常是 3.3V，STM32 一般也要设为 3.3V）。</p>
+</blockquote>
+<hr>
+<h2 id="%F0%9F%A7%AA-%E5%A6%82%E4%BD%95%E7%A1%AE%E8%AE%A4-jetson-%E4%B8%8A%E7%9A%84%E4%B8%B2%E5%8F%A3%E8%B7%AF%E5%BE%84%EF%BC%9F" tabindex="-1">🧪 如何确认 Jetson 上的串口路径？</h2>
+<p>你插上后可以运行：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">dmesg | grep tty
+</code></pre>
+<p>会输出类似这样的内容：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">
+[  105.123456] cdc_acm 1-1.3:1.0: ttyACM0: USB ACM device
+</code></pre>
+<p>或者：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">ls /dev/ttyACM*
+ls /dev/ttyUSB*
+ls /dev/ttyTHS*
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/环境搭建/"><small>上一篇</small><strong>环境搭建</strong></a>
+        <a href="/2025/07/17/anaconda/"><small>下一篇</small><strong>anaconda</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

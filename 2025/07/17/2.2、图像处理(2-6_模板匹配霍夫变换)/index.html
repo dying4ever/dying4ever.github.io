@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="2.2、图像处理(2-6_模板匹配霍夫变换)" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>2.2、图像处理(2-6_模板匹配霍夫变换) · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>2.2、图像处理(2-6_模板匹配霍夫变换)</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:41:51">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/Python/">Python</a><a href="/categories/opencv/">opencv</a></span>
+    <span class="content-meta__tags"><a href="/tags/Python/">Python</a><a href="/tags/opencv/">opencv</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#2-6-%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2">2-6 模板匹配霍夫变换</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="2-6-%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2" tabindex="-1">2-6 模板匹配霍夫变换</h3>
+<h4 id="6-1-%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D" tabindex="-1">6-1 模板匹配</h4>
+<h5 id="6-1.1-%E5%8E%9F%E7%90%86" tabindex="-1">6-1.1 原理</h5>
+<p>所谓的模板匹配，就是在给定的图片中查找和模板最相似的区域，该算法的输入包括模板和图片，整个任务的思路就是按照滑窗的思路不断的移动模板图片，计算其与图像中对应区域的匹配度，最终将匹配度最高的区域选择为最终的结果。</p>
+<p><strong>实现流程：</strong></p>
+<ul>
+<li>
+<p>准备两幅图像：</p>
+<p>1.原图像(I)：在这幅图中，找到与模板相匹配的区域</p>
+<p>2.模板(T)：与原图像进行比对的图像块</p>
+</li>
+</ul>
+<p>![](2.2、图像处理(2-6 模板匹配霍夫变换).assets/image-20240127160442.png)</p>
+<ul>
+<li>滑动模板图像和原图像进行比对：</li>
+</ul>
+<p>![](2.2、图像处理(2-6 模板匹配霍夫变换).assets/image-20240127160503.png)</p>
+<p>![](2.2、图像处理(2-6 模板匹配霍夫变换).assets/image-20240127160512.png)</p>
+<p>![](2.2、图像处理(2-6 模板匹配霍夫变换).assets/image-20240127160525.png)</p>
+<ul>
+<li>获得上述图像后，查找最大值所在的位置，那么该位置对应的区域就被认为是最匹配的。对应的区域就是以该点为顶点，长宽和模板图像一样大小的矩阵。</li>
+</ul>
+<h5 id="6-1-2-%E5%AE%9E%E7%8E%B0" tabindex="-1">6-1-2 实现</h5>
+<p>我们使用OpenCV中的方法实现模板匹配。</p>
+<p>API：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">res = cv.matchTemplate(img,template,method)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>img: 要进行模板匹配的图像</li>
+<li>Template ：模板</li>
+<li>method：实现模板匹配的算法，主要有：
+<ol>
+<li>平方差匹配(CV_TM_SQDIFF)：利用模板与图像之间的平方差进行匹配，最好的匹配是0，匹配越差，匹配的值越大。</li>
+<li>相关匹配(CV_TM_CCORR)：利用模板与图像间的乘法进行匹配，数值越大表示匹配程度较高，越小表示匹配效果差。</li>
+<li>利用相关系数匹配(CV_TM_CCOEFF)：利用模板与图像间的相关系数匹配，1表示完美的匹配，-1表示最差的匹配。</li>
+</ol>
+</li>
+</ul>
+<p>完成匹配后，使用cv.minMaxLoc()方法查找最大值所在的位置即可。如果使用平方差作为比较方法，则最小值位置是最佳匹配位置。</p>
+<p><strong>示例：</strong></p>
+<p>在该案例中，载入要搜索的图像和模板，图像如下所示：</p>
+<p>![](2.2、图像处理(2-6 模板匹配霍夫变换).assets/image-20240127160611.png)</p>
+<p>通过matchTemplate实现模板匹配，使用minMaxLoc定位最匹配的区域，并用矩形标注最匹配的区域。</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 图像和模板读取</span>
+img = cv.imread(<span class="hljs-string">&#x27;./image/wulin2.jpeg&#x27;</span>)
+template = cv.imread(<span class="hljs-string">&#x27;./image/wulin.jpeg&#x27;</span>)
+h,w,l = template.shape
+<span class="hljs-comment"># 2 模板匹配</span>
+<span class="hljs-comment"># 2.1 模板匹配</span>
+res = cv.matchTemplate(img, template, cv.TM_CCORR)
+<span class="hljs-comment"># 2.2 返回图像中最匹配的位置，确定左上角的坐标，并将匹配位置绘制在图像上</span>
+min_val, max_val, min_loc, max_loc = cv.minMaxLoc(res)
+<span class="hljs-comment"># 使用平方差时最小值为最佳匹配位置</span>
+<span class="hljs-comment"># top_left = min_loc</span>
+top_left = max_loc
+bottom_right = (top_left[<span class="hljs-number">0</span>] + w, top_left[<span class="hljs-number">1</span>] + h)
+cv.rectangle(img, top_left, bottom_right, (<span class="hljs-number">0</span>,<span class="hljs-number">255</span>,<span class="hljs-number">0</span>), <span class="hljs-number">2</span>)
+<span class="hljs-comment"># 3 图像显示</span>
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>])
+plt.title(<span class="hljs-string">&#x27;匹配结果&#x27;</span>), plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+<p>拓展：模板匹配不适用于尺度变换，视角变换后的图像，这时我们就要使用关键点匹配算法，比较经典的关键点检测算法包括SIFT和SURF等，主要的思路是首先通过关键点检测算法获取模板和测试图片中的关键点；然后使用关键点匹配算法处理即可，这些关键点可以很好的处理尺度变化、视角变换、旋转变化、光照变化等，具有很好的不变性。</p>
+<h4 id="6-2-%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2" tabindex="-1">6-2 霍夫变换</h4>
+<p>霍夫变换常用来提取图像中的直线和圆等几何形状，如下图所示：</p>
+<p>![](2.2、图像处理(2-6 模板匹配霍夫变换).assets/image-20240127172734.png)</p>
+<p>在OpenCV中做霍夫线检测是使用的API是：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">cv.HoughLines(img, rho, theta, threshold)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>
+<p>img: 检测的图像，要求是二值化的图像，所以在调用霍夫变换之前首先要进行二值化，或者进行Canny边缘检测</p>
+</li>
+<li>
+<p>rho、theta: �<em>ρ</em> 和�<em>θ</em>的精确度</p>
+</li>
+<li>
+<p>threshold: 阈值，只有累加器中的值高于该阈值时才被认为是直线。</p>
+<p>霍夫线检测的整个流程如下图所示，这是在stackflow上一个关于霍夫线变换的解释：</p>
+</li>
+</ul>
+<p><strong>示例：</strong></p>
+<p>检测下述图像中的直线：</p>
+<p>![](2.2、图像处理(2-6 模板匹配霍夫变换).assets/image-20240127173252.png)</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1.加载图片，转为二值图</span>
+img = cv.imread(<span class="hljs-string">&#x27;./image/rili.jpg&#x27;</span>)
+
+gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+edges = cv.Canny(gray, <span class="hljs-number">50</span>, <span class="hljs-number">150</span>)
+
+<span class="hljs-comment"># 2.霍夫直线变换</span>
+lines = cv.HoughLines(edges, <span class="hljs-number">0.8</span>, np.pi / <span class="hljs-number">180</span>, <span class="hljs-number">150</span>)
+<span class="hljs-comment"># 3.将检测的线绘制在图像上（注意是极坐标噢）</span>
+<span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> lines:
+    rho, theta = line[<span class="hljs-number">0</span>]
+    a = np.cos(theta)
+    b = np.sin(theta)
+    x0 = a * rho
+    y0 = b * rho
+    x1 = <span class="hljs-built_in">int</span>(x0 + <span class="hljs-number">1000</span> * (-b))
+    y1 = <span class="hljs-built_in">int</span>(y0 + <span class="hljs-number">1000</span> * (a))
+    x2 = <span class="hljs-built_in">int</span>(x0 - <span class="hljs-number">1000</span> * (-b))
+    y2 = <span class="hljs-built_in">int</span>(y0 - <span class="hljs-number">1000</span> * (a))
+    cv.line(img, (x1, y1), (x2, y2), (<span class="hljs-number">0</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0</span>))
+<span class="hljs-comment"># 4. 图像显示</span>
+plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>),dpi=<span class="hljs-number">100</span>)
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;霍夫变换线检测&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+<p>![](2.2、图像处理(2-6 模板匹配霍夫变换).assets/image-20240127173311.png)</p>
+<h4 id="6-3-%E9%9C%8D%E5%A4%AB%E5%9C%86%E6%A3%80%E6%B5%8B" tabindex="-1">6-3 霍夫圆检测</h4>
+<ol>
+<li></li>
+<li>
+<p>原理</p>
+<p>圆的表示式是：(�−�)2+(�−�)2=�(<em>x</em>−<em>a</em>)2+(<em>y</em>−<em>b</em>)2=<em>r</em>其中�<em>a</em>和�<em>b</em>表示圆心坐标，�<em>r</em>表示圆半径，因此标准的霍夫圆检测就是在这三个参数组成的三维空间累加器上进行圆形检测，此时效率就会很低，所以OpenCV中使用<strong>霍夫梯度法</strong>进行圆形的检测。</p>
+<p>霍夫梯度法将霍夫圆检测范围两个阶段，第一阶段检测圆心，第二阶段利用圆心推导出圆半径。</p>
+<ul>
+<li>圆心检测的原理：圆心是圆周法线的交汇处，设置一个阈值，在某点的相交的直线的条数大于这个阈值就认为该交汇点为圆心。</li>
+<li>圆半径确定原理：圆心到圆周上的距离（半径）是相同的，确定一个阈值，只要相同距离的数量大于该阈值，就认为该距离是该圆心的半径。</li>
+</ul>
+<p>原则上霍夫变换可以检测任何形状，但复杂的形状需要的参数就多，霍夫空间的维数就多，因此在程序实现上所需的内存空间以及运行效率上都不利于把标准霍夫变换应用于实际复杂图形的检测中。霍夫梯度法是霍夫变换的改进，它的目的是减小霍夫空间的维度，提高效率。</p>
+</li>
+<li>
+<p>API</p>
+<p>在OpenCV中检测图像中的圆环使用的是API是：</p>
+<pre class="code-frame"><code class="hljs language-python">circles = cv.HoughCircles(image, method, dp, minDist, param1=<span class="hljs-number">100</span>, param2=<span class="hljs-number">100</span>, minRadius=<span class="hljs-number">0</span>,maxRadius=<span class="hljs-number">0</span> )
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>image：输入图像，应输入灰度图像</li>
+<li>method：使用霍夫变换圆检测的算法，它的参数是CV_HOUGH_GRADIENT</li>
+<li>dp：霍夫空间的分辨率，dp=1时表示霍夫空间与输入图像空间的大小一致，dp=2时霍夫空间是输入图像空间的一半，以此类推</li>
+<li>minDist为圆心之间的最小距离，如果检测到的两个圆心之间距离小于该值，则认为它们是同一个圆心</li>
+<li>param1：边缘检测时使用Canny算子的高阈值，低阈值是高阈值的一半。</li>
+<li>param2：检测圆心和确定半径时所共有的阈值</li>
+<li>minRadius和maxRadius为所检测到的圆半径的最小值和最大值</li>
+</ul>
+<p>返回：</p>
+<ul>
+<li>circles：输出圆向量，包括三个浮点型的元素——圆心横坐标，圆心纵坐标和圆半径</li>
+</ul>
+</li>
+<li>
+<p>实现</p>
+<p>由于霍夫圆检测对噪声比较敏感，所以首先对图像进行中值滤波。</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 读取图像，并转换为灰度图</span>
+planets = cv.imread(<span class="hljs-string">&quot;./image/star.jpeg&quot;</span>)
+gay_img = cv.cvtColor(planets, cv.COLOR_BGRA2GRAY)
+<span class="hljs-comment"># 2 进行中值模糊，去噪点</span>
+img = cv.medianBlur(gay_img, <span class="hljs-number">7</span>)  
+<span class="hljs-comment"># 3 霍夫圆检测</span>
+circles = cv.HoughCircles(img, cv.HOUGH_GRADIENT, <span class="hljs-number">1</span>, <span class="hljs-number">200</span>, param1=<span class="hljs-number">100</span>, param2=<span class="hljs-number">30</span>, minRadius=<span class="hljs-number">0</span>, maxRadius=<span class="hljs-number">100</span>)
+<span class="hljs-comment"># 4 将检测结果绘制在图像上</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> circles[<span class="hljs-number">0</span>, :]:  <span class="hljs-comment"># 遍历矩阵每一行的数据</span>
+    <span class="hljs-comment"># 绘制圆形</span>
+    cv.circle(planets, (i[<span class="hljs-number">0</span>], i[<span class="hljs-number">1</span>]), i[<span class="hljs-number">2</span>], (<span class="hljs-number">0</span>, <span class="hljs-number">255</span>, <span class="hljs-number">0</span>), <span class="hljs-number">2</span>)
+    <span class="hljs-comment"># 绘制圆心</span>
+    cv.circle(planets, (i[<span class="hljs-number">0</span>], i[<span class="hljs-number">1</span>]), <span class="hljs-number">2</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">255</span>), <span class="hljs-number">3</span>)
+<span class="hljs-comment"># 5 图像显示</span>
+plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>),dpi=<span class="hljs-number">100</span>)
+plt.imshow(planets[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;霍夫变换圆检测&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+</li>
+</ol>
+<p>![](2.2、图像处理(2-6 模板匹配霍夫变换).assets/image-20240127183316.png)</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/3，图像的特征提取和描述/"><small>上一篇</small><strong>3，图像的特征提取和描述</strong></a>
+        <a href="/2025/07/17/2.2、图像处理(2-5_边缘检测)/"><small>下一篇</small><strong>2.2、图像处理(2-5_边缘检测)</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

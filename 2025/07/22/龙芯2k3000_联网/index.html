@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="龙芯2k3000_联网" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>龙芯2k3000_联网 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>龙芯2k3000_联网</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-22T17:23:03">2025-07-22</time>
+    <span class="content-meta__categories"><a href="/categories/stm32/">stm32</a></span>
+    <span class="content-meta__tags"><a href="/tags/stm32/">stm32</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<p>方法1：跟着逐飞教程可以实现的</p>
+<p>方法2：（用于验证）
+方法1和2，区别不大
+1、开启手机热点
+（1）让电脑和板子都连接手机热点，若都能连接，一般手机热点下，都会显示已连接热点的设备的MAC。
+<a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/958f7ad20e450f6496d26ec4a03ca61b_MD5.jpeg">Open: file-20250722172414215.png</a>
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/958f7ad20e450f6496d26ec4a03ca61b_MD5.jpeg" alt="" loading="lazy" decoding="async">
+（2）电脑连接手机热点，会显示如下MAC
+电脑MAC：
+<a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/d385272c6191517bb7e4e72d2fd059ce_MD5.jpeg">Open: file-20250722172416973.png</a>
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/d385272c6191517bb7e4e72d2fd059ce_MD5.jpeg" alt="" loading="lazy" decoding="async"></p>
+<p>2、使用USB转串口模块
+使用TXD0、RX0、GND，另一端连接电脑</p>
+<p>3、LS2K0300必要的配置
+（1）配置wifi的账户密码和wifi的启动</p>
+<pre class="code-frame"><code class="hljs language-plaintext">vi /etc/wpa_supplicant.conf //配置wifi账户密码
+</code></pre>
+<p><a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/6779004429a90408f24c56aa198a03e4_MD5.jpeg">Open: file-20250722172440508.png</a>
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/6779004429a90408f24c56aa198a03e4_MD5.jpeg" alt="" loading="lazy" decoding="async">
+配置龙芯板子（只需要添加红色处2行代码，其它部分，该注释的注释）</p>
+<pre class="code-frame"><code class="hljs language-plaintext">vi /etc/rc.local        接着按一下板子的复位键。
+udhcpc -i wlan0 &amp;
+wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant.conf
+</code></pre>
+<p><a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/89ad6c0a3970cc72fae559838f5b33c5_MD5.jpeg">Open: file-20250722172448277.png</a>
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/89ad6c0a3970cc72fae559838f5b33c5_MD5.jpeg" alt="" loading="lazy" decoding="async"></p>
+<p>（2）加密方式，因为有的wifi时WPA或者WPA2，需要修改对应的配置
+（如下是WPA2配置）</p>
+<pre class="code-frame"><code class="hljs language-plaintext">wpa_cli -i wlan0 scan   //扫描—正常回显OK
+wpa_cli -i wlan0 scan_result //扫描当前结果—热点信息
+</code></pre>
+<p><a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/91dae699916b9d4dcd5bd3a171a1087c_MD5.jpeg">Open: file-20250722172549641.png</a>
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/91dae699916b9d4dcd5bd3a171a1087c_MD5.jpeg" alt="" loading="lazy" decoding="async"></p>
+<p>上述可知该热点是WPA2加密，若显示WPA则，需要根据如下进行配置
+<a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/88a60753be7cf787143e75446deb0656_MD5.jpeg">Open: file-20250722172558310.png</a>
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/88a60753be7cf787143e75446deb0656_MD5.jpeg" alt="" loading="lazy" decoding="async"></p>
+<p>3、正常登录ssh</p>
+<p>（1）板子MAC地址：
+<a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/7f36c8b8aae97aaff2aa845ee94a3674_MD5.jpeg">Open: file-20250722172607847.png</a>
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/7f36c8b8aae97aaff2aa845ee94a3674_MD5.jpeg" alt="" loading="lazy" decoding="async"></p>
+<p>（2）手机热点显示的MAC：（如下图2个MAC和上述2个
+<a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/56fe567724fec619c78cf79d2ea7d23f_MD5.jpeg">Open: file-20250722172641234.png</a>
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/56fe567724fec619c78cf79d2ea7d23f_MD5.jpeg" alt="" loading="lazy" decoding="async"></p>
+<p>（3）ubuntu:远程登录成功（串口查看龙芯的IP是wl<a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/dd7d6730da5c19e56fc0a433641aa497_MD5.jpeg">Open: file-20250722172615178.png</a>
+an0--wifi，不是eth0--以太网），下图就是wifi配置成功。
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/dd7d6730da5c19e56fc0a433641aa497_MD5.jpeg" alt="" loading="lazy" decoding="async">
+上述操作，正常一般都能实现。</p>
+<p>4、问题及解决方式
+问题1：<a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/0bc1e91f79f9c1ef0a602e9efe8d7a80_MD5.jpeg">Open: file-20250722172654077.png</a>
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/0bc1e91f79f9c1ef0a602e9efe8d7a80_MD5.jpeg" alt="" loading="lazy" decoding="async">是不是当前这个模式？修改模式就行</p>
+<p>问题2：<a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/6191ccaf36cf171e355b2a21baeffde8_MD5.jpeg">Open: file-20250722172702822.png</a>
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/6191ccaf36cf171e355b2a21baeffde8_MD5.jpeg" alt="" loading="lazy" decoding="async"><a href="%E9%BE%99%E8%8A%AF2k3000%20%E8%81%94%E7%BD%91.assets/e85790fedca321ff871236fd7f51599a_MD5.jpeg">Open: file-20250722172707817.png</a>
+<img src="/2025/07/22/龙芯2k3000_联网/龙芯2k3000_联网.assets/e85790fedca321ff871236fd7f51599a_MD5.jpeg" alt="" loading="lazy" decoding="async">可能没重置文件</p>
+<p>出现上述输出的日志，表明已经连上的情况</p>
+<p>问题3：添加上述配置，有可能导致wlan0消失
+解答：上述配置不是开启和关闭wlan0，而是对wlan0自动获取指定的热点，至于wlan0消失，只能说明你在使用vi指令时，导致rc.local内容不完整。</p>
+<p>原文链接：<a href="https://blog.csdn.net/pointer_NULL/article/details/145380470" target="_blank" rel="noreferrer noopener">https://blog.csdn.net/pointer_NULL/article/details/145380470</a></p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/基本调试/"><small>上一篇</small><strong>基本调试</strong></a>
+        <a href="/2025/07/25/2.1、opencv基础（绘图）/"><small>下一篇</small><strong>2.1、opencv基础（绘图）</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

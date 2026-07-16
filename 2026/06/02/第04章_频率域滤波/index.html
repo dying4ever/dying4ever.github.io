@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="第04章_频率域滤波" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>第04章_频率域滤波 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>第04章_频率域滤波</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-06-02T14:47:48">2026-06-02</time>
+    <span class="content-meta__categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/categories/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E7%AC%AC-4-%E7%AB%A0-%E9%A2%91%E7%8E%87%E5%9F%9F%E6%BB%A4%E6%B3%A2">第 4 章 频率域滤波</a></li><li class="article-toc__level-2"><a href="#%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC">本章概括</a></li><li class="article-toc__level-2"><a href="#4.1-%E5%82%85%E7%AB%8B%E5%8F%B6%E5%8F%98%E6%8D%A2%E5%9F%BA%E7%A1%80">4.1 傅立叶变换基础</a></li><li class="article-toc__level-3"><a href="#%E5%8F%96%E6%A0%B7%E4%B8%8E%E6%B7%B7%E6%B7%86">取样与混淆</a></li><li class="article-toc__level-2"><a href="#4.1-%E7%A6%BB%E6%95%A3%E5%82%85%E7%AB%8B%E5%8F%B6%E5%8F%98%E6%8D%A2-dft">4.1 离散傅立叶变换 DFT</a></li><li class="article-toc__level-3"><a href="#%E9%A2%91%E8%B0%B1%E5%9B%BE%E8%AF%B4%E6%98%8E">频谱图说明</a></li><li class="article-toc__level-2"><a href="#%E9%A2%91%E7%8E%87%E5%9F%9F%E6%BB%A4%E6%B3%A2%E5%9F%BA%E7%A1%80">频率域滤波基础</a></li><li class="article-toc__level-2"><a href="#%E4%BD%8E%E9%80%9A%E6%BB%A4%E6%B3%A2%E5%99%A8">低通滤波器</a></li><li class="article-toc__level-2"><a href="#%E9%AB%98%E9%80%9A%E6%BB%A4%E6%B3%A2%E5%99%A8">高通滤波器</a></li><li class="article-toc__level-3"><a href="#%E6%95%88%E6%9E%9C%E5%9B%BE%E8%AF%B4%E6%98%8E">效果图说明</a></li><li class="article-toc__level-2"><a href="#%E5%90%8C%E6%80%81%E6%BB%A4%E6%B3%A2">同态滤波</a></li><li class="article-toc__level-2"><a href="#%E5%B8%A6%E9%98%BB%E3%80%81%E5%B8%A6%E9%80%9A%E4%B8%8E%E9%99%B7%E6%B3%A2%E6%BB%A4%E6%B3%A2%E5%99%A8">带阻、带通与陷波滤波器</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="%E7%AC%AC-4-%E7%AB%A0-%E9%A2%91%E7%8E%87%E5%9F%9F%E6%BB%A4%E6%B3%A2" tabindex="-1">第 4 章 频率域滤波</h1>
+<h2 id="%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC" tabindex="-1">本章概括</h2>
+<p>本章从傅里叶变换出发介绍频率域图像处理，包括采样、混叠、二维 DFT、频谱性质、频域滤波流程、低通和高通滤波、同态滤波、带阻/带通和陷波滤波。重点是理解频率与图像结构的关系：低频对应缓慢变化，高频对应边缘、噪声和细节。</p>
+<h2 id="4.1-%E5%82%85%E7%AB%8B%E5%8F%B6%E5%8F%98%E6%8D%A2%E5%9F%BA%E7%A1%80" tabindex="-1">4.1 傅立叶变换基础</h2>
+<p>傅里叶分析把信号分解为不同频率的正弦/余弦分量。图像中平滑区域主要对应低频，边缘、纹理和噪声主要对应高频。</p>
+<p>一维连续傅里叶变换为：</p>
+<p>$$
+F(\mu)=\int_{-\infty}^{\infty}f(t)e^{-j2\pi\mu t},dt
+$$</p>
+<p>反变换为：</p>
+<p>$$
+f(t)=\int_{-\infty}^{\infty}F(\mu)e^{j2\pi\mu t},d\mu
+$$</p>
+<p>$F(\mu)$ 表示频率 $\mu$ 上的幅度和相位信息。</p>
+<h3 id="%E5%8F%96%E6%A0%B7%E4%B8%8E%E6%B7%B7%E6%B7%86" tabindex="-1">取样与混淆</h3>
+<p>采样频率不足会产生混叠，高频成分会错误地表现为低频成分。PPT 中采样和混淆示意图说明：图像中细密纹理、周期条纹和锐利边缘都容易出现混叠。</p>
+<p>防止混叠的基本方法是在采样前进行低通滤波，并保证采样频率满足奈奎斯特条件。</p>
+<h2 id="4.1-%E7%A6%BB%E6%95%A3%E5%82%85%E7%AB%8B%E5%8F%B6%E5%8F%98%E6%8D%A2-dft" tabindex="-1">4.1 离散傅立叶变换 DFT</h2>
+<p>二维 DFT 为：</p>
+<p>$$
+F(u,v)=\sum_{x=0}^{M-1}\sum_{y=0}^{N-1}f(x,y)
+e^{-j2\pi(ux/M+vy/N)}
+$$</p>
+<p>二维反 DFT 为：</p>
+<p>$$
+f(x,y)=\frac{1}{MN}\sum_{u=0}^{M-1}\sum_{v=0}^{N-1}F(u,v)
+e^{j2\pi(ux/M+vy/N)}
+$$</p>
+<p>其中 $(x,y)$ 是空间坐标，$(u,v)$ 是频率坐标。频谱中心化通常通过乘以 $(-1)^{x+y}$ 实现，使低频移动到频谱中心。</p>
+<h3 id="%E9%A2%91%E8%B0%B1%E5%9B%BE%E8%AF%B4%E6%98%8E" tabindex="-1">频谱图说明</h3>
+<p>频谱图中的亮点表示该频率成分强。中心区域通常是低频，远离中心为高频。若图像有明显周期纹理，频谱中会出现对称亮点；若图像边缘强，高频能量会增加。</p>
+<h2 id="%E9%A2%91%E7%8E%87%E5%9F%9F%E6%BB%A4%E6%B3%A2%E5%9F%BA%E7%A1%80" tabindex="-1">频率域滤波基础</h2>
+<p>频域滤波流程为：</p>
+<ol>
+<li>对输入图像 $f(x,y)$ 进行必要填充，减少周期卷积带来的环绕误差。</li>
+<li>计算 DFT 得到 $F(u,v)$。</li>
+<li>构造滤波器 $H(u,v)$。</li>
+<li>相乘得到 $G(u,v)=H(u,v)F(u,v)$。</li>
+<li>反变换得到输出图像 $g(x,y)$，再裁剪回原尺寸。</li>
+</ol>
+<p>核心公式为：</p>
+<p>$$
+G(u,v)=H(u,v)F(u,v)
+$$</p>
+<p>$H(u,v)$ 决定保留或抑制哪些频率成分。</p>
+<h2 id="%E4%BD%8E%E9%80%9A%E6%BB%A4%E6%B3%A2%E5%99%A8" tabindex="-1">低通滤波器</h2>
+<p>低通滤波器保留低频、抑制高频，主要用于平滑和去噪。</p>
+<p>理想低通滤波器为：</p>
+<p>$$
+H(u,v)=
+\begin{cases}
+1,&amp;D(u,v)\le D_0\
+0,&amp;D(u,v)&gt;D_0
+\end{cases}
+$$</p>
+<p>$D_0$ 是截止频率。理想低通边界突变，容易产生振铃现象。</p>
+<p>Butterworth 低通滤波器为：</p>
+<p>$$
+H(u,v)=\frac{1}{1+\left[D(u,v)/D_0\right]^{2n}}
+$$</p>
+<p>$n$ 是阶数，阶数越高越接近理想低通，振铃风险也更大。</p>
+<p>高斯低通滤波器为：</p>
+<p>$$
+H(u,v)=e^{-D^2(u,v)/(2D_0^2)}
+$$</p>
+<p>高斯滤波器过渡平滑，通常不会产生明显振铃。</p>
+<h2 id="%E9%AB%98%E9%80%9A%E6%BB%A4%E6%B3%A2%E5%99%A8" tabindex="-1">高通滤波器</h2>
+<p>高通滤波器抑制低频、保留高频，用于边缘增强和锐化。低通滤波器 $H_{LP}$ 对应的高通形式可写为：</p>
+<p>$$
+H_{HP}(u,v)=1-H_{LP}(u,v)
+$$</p>
+<p>理想高通边界突变，可能导致振铃；Butterworth 高通可调过渡陡峭程度；高斯高通过渡最平滑。</p>
+<h3 id="%E6%95%88%E6%9E%9C%E5%9B%BE%E8%AF%B4%E6%98%8E" tabindex="-1">效果图说明</h3>
+<p>PPT 中 $D_0=30,60,100$ 的高通结果体现了截止频率的影响：$D_0$ 小时保留更多高频，边缘和噪声都更明显；$D_0$ 增大时高通范围变窄，增强效果减弱。</p>
+<h2 id="%E5%90%8C%E6%80%81%E6%BB%A4%E6%B3%A2" tabindex="-1">同态滤波</h2>
+<p>图像可建模为照明分量和反射分量的乘积：</p>
+<p>$$
+f(x,y)=i(x,y)r(x,y)
+$$</p>
+<p>照明 $i(x,y)$ 通常变化缓慢，主要对应低频；反射 $r(x,y)$ 与物体细节相关，主要对应高频。取对数后：</p>
+<p>$$
+z(x,y)=\ln f(x,y)=\ln i(x,y)+\ln r(x,y)
+$$</p>
+<p>再进行傅里叶变换并用滤波器处理：</p>
+<p>$$
+S(u,v)=H(u,v)Z(u,v)
+$$</p>
+<p>最后反变换并指数还原。其作用是压低低频照明不均，同时增强高频细节。</p>
+<h2 id="%E5%B8%A6%E9%98%BB%E3%80%81%E5%B8%A6%E9%80%9A%E4%B8%8E%E9%99%B7%E6%B3%A2%E6%BB%A4%E6%B3%A2%E5%99%A8" tabindex="-1">带阻、带通与陷波滤波器</h2>
+<p>带阻滤波器抑制某一频带，带通滤波器保留某一频带。陷波滤波器用于去除周期噪声，通常在频谱中针对对称亮点设置抑制区域。</p>
+<p>陷波滤波流程：</p>
+<ol>
+<li>观察频谱，定位周期噪声对应的对称峰。</li>
+<li>在峰值附近构造陷波阻止滤波器。</li>
+<li>频域相乘后反变换。</li>
+<li>检查图像中周期条纹是否减弱，同时避免损伤正常结构。</li>
+</ol>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/06/02/第05章_形态学图像处理/"><small>上一篇</small><strong>第05章_形态学图像处理</strong></a>
+        <a href="/2026/06/02/第03章_灰度变换与空域滤波/"><small>下一篇</small><strong>第03章_灰度变换与空域滤波</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

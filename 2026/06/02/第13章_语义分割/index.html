@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="第13章_语义分割" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>第13章_语义分割 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>第13章_语义分割</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-06-02T14:47:48">2026-06-02</time>
+    <span class="content-meta__categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/categories/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E7%AC%AC-13-%E7%AB%A0-%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2">第 13 章 语义分割</a></li><li class="article-toc__level-2"><a href="#%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC">本章概括</a></li><li class="article-toc__level-2"><a href="#%E6%A6%82%E8%BF%B0">概述</a></li><li class="article-toc__level-2"><a href="#%E6%95%B0%E6%8D%AE%E9%9B%86">数据集</a></li><li class="article-toc__level-2"><a href="#%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87">评价指标</a></li><li class="article-toc__level-2"><a href="#fcn">FCN</a></li><li class="article-toc__level-2"><a href="#u-net">U-Net</a></li><li class="article-toc__level-2"><a href="#segnet">SegNet</a></li><li class="article-toc__level-2"><a href="#deeplab-%E7%B3%BB%E5%88%97">DeepLab 系列</a></li><li class="article-toc__level-2"><a href="#%E5%9B%BE%E7%A4%BA%E8%AF%B4%E6%98%8E">图示说明</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="%E7%AC%AC-13-%E7%AB%A0-%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2" tabindex="-1">第 13 章 语义分割</h1>
+<h2 id="%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC" tabindex="-1">本章概括</h2>
+<p>本章介绍语义分割任务、常用数据集、评价指标和典型网络，包括 FCN、U-Net、SegNet 和 DeepLab 系列。重点是理解语义分割是像素级分类任务，以及编码器-解码器结构如何恢复空间分辨率。</p>
+<h2 id="%E6%A6%82%E8%BF%B0" tabindex="-1">概述</h2>
+<p>语义分割为图像中每个像素分配类别标签。与目标检测只输出边界框不同，语义分割输出像素级区域；与实例分割不同，语义分割不区分同一类别的不同实例。</p>
+<h2 id="%E6%95%B0%E6%8D%AE%E9%9B%86" tabindex="-1">数据集</h2>
+<p>常见语义分割数据集包括 PASCAL VOC、Cityscapes、ADE20K 和 COCO-Stuff。不同数据集关注场景不同：Cityscapes 适合自动驾驶街景，ADE20K 场景类别更丰富，VOC 常用于基础算法比较。</p>
+<h2 id="%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87" tabindex="-1">评价指标</h2>
+<p>像素准确率为：</p>
+<p>$$
+PA=\frac{\sum_i n_{ii}}{\sum_i\sum_j n_{ij}}
+$$</p>
+<p>$n_{ij}$ 表示真实类别为 $i$、预测为 $j$ 的像素数。</p>
+<p>类别 IoU 为：</p>
+<p>$$
+IoU_i=\frac{n_{ii}}{\sum_j n_{ij}+\sum_j n_{ji}-n_{ii}}
+$$</p>
+<p>mIoU 为所有类别 IoU 的平均：</p>
+<p>$$
+mIoU=\frac{1}{C}\sum_{i=1}^{C}IoU_i
+$$</p>
+<p>mIoU 同时考虑误分和漏分，是语义分割最常用指标。</p>
+<h2 id="fcn" tabindex="-1">FCN</h2>
+<p>FCN 将分类网络中的全连接层改为卷积层，使网络能够输出空间特征图。通过反卷积或上采样恢复分辨率，并利用跳跃连接融合浅层细节和深层语义。</p>
+<h2 id="u-net" tabindex="-1">U-Net</h2>
+<p>U-Net 采用编码器-解码器结构，并通过跳跃连接把编码器的高分辨率特征传给解码器。它在医学图像分割中应用广泛，适合数据量相对较少的场景。</p>
+<h2 id="segnet" tabindex="-1">SegNet</h2>
+<p>SegNet 也是编码器-解码器结构。它在上采样时使用池化索引恢复空间位置，减少参数量，同时保留边界定位信息。</p>
+<h2 id="deeplab-%E7%B3%BB%E5%88%97" tabindex="-1">DeepLab 系列</h2>
+<p>DeepLab 的核心思想包括空洞卷积、ASPP 和条件随机场后处理。</p>
+<p>空洞卷积通过空洞率扩大感受野：</p>
+<p>$$
+y[i]=\sum_k x[i+r\cdot k]w[k]
+$$</p>
+<p>其中 $r$ 是空洞率。$r$ 越大，感受野越大，但过大可能导致栅格效应。</p>
+<p>ASPP 使用多个不同空洞率的并行卷积捕获多尺度上下文。DeepLabv3+ 进一步结合编码器-解码器结构，改善边界细节。</p>
+<h2 id="%E5%9B%BE%E7%A4%BA%E8%AF%B4%E6%98%8E" tabindex="-1">图示说明</h2>
+<p>PPT 中网络结构图可按“编码器提取语义、解码器恢复分辨率、跳跃连接补充细节”理解。分割结果图中，好的模型应同时做到类别判断正确、边界贴合准确、小目标不丢失。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/06/02/FAST-LIVO/"><small>上一篇</small><strong>FAST-LIVO</strong></a>
+        <a href="/2026/06/02/第12章_目标检测/"><small>下一篇</small><strong>第12章_目标检测</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

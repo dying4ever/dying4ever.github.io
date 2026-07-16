@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="git基本操作" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>git基本操作 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>git基本操作</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-02-09T21:08:07">2026-02-09</time>
+    <span class="content-meta__categories"><a href="/categories/git/">git</a></span>
+    <span class="content-meta__tags"><a href="/tags/git/">git</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#1.%E5%88%9B%E5%BB%BA%E4%BB%93%E5%BA%93">1.创建仓库</a></li><li class="article-toc__level-2"><a href="#2.%E6%8F%90%E4%BA%A4%E4%B8%8E%E4%BF%AE%E6%94%B9">2.提交与修改</a></li><li class="article-toc__level-2"><a href="#3.%E6%8F%90%E4%BA%A4%E6%97%A5%E5%BF%97">3.提交日志</a></li><li class="article-toc__level-2"><a href="#4.%E8%BF%9C%E7%A8%8B%E6%93%8D%E4%BD%9C">4.远程操作</a></li><li class="article-toc__level-2"><a href="#5.git%E6%A0%87%E7%AD%BE">5.git标签</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<p><img src="/2026/02/09/git基本操作/git基本操作.assets/image-2026_02_09_21.jpg" alt="" loading="lazy" decoding="async"></p>
+<h2 id="1.%E5%88%9B%E5%BB%BA%E4%BB%93%E5%BA%93" tabindex="-1">1.创建仓库</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">git init #初始化仓库
+git clone #拷贝一份远程仓库，也就是下载一个项目
+</code></pre>
+<h2 id="2.%E6%8F%90%E4%BA%A4%E4%B8%8E%E4%BF%AE%E6%94%B9" tabindex="-1">2.提交与修改</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">git add &lt;file&gt;              # 将文件添加到暂存区（stage）
+git add .                   # 添加当前目录下所有改动的文件到暂存区
+
+git status                  # 查看仓库当前状态（修改/暂存/未跟踪文件）
+
+git diff                    # 查看工作区与暂存区之间的差异
+git diff --staged           # 查看暂存区与上一次提交之间的差异
+
+git difftool                # 使用外部差异工具查看文件差异
+
+git range-diff A..B C..D    # 比较两个提交区间的差异（高级用法）
+
+git commit -m &quot;message&quot;     # 将暂存区内容提交到本地仓库
+git commit                  # 打开编辑器填写提交信息
+
+git reset &lt;commit&gt;          # 回退到指定提交（默认 mixed）
+git reset --soft &lt;commit&gt;   # 回退提交，保留暂存区
+git reset --hard &lt;commit&gt;   # 强制回退（危险，会丢失修改）
+
+git rm &lt;file&gt;               # 删除文件，并加入暂存区
+git rm --cached &lt;file&gt;      # 仅从 Git 中移除文件（保留工作区文件）
+
+git mv old new              # 重命名 / 移动文件（Git 可追踪）
+
+git notes add -m &quot;note&quot;     # 给某次提交添加注释（不影响提交内容）
+
+git checkout &lt;branch&gt;       # 切换分支（旧命令）
+git checkout -b &lt;branch&gt;    # 创建并切换到新分支
+</code></pre>
+<h2 id="3.%E6%8F%90%E4%BA%A4%E6%97%A5%E5%BF%97" tabindex="-1">3.提交日志</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">git log                     # 查看提交历史
+git log --oneline --graph   # 简洁 + 图形化查看历史
+
+git blame &lt;file&gt;            # 查看文件每一行是谁、何时修改的
+
+git shortlog                # 按作者统计提交摘要
+
+git describe                # 基于最近的 tag 描述当前提交
+
+</code></pre>
+<h2 id="4.%E8%BF%9C%E7%A8%8B%E6%93%8D%E4%BD%9C" tabindex="-1">4.远程操作</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">git remote                  # 查看远程仓库列表
+git remote -v               # 查看远程仓库及其 URL
+
+git fetch                   # 从远程拉取更新（不自动合并）
+git fetch &lt;remote&gt;          # 从指定远程仓库拉取
+
+git pull                    # 拉取并合并（= fetch + merge）
+git pull --rebase           # 拉取并 rebase（更干净的历史）
+
+git push                    # 推送当前分支到远程
+git push origin &lt;branch&gt;    # 推送指定分支
+
+git submodule add &lt;url&gt;     # 添加子模块
+git submodule update        # 更新子模块
+
+</code></pre>
+<h2 id="5.git%E6%A0%87%E7%AD%BE" tabindex="-1">5.git标签</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">git tag v1.0
+git tag -d &lt;tagname&gt; #删除
+git tag -a v1.0 #添加注释
+git push origin &lt;tagname&gt;
+git push origin --tags #推送所有标签
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/02/09/git分支管理/"><small>上一篇</small><strong>git分支管理</strong></a>
+        <a href="/2026/02/09/git_flow/"><small>下一篇</small><strong>git_flow</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

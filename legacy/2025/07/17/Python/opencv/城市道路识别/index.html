@@ -1,0 +1,954 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"><meta name="renderer" content="webkit"><link rel="icon" type="image/ico" sizes="32x32" href="/legacy/assets/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/legacy/assets/favicon.jpg"><link rel="alternate" href="/legacy/rss.xml" title="终南山下，活死人墓" type="application/rss+xml"><link rel="alternate" href="/legacy/atom.xml" title="终南山下，活死人墓" type="application/atom+xml"><link rel="alternate" type="application/json" title="终南山下，活死人墓" href="https://www.dying4ever.cyou/feed.json"><link rel="preload" href="/legacy/fonts/StoryScript-Regular.woff2" as="font" type="font/woff2" crossorigin="crossorigin"><link rel="modulepreload" href="/legacy/js/siteInit.js"><link rel="modulepreload" href="/legacy/js/copy-tex-TYOT4Z7A.js"><link rel="modulepreload" href="/legacy/js/post-PEEX3S2R.js"><link rel="modulepreload" href="/legacy/js/chunk-N4ACASAP.js"><link rel="modulepreload" href="/legacy/js/chunk-K2JFEYFH.js"><link rel="stylesheet" href="/legacy/css/siteInit.css" media="none" onload="this.media='all'"><link rel="preload" href="/legacy/images/banner.webp" as="image" fetchpriority="high"><meta name="keywords" content="Python,"><meta name="description" content="Por Una Cabeza"><link rel="canonical" href="https://www.dying4ever.cyou/2025/07/17/Python/opencv/%E5%9F%8E%E5%B8%82%E9%81%93%E8%B7%AF%E8%AF%86%E5%88%AB/"><link rel="stylesheet" href="/legacy/css/post.css?v=0.5.4"><link rel="stylesheet" href="/legacy/css/mermaid.css?v=0.5.4"><!-- 临时处理--><title>城市道路识别</title><meta name="generator" content="Hexo 7.3.0"></head><body itemscope="" itemtype="http://schema.org/WebPage"><div id="loading"><div class="cat"><div class="body"></div><div class="head"><div class="face"></div></div><div class="foot"><div class="tummy-end"></div><div class="bottom"></div><div class="legs left"></div><div class="legs right"></div></div><div class="paw"><div class="hands left"></div><div class="hands right"></div></div></div></div><div id="pagefind_mount"></div><div id="container"><header id="header" itemscope="" itemtype="http://schema.org/WPHeader"><div class="inner"><div id="brand"><div class="pjax"><h1 itemprop="name headline">城市道路识别</h1><div class="meta"><span class="item" title="创建时间：2025-07-17 19:56:27"><span class="icon"><i class="ic i-calendar"></i></span><span class="text">发表于</span><time itemprop="dateCreated datePublished" datetime="2025-07-17T19:56:27+08:00">2025-07-17</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span class="text">本文字数</span><span>26k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span class="text">阅读时长</span><span>23 分钟</span></span></div></div></div><nav id="nav"><div class="inner"><div class="toggle"><div class="lines" aria-label="切换导航栏"><span class="line"></span><span class="line"></span><span class="line"></span></div></div><ul class="menu"><li class="item title"><a href="/legacy/" rel="start">Frostbitten Carpe Diem</a></li></ul><ul class="right" id="rightNav"><li class="item theme"><i class="ic i-sun"></i></li><li class="item search"><i class="ic i-search"></i></li></ul></div></nav></div><div class="pjax" id="imgs"><img src="/legacy/images/banner.webp" loading="eager" decoding="async" fetchpriority="high" alt="终南山下，活死人墓"></div></header><div id="waves"><svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path></defs><g class="parallax"><use xlink:href="#gentle-wave" x="48" y="0"></use><use xlink:href="#gentle-wave" x="48" y="3"></use><use xlink:href="#gentle-wave" x="48" y="5"></use><use xlink:href="#gentle-wave" x="48" y="7"></use></g></svg></div><main><div class="inner"><div class="pjax" id="main"><div class="article wrap"><div class="breadcrumb" itemlistelement="" itemscope="" itemtype="https://schema.org/BreadcrumbList"><i class="ic i-home"></i><span><a href="/legacy/">首页</a></span><i class="ic i-angle-right"></i><span itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/legacy/categories/Python/" itemprop="item" rel="index" title="分类于Python"><span itemprop="name">Python<meta itemprop="position" content="0"></span></a></span><i class="ic i-angle-right"></i><span class="current" itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/legacy/categories/Python/opencv/" itemprop="item" rel="index" title="分类于opencv"><span itemprop="name">opencv<meta itemprop="position" content="1"></span></a></span></div><article class="post block" itemscope="itemscope" itemtype="http://schema.org/Article" data-pagefind-body="data-pagefind-body" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://www.dying4ever.cyou/2025/07/17/Python/opencv/%E5%9F%8E%E5%B8%82%E9%81%93%E8%B7%AF%E8%AF%86%E5%88%AB/"><span hidden="hidden" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="image" content="/legacy/assets/head.png"><meta itemprop="name" content="曾阿牛"><meta itemprop="description" content="welcome my blog, Por Una Cabeza"></span><span hidden="hidden" itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="终南山下，活死人墓"></span><div class="body md" itemprop="articleBody"><hr>
+<h2 id="一二值化提取图像"><a class="anchor" href="#一二值化提取图像">#</a> 一.二值化/提取图像</h2>
+<h3 id="1-bgr-hsv-转换"><a class="anchor" href="#1-bgr-hsv-转换">#</a> 1. BGR → HSV 转换</h3>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>hsv = cv2.cvtColor(origin_img, cv2.COLOR_BGR2HSV)</span></span></code></pre>
+<ul>
+<li>OpenCV 读进来的图像是 BGR 格式。</li>
+<li>HSV 色彩空间更适合颜色识别，特别是在光照变化下。</li>
+</ul>
+<hr>
+<h3 id="2-设置颜色阈值hsv"><a class="anchor" href="#2-设置颜色阈值hsv">#</a> 2. 设置颜色阈值（HSV）</h3>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>lower_color = np.array([H_min, S_min, V_min])#H色调,S饱和度,V亮度</span></span>
+<span class="line"><span>higher_color = np.array([H_max, S_max, V_max])</span></span></code></pre>
+<p>这一步是关键 —— 用于<strong>提取你关心的颜色区域</strong>（如黄色车道线或白色车道线）。</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>H_min, S_min, V_min = 20, 100, 100</span></span>
+<span class="line"><span>H_max, S_max, V_max = 30, 255, 255</span></span></code></pre>
+<hr>
+<h3 id="3-二值化"><a class="anchor" href="#3-二值化">#</a> 3. 二值化</h3>
+<h4 id="31-cv2inrangepython"><a class="anchor" href="#31-cv2inrangepython">#</a> 3.1  cv2.inRange(python)</h4>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>binary_img = cv2.inRange(hsv, lower_color, higher_color)</span></span></code></pre>
+<ul>
+<li>把在范围内的像素设为白（255），其他设为黑（0）。</li>
+<li>得到的 <code>binary_img</code> 是一张 <strong>二值图像</strong>。</li>
+</ul>
+<hr>
+<h4 id="32-cvthresholdcpp-otsutriangle算法"><a class="anchor" href="#32-cvthresholdcpp-otsutriangle算法">#</a> 3.2 cv::threshold(cpp)   <strong>OTSU/TRIANGLE算法</strong></h4>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>cv::threshold(grayFrame, binary, threshold, 255, cv::THRESH_BINARY);</span></span>
+<span class="line"><span></span></span></code></pre>
+<p>智能车用到的另一种二值化函数</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span> // Otsu 自动阈值二值化</span></span>
+<span class="line"><span>    cv::threshold(grayFrame, binary, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);</span></span></code></pre>
+<p>这行代码使用 <strong>Otsu算法</strong> 来自动选择最优阈值，将灰度图 <code>grayFrame</code> 转换为二值图 <code>binary</code></p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>cv::threshold(gray, binary, 0, 255, cv::THRESH_BINARY | cv::THRESH_TRIANGLE);</span></span></code></pre>
+<table>
+<thead>
+<tr>
+<th>参数位置</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>grayFrame</code></td>
+<td>输入图像，必须是单通道（灰度图）</td>
+</tr>
+<tr>
+<td><code>binary</code></td>
+<td>输出图像（二值化后的图像）</td>
+</tr>
+<tr>
+<td><code>0</code></td>
+<td>阈值值设为 0，仅作为占位符（因为 Otsu 会自动计算最优值）</td>
+</tr>
+<tr>
+<td><code>255</code></td>
+<td>最大值，即大于阈值的像素值将设置为 255</td>
+</tr>
+</tbody>
+</table>
+<h6 id="cvthresh_binary"><a class="anchor" href="#cvthresh_binary">#</a> cv::THRESH_BINARY</h6>
+<ul>
+<li>表示基本的<strong>二值化操作</strong>。</li>
+<li>如果像素值 &gt; 阈值 → 设置为 <code>maxval</code>（通常是 255）</li>
+<li>否则 → 设置为 0</li>
+</ul>
+<h6 id="cvthresh_otsu"><a class="anchor" href="#cvthresh_otsu">#</a> cv::THRESH_OTSU</h6>
+<ul>
+<li>含义是：使用 <strong>Otsu 算法</strong>自动选择全局最优阈值，而<strong>不用你手动指定阈值值</strong>。</li>
+<li>注意：你在 <code>threshold()</code> 函数里传的阈值参数（第三个参数）将被忽略，OpenCV 会自动计算。</li>
+</ul>
+<h6 id="优势"><a class="anchor" href="#优势">#</a> 优势:</h6>
+<p>1.自动计算阈值,不需要人工设定阈值（如 128），它根据图像统计特性来自动选择；<br>
+2.对双峰直方图效果很好,如果图像前景和背景对比明显（有两个峰值），能找到最优分界线；<br>
+3.鲁棒性强,对于背景均匀、光照平稳的图像，效果非常好。</p>
+<h6 id="cvthresh_triangle"><a class="anchor" href="#cvthresh_triangle">#</a> cv::THRESH_TRIANGLE</h6>
+<p><code>cv::THRESH_TRIANGLE</code> 是 OpenCV 中另一种 <strong>自动阈值算法</strong>，可以用来代替 Otsu 算法，尤其在图像<strong>直方图是单峰分布</strong>时效果更好。</p>
+<h6 id="优势-2"><a class="anchor" href="#优势-2">#</a> 优势:</h6>
+<p>1.图像直方图 <strong>单峰</strong>,比如光照均匀的手写文本图像、亮度集中于一侧；<br>
+2.目标与背景 <strong>对比不明显</strong>，比 Otsu 更敏感，可以提取一些低对比目标；<br>
+3.Otsu 效果不佳时的替代方案，不依赖“双峰直方图”，更通用。</p>
+<h5 id="常见二值化"><a class="anchor" href="#常见二值化">#</a> 常见二值化</h5>
+<p>(OpenCV 支持多种二值化方式，主要体现在 <code>thresholdType</code> 参数上)</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>宏定义</th>
+<th>效果说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1️⃣ 普通二值化</td>
+<td><code>cv::THRESH_BINARY</code></td>
+<td>像素值 &gt; 阈值 → <code>maxval</code>，否则 0</td>
+</tr>
+<tr>
+<td>2️⃣ 反向二值化</td>
+<td><code>cv::THRESH_BINARY_INV</code></td>
+<td>像素值 &gt; 阈值 → 0，否则 <code>maxval</code></td>
+</tr>
+<tr>
+<td>3️⃣ 截断阈值</td>
+<td><code>cv::THRESH_TRUNC</code></td>
+<td>像素值 &gt; 阈值 → 设为阈值，否则保持原值</td>
+</tr>
+<tr>
+<td>4️⃣ 零阈值</td>
+<td><code>cv::THRESH_TOZERO</code></td>
+<td>像素值 &gt; 阈值 → 保持原值，否则设为 0</td>
+</tr>
+<tr>
+<td>5️⃣ 反向零阈值</td>
+<td><code>cv::THRESH_TOZERO_INV</code></td>
+<td>像素值 &gt; 阈值 → 0，否则保持原值</td>
+</tr>
+<tr>
+<td>6️⃣ Otsu 自动阈值</td>
+<td><code>cv::THRESH_OTSU</code></td>
+<td>自动找全局最优阈值（可与前几种组合）</td>
+</tr>
+<tr>
+<td>7️⃣ Triangle 自动阈值</td>
+<td><code>cv::THRESH_TRIANGLE</code></td>
+<td>另一种自动找阈值的方法，适用于峰值不明显的图像</td>
+</tr>
+</tbody>
+</table>
+<h4 id="33自适应阈值-adaptivethresholdcpp"><a class="anchor" href="#33自适应阈值-adaptivethresholdcpp">#</a> 3.3自适应阈值  adaptiveThreshold(cpp)</h4>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>cv::adaptiveThreshold(gray, binary, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 11, -5);</span></span></code></pre>
+<table>
+<thead>
+<tr>
+<th>参数位置</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gray</code></td>
+<td>输入图像（灰度图）</td>
+</tr>
+<tr>
+<td><code>binary</code></td>
+<td>输出图像（二值图）</td>
+</tr>
+<tr>
+<td><code>255</code></td>
+<td>最大值，即大于阈值的像素被设为 255</td>
+</tr>
+<tr>
+<td><code>cv::ADAPTIVE_THRESH_MEAN_C</code></td>
+<td>阈值类型，这里是使用局部区域的<strong>平均值</strong></td>
+</tr>
+<tr>
+<td><code>cv::THRESH_BINARY</code></td>
+<td>二值化类型：像素值 &gt; 局部阈值 → 255，反之为 0</td>
+</tr>
+<tr>
+<td><code>11</code></td>
+<td>邻域大小（必须为奇数），即 11×11 像素区域</td>
+</tr>
+<tr>
+<td><code>-5</code></td>
+<td>常数 <code>C</code>，从局部均值中减去这个偏移值作为最终阈值。可正可负</td>
+</tr>
+</tbody>
+</table>
+<h5 id="工作原理"><a class="anchor" href="#工作原理">#</a> 工作原理</h5>
+<p>将整张图像分成小块，对每个区域单独计算局部阈值（如均值或高斯加权均值），更适合光照不均、图像局部变化大的情况。</p>
+<h4 id="34-总结对比"><a class="anchor" href="#34-总结对比">#</a> 3.4. 总结对比</h4>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>自动阈值？</th>
+<th>适用场景</th>
+<th>优缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>threshold()</code>（手动）</td>
+<td>❌</td>
+<td>简单图像，用户可设定阈值</td>
+<td>简单，但需要经验</td>
+</tr>
+<tr>
+<td><code>threshold()</code> + <code>OTSU</code></td>
+<td>✅</td>
+<td>背景均匀、前后景对比明显</td>
+<td>自动化、全局处理</td>
+</tr>
+<tr>
+<td><code>threshold()</code> + <code>TRIANGLE</code></td>
+<td>✅</td>
+<td>直方图单峰</td>
+<td>自动化，适用于特殊图像</td>
+</tr>
+<tr>
+<td><code>adaptiveThreshold()</code></td>
+<td>✅（局部）</td>
+<td>光照不均、复杂背景</td>
+<td>更强鲁棒性，但慢一些</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-形态学操作腐蚀-膨胀高斯模糊滤波"><a class="anchor" href="#4-形态学操作腐蚀-膨胀高斯模糊滤波">#</a> 4. 形态学操作：腐蚀 + 膨胀(高斯模糊滤波)</h3>
+<h4 id="01高斯模糊"><a class="anchor" href="#01高斯模糊">#</a> 0.1高斯模糊</h4>
+<p>1.高斯模糊是<strong>加权模糊</strong>，越靠近中心权重越大，更自然。</p>
+<p>2.比均值滤波更保留边缘信息，更适合图像处理中的前处理。</p>
+<p>3.降低图像细节、去除高频噪声、平滑图像边缘</p>
+<h4 id="0-2canny边缘检测"><a class="anchor" href="#0-2canny边缘检测">#</a> 0 .2Canny边缘检测</h4>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>image</code></td>
+<td>输入图像（必须是<strong>灰度图</strong>）</td>
+</tr>
+<tr>
+<td><code>threshold1</code></td>
+<td>较小的阈值（边缘开始跟踪的起点）</td>
+</tr>
+<tr>
+<td><code>threshold2</code></td>
+<td>较大的阈值（强边缘判定的阈值）</td>
+</tr>
+</tbody>
+</table>
+<p>1.如果某像素的梯度 ≥ 150：认为是“强边缘”;</p>
+<p>2.如果介于 50 到 150：认为是“弱边缘”，但如果连着强边缘，就也保留;</p>
+<p>3.如果 &lt; 50：抛弃.</p>
+<h3 id="参数调试建议"><a class="anchor" href="#参数调试建议">#</a> 参数调试建议：</h3>
+<ul>
+<li>开始用 <code>(50, 150)</code> 比较稳健；</li>
+<li>若图像亮度较暗或边缘不明显，可尝试 <code>(30, 100)</code>；</li>
+<li>边缘太多太杂，可提高阈值，如 <code>(100, 200)</code>；</li>
+</ul>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span># # 高斯模糊滤波</span></span>
+<span class="line"><span># gs_img = cv2.GaussianBlur(binary_img, (5, 5), 0)</span></span>
+<span class="line"><span># # Canny 边缘检测算法</span></span>
+<span class="line"><span># edges = cv2.Canny(blurred, 50, 150) #cv2.Canny(image, threshold1, threshold2)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 创建腐蚀膨胀卷积核，3*3矩形对二值化图像进行先膨胀再腐蚀(矩形,大小)</span></span>
+<span class="line"><span>kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)) #必须这样写</span></span>
+<span class="line"><span>#腐蚀</span></span>
+<span class="line"><span>erode_img = cv2.erode(binary_img, kernel, iterations=1)</span></span>
+<span class="line"><span>#膨胀</span></span>
+<span class="line"><span>dilate_img = cv2.dilate(erode_img, kernel, iterations=2)</span></span></code></pre>
+<h4 id="1腐蚀去除小噪点"><a class="anchor" href="#1腐蚀去除小噪点">#</a> 1.<strong>腐蚀</strong>：去除小噪点</h4>
+<ul>
+<li>
+<p><strong>腐蚀会让白色区域变小</strong>，黑色部分“侵蚀”白色边缘</p>
+</li>
+<li>
+<p>用于<strong>去除小的白色噪点</strong>或孤立白斑，断开小连接。</p>
+</li>
+<li>
+<p><code>iterations=1</code> 表示腐蚀一次。</p>
+<h4 id="2膨胀填补断裂区域"><a class="anchor" href="#2膨胀填补断裂区域">#</a> 2.<strong>膨胀</strong>：填补断裂区域</h4>
+</li>
+<li>
+<p><strong>膨胀会让白色区域变大</strong>，用于<strong>填补裂缝、连接断裂部分</strong>。</p>
+</li>
+<li>
+<p>这里用了 <code>iterations=2</code>，相当于膨胀两次，比腐蚀多，是为了弥补腐蚀“吃掉”的区域，同时增强线条。</p>
+<p>顺序是：先腐蚀再膨胀，称为<strong>开运算</strong>，用于去噪。</p>
+</li>
+</ul>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>def line_preprocess(origin_img):</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    车道线预处理函数</span></span>
+<span class="line"><span>    将BGR图像转换为HSV空间，应用颜色阈值，进行形态学操作</span></span>
+<span class="line"><span>    返回二值化后的车道线图像</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    # opencv读取就是BGR  转HSV</span></span>
+<span class="line"><span>    hsv = cv2.cvtColor(origin_img, cv2.COLOR_BGR2HSV)</span></span>
+<span class="line"><span>    # blur_frame = cv2.medianBlur(img, 7)  #中值滤波,7是卷积核</span></span>
+<span class="line"><span>    # hsv_image = cv2.cvtColor(blur_frame, cv2.COLOR_BGR2HSV)</span></span>
+<span class="line"><span>    # h = hsv[:,:,0]</span></span>
+<span class="line"><span>    # s = hsv[:,:,1]</span></span>
+<span class="line"><span>    # v = hsv[:,:,2]</span></span>
+<span class="line"><span>    # ev = cv2.equalizeHist(v)</span></span>
+<span class="line"><span>    # new_hsv = np.stack((h,s,ev),axis=2)</span></span>
+<span class="line"><span>    # 把背景滤掉，里面的数字是需要留下的颜色的HSV的色域，需要自己找出来</span></span>
+<span class="line"><span>    lower_color = np.array([H_min, S_min, V_min])</span></span>
+<span class="line"><span>    higher_color = np.array([H_max, S_max, V_max])</span></span>
+<span class="line"><span>    # 滤去背景留下车道，二值化，把大于大的小于小的滤去</span></span>
+<span class="line"><span>    binary_img = cv2.inRange(hsv, lower_color, higher_color)</span></span>
+<span class="line"><span>    # # 高斯模糊滤波</span></span>
+<span class="line"><span>    # gs_img = cv2.GaussianBlur(binary_img, (5, 5), 0)</span></span>
+<span class="line"><span>    # 创建腐蚀膨胀核，3*3矩形对二值化图像进行先膨胀再腐蚀</span></span>
+<span class="line"><span>    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    # 腐蚀</span></span>
+<span class="line"><span>    erode_img = cv2.erode(binary_img, kernel,iterations=1)</span></span>
+<span class="line"><span>    # 膨胀</span></span>
+<span class="line"><span>    dilate_img = cv2.dilate(erode_img, kernel,iterations=2)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    # 获取边界</span></span>
+<span class="line"><span>    # line_img=cv2.Canny(erode_img)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>    # cv2.imshow("frame",dilate_img)</span></span>
+<span class="line"><span>    # 返回获取的车道图像</span></span>
+<span class="line"><span>    return dilate_img</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>     """</span></span>
+<span class="line"><span>    交通元素预处理函数</span></span>
+<span class="line"><span>    针对特定交通元素（如红绿灯、人行道等）进行预处理和轮廓检测</span></span>
+<span class="line"><span>    返回元素的最大轮廓面积</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    blur_frame = cv2.medianBlur(img, 7)  #中值滤波</span></span>
+<span class="line"><span>    hsv_image = cv2.cvtColor(blur_frame, cv2.COLOR_BGR2HSV)</span></span>
+<span class="line"><span>    binary_img = cv2.inRange(hsv_image, HSV_Threshold[element]['L'], HSV_Threshold[element]['H'])</span></span>
+<span class="line"><span>    #...同上</span></span>
+<span class="line"><span>    # 轮廓检测,只对二值图像有效</span></span>
+<span class="line"><span>    contours, h = cv2.findContours(dilate_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)</span></span>
+<span class="line"><span>    # 这就是获取轮廓的数量，也就是目标的数量</span></span>
+<span class="line"><span>    len_cont = len(contours)</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    element_area = 0</span></span>
+<span class="line"><span>    if len(contours) &gt; 0:</span></span>
+<span class="line"><span>        max = max(contours, key=cv2.contourArea)</span></span>
+<span class="line"><span>        contours_img = cv2.drawContours(img, max, -1, (0, 255, 0), 3)#-1 表示画整个轮廓（而不是某个点）,3 是线宽</span></span>
+<span class="line"><span>        cv2.imshow(element,contours_img)</span></span>
+<span class="line"><span>        element_area = cv2.contourArea(max)</span></span>
+<span class="line"><span>   # 返回元素的最大轮廓面积</span></span>
+<span class="line"><span>    return element_area</span></span></code></pre>
+<h4 id="参数解释"><a class="anchor" href="#参数解释">#</a> 参数解释：</h4>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>cv2.findContours(image, mode, method)</span></span></code></pre>
+<ul>
+<li><code>image</code>: 输入的<strong>二值图像</strong>（0 和 255）</li>
+<li><code>mode</code>: 提取模式
+<ul>
+<li><code>cv2.RETR_EXTERNAL</code>: 只提取<strong>最外层轮廓</strong>（常用于你当前的目标提取）</li>
+<li><code>cv2.RETR_TREE</code>: 提取所有轮廓，并构建<strong>轮廓层级结构</strong></li>
+</ul>
+</li>
+<li><code>method</code>: 轮廓近似方法
+<ul>
+<li><code>cv2.CHAIN_APPROX_NONE</code>: 保留所有边界点（适合精确形状分析）</li>
+<li><code>cv2.CHAIN_APPROX_SIMPLE</code>: 只保留拐点（更节省内存）</li>
+</ul>
+</li>
+</ul>
+<h4 id="返回值"><a class="anchor" href="#返回值">#</a> 返回值：</h4>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>contours, hierarchy = cv2.findContours(...)</span></span></code></pre>
+<ul>
+<li><code>contours</code>: 是一个<strong>轮廓列表</strong>，每个轮廓是一个点集 <code>np.array</code>（形状 <code>[n, 1, 2]</code>）</li>
+<li><code>h</code> 或 <code>hierarchy</code>: 层级信息（在 <code>RETR_TREE</code> 模式下更有意义）</li>
+</ul>
+<h2 id="二霍夫变换"><a class="anchor" href="#二霍夫变换">#</a> 二.霍夫变换</h2>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>    # 将BGR图像转换为HSV颜色空间</span></span>
+<span class="line"><span>    hsv = cv2.cvtColor(origin_img, cv2.COLOR_BGR2HSV)</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 定义颜色阈值范围</span></span>
+<span class="line"><span>    lower_color = np.array([H_min, S_min, V_min])</span></span>
+<span class="line"><span>    higher_color = np.array([H_max, S_max, V_max])</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 应用颜色阈值，创建二值图像</span></span>
+<span class="line"><span>    binary_img = cv2.inRange(hsv, lower_color, higher_color)</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 创建形态学操作核</span></span>
+<span class="line"><span>    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 先进行腐蚀操作去除噪声</span></span>
+<span class="line"><span>    erode_img = cv2.erode(binary_img, kernel, iterations=1)</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 再进行膨胀操作连接断开的线段</span></span>
+<span class="line"><span>    dilate_img = cv2.dilate(erode_img, kernel, iterations=2)</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>def HoughLines(line_roi):</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    霍夫变换检测直线</span></span>
+<span class="line"><span>    处理车道线图像，筛选左右车道线，进行最小二乘拟合</span></span>
+<span class="line"><span>    返回左右车道线的端点坐标和拟合参数</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    #cv2.HoughLinesP()：基于概率霍夫变换检测直线段。</span></span>
+<span class="line"><span>    #rho, theta, threshold 等是参数</span></span>
+<span class="line"><span>    #返回结果是 lines = [[[x1,y1,x2,y2]], ...]</span></span>
+<span class="line"><span>    lines = cv2.HoughLinesP(line_roi, rho, theta,threshold,minLineLength=min_line_lenght, maxLineGap=max_line_gap)</span></span>
+<span class="line"><span>    #定义输出结果容器</span></span>
+<span class="line"><span>    left_results, right_results, left_fit, right_fit = [], [], [], []</span></span>
+<span class="line"><span>    #斜率与位置筛选左右线段</span></span>
+<span class="line"><span>    if lines is not None:</span></span>
+<span class="line"><span>        left_lines, right_lines = [], []</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        for line in lines:</span></span>
+<span class="line"><span>            for x1, y1, x2, y2 in line:</span></span>
+<span class="line"><span>                if y1 != y2:</span></span>
+<span class="line"><span>                    k = float(x1 - x2) / (y1 - y2)  # 计算斜率</span></span>
+<span class="line"><span>                    </span></span>
+<span class="line"><span>                    # 斜率筛选</span></span>
+<span class="line"><span>                    if slope_max &gt; abs(k) &gt; slope_min:</span></span>
+<span class="line"><span>                        if k &gt; 0:  # 右车道线</span></span>
+<span class="line"><span>                            # 特殊场景下的筛选条件</span></span>
+<span class="line"><span>                            if (k &gt; 0.2 and clean_right_flag == False) or (k &gt; 0.2 and change_flag == False and change_flag_2 == False):</span></span>
+<span class="line"><span>                                continue</span></span>
+<span class="line"><span>                            # 位置筛选</span></span>
+<span class="line"><span>                            if (x1 &gt; x2 and x1 &lt; 120) or (x2 &gt; x1 and x2 &lt; 120):</span></span>
+<span class="line"><span>                                continue</span></span>
+<span class="line"><span>                            right_lines.append(line)</span></span>
+<span class="line"><span>                            </span></span>
+<span class="line"><span>                        elif k &lt; 0:  # 左车道线</span></span>
+<span class="line"><span>                            # 特殊场景下的筛选条件</span></span>
+<span class="line"><span>                            if k &gt; -1.4 and change_flag == False and change_flag_2 == False:</span></span>
+<span class="line"><span>                                continue</span></span>
+<span class="line"><span>                            # 位置筛选</span></span>
+<span class="line"><span>                            if (x1 &gt; x2 and x2 &gt; 120) or (x2 &gt; x1 and x1 &gt; 120):</span></span>
+<span class="line"><span>                                continue</span></span>
+<span class="line"><span>                            left_lines.append(line)</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        # 左车道线处理</span></span>
+<span class="line"><span>        if len(left_lines) &gt; 0:</span></span>
+<span class="line"><span>            clean_lines(left_lines, 0.1)  # 清理异常线段</span></span>
+<span class="line"><span>            left_points = [(x1, y1) for line in left_lines for x1, y1, x2, y2 in line]</span></span>
+<span class="line"><span>            left_points += [(x2, y2) for line in left_lines for x1, y1, x2, y2 in line]</span></span>
+<span class="line"><span>            ymax, ymin = find_points(left_lines)</span></span>
+<span class="line"><span>            left_results, left_fit = least_squares_fit(left_points, ymin, ymax)</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        # 右车道线处理</span></span>
+<span class="line"><span>        if len(right_lines) &gt; 0:</span></span>
+<span class="line"><span>            clean_lines(right_lines, 0.1)</span></span>
+<span class="line"><span>            right_points = [(x1, y1) for line in right_lines for x1, y1, x2, y2 in line]</span></span>
+<span class="line"><span>            right_points += [(x2, y2) for line in right_lines for x1, y1, x2, y2 in line]</span></span>
+<span class="line"><span>            ymax, ymin = find_points(right_lines)</span></span>
+<span class="line"><span>            right_results, right_fit = least_squares_fit(right_points, ymin, ymax)</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    return left_results, right_results, left_fit, right_fit</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>def least_squares_fit(point_list, ymin, ymax):</span></span>
+<span class="line"><span>    """最小二乘法拟合车道线"""</span></span>
+<span class="line"><span>    x = [p[0] for p in point_list]</span></span>
+<span class="line"><span>    y = [p[1] for p in point_list]</span></span>
+<span class="line"><span>    fit = np.polyfit(y, x, 1)  # 一阶多项式拟合</span></span>
+<span class="line"><span>    fit_fn = np.poly1d(fit)    # 创建拟合函数</span></span>
+<span class="line"><span>    xmin = int(fit_fn(ymin))   # 计算y最小处的x值</span></span>
+<span class="line"><span>    xmax = int(fit_fn(ymax))   # 计算y最大处的x值</span></span>
+<span class="line"><span>    return [(xmin, ymin), (xmax, ymax)], fit</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>def least_squares_fit(point_list, ymin, ymax):</span></span>
+<span class="line"><span>    """最小二乘法拟合车道线"""</span></span>
+<span class="line"><span>    x = [p[0] for p in point_list]</span></span>
+<span class="line"><span>    y = [p[1] for p in point_list]</span></span>
+<span class="line"><span>    fit = np.polyfit(y, x, 1)  # 一阶多项式拟合</span></span>
+<span class="line"><span>    fit_fn = np.poly1d(fit)    # 创建拟合函数</span></span>
+<span class="line"><span>    xmin = int(fit_fn(ymin))   # 计算y最小处的x值</span></span>
+<span class="line"><span>    xmax = int(fit_fn(ymax))   # 计算y最大处的x值</span></span>
+<span class="line"><span>    return [(xmin, ymin), (xmax, ymax)], fit</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>def how_to_turn(shape, left_results, right_results, left_fit, right_fit):</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    计算转向偏差</span></span>
+<span class="line"><span>    基于检测到的车道线计算车辆中心与道路中心的偏差</span></span>
+<span class="line"><span>    返回转向控制量（error）</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    height, width = shape[0], shape[1]</span></span>
+<span class="line"><span>    middle_line = width / 2</span></span>
+<span class="line"><span>    global road_width, start_cnt, turn_left_flag, turn_right_flag, change_flag_3, change_flag_4</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 双车道线都存在的情况</span></span>
+<span class="line"><span>    if left_results and right_results:</span></span>
+<span class="line"><span>        # 初始化阶段计算平均路宽</span></span>
+<span class="line"><span>        if start_cnt &lt; 5 and EN == 1:</span></span>
+<span class="line"><span>            start_cnt += 1</span></span>
+<span class="line"><span>            road_width += (np.mean([right_results[1][0], right_results[0][0]]) - </span></span>
+<span class="line"><span>                          np.mean([left_results[1][0], left_results[0][0]]))</span></span>
+<span class="line"><span>            if start_cnt == 5:</span></span>
+<span class="line"><span>                road_width /= 5</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        # 计算道路中心线</span></span>
+<span class="line"><span>        X = (left_fit[0] * height/2 + left_fit[1] + </span></span>
+<span class="line"><span>             right_fit[0] * height/2 + right_fit[1]) / 2</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        # 使用顶部点修正中心线</span></span>
+<span class="line"><span>        if abs(left_results[1][1] - right_results[1][1]) &lt; 20:</span></span>
+<span class="line"><span>            X1 = (left_results[1][0] + right_results[1][0]) / 2</span></span>
+<span class="line"><span>            X = (X + X1) / 2</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        middle_line = X</span></span>
+<span class="line"><span>        rho = -(middle_line - width / 2)  # 计算偏差</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 只有右车道线（需要左转）</span></span>
+<span class="line"><span>    elif not left_results and right_results:</span></span>
+<span class="line"><span>        if start_cnt != 5:  # 未初始化时使用默认路宽</span></span>
+<span class="line"><span>            road_width = 170 if (not turn_flag and side_walk_flag) else 140</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        # 外推车道线底部位置</span></span>
+<span class="line"><span>        X_top = right_results[0][0]</span></span>
+<span class="line"><span>        X_bottom = (height - right_results[0][1]) * (right_results[0][0] - right_results[1][0]) / (</span></span>
+<span class="line"><span>                   right_results[0][1] - right_results[1][1]) + right_results[0][0]</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        X = (X_top + X_bottom) / 2</span></span>
+<span class="line"><span>        middle_line = X - road_width / 2</span></span>
+<span class="line"><span>        rho = width / 2 - middle_line  # 计算偏差</span></span>
+<span class="line"><span>        rho = abs(rho)</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        # 变道场景的特殊处理</span></span>
+<span class="line"><span>        if not change_flag_3 and change_flag_4:</span></span>
+<span class="line"><span>            rho = 45</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 只有左车道线（需要右转）</span></span>
+<span class="line"><span>    elif not right_results and left_results:</span></span>
+<span class="line"><span>        if start_cnt != 5:</span></span>
+<span class="line"><span>            road_width = 170 if (not turn_flag and side_walk_flag) else 140</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        # 外推车道线底部位置</span></span>
+<span class="line"><span>        X_top = left_results[0][0]</span></span>
+<span class="line"><span>        X_bottom = (height - left_results[0][1]) * (left_results[0][0] - left_results[1][0]) / (</span></span>
+<span class="line"><span>                   left_results[0][1] - left_results[1][1]) + left_results[0][0]</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        X = (X_top + X_bottom) / 2</span></span>
+<span class="line"><span>        middle_line = X + road_width / 2</span></span>
+<span class="line"><span>        rho = width / 2 - middle_line</span></span>
+<span class="line"><span>        rho = abs(rho)</span></span>
+<span class="line"><span>        rho = -rho  # 负值表示右转</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 无线道线的情况</span></span>
+<span class="line"><span>    else:</span></span>
+<span class="line"><span>        rho = 0</span></span>
+<span class="line"><span>        # 基于转弯状态的特殊处理</span></span>
+<span class="line"><span>        if not turn_left_flag and turn_flag:</span></span>
+<span class="line"><span>            rho = 100  # 强制左转</span></span>
+<span class="line"><span>        elif not turn_right_flag and turn_flag:</span></span>
+<span class="line"><span>            rho = -100  # 强制右转</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 危险区域的特殊转向逻辑</span></span>
+<span class="line"><span>    if not danger_flag and danger_flag_2:</span></span>
+<span class="line"><span>        rho = 100</span></span>
+<span class="line"><span>    elif not danger_flag and danger_flag_3 and not danger_flag_2:</span></span>
+<span class="line"><span>        rho = 0</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    return rho</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>def speed_control(cls_id, area):</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    速度控制状态机</span></span>
+<span class="line"><span>    基于YOLO检测结果和当前状态标志调整车速</span></span>
+<span class="line"><span>    返回计算出的速度值</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    # 全局状态标志声明（略，详见完整代码）</span></span>
+<span class="line"><span>    global side_walk_flag, speed_limit_flag, speed_flag, turn_left_flag, turn_right_flag</span></span>
+<span class="line"><span>    global stop_time, change_time, change_flag, change_flag_2, change_flag_3, change_flag_4</span></span>
+<span class="line"><span>    global turn_flag, turn_flag_2, red_light_flag, red_light_area, green_light_flag, green_light_area</span></span>
+<span class="line"><span>    global danger_flag, danger_flag_2, danger_flag_3, danger_time, speed_4_flag, yolo_flag</span></span>
+<span class="line"><span>    global traffic_flag, traffic_flag_2, speed, clean_right_flag, clean_time, clean_flag</span></span>
+<span class="line"><span>    global delayed_stop_flag, delayed_stop_time, doll_flag, last_stop_time</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 状态转换逻辑</span></span>
+<span class="line"><span>    # 左转标志检测</span></span>
+<span class="line"><span>    if turn_left_flag and turn_right_flag and int(cls_id) == 4 and area &gt; 650:</span></span>
+<span class="line"><span>        turn_left_flag = False</span></span>
+<span class="line"><span>        turn_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 右转标志检测</span></span>
+<span class="line"><span>    elif turn_right_flag and turn_left_flag and int(cls_id) == 5 and area &gt; 650:</span></span>
+<span class="line"><span>        turn_right_flag = False</span></span>
+<span class="line"><span>        turn_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 人行道标志检测</span></span>
+<span class="line"><span>    elif side_walk_flag and int(cls_id) == 1 and not turn_flag and area &gt;= 1000:</span></span>
+<span class="line"><span>        side_walk_flag = False</span></span>
+<span class="line"><span>        stop_time[0] = time.time()</span></span>
+<span class="line"><span>        side_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 限速标志检测</span></span>
+<span class="line"><span>    elif speed_limit_flag and int(cls_id) == 3 and not side_walk_flag and area &gt; 780:</span></span>
+<span class="line"><span>        speed_limit_flag = False</span></span>
+<span class="line"><span>        clean_right_flag = False  # 清除右边线</span></span>
+<span class="line"><span>        speed_4_flag = True</span></span>
+<span class="line"><span>        clean_flag = False</span></span>
+<span class="line"><span>        clean_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 解除限速标志检测</span></span>
+<span class="line"><span>    elif speed_flag and int(cls_id) == 2 and not speed_limit_flag and area &gt; 850:</span></span>
+<span class="line"><span>        speed_flag = False</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 红绿灯状态处理</span></span>
+<span class="line"><span>    elif traffic_flag and not traffic_flag_2:</span></span>
+<span class="line"><span>        # 红灯检测</span></span>
+<span class="line"><span>        if not speed_flag and red_light_flag and (red_light_area &gt; green_light_area+100 and red_light_area &gt; 450):</span></span>
+<span class="line"><span>            red_light_flag = False</span></span>
+<span class="line"><span>            delayed_stop_time = time.time() + 0.45  # 设置延迟停车时间</span></span>
+<span class="line"><span>            traffic_time[0] = time.time()</span></span>
+<span class="line"><span>        # 绿灯检测</span></span>
+<span class="line"><span>        elif not red_light_flag and green_light_flag and (green_light_area &gt; red_light_area+100 and green_light_area &gt; 350):</span></span>
+<span class="line"><span>            green_light_flag = False</span></span>
+<span class="line"><span>            traffic_flag = False</span></span>
+<span class="line"><span>            yolo_flag = True</span></span>
+<span class="line"><span>        # 超时处理</span></span>
+<span class="line"><span>        elif traffic_time[1] - traffic_time[0] &gt; 5:</span></span>
+<span class="line"><span>            traffic_flag = False</span></span>
+<span class="line"><span>            yolo_flag = True</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 变道标志检测</span></span>
+<span class="line"><span>    elif not traffic_flag and change_flag and int(cls_id) == 6 and area &gt; 370:</span></span>
+<span class="line"><span>        change_flag = False</span></span>
+<span class="line"><span>        change_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 危险标志检测</span></span>
+<span class="line"><span>    elif not change_flag and danger_flag and int(cls_id) == 0 and area &gt; 370:</span></span>
+<span class="line"><span>        danger_flag = False</span></span>
+<span class="line"><span>        danger_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 速度控制逻辑</span></span>
+<span class="line"><span>    if stop_time[0] != -1:  # 停车状态</span></span>
+<span class="line"><span>        speed = 0.0</span></span>
+<span class="line"><span>        stop_time[1] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    if stop_time[0] == -1 or stop_time[1] - stop_time[0] &gt; 2:  # 非停车状态</span></span>
+<span class="line"><span>        # 根据不同场景设置速度</span></span>
+<span class="line"><span>        if speed_4_flag:  # 限速区域</span></span>
+<span class="line"><span>            speed = 0.28</span></span>
+<span class="line"><span>            if not speed_flag:</span></span>
+<span class="line"><span>                speed_4_flag = False</span></span>
+<span class="line"><span>        # 其他场景的速度设置（略，详见完整代码）</span></span>
+<span class="line"><span>        # ...</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        stop_time = [-1, -1]  # 重置停车状态</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 状态超时处理</span></span>
+<span class="line"><span>    # 转弯超时</span></span>
+<span class="line"><span>    if turn_time[0] != 0 and (not turn_left_flag or not turn_right_flag):</span></span>
+<span class="line"><span>        turn_time[1] = time.time()</span></span>
+<span class="line"><span>        if turn_time[1] - turn_time[0] &gt; 1.2:</span></span>
+<span class="line"><span>            turn_flag = False</span></span>
+<span class="line"><span>        if turn_time[1] - turn_time[0] &gt; 4.2:</span></span>
+<span class="line"><span>            turn_flag_2 = False</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 变道超时</span></span>
+<span class="line"><span>    if change_time[0] != 0 and not change_flag:</span></span>
+<span class="line"><span>        change_time[1] = time.time()</span></span>
+<span class="line"><span>        if change_time[1] - change_time[0] &gt; 1.7:</span></span>
+<span class="line"><span>            change_flag_2 = True</span></span>
+<span class="line"><span>        if change_time[1] - change_time[0] &gt; 3.8:</span></span>
+<span class="line"><span>            change_flag_3 = False</span></span>
+<span class="line"><span>        if change_time[1] - change_time[0] &gt; 4.5:</span></span>
+<span class="line"><span>            change_flag_4 = False</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 其他状态超时处理（略）</span></span>
+<span class="line"><span>    # ...</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    return speed</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>def speed_control(cls_id, area):</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    速度控制状态机</span></span>
+<span class="line"><span>    基于YOLO检测结果和当前状态标志调整车速</span></span>
+<span class="line"><span>    返回计算出的速度值</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    # 全局状态标志声明（略，详见完整代码）</span></span>
+<span class="line"><span>    global side_walk_flag, speed_limit_flag, speed_flag, turn_left_flag, turn_right_flag</span></span>
+<span class="line"><span>    global stop_time, change_time, change_flag, change_flag_2, change_flag_3, change_flag_4</span></span>
+<span class="line"><span>    global turn_flag, turn_flag_2, red_light_flag, red_light_area, green_light_flag, green_light_area</span></span>
+<span class="line"><span>    global danger_flag, danger_flag_2, danger_flag_3, danger_time, speed_4_flag, yolo_flag</span></span>
+<span class="line"><span>    global traffic_flag, traffic_flag_2, speed, clean_right_flag, clean_time, clean_flag</span></span>
+<span class="line"><span>    global delayed_stop_flag, delayed_stop_time, doll_flag, last_stop_time</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 状态转换逻辑</span></span>
+<span class="line"><span>    # 左转标志检测</span></span>
+<span class="line"><span>    if turn_left_flag and turn_right_flag and int(cls_id) == 4 and area &gt; 650:</span></span>
+<span class="line"><span>        turn_left_flag = False</span></span>
+<span class="line"><span>        turn_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 右转标志检测</span></span>
+<span class="line"><span>    elif turn_right_flag and turn_left_flag and int(cls_id) == 5 and area &gt; 650:</span></span>
+<span class="line"><span>        turn_right_flag = False</span></span>
+<span class="line"><span>        turn_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 人行道标志检测</span></span>
+<span class="line"><span>    elif side_walk_flag and int(cls_id) == 1 and not turn_flag and area &gt;= 1000:</span></span>
+<span class="line"><span>        side_walk_flag = False</span></span>
+<span class="line"><span>        stop_time[0] = time.time()</span></span>
+<span class="line"><span>        side_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 限速标志检测</span></span>
+<span class="line"><span>    elif speed_limit_flag and int(cls_id) == 3 and not side_walk_flag and area &gt; 780:</span></span>
+<span class="line"><span>        speed_limit_flag = False</span></span>
+<span class="line"><span>        clean_right_flag = False  # 清除右边线</span></span>
+<span class="line"><span>        speed_4_flag = True</span></span>
+<span class="line"><span>        clean_flag = False</span></span>
+<span class="line"><span>        clean_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 解除限速标志检测</span></span>
+<span class="line"><span>    elif speed_flag and int(cls_id) == 2 and not speed_limit_flag and area &gt; 850:</span></span>
+<span class="line"><span>        speed_flag = False</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 红绿灯状态处理</span></span>
+<span class="line"><span>    elif traffic_flag and not traffic_flag_2:</span></span>
+<span class="line"><span>        # 红灯检测</span></span>
+<span class="line"><span>        if not speed_flag and red_light_flag and (red_light_area &gt; green_light_area+100 and red_light_area &gt; 450):</span></span>
+<span class="line"><span>            red_light_flag = False</span></span>
+<span class="line"><span>            delayed_stop_time = time.time() + 0.45  # 设置延迟停车时间</span></span>
+<span class="line"><span>            traffic_time[0] = time.time()</span></span>
+<span class="line"><span>        # 绿灯检测</span></span>
+<span class="line"><span>        elif not red_light_flag and green_light_flag and (green_light_area &gt; red_light_area+100 and green_light_area &gt; 350):</span></span>
+<span class="line"><span>            green_light_flag = False</span></span>
+<span class="line"><span>            traffic_flag = False</span></span>
+<span class="line"><span>            yolo_flag = True</span></span>
+<span class="line"><span>        # 超时处理</span></span>
+<span class="line"><span>        elif traffic_time[1] - traffic_time[0] &gt; 5:</span></span>
+<span class="line"><span>            traffic_flag = False</span></span>
+<span class="line"><span>            yolo_flag = True</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 变道标志检测</span></span>
+<span class="line"><span>    elif not traffic_flag and change_flag and int(cls_id) == 6 and area &gt; 370:</span></span>
+<span class="line"><span>        change_flag = False</span></span>
+<span class="line"><span>        change_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 危险标志检测</span></span>
+<span class="line"><span>    elif not change_flag and danger_flag and int(cls_id) == 0 and area &gt; 370:</span></span>
+<span class="line"><span>        danger_flag = False</span></span>
+<span class="line"><span>        danger_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 速度控制逻辑</span></span>
+<span class="line"><span>    if stop_time[0] != -1:  # 停车状态</span></span>
+<span class="line"><span>        speed = 0.0</span></span>
+<span class="line"><span>        stop_time[1] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    if stop_time[0] == -1 or stop_time[1] - stop_time[0] &gt; 2:  # 非停车状态</span></span>
+<span class="line"><span>        # 根据不同场景设置速度</span></span>
+<span class="line"><span>        if speed_4_flag:  # 限速区域</span></span>
+<span class="line"><span>            speed = 0.28</span></span>
+<span class="line"><span>            if not speed_flag:</span></span>
+<span class="line"><span>                speed_4_flag = False</span></span>
+<span class="line"><span>        # 其他场景的速度设置（略，详见完整代码）</span></span>
+<span class="line"><span>        # ...</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        stop_time = [-1, -1]  # 重置停车状态</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 状态超时处理</span></span>
+<span class="line"><span>    # 转弯超时</span></span>
+<span class="line"><span>    if turn_time[0] != 0 and (not turn_left_flag or not turn_right_flag):</span></span>
+<span class="line"><span>        turn_time[1] = time.time()</span></span>
+<span class="line"><span>        if turn_time[1] - turn_time[0] &gt; 1.2:</span></span>
+<span class="line"><span>            turn_flag = False</span></span>
+<span class="line"><span>        if turn_time[1] - turn_time[0] &gt; 4.2:</span></span>
+<span class="line"><span>            turn_flag_2 = False</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 变道超时</span></span>
+<span class="line"><span>    if change_time[0] != 0 and not change_flag:</span></span>
+<span class="line"><span>        change_time[1] = time.time()</span></span>
+<span class="line"><span>        if change_time[1] - change_time[0] &gt; 1.7:</span></span>
+<span class="line"><span>            change_flag_2 = True</span></span>
+<span class="line"><span>        if change_time[1] - change_time[0] &gt; 3.8:</span></span>
+<span class="line"><span>            change_flag_3 = False</span></span>
+<span class="line"><span>        if change_time[1] - change_time[0] &gt; 4.5:</span></span>
+<span class="line"><span>            change_flag_4 = False</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 其他状态超时处理（略）</span></span>
+<span class="line"><span>    # ...</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    return speed</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>def speed_control(cls_id, area):</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    速度控制状态机</span></span>
+<span class="line"><span>    基于YOLO检测结果和当前状态标志调整车速</span></span>
+<span class="line"><span>    返回计算出的速度值</span></span>
+<span class="line"><span>    """</span></span>
+<span class="line"><span>    # 全局状态标志声明（略，详见完整代码）</span></span>
+<span class="line"><span>    global side_walk_flag, speed_limit_flag, speed_flag, turn_left_flag, turn_right_flag</span></span>
+<span class="line"><span>    global stop_time, change_time, change_flag, change_flag_2, change_flag_3, change_flag_4</span></span>
+<span class="line"><span>    global turn_flag, turn_flag_2, red_light_flag, red_light_area, green_light_flag, green_light_area</span></span>
+<span class="line"><span>    global danger_flag, danger_flag_2, danger_flag_3, danger_time, speed_4_flag, yolo_flag</span></span>
+<span class="line"><span>    global traffic_flag, traffic_flag_2, speed, clean_right_flag, clean_time, clean_flag</span></span>
+<span class="line"><span>    global delayed_stop_flag, delayed_stop_time, doll_flag, last_stop_time</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 状态转换逻辑</span></span>
+<span class="line"><span>    # 左转标志检测</span></span>
+<span class="line"><span>    if turn_left_flag and turn_right_flag and int(cls_id) == 4 and area &gt; 650:</span></span>
+<span class="line"><span>        turn_left_flag = False</span></span>
+<span class="line"><span>        turn_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 右转标志检测</span></span>
+<span class="line"><span>    elif turn_right_flag and turn_left_flag and int(cls_id) == 5 and area &gt; 650:</span></span>
+<span class="line"><span>        turn_right_flag = False</span></span>
+<span class="line"><span>        turn_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 人行道标志检测</span></span>
+<span class="line"><span>    elif side_walk_flag and int(cls_id) == 1 and not turn_flag and area &gt;= 1000:</span></span>
+<span class="line"><span>        side_walk_flag = False</span></span>
+<span class="line"><span>        stop_time[0] = time.time()</span></span>
+<span class="line"><span>        side_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 限速标志检测</span></span>
+<span class="line"><span>    elif speed_limit_flag and int(cls_id) == 3 and not side_walk_flag and area &gt; 780:</span></span>
+<span class="line"><span>        speed_limit_flag = False</span></span>
+<span class="line"><span>        clean_right_flag = False  # 清除右边线</span></span>
+<span class="line"><span>        speed_4_flag = True</span></span>
+<span class="line"><span>        clean_flag = False</span></span>
+<span class="line"><span>        clean_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 解除限速标志检测</span></span>
+<span class="line"><span>    elif speed_flag and int(cls_id) == 2 and not speed_limit_flag and area &gt; 850:</span></span>
+<span class="line"><span>        speed_flag = False</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 红绿灯状态处理</span></span>
+<span class="line"><span>    elif traffic_flag and not traffic_flag_2:</span></span>
+<span class="line"><span>        # 红灯检测</span></span>
+<span class="line"><span>        if not speed_flag and red_light_flag and (red_light_area &gt; green_light_area+100 and red_light_area &gt; 450):</span></span>
+<span class="line"><span>            red_light_flag = False</span></span>
+<span class="line"><span>            delayed_stop_time = time.time() + 0.45  # 设置延迟停车时间</span></span>
+<span class="line"><span>            traffic_time[0] = time.time()</span></span>
+<span class="line"><span>        # 绿灯检测</span></span>
+<span class="line"><span>        elif not red_light_flag and green_light_flag and (green_light_area &gt; red_light_area+100 and green_light_area &gt; 350):</span></span>
+<span class="line"><span>            green_light_flag = False</span></span>
+<span class="line"><span>            traffic_flag = False</span></span>
+<span class="line"><span>            yolo_flag = True</span></span>
+<span class="line"><span>        # 超时处理</span></span>
+<span class="line"><span>        elif traffic_time[1] - traffic_time[0] &gt; 5:</span></span>
+<span class="line"><span>            traffic_flag = False</span></span>
+<span class="line"><span>            yolo_flag = True</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 变道标志检测</span></span>
+<span class="line"><span>    elif not traffic_flag and change_flag and int(cls_id) == 6 and area &gt; 370:</span></span>
+<span class="line"><span>        change_flag = False</span></span>
+<span class="line"><span>        change_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 危险标志检测</span></span>
+<span class="line"><span>    elif not change_flag and danger_flag and int(cls_id) == 0 and area &gt; 370:</span></span>
+<span class="line"><span>        danger_flag = False</span></span>
+<span class="line"><span>        danger_time[0] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 速度控制逻辑</span></span>
+<span class="line"><span>    if stop_time[0] != -1:  # 停车状态</span></span>
+<span class="line"><span>        speed = 0.0</span></span>
+<span class="line"><span>        stop_time[1] = time.time()</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    if stop_time[0] == -1 or stop_time[1] - stop_time[0] &gt; 2:  # 非停车状态</span></span>
+<span class="line"><span>        # 根据不同场景设置速度</span></span>
+<span class="line"><span>        if speed_4_flag:  # 限速区域</span></span>
+<span class="line"><span>            speed = 0.28</span></span>
+<span class="line"><span>            if not speed_flag:</span></span>
+<span class="line"><span>                speed_4_flag = False</span></span>
+<span class="line"><span>        # 其他场景的速度设置（略，详见完整代码）</span></span>
+<span class="line"><span>        # ...</span></span>
+<span class="line"><span>        </span></span>
+<span class="line"><span>        stop_time = [-1, -1]  # 重置停车状态</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 状态超时处理</span></span>
+<span class="line"><span>    # 转弯超时</span></span>
+<span class="line"><span>    if turn_time[0] != 0 and (not turn_left_flag or not turn_right_flag):</span></span>
+<span class="line"><span>        turn_time[1] = time.time()</span></span>
+<span class="line"><span>        if turn_time[1] - turn_time[0] &gt; 1.2:</span></span>
+<span class="line"><span>            turn_flag = False</span></span>
+<span class="line"><span>        if turn_time[1] - turn_time[0] &gt; 4.2:</span></span>
+<span class="line"><span>            turn_flag_2 = False</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 变道超时</span></span>
+<span class="line"><span>    if change_time[0] != 0 and not change_flag:</span></span>
+<span class="line"><span>        change_time[1] = time.time()</span></span>
+<span class="line"><span>        if change_time[1] - change_time[0] &gt; 1.7:</span></span>
+<span class="line"><span>            change_flag_2 = True</span></span>
+<span class="line"><span>        if change_time[1] - change_time[0] &gt; 3.8:</span></span>
+<span class="line"><span>            change_flag_3 = False</span></span>
+<span class="line"><span>        if change_time[1] - change_time[0] &gt; 4.5:</span></span>
+<span class="line"><span>            change_flag_4 = False</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    # 其他状态超时处理（略）</span></span>
+<span class="line"><span>    # ...</span></span>
+<span class="line"><span>    </span></span>
+<span class="line"><span>    return speed</span></span></code></pre>
+<div class="tags"><a href="/legacy/tags/Python/" rel="tag"><i class="ic i-tag"></i>Python</a><a href="/legacy/tags/opencv/" rel="tag"><i class="ic i-tag"></i>opencv</a></div></div><footer><div class="meta"><span class="item"><span class="icon"><i class="ic i-calendar-check"></i></span><span class="text">更新于 </span><time title="修改时间：2026-06-14 01:14:47" itemprop="dateModified" datetime="2026-06-14T01:14:47+08:00">2026-06-14</time></span></div><div class="reward"><button><i class="ic i-heartbeat"></i>赞赏</button><p>请我喝[茶]~(￣▽￣)~*</p><div id="qr"><div><img loading="lazy" src="/legacy/assets/wechatpay.avif" alt="曾阿牛 微信支付"><p>微信支付</p></div><div><img loading="lazy" src="/legacy/assets/alipay.avif" alt="曾阿牛 支付宝"><p>支付宝</p></div></div></div><div id="copyright"><ul><li class="author"><strong>本文作者：</strong>曾阿牛<i class="ic i-at"><em>@</em></i>终南山下，活死人墓</li><li class="link"><strong>本文链接：</strong><a href="https://www.dying4ever.cyou/2025/07/17/Python/opencv/%E5%9F%8E%E5%B8%82%E9%81%93%E8%B7%AF%E8%AF%86%E5%88%AB/" title="城市道路识别">https://www.dying4ever.cyou/2025/07/17/Python/opencv/城市道路识别/</a></li><li class="license"><strong>版权声明：</strong>本站所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div></footer></article></div><div class="post-nav"><div class="item left"><a href="/legacy/2025/07/17/stm32/99%E6%B4%BE/" rel="prev" itemprop="url" data-background-image="/legacy/images/banner.webp" title="99派"><span class="type">上一篇</span><span class="category"><i class="ic i-flag"></i>stm32</span><h3>99派</h3></a></div><div class="item right"><a href="/legacy/2025/07/17/%E8%A5%BF%E9%97%A8%E5%AD%90%E6%9D%AF/%E7%BB%AA%E8%AE%BA/" rel="next" itemprop="url" data-background-image="/legacy/assets/head.webp" title="绪论"><span class="type">下一篇</span><span class="category"><i class="ic i-flag"></i>西门子杯</span><h3>绪论</h3></a></div></div><div class="wrap" id="comments"></div></div><div id="sidebar"><div class="inner"><div class="panels"><div class="inner"><div class="contents panel pjax" data-title="文章目录"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%8C%E5%80%BC%E5%8C%96%E6%8F%90%E5%8F%96%E5%9B%BE%E5%83%8F"><span class="toc-number">1.</span> <span class="toc-text"> 一.二值化/提取图像</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-bgr-hsv-%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.</span> <span class="toc-text"> 1. BGR → HSV 转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E8%AE%BE%E7%BD%AE%E9%A2%9C%E8%89%B2%E9%98%88%E5%80%BChsv"><span class="toc-number">1.2.</span> <span class="toc-text"> 2. 设置颜色阈值（HSV）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%BA%8C%E5%80%BC%E5%8C%96"><span class="toc-number">1.3.</span> <span class="toc-text"> 3. 二值化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#31-cv2inrangepython"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 3.1  cv2.inRange(python)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#32-cvthresholdcpp-otsutriangle%E7%AE%97%E6%B3%95"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 3.2 cv::threshold(cpp)   OTSU/TRIANGLE算法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#cvthresh_binary"><span class="toc-number">1.3.2.0.1.</span> <span class="toc-text"> cv::THRESH_BINARY</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#cvthresh_otsu"><span class="toc-number">1.3.2.0.2.</span> <span class="toc-text"> cv::THRESH_OTSU</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF"><span class="toc-number">1.3.2.0.3.</span> <span class="toc-text"> 优势:</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#cvthresh_triangle"><span class="toc-number">1.3.2.0.4.</span> <span class="toc-text"> cv::THRESH_TRIANGLE</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BC%98%E5%8A%BF-2"><span class="toc-number">1.3.2.0.5.</span> <span class="toc-text"> 优势:</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E4%BA%8C%E5%80%BC%E5%8C%96"><span class="toc-number">1.3.2.1.</span> <span class="toc-text"> 常见二值化</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#33%E8%87%AA%E9%80%82%E5%BA%94%E9%98%88%E5%80%BC-adaptivethresholdcpp"><span class="toc-number">1.3.3.</span> <span class="toc-text"> 3.3自适应阈值  adaptiveThreshold(cpp)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.3.1.</span> <span class="toc-text"> 工作原理</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#34-%E6%80%BB%E7%BB%93%E5%AF%B9%E6%AF%94"><span class="toc-number">1.3.4.</span> <span class="toc-text"> 3.4. 总结对比</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BD%A2%E6%80%81%E5%AD%A6%E6%93%8D%E4%BD%9C%E8%85%90%E8%9A%80-%E8%86%A8%E8%83%80%E9%AB%98%E6%96%AF%E6%A8%A1%E7%B3%8A%E6%BB%A4%E6%B3%A2"><span class="toc-number">1.4.</span> <span class="toc-text"> 4. 形态学操作：腐蚀 + 膨胀(高斯模糊滤波)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#01%E9%AB%98%E6%96%AF%E6%A8%A1%E7%B3%8A"><span class="toc-number">1.4.1.</span> <span class="toc-text"> 0.1高斯模糊</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#0-2canny%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text"> 0 .2Canny边缘检测</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%B0%83%E8%AF%95%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.5.</span> <span class="toc-text"> 参数调试建议：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E8%85%90%E8%9A%80%E5%8E%BB%E9%99%A4%E5%B0%8F%E5%99%AA%E7%82%B9"><span class="toc-number">1.5.1.</span> <span class="toc-text"> 1.腐蚀：去除小噪点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E8%86%A8%E8%83%80%E5%A1%AB%E8%A1%A5%E6%96%AD%E8%A3%82%E5%8C%BA%E5%9F%9F"><span class="toc-number">1.5.2.</span> <span class="toc-text"> 2.膨胀：填补断裂区域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E8%A7%A3%E9%87%8A"><span class="toc-number">1.5.3.</span> <span class="toc-text"> 参数解释：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">1.5.4.</span> <span class="toc-text"> 返回值：</span></a></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2"><span class="toc-number">2.</span> <span class="toc-text"> 二.霍夫变换</span></a></li></div><div class="related panel pjax" data-title="系列文章"><ul><li><a href="/legacy/2025/07/17/Python/opencv/2.1%E3%80%81opencv%E5%9F%BA%E7%A1%80/" rel="bookmark" title="2.1、opencv基础">2.1、opencv基础</a></li><li><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2)/" rel="bookmark" title="2.2、图像处理(2-1_几何变换)">2.2、图像处理(2-1_几何变换)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-2_%E5%BD%A2%E6%80%81%E5%AD%A6%E6%93%8D%E4%BD%9C)/" rel="bookmark" title="2.2、图像处理(2-2_形态学操作)">2.2、图像处理(2-2_形态学操作)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-4_%E7%9B%B4%E6%96%B9%E5%9B%BE)/" rel="bookmark" title="2.2、图像处理(2-4_直方图)">2.2、图像处理(2-4_直方图)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-3_%E5%9B%BE%E5%83%8F%E5%B9%B3%E6%BB%91)/" rel="bookmark" title="2.2、图像处理(2-3_图像平滑)">2.2、图像处理(2-3_图像平滑)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-5_%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B)/" rel="bookmark" title="2.2、图像处理(2-5_边缘检测)">2.2、图像处理(2-5_边缘检测)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-6_%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2)/" rel="bookmark" title="2.2、图像处理(2-6_模板匹配霍夫变换)">2.2、图像处理(2-6_模板匹配霍夫变换)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/3%EF%BC%8C%E5%9B%BE%E5%83%8F%E7%9A%84%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E5%92%8C%E6%8F%8F%E8%BF%B0/" rel="bookmark" title="3，图像的特征提取和描述">3，图像的特征提取和描述</a></li><li><a href="/legacy/2025/07/17/Python/opencv/5%EF%BC%8C%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%A1%88%E4%BE%8B/" rel="bookmark" title="5，人脸识别案例">5，人脸识别案例</a></li><li><a href="/legacy/2025/07/17/Python/opencv/4%EF%BC%8C%E8%A7%86%E9%A2%91%E6%93%8D%E4%BD%9C/" rel="bookmark" title="4，视频操作">4，视频操作</a></li><li><a href="/legacy/2025/07/17/Python/opencv/%E6%99%BA%E8%83%BD%E8%BD%A6/" rel="bookmark" title="智能车">智能车</a></li><li><a href="/legacy/2025/07/17/Python/opencv/%E6%A6%82%E8%BF%B0/" rel="bookmark" title="概述">概述</a></li><li class="active"><a href="/legacy/2025/07/17/Python/opencv/%E5%9F%8E%E5%B8%82%E9%81%93%E8%B7%AF%E8%AF%86%E5%88%AB/" rel="bookmark" title="城市道路识别">城市道路识别</a></li><li><a href="/legacy/2025/07/25/Python/opencv/2.1%E3%80%81opencv%E5%9F%BA%E7%A1%80%EF%BC%88%E7%BB%98%E5%9B%BE%EF%BC%89/" rel="bookmark" title="2.1、opencv基础（绘图）">2.1、opencv基础（绘图）</a></li><li><a href="/legacy/2025/11/02/Python/opencv/hsv%E7%9F%A5%E8%AF%86/" rel="bookmark" title="hsv知识">hsv知识</a></li></ul></div><div class="overview panel" data-title="站点概览"><div class="sidebar-profile-card"><div class="author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><img class="image" loading="lazy" decoding="async" itemprop="image" alt="曾阿牛" src="/legacy/assets/head.avif"><p class="name" itemprop="name">曾阿牛</p><div class="description sidebar-typing" itemprop="description" data-words="I’M Zzzzzzzzzzzz|Por Una Cabeza"><span class="typing-text">Por Una Cabeza</span><span class="typing-cursor" aria-hidden="true">|</span></div></div><div class="social"><a target="_blank" rel="noopener" href="https://github.com/dying4ever" class="item github" title="https://github.com/dying4ever"><i class="ic i-github"></i></a><a href="mailto:zhangjingxuan@163.com" class="item email" title="mailto:zhangjingxuan@163.com"><i class="ic i-envelope"></i></a><a target="_blank" rel="noopener" href="https://www.douban.com/people/244425591/?_i=9515043jR6tETx" class="item douban" title="https://www.douban.com/people/244425591/?_i=9515043jR6tETx"><i class="ic i-douban"></i></a></div><div class="sidebar-contact"><div class="contact-row"><span class="label">LOCATION:</span><span class="value">NANJING</span></div></div><nav class="state"><div class="item posts"><a href="/legacy/archives/"><span class="count">131</span><span class="name">文章</span></a></div><div class="item categories"><a href="/legacy/categories/"><span class="count">37</span><span class="name">分类</span></a></div><div class="item tags"><a href="/legacy/tags/"><span class="count">44</span><span class="name">标签</span></a></div></nav><div class="menu"><li class="item"><a href="/legacy/" rel="section"><i class="ic i-home"></i>首页</a></li><li class="item"><a href="/legacy/about/" rel="section"><i class="ic i-user"></i>关于</a></li><li class="item"><a href="/legacy/projects/" rel="section"><i class="ic i-feather"></i>projects</a></li><li class="item"><a href="/legacy/categories/" rel="section"><i class="ic i-th"></i>分类</a></li><li class="item"><a href="/legacy/archives/" rel="section"><i class="ic i-list-alt"></i>归档</a></li><li class="item"><a href="/legacy/friends/" rel="section"><i class="ic i-heart"></i>友链</a></li></div></div><script>(() => {
+  const nodes = document.querySelectorAll('.sidebar-typing');
+  nodes.forEach((node) => {
+    if (node.dataset.ready === 'true') return;
+    node.dataset.ready = 'true';
+    const textNode = node.querySelector('.typing-text');
+    const words = (node.dataset.words || 'Por Una Cabeza').split('|').filter(Boolean);
+    if (!textNode || words.length < 1) return;
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    let hold = 0;
+    const tick = () => {
+      const word = words[wordIndex % words.length];
+      textNode.textContent = deleting ? word.slice(0, charIndex--) : word.slice(0, charIndex++);
+      if (!deleting && charIndex > word.length) {
+        if (hold < 42) {
+          hold++;
+          window.setTimeout(tick, 200);
+          return;
+        }
+        hold = 0;
+        deleting = true;
+      }
+      if (deleting && charIndex < 0) {
+        deleting = false;
+        wordIndex++;
+        charIndex = 0;
+      }
+      window.setTimeout(tick, deleting ? 170 : 220);
+    };
+    tick();
+  });
+})();</script></div></div></div><ul id="quick"><li class="prev pjax"><a href="/legacy/2025/07/17/%E8%A5%BF%E9%97%A8%E5%AD%90%E6%9D%AF/%E7%BB%AA%E8%AE%BA/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a></li><li class="up"><i class="ic i-arrow-up"></i></li><li class="down"><i class="ic i-arrow-down"></i></li><li class="next pjax"><a href="/legacy/2025/07/17/stm32/99%E6%B4%BE/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a></li><li class="percent"></li></ul></div></div><div class="dimmer"></div></div><div id="player"></div></main><footer id="footer"><div class="inner"><div class="widgets"><div class="rpost pjax"><h2>最新评论</h2></div></div><div class="status"><div class="copyright">© 2025 -<span itemprop="copyrightYear">2026</span><span class="with-love"><i class="ic i-sakura rotate"></i></span><span class="author" itemprop="copyrightHolder">曾阿牛 @ Frostbitten Carpe Diem</span></div><div class="count"><span class="post-meta-item-icon"><i class="ic i-chart-area"></i></span><span title="站点总字数">1.3m 字</span><span class="post-meta-divider"> | </span><span class="post-meta-item-icon"><i class="ic i-coffee"></i></span><span title="站点阅读时长">19:17</span></div><div class="powered-by">基于 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> &amp; Theme.<a target="_blank" rel="noopener" href="https://github.com/theme-shoka-x/hexo-theme-shokaX/">ShokaX</a></div></div></div></footer></div><script data-config="" type="text/javascript">var LOCAL = {
+    ispost: true,
+    path: `2025/07/17/Python/opencv/城市道路识别/`,
+    favicon: {
+        show: `不负韶华`,
+        hide: `以梦为马！`
+    },
+    search: {
+        placeholder: "文章搜索",
+        empty: "关于 「 ${query} 」，什么也没搜到",
+        stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    nocopy: "false",
+    copyright: `复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。`,
+    copy_tex: false,
+    katex: false,
+    mermaid: false,
+    audio: undefined,
+    nocopy: false,
+    outime: true,
+    template: `<div class="note warning"><p><span class="label warning">文章时效性提示</span><br>这是一篇发布于 {{publish}} 天前，最后一次更新在 {{updated}} 天前的文章，部分信息可能已经发生改变，请注意甄别。</p></div>`,
+    quiz: {
+        choice: `单选题`,
+        multiple: `多选题`,
+        true_false: `判断题`,
+        essay: `问答题`,
+        gap_fill: `填空题`,
+        mistake: `错题备注`
+    }
+};
+</script><script src="/legacy/js/siteInit.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script><script src="/legacy/js/gallery-random-covers.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script></body></html>

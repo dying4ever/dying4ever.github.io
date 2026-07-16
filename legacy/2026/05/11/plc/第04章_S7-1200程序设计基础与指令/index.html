@@ -1,0 +1,793 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"><meta name="renderer" content="webkit"><link rel="icon" type="image/ico" sizes="32x32" href="/legacy/assets/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/legacy/assets/favicon.jpg"><link rel="alternate" href="/legacy/rss.xml" title="终南山下，活死人墓" type="application/rss+xml"><link rel="alternate" href="/legacy/atom.xml" title="终南山下，活死人墓" type="application/atom+xml"><link rel="alternate" type="application/json" title="终南山下，活死人墓" href="https://www.dying4ever.cyou/feed.json"><link rel="preload" href="/legacy/fonts/StoryScript-Regular.woff2" as="font" type="font/woff2" crossorigin="crossorigin"><link rel="modulepreload" href="/legacy/js/siteInit.js"><link rel="modulepreload" href="/legacy/js/copy-tex-TYOT4Z7A.js"><link rel="modulepreload" href="/legacy/js/post-PEEX3S2R.js"><link rel="modulepreload" href="/legacy/js/chunk-N4ACASAP.js"><link rel="modulepreload" href="/legacy/js/chunk-K2JFEYFH.js"><link rel="stylesheet" href="/legacy/css/siteInit.css" media="none" onload="this.media='all'"><link rel="preload" href="/legacy/images/banner.webp" as="image" fetchpriority="high"><meta name="keywords" content="工业控制装备,PLC,"><meta name="description" content="Por Una Cabeza"><link rel="canonical" href="https://www.dying4ever.cyou/2026/05/11/plc/%E7%AC%AC04%E7%AB%A0_S7-1200%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8C%87%E4%BB%A4/"><link rel="stylesheet" href="/legacy/css/post.css?v=0.5.4"><link rel="stylesheet" href="/legacy/css/mermaid.css?v=0.5.4"><!-- 临时处理--><title>第04章_S7-1200程序设计基础与指令</title><meta name="generator" content="Hexo 7.3.0"></head><body itemscope="" itemtype="http://schema.org/WebPage"><div id="loading"><div class="cat"><div class="body"></div><div class="head"><div class="face"></div></div><div class="foot"><div class="tummy-end"></div><div class="bottom"></div><div class="legs left"></div><div class="legs right"></div></div><div class="paw"><div class="hands left"></div><div class="hands right"></div></div></div></div><div id="pagefind_mount"></div><div id="container"><header id="header" itemscope="" itemtype="http://schema.org/WPHeader"><div class="inner"><div id="brand"><div class="pjax"><h1 itemprop="name headline">第04章_S7-1200程序设计基础与指令</h1><div class="meta"><span class="item" title="创建时间：2026-05-11 23:24:11"><span class="icon"><i class="ic i-calendar"></i></span><span class="text">发表于</span><time itemprop="dateCreated datePublished" datetime="2026-05-11T23:24:11+08:00">2026-05-11</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span class="text">本文字数</span><span>7.4k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span class="text">阅读时长</span><span>7 分钟</span></span></div></div></div><nav id="nav"><div class="inner"><div class="toggle"><div class="lines" aria-label="切换导航栏"><span class="line"></span><span class="line"></span><span class="line"></span></div></div><ul class="menu"><li class="item title"><a href="/legacy/" rel="start">Frostbitten Carpe Diem</a></li></ul><ul class="right" id="rightNav"><li class="item theme"><i class="ic i-sun"></i></li><li class="item search"><i class="ic i-search"></i></li></ul></div></nav></div><div class="pjax" id="imgs"><img src="/legacy/images/banner.webp" loading="eager" decoding="async" fetchpriority="high" alt="终南山下，活死人墓"></div></header><div id="waves"><svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path></defs><g class="parallax"><use xlink:href="#gentle-wave" x="48" y="0"></use><use xlink:href="#gentle-wave" x="48" y="3"></use><use xlink:href="#gentle-wave" x="48" y="5"></use><use xlink:href="#gentle-wave" x="48" y="7"></use></g></svg></div><main><div class="inner"><div class="pjax" id="main"><div class="article wrap"><div class="breadcrumb" itemlistelement="" itemscope="" itemtype="https://schema.org/BreadcrumbList"><i class="ic i-home"></i><span><a href="/legacy/">首页</a></span><i class="ic i-angle-right"></i><span class="current" itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/legacy/categories/plc/" itemprop="item" rel="index" title="分类于plc"><span itemprop="name">plc<meta itemprop="position" content="0"></span></a></span></div><article class="post block" itemscope="itemscope" itemtype="http://schema.org/Article" data-pagefind-body="data-pagefind-body" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://www.dying4ever.cyou/2026/05/11/plc/%E7%AC%AC04%E7%AB%A0_S7-1200%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8C%87%E4%BB%A4/"><span hidden="hidden" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="image" content="/legacy/assets/head.png"><meta itemprop="name" content="曾阿牛"><meta itemprop="description" content="welcome my blog, Por Una Cabeza"></span><span hidden="hidden" itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="终南山下，活死人墓"></span><div class="body md" itemprop="articleBody"><h1 id="第4章-s7-1200程序设计基础与指令"><a class="anchor" href="#第4章-s7-1200程序设计基础与指令">#</a> 第4章 S7-1200程序设计基础与指令</h1>
+<h2 id="资料来源"><a class="anchor" href="#资料来源">#</a> 资料来源</h2>
+<ul>
+<li>PPT：<code>第3.1章 S7-1200程序设计基础.pptx</code></li>
+<li>PPT：<code>第3.2章 S7-1200的指令260322.pptx</code></li>
+<li>辅导书：<code>S7-1200 PLC编程及应用 第3版</code>，对应第2章“S7-1200程序设计基础”和第3章“S7-1200的指令”。</li>
+</ul>
+<h2 id="1-本章脉络"><a class="anchor" href="#1-本章脉络">#</a> 1. 本章脉络</h2>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>S7-1200程序设计基础与指令</span></span>
+<span class="line"><span>├─ PLC编程语言</span></span>
+<span class="line"><span>│  ├─ LAD梯形图</span></span>
+<span class="line"><span>│  ├─ FBD函数块图</span></span>
+<span class="line"><span>│  └─ SCL结构化控制语言</span></span>
+<span class="line"><span>├─ PLC工作原理</span></span>
+<span class="line"><span>│  ├─ 逻辑运算</span></span>
+<span class="line"><span>│  ├─ 模块化编程</span></span>
+<span class="line"><span>│  ├─ OB/FC/FB/DB</span></span>
+<span class="line"><span>│  └─ 扫描周期</span></span>
+<span class="line"><span>├─ 数据类型与系统存储区</span></span>
+<span class="line"><span>├─ 编写用户程序与变量表</span></span>
+<span class="line"><span>└─ S7-1200常用指令</span></span>
+<span class="line"><span>   ├─ 位逻辑指令</span></span>
+<span class="line"><span>   ├─ 定时器指令</span></span>
+<span class="line"><span>   ├─ 计数器指令</span></span>
+<span class="line"><span>   ├─ 数据处理指令</span></span>
+<span class="line"><span>   ├─ 数学运算指令</span></span>
+<span class="line"><span>   ├─ 程序控制指令</span></span>
+<span class="line"><span>   ├─ 日期时间、字符串指令</span></span>
+<span class="line"><span>   └─ 高速脉冲输出与高速计数器</span></span></code></pre>
+<h2 id="2-plc编程语言"><a class="anchor" href="#2-plc编程语言">#</a> 2. PLC编程语言</h2>
+<p>IEC 61131-3是PLC编程语言标准。S7-1200常用语言包括LAD、FBD、SCL。</p>
+<table>
+<thead>
+<tr>
+<th>编程语言</th>
+<th>中文</th>
+<th>特点</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LAD</td>
+<td>梯形图</td>
+<td>类似继电器电路，直观</td>
+<td>数字量逻辑、启保停、联锁</td>
+</tr>
+<tr>
+<td>FBD</td>
+<td>函数块图</td>
+<td>用与门、或门等功能块表达逻辑</td>
+<td>逻辑关系清晰、功能块连接</td>
+</tr>
+<tr>
+<td>SCL</td>
+<td>结构化控制语言</td>
+<td>类似高级语言，适合算法封装</td>
+<td>复杂运算、循环、分支、函数块内部逻辑</td>
+</tr>
+</tbody>
+</table>
+<h3 id="21-梯形图-lad"><a class="anchor" href="#21-梯形图-lad">#</a> 2.1 梯形图 LAD</h3>
+<p>梯形图有“假想能流”，逻辑从左到右执行，程序段通常自上而下循环扫描。常开触点、常闭触点和线圈分别对应逻辑条件与输出结果。</p>
+<p>工程意义：电气工程师容易从继电器电路迁移到PLC程序。</p>
+<h3 id="22-函数块图-fbd"><a class="anchor" href="#22-函数块图-fbd">#</a> 2.2 函数块图 FBD</h3>
+<p>FBD用功能块表达逻辑关系，如“&amp;”表示与，“&gt;=1”表示或。它与梯形图在逻辑上可等价转换。</p>
+<h3 id="23-scl"><a class="anchor" href="#23-scl">#</a> 2.3 SCL</h3>
+<p>SCL适合复杂算法、循环、判断和封装功能块。它更接近C/Pascal语言，适合处理数学运算、数组、复杂数据结构。</p>
+<h2 id="3-plc工作原理"><a class="anchor" href="#3-plc工作原理">#</a> 3. PLC工作原理</h2>
+<h3 id="31-逻辑运算"><a class="anchor" href="#31-逻辑运算">#</a> 3.1 逻辑运算</h3>
+<p>PLC控制主电路时，并不是直接把按钮串到接触器线圈中，而是读取输入点状态，在程序中用软触点进行逻辑运算，再通过输出映像寄存器控制Q点输出。</p>
+<p>位变量只有两种状态，可用0和1表示：</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>物理含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>高电平、线圈通电、条件成立</td>
+</tr>
+<tr>
+<td>0</td>
+<td>低电平、线圈断电、条件不成立</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-模块化编程"><a class="anchor" href="#32-模块化编程">#</a> 3.2 模块化编程</h3>
+<p>模块化编程把复杂自动化任务分成若干功能子任务，每个子任务用一个块实现。</p>
+<table>
+<thead>
+<tr>
+<th>块</th>
+<th>名称</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OB</td>
+<td>组织块</td>
+<td>操作系统和用户程序接口，决定程序执行结构</td>
+</tr>
+<tr>
+<td>FC</td>
+<td>功能</td>
+<td>可重复调用的无固定存储区子程序</td>
+</tr>
+<tr>
+<td>FB</td>
+<td>功能块</td>
+<td>有背景数据块，适合需要记忆状态的功能</td>
+</tr>
+<tr>
+<td>DB</td>
+<td>数据块</td>
+<td>存储用户数据或FB背景数据</td>
+</tr>
+</tbody>
+</table>
+<h3 id="33-组织块-ob"><a class="anchor" href="#33-组织块-ob">#</a> 3.3 组织块 OB</h3>
+<p>OB由操作系统调用，不能由用户指令直接调用。</p>
+<p>常见OB：</p>
+<table>
+<thead>
+<tr>
+<th>OB类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>程序循环OB</td>
+<td>如OB1，循环执行主程序</td>
+</tr>
+<tr>
+<td>启动OB</td>
+<td>CPU从STOP到RUN时执行一次，用于初始化</td>
+</tr>
+<tr>
+<td>时间延迟中断OB</td>
+<td>延迟时间到达后执行</td>
+</tr>
+<tr>
+<td>周期中断OB</td>
+<td>按固定周期执行</td>
+</tr>
+<tr>
+<td>硬件中断OB</td>
+<td>外部硬件事件触发执行</td>
+</tr>
+<tr>
+<td>时间错误OB</td>
+<td>扫描超时等时间错误处理</td>
+</tr>
+<tr>
+<td>诊断错误OB</td>
+<td>模块或系统诊断错误处理</td>
+</tr>
+</tbody>
+</table>
+<h3 id="34-fc与fb"><a class="anchor" href="#34-fc与fb">#</a> 3.4 FC与FB</h3>
+<p>FC没有固定存储区，执行结束后临时变量丢失。FB有背景数据块，输入、输出、静态变量可以保存在背景DB中，适合电机控制、阀门控制、定时计数等需要保持状态的对象。</p>
+<h2 id="4-plc扫描工作过程"><a class="anchor" href="#4-plc扫描工作过程">#</a> 4. PLC扫描工作过程</h2>
+<p>PLC采用循环扫描方式，一个扫描周期通常包括：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>输入采样 → 程序执行 → 输出刷新 → 通信/诊断/中断处理 → 下一周期</span></span></code></pre>
+<h3 id="41-输入采样"><a class="anchor" href="#41-输入采样">#</a> 4.1 输入采样</h3>
+<p>程序执行前，CPU集中读取外部输入状态并存入输入映像区I。程序执行过程中，即使外部输入变化，当前周期中通常仍使用采样时的I区值。</p>
+<h3 id="42-程序执行"><a class="anchor" href="#42-程序执行">#</a> 4.2 程序执行</h3>
+<p>CPU按顺序执行用户程序，计算内部变量和输出映像区Q的状态。</p>
+<h3 id="43-输出刷新"><a class="anchor" href="#43-输出刷新">#</a> 4.3 输出刷新</h3>
+<p>程序执行结束后，CPU把Q区状态集中写到实际输出端子。</p>
+<p>易错点：程序执行过程中Q映像区会更新，但实际输出通常在输出刷新阶段集中改变。</p>
+<h2 id="5-cpu工作模式"><a class="anchor" href="#5-cpu工作模式">#</a> 5. CPU工作模式</h2>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STOP</td>
+<td>不执行用户程序，可下载项目</td>
+</tr>
+<tr>
+<td>STARTUP</td>
+<td>启动阶段，执行启动OB并初始化</td>
+</tr>
+<tr>
+<td>RUN</td>
+<td>循环执行程序，处理通信、诊断和中断</td>
+</tr>
+</tbody>
+</table>
+<p>CPU模块上通常没有物理模式开关，可通过STEP 7在线工具或程序指令控制模式。</p>
+<h2 id="6-数据类型与系统存储区"><a class="anchor" href="#6-数据类型与系统存储区">#</a> 6. 数据类型与系统存储区</h2>
+<h3 id="61-物理存储器"><a class="anchor" href="#61-物理存储器">#</a> 6.1 物理存储器</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>作用</th>
+<th>类比</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>装载存储器</td>
+<td>保存用户程序、数据、组态，非易失</td>
+<td>硬盘</td>
+</tr>
+<tr>
+<td>工作存储器</td>
+<td>CPU运行时使用，高速RAM</td>
+<td>内存</td>
+</tr>
+<tr>
+<td>保持性存储器</td>
+<td>断电后保持指定数据</td>
+<td>掉电保持区</td>
+</tr>
+<tr>
+<td>存储卡</td>
+<td>可选，用于程序传送和存储</td>
+<td>外部存储介质</td>
+</tr>
+</tbody>
+</table>
+<h3 id="62-常用数据类型"><a class="anchor" href="#62-常用数据类型">#</a> 6.2 常用数据类型</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>位数</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bool</td>
+<td>1</td>
+<td>开关量、触点、线圈</td>
+</tr>
+<tr>
+<td>Byte</td>
+<td>8</td>
+<td>字节数据</td>
+</tr>
+<tr>
+<td>Word</td>
+<td>16</td>
+<td>字数据、位组合</td>
+</tr>
+<tr>
+<td>DWord</td>
+<td>32</td>
+<td>双字数据</td>
+</tr>
+<tr>
+<td>SInt/Int/DInt</td>
+<td>8/16/32</td>
+<td>有符号整数</td>
+</tr>
+<tr>
+<td>USInt/UInt/UDInt</td>
+<td>8/16/32</td>
+<td>无符号整数</td>
+</tr>
+<tr>
+<td>Real</td>
+<td>32</td>
+<td>浮点数</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>32</td>
+<td>时间值，如定时器PT、ET</td>
+</tr>
+<tr>
+<td>Char/String</td>
+<td>字符/字符串</td>
+<td>文本处理</td>
+</tr>
+</tbody>
+</table>
+<h3 id="63-寻址方式"><a class="anchor" href="#63-寻址方式">#</a> 6.3 寻址方式</h3>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>含义</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I</td>
+<td>输入映像区</td>
+<td>I0.0</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>输出映像区</td>
+<td>Q0.0</td>
+</tr>
+<tr>
+<td>M</td>
+<td>位存储区/标志位</td>
+<td>M0.0</td>
+</tr>
+<tr>
+<td>DB</td>
+<td>数据块</td>
+<td>DB1.DBX0.0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-位逻辑指令"><a class="anchor" href="#7-位逻辑指令">#</a> 7. 位逻辑指令</h2>
+<p>位逻辑指令用于处理Bool变量，是PLC中最基础、最常考的内容。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>常开触点</td>
+<td>条件为1时导通</td>
+</tr>
+<tr>
+<td>常闭触点</td>
+<td>条件为0时导通</td>
+</tr>
+<tr>
+<td>取反触点</td>
+<td>对逻辑结果取反</td>
+</tr>
+<tr>
+<td>输出线圈</td>
+<td>把逻辑结果赋给输出位</td>
+</tr>
+<tr>
+<td>置位S</td>
+<td>条件成立后置1并保持</td>
+</tr>
+<tr>
+<td>复位R</td>
+<td>条件成立后清0</td>
+</tr>
+<tr>
+<td>RS/SR锁存器</td>
+<td>处理置位和复位优先关系</td>
+</tr>
+<tr>
+<td>上升沿检测</td>
+<td>检测0→1瞬间</td>
+</tr>
+<tr>
+<td>下降沿检测</td>
+<td>检测1→0瞬间</td>
+</tr>
+</tbody>
+</table>
+<h3 id="71-启保停基本逻辑"><a class="anchor" href="#71-启保停基本逻辑">#</a> 7.1 启保停基本逻辑</h3>
+<p>常见表达：</p>
+<p>[<br>
+Q=(Start \lor Q)\land \lnot Stop<br>
+]</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(Start)</td>
+<td>启动按钮</td>
+</tr>
+<tr>
+<td>(Stop)</td>
+<td>停止按钮</td>
+</tr>
+<tr>
+<td>(Q)</td>
+<td>输出或自保持状态</td>
+</tr>
+</tbody>
+</table>
+<p>适用条件：最常见电机启停、自锁控制。</p>
+<p>物理/工程意义：按启动后输出保持，按停止后解除保持。</p>
+<p>常见变形：增加热继电器、急停、限位等串联保护条件：</p>
+<p>[<br>
+Q=(Start \lor Q)\land StopOK\land OverloadOK\land EStopOK<br>
+]</p>
+<h2 id="8-定时器指令"><a class="anchor" href="#8-定时器指令">#</a> 8. 定时器指令</h2>
+<p>S7-1200常用IEC定时器包括TP、TON、TOF、TONR。定时器本质上是功能块，调用时需要背景数据块。</p>
+<table>
+<thead>
+<tr>
+<th>定时器</th>
+<th>中文</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TP</td>
+<td>脉冲定时器</td>
+<td>输入上升沿后输出保持指定时间</td>
+</tr>
+<tr>
+<td>TON</td>
+<td>接通延时定时器</td>
+<td>输入为1持续达到PT后输出为1</td>
+</tr>
+<tr>
+<td>TOF</td>
+<td>断开延时定时器</td>
+<td>输入变0后输出延迟一段时间再变0</td>
+</tr>
+<tr>
+<td>TONR</td>
+<td>保持型接通延时</td>
+<td>累计输入为1的时间，复位端清零</td>
+</tr>
+</tbody>
+</table>
+<h3 id="81-定时器参数"><a class="anchor" href="#81-定时器参数">#</a> 8.1 定时器参数</h3>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IN</td>
+<td>Bool</td>
+<td>启动输入</td>
+</tr>
+<tr>
+<td>R</td>
+<td>Bool</td>
+<td>TONR复位输入</td>
+</tr>
+<tr>
+<td>PT</td>
+<td>Time</td>
+<td>预设时间</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>Bool</td>
+<td>定时器输出</td>
+</tr>
+<tr>
+<td>ET</td>
+<td>Time</td>
+<td>已经过时间</td>
+</tr>
+<tr>
+<td>DB</td>
+<td>数据块</td>
+<td>定时器背景数据</td>
+</tr>
+</tbody>
+</table>
+<p>适用条件：需要延时启动、延时停止、脉冲保持、累计运行时间等场合。</p>
+<p>易错点：TON输入断开时ET通常清零；TONR需要R复位。</p>
+<h2 id="9-计数器指令"><a class="anchor" href="#9-计数器指令">#</a> 9. 计数器指令</h2>
+<p>S7-1200常用软件计数器：CTU、CTD、CTUD。</p>
+<table>
+<thead>
+<tr>
+<th>计数器</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CTU</td>
+<td>加计数</td>
+</tr>
+<tr>
+<td>CTD</td>
+<td>减计数</td>
+</tr>
+<tr>
+<td>CTUD</td>
+<td>加减计数</td>
+</tr>
+</tbody>
+</table>
+<p>计数器最大计数速率受所在OB扫描周期限制；高速脉冲应使用高速计数器HSC。</p>
+<p>常用参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CU</td>
+<td>加计数输入，上升沿计数</td>
+</tr>
+<tr>
+<td>CD</td>
+<td>减计数输入，上升沿计数</td>
+</tr>
+<tr>
+<td>R</td>
+<td>复位输入</td>
+</tr>
+<tr>
+<td>LD</td>
+<td>装载输入</td>
+</tr>
+<tr>
+<td>PV</td>
+<td>预置值</td>
+</tr>
+<tr>
+<td>CV</td>
+<td>当前计数值</td>
+</tr>
+<tr>
+<td>Q</td>
+<td>达到条件后的输出</td>
+</tr>
+</tbody>
+</table>
+<h2 id="10-数据处理与数学运算指令"><a class="anchor" href="#10-数据处理与数学运算指令">#</a> 10. 数据处理与数学运算指令</h2>
+<h3 id="101-比较指令"><a class="anchor" href="#101-比较指令">#</a> 10.1 比较指令</h3>
+<p>比较指令用于判断两个数据大小关系，如等于、不等于、大于、小于、大于等于、小于等于。</p>
+<p>用途：液位上下限判断、温度报警、计数值判断、模拟量阈值控制。</p>
+<h3 id="102-移动指令"><a class="anchor" href="#102-移动指令">#</a> 10.2 移动指令</h3>
+<p>移动指令用于把一个变量值复制到另一个变量。常用于初始化、数据暂存、参数传递。</p>
+<h3 id="103-转换指令"><a class="anchor" href="#103-转换指令">#</a> 10.3 转换指令</h3>
+<p>转换指令用于不同数据类型之间转换，如Int转Real、DInt转Real等。</p>
+<p>易错点：整数除法会丢失小数，模拟量工程转换时常需先转Real或先乘后除。</p>
+<h3 id="104-数学运算指令"><a class="anchor" href="#104-数学运算指令">#</a> 10.4 数学运算指令</h3>
+<p>包括加、减、乘、除、求绝对值、平方根、三角函数等。Calculate指令可把复杂表达式封装为一个计算块。</p>
+<h2 id="11-程序控制-字符串-日期时间指令"><a class="anchor" href="#11-程序控制-字符串-日期时间指令">#</a> 11. 程序控制、字符串、日期时间指令</h2>
+<table>
+<thead>
+<tr>
+<th>指令类型</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>程序控制指令</td>
+<td>跳转、返回、条件执行等</td>
+</tr>
+<tr>
+<td>日期时间指令</td>
+<td>读取系统时间、时间戳、定时记录</td>
+</tr>
+<tr>
+<td>字符串指令</td>
+<td>字符串连接、查找、转换、通信报文处理</td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-高速脉冲输出与高速计数器"><a class="anchor" href="#12-高速脉冲输出与高速计数器">#</a> 12. 高速脉冲输出与高速计数器</h2>
+<h3 id="121-pto与pwm"><a class="anchor" href="#121-pto与pwm">#</a> 12.1 PTO与PWM</h3>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>含义</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PTO</td>
+<td>Pulse Train Output，脉冲串输出</td>
+<td>步进/伺服位置控制，脉冲数决定位移，频率决定速度</td>
+</tr>
+<tr>
+<td>PWM</td>
+<td>Pulse Width Modulation，脉宽调制</td>
+<td>调速、功率控制、模拟量近似输出</td>
+</tr>
+</tbody>
+</table>
+<p>S7-1200 CPU通常有两个高速脉冲发生器，可分配给Q0.0和Q0.1等高速输出点。</p>
+<h3 id="122-高速计数器-hsc"><a class="anchor" href="#122-高速计数器-hsc">#</a> 12.2 高速计数器 HSC</h3>
+<p>HSC用于高速脉冲计数，如编码器、流量计、测速齿盘。它不受普通OB扫描周期限制。</p>
+<p>常见模式包括单相计数、带方向输入计数、双相加减计数、A/B正交计数。</p>
+<p>正交计数中，A相和B相相差90°，可根据相位超前/滞后判断方向；4x模式可提高分辨率。</p>
+<h2 id="13-图表索引"><a class="anchor" href="#13-图表索引">#</a> 13. 图表索引</h2>
+<table>
+<thead>
+<tr>
+<th>图表</th>
+<th>来源位置</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LAD/FBD等价图</td>
+<td>第3.1章PPT约第3-4页</td>
+<td>理解梯形图与函数块图对应关系</td>
+</tr>
+<tr>
+<td>PLC扫描周期图</td>
+<td>第3.1章PPT约第23页</td>
+<td>理解输入采样、程序执行、输出刷新</td>
+</tr>
+<tr>
+<td>CPU模式转换图</td>
+<td>第3.1章PPT约第26-29页</td>
+<td>理解STOP/STARTUP/RUN</td>
+</tr>
+<tr>
+<td>数据类型表</td>
+<td>第3.1章PPT约第31页</td>
+<td>掌握Bool、Byte、Word、Real等</td>
+</tr>
+<tr>
+<td>定时器时序图</td>
+<td>第3.2章PPT定时器部分</td>
+<td>区分TP、TON、TOF、TONR</td>
+</tr>
+<tr>
+<td>计数器功能图</td>
+<td>第3.2章PPT计数器部分</td>
+<td>掌握CTU、CTD、CTUD</td>
+</tr>
+<tr>
+<td>高速计数器模式图</td>
+<td>第3.2章PPT后部</td>
+<td>理解单相、双相、正交计数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-易错点"><a class="anchor" href="#14-易错点">#</a> 14. 易错点</h2>
+<ol>
+<li>PLC程序中触点可以重复使用，但输出线圈重复赋值可能导致覆盖问题。</li>
+<li>输入采样后，当前扫描周期内外部输入变化通常不会立即改变程序读取的I区值。</li>
+<li>定时器和计数器是功能块，需要背景数据块。</li>
+<li>TON和TOF的触发条件相反，TON是接通延时，TOF是断开延时。</li>
+<li>CTU等软件计数器不适合高速脉冲，编码器应使用HSC。</li>
+<li>SCL适合复杂运算，但考试和工程入门常以LAD为主。</li>
+<li>模拟量计算要注意数据类型转换和运算顺序。</li>
+</ol>
+<h2 id="15-考前补充程序分析与指令细节"><a class="anchor" href="#15-考前补充程序分析与指令细节">#</a> 15. 考前补充：程序分析与指令细节</h2>
+<h3 id="151-扫描周期类题目的答题模板"><a class="anchor" href="#151-扫描周期类题目的答题模板">#</a> 15.1 扫描周期类题目的答题模板</h3>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>输入采样：把外部输入状态集中读入I映像区</span></span>
+<span class="line"><span>程序执行：按程序顺序计算逻辑，更新M、DB、Q映像区等</span></span>
+<span class="line"><span>输出刷新：把Q映像区状态集中送到物理输出端子</span></span>
+<span class="line"><span>通信/诊断/中断：由操作系统在扫描周期中穿插处理</span></span></code></pre>
+<p>判断题常考：程序执行过程中，普通输入端子变化一般要到下一次输入采样后才反映到I区；普通输出线圈状态变化也通常到输出刷新阶段才真正作用到端子。</p>
+<h3 id="152-沿触发与普通触点区别"><a class="anchor" href="#152-沿触发与普通触点区别">#</a> 15.2 沿触发与普通触点区别</h3>
+<table>
+<thead>
+<tr>
+<th>指令/触点</th>
+<th>动作特点</th>
+<th>典型用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>常开/常闭触点</td>
+<td>条件持续为真时持续接通</td>
+<td>普通联锁、启保停</td>
+</tr>
+<tr>
+<td>上升沿检测</td>
+<td>0变1时只接通一个扫描周期</td>
+<td>启动一次动作、计数脉冲</td>
+</tr>
+<tr>
+<td>下降沿检测</td>
+<td>1变0时只接通一个扫描周期</td>
+<td>松开按钮触发、信号消失报警</td>
+</tr>
+</tbody>
+</table>
+<p>沿触发需要记忆上一扫描周期状态，所以要有边沿存储位或由触发器内部保存状态。</p>
+<h3 id="153-定时器-计数器常考口径"><a class="anchor" href="#153-定时器-计数器常考口径">#</a> 15.3 定时器、计数器常考口径</h3>
+<ul>
+<li><code>TP</code>：输入上升沿触发固定宽度脉冲，脉冲期间输入再变化通常不重新开始。</li>
+<li><code>TON</code>：输入为1开始计时，达到预置时间后Q为1；输入变0则复位。</li>
+<li><code>TOF</code>：输入为1时Q立即为1，输入变0后延时一段时间再变0。</li>
+<li><code>TONR</code>：保持型接通延时，累计时间保持，需要复位信号清零。</li>
+<li><code>CTU</code>：加计数，<code>CV &gt;= PV</code>时Q置1；<code>R</code>复位。</li>
+<li><code>CTD</code>：减计数，通常从预置值向下减。</li>
+<li><code>CTUD</code>：可加可减，注意加减输入同时动作时的处理规则以软件帮助为准。</li>
+</ul>
+<h2 id="16-本章预测题与答案"><a class="anchor" href="#16-本章预测题与答案">#</a> 16. 本章预测题与答案</h2>
+<h3 id="题1s7-1200常用编程语言有哪些各有什么特点"><a class="anchor" href="#题1s7-1200常用编程语言有哪些各有什么特点">#</a> 题1：S7-1200常用编程语言有哪些？各有什么特点？</h3>
+<p>答案：常用语言有LAD、FBD、SCL。LAD类似继电器电路，适合数字量逻辑；FBD用功能块表达逻辑关系，适合块连接；SCL类似高级语言，适合复杂运算、分支、循环和封装算法。</p>
+<h3 id="题2说明plc一个扫描周期的基本过程"><a class="anchor" href="#题2说明plc一个扫描周期的基本过程">#</a> 题2：说明PLC一个扫描周期的基本过程。</h3>
+<p>答案：PLC一个扫描周期通常包括输入采样、程序执行、输出刷新以及通信/诊断/中断处理。输入先集中读入I区，程序按顺序计算并更新Q区，扫描结束后再把Q区输出到实际端子。</p>
+<h3 id="题3ob-fc-fb-db分别是什么"><a class="anchor" href="#题3ob-fc-fb-db分别是什么">#</a> 题3：OB、FC、FB、DB分别是什么？</h3>
+<p>答案：OB是组织块，由操作系统调用，决定程序执行结构；FC是无固定存储区的功能子程序；FB是有背景数据块的功能块，可保存状态；DB是数据块，用于存储全局数据或FB背景数据。</p>
+<h3 id="题4fc和fb最核心区别是什么"><a class="anchor" href="#题4fc和fb最核心区别是什么">#</a> 题4：FC和FB最核心区别是什么？</h3>
+<p>答案：FB有专用背景数据块，能保存输入、输出和静态变量，适合需要记忆状态的设备控制；FC没有固定存储区，执行结束后临时变量丢失，适合无状态计算或可重复操作。</p>
+<h3 id="题5写出启保停逻辑表达式并说明含义"><a class="anchor" href="#题5写出启保停逻辑表达式并说明含义">#</a> 题5：写出启保停逻辑表达式并说明含义。</h3>
+<p>答案：(Q=(Start \lor Q)\land \lnot Stop)。Start按下时Q置1，Q自身触点实现保持；Stop动作时条件断开，Q复位。</p>
+<h3 id="题6ton-tof-tp-tonr分别适合什么场景"><a class="anchor" href="#题6ton-tof-tp-tonr分别适合什么场景">#</a> 题6：TON、TOF、TP、TONR分别适合什么场景？</h3>
+<p>答案：TON用于接通延时，如延时启动；TOF用于断开延时，如延时停机；TP用于产生固定宽度脉冲；TONR用于累计运行时间，需要复位端清零。</p>
+<h3 id="题7为什么定时器和计数器调用时需要背景数据块"><a class="anchor" href="#题7为什么定时器和计数器调用时需要背景数据块">#</a> 题7：为什么定时器和计数器调用时需要背景数据块？</h3>
+<p>答案：IEC定时器和计数器属于功能块，需要保存ET、CV、Q等内部状态，这些状态必须存放在背景数据块中，否则下一扫描周期无法保持定时或计数过程。</p>
+<h3 id="题8软件计数器和高速计数器有什么区别"><a class="anchor" href="#题8软件计数器和高速计数器有什么区别">#</a> 题8：软件计数器和高速计数器有什么区别？</h3>
+<p>答案：软件计数器由程序扫描执行，计数速率受OB扫描周期限制；高速计数器由CPU硬件高速通道处理，适合编码器、脉冲流量计等高速脉冲信号。</p>
+<h3 id="题9pto和pwm有什么区别"><a class="anchor" href="#题9pto和pwm有什么区别">#</a> 题9：PTO和PWM有什么区别？</h3>
+<p>答案：PTO输出固定占空比、频率可调的脉冲串，常用于步进/伺服位置控制；PWM输出占空比可调的脉冲，常用于调速和功率控制。</p>
+<h3 id="题10模拟量工程计算为什么要注意先乘后除"><a class="anchor" href="#题10模拟量工程计算为什么要注意先乘后除">#</a> 题10：模拟量工程计算为什么要注意“先乘后除”？</h3>
+<p>答案：PLC中若使用整数运算，先除会截断小数造成精度损失；先乘后除能尽量保留有效数值。更可靠的方法是转换为Real后进行浮点运算。</p>
+<div class="tags"><a href="/legacy/tags/%E5%B7%A5%E4%B8%9A%E6%8E%A7%E5%88%B6%E8%A3%85%E5%A4%87/" rel="tag"><i class="ic i-tag"></i>工业控制装备</a><a href="/legacy/tags/S7-1200/" rel="tag"><i class="ic i-tag"></i>S7-1200</a><a href="/legacy/tags/PLC/" rel="tag"><i class="ic i-tag"></i>PLC</a><a href="/legacy/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag"><i class="ic i-tag"></i>课程笔记</a></div></div><footer><div class="meta"><span class="item"><span class="icon"><i class="ic i-calendar-check"></i></span><span class="text">更新于 </span><time title="修改时间：2026-06-14 01:14:47" itemprop="dateModified" datetime="2026-06-14T01:14:47+08:00">2026-06-14</time></span></div><div class="reward"><button><i class="ic i-heartbeat"></i>赞赏</button><p>请我喝[茶]~(￣▽￣)~*</p><div id="qr"><div><img loading="lazy" src="/legacy/assets/wechatpay.avif" alt="曾阿牛 微信支付"><p>微信支付</p></div><div><img loading="lazy" src="/legacy/assets/alipay.avif" alt="曾阿牛 支付宝"><p>支付宝</p></div></div></div><div id="copyright"><ul><li class="author"><strong>本文作者：</strong>曾阿牛<i class="ic i-at"><em>@</em></i>终南山下，活死人墓</li><li class="link"><strong>本文链接：</strong><a href="https://www.dying4ever.cyou/2026/05/11/plc/%E7%AC%AC04%E7%AB%A0_S7-1200%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8C%87%E4%BB%A4/" title="第04章_S7-1200程序设计基础与指令">https://www.dying4ever.cyou/2026/05/11/plc/第04章_S7-1200程序设计基础与指令/</a></li><li class="license"><strong>版权声明：</strong>本站所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div></footer></article></div><div class="post-nav"><div class="item left"><a href="/legacy/2026/05/11/plc/%E7%AC%AC05%E7%AB%A0_S7-1200%E7%94%A8%E6%88%B7%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84/" rel="prev" itemprop="url" data-background-image="/legacy/assets/head.webp" title="第05章_S7-1200用户程序结构"><span class="type">上一篇</span><span class="category"><i class="ic i-flag"></i>plc</span><h3>第05章_S7-1200用户程序结构</h3></a></div><div class="item right"><a href="/legacy/2026/05/11/plc/%E7%AC%AC03%E7%AB%A0_S7-1200%E7%A1%AC%E4%BB%B6%E4%B8%8E%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%80%81/" rel="next" itemprop="url" data-background-image="/legacy/assets/xiaoyu.webp" title="第03章_S7-1200硬件与硬件组态"><span class="type">下一篇</span><span class="category"><i class="ic i-flag"></i>plc</span><h3>第03章_S7-1200硬件与硬件组态</h3></a></div></div><div class="wrap" id="comments"></div></div><div id="sidebar"><div class="inner"><div class="panels"><div class="inner"><div class="contents panel pjax" data-title="文章目录"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC4%E7%AB%A0-s7-1200%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8C%87%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text"> 第4章 S7-1200程序设计基础与指令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%96%99%E6%9D%A5%E6%BA%90"><span class="toc-number">1.1.</span> <span class="toc-text"> 资料来源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%AC%E7%AB%A0%E8%84%89%E7%BB%9C"><span class="toc-number">1.2.</span> <span class="toc-text"> 1. 本章脉络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-plc%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80"><span class="toc-number">1.3.</span> <span class="toc-text"> 2. PLC编程语言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#21-%E6%A2%AF%E5%BD%A2%E5%9B%BE-lad"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 2.1 梯形图 LAD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-%E5%87%BD%E6%95%B0%E5%9D%97%E5%9B%BE-fbd"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 2.2 函数块图 FBD</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-scl"><span class="toc-number">1.3.3.</span> <span class="toc-text"> 2.3 SCL</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-plc%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="toc-number">1.4.</span> <span class="toc-text"> 3. PLC工作原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#31-%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97"><span class="toc-number">1.4.1.</span> <span class="toc-text"> 3.1 逻辑运算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#32-%E6%A8%A1%E5%9D%97%E5%8C%96%E7%BC%96%E7%A8%8B"><span class="toc-number">1.4.2.</span> <span class="toc-text"> 3.2 模块化编程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#33-%E7%BB%84%E7%BB%87%E5%9D%97-ob"><span class="toc-number">1.4.3.</span> <span class="toc-text"> 3.3 组织块 OB</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#34-fc%E4%B8%8Efb"><span class="toc-number">1.4.4.</span> <span class="toc-text"> 3.4 FC与FB</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-plc%E6%89%AB%E6%8F%8F%E5%B7%A5%E4%BD%9C%E8%BF%87%E7%A8%8B"><span class="toc-number">1.5.</span> <span class="toc-text"> 4. PLC扫描工作过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#41-%E8%BE%93%E5%85%A5%E9%87%87%E6%A0%B7"><span class="toc-number">1.5.1.</span> <span class="toc-text"> 4.1 输入采样</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#42-%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C"><span class="toc-number">1.5.2.</span> <span class="toc-text"> 4.2 程序执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#43-%E8%BE%93%E5%87%BA%E5%88%B7%E6%96%B0"><span class="toc-number">1.5.3.</span> <span class="toc-text"> 4.3 输出刷新</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-cpu%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.6.</span> <span class="toc-text"> 5. CPU工作模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%8E%E7%B3%BB%E7%BB%9F%E5%AD%98%E5%82%A8%E5%8C%BA"><span class="toc-number">1.7.</span> <span class="toc-text"> 6. 数据类型与系统存储区</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#61-%E7%89%A9%E7%90%86%E5%AD%98%E5%82%A8%E5%99%A8"><span class="toc-number">1.7.1.</span> <span class="toc-text"> 6.1 物理存储器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#62-%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.7.2.</span> <span class="toc-text"> 6.2 常用数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#63-%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="toc-number">1.7.3.</span> <span class="toc-text"> 6.3 寻址方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E4%BD%8D%E9%80%BB%E8%BE%91%E6%8C%87%E4%BB%A4"><span class="toc-number">1.8.</span> <span class="toc-text"> 7. 位逻辑指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#71-%E5%90%AF%E4%BF%9D%E5%81%9C%E5%9F%BA%E6%9C%AC%E9%80%BB%E8%BE%91"><span class="toc-number">1.8.1.</span> <span class="toc-text"> 7.1 启保停基本逻辑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%AE%9A%E6%97%B6%E5%99%A8%E6%8C%87%E4%BB%A4"><span class="toc-number">1.9.</span> <span class="toc-text"> 8. 定时器指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#81-%E5%AE%9A%E6%97%B6%E5%99%A8%E5%8F%82%E6%95%B0"><span class="toc-number">1.9.1.</span> <span class="toc-text"> 8.1 定时器参数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E8%AE%A1%E6%95%B0%E5%99%A8%E6%8C%87%E4%BB%A4"><span class="toc-number">1.10.</span> <span class="toc-text"> 9. 计数器指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E4%B8%8E%E6%95%B0%E5%AD%A6%E8%BF%90%E7%AE%97%E6%8C%87%E4%BB%A4"><span class="toc-number">1.11.</span> <span class="toc-text"> 10. 数据处理与数学运算指令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#101-%E6%AF%94%E8%BE%83%E6%8C%87%E4%BB%A4"><span class="toc-number">1.11.1.</span> <span class="toc-text"> 10.1 比较指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#102-%E7%A7%BB%E5%8A%A8%E6%8C%87%E4%BB%A4"><span class="toc-number">1.11.2.</span> <span class="toc-text"> 10.2 移动指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#103-%E8%BD%AC%E6%8D%A2%E6%8C%87%E4%BB%A4"><span class="toc-number">1.11.3.</span> <span class="toc-text"> 10.3 转换指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#104-%E6%95%B0%E5%AD%A6%E8%BF%90%E7%AE%97%E6%8C%87%E4%BB%A4"><span class="toc-number">1.11.4.</span> <span class="toc-text"> 10.4 数学运算指令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E7%A8%8B%E5%BA%8F%E6%8E%A7%E5%88%B6-%E5%AD%97%E7%AC%A6%E4%B8%B2-%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E6%8C%87%E4%BB%A4"><span class="toc-number">1.12.</span> <span class="toc-text"> 11. 程序控制、字符串、日期时间指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E9%AB%98%E9%80%9F%E8%84%89%E5%86%B2%E8%BE%93%E5%87%BA%E4%B8%8E%E9%AB%98%E9%80%9F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="toc-number">1.13.</span> <span class="toc-text"> 12. 高速脉冲输出与高速计数器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#121-pto%E4%B8%8Epwm"><span class="toc-number">1.13.1.</span> <span class="toc-text"> 12.1 PTO与PWM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#122-%E9%AB%98%E9%80%9F%E8%AE%A1%E6%95%B0%E5%99%A8-hsc"><span class="toc-number">1.13.2.</span> <span class="toc-text"> 12.2 高速计数器 HSC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E5%9B%BE%E8%A1%A8%E7%B4%A2%E5%BC%95"><span class="toc-number">1.14.</span> <span class="toc-text"> 13. 图表索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-%E6%98%93%E9%94%99%E7%82%B9"><span class="toc-number">1.15.</span> <span class="toc-text"> 14. 易错点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-%E8%80%83%E5%89%8D%E8%A1%A5%E5%85%85%E7%A8%8B%E5%BA%8F%E5%88%86%E6%9E%90%E4%B8%8E%E6%8C%87%E4%BB%A4%E7%BB%86%E8%8A%82"><span class="toc-number">1.16.</span> <span class="toc-text"> 15. 考前补充：程序分析与指令细节</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#151-%E6%89%AB%E6%8F%8F%E5%91%A8%E6%9C%9F%E7%B1%BB%E9%A2%98%E7%9B%AE%E7%9A%84%E7%AD%94%E9%A2%98%E6%A8%A1%E6%9D%BF"><span class="toc-number">1.16.1.</span> <span class="toc-text"> 15.1 扫描周期类题目的答题模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#152-%E6%B2%BF%E8%A7%A6%E5%8F%91%E4%B8%8E%E6%99%AE%E9%80%9A%E8%A7%A6%E7%82%B9%E5%8C%BA%E5%88%AB"><span class="toc-number">1.16.2.</span> <span class="toc-text"> 15.2 沿触发与普通触点区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#153-%E5%AE%9A%E6%97%B6%E5%99%A8-%E8%AE%A1%E6%95%B0%E5%99%A8%E5%B8%B8%E8%80%83%E5%8F%A3%E5%BE%84"><span class="toc-number">1.16.3.</span> <span class="toc-text"> 15.3 定时器、计数器常考口径</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-%E6%9C%AC%E7%AB%A0%E9%A2%84%E6%B5%8B%E9%A2%98%E4%B8%8E%E7%AD%94%E6%A1%88"><span class="toc-number">1.17.</span> <span class="toc-text"> 16. 本章预测题与答案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%981s7-1200%E5%B8%B8%E7%94%A8%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80%E6%9C%89%E5%93%AA%E4%BA%9B%E5%90%84%E6%9C%89%E4%BB%80%E4%B9%88%E7%89%B9%E7%82%B9"><span class="toc-number">1.17.1.</span> <span class="toc-text"> 题1：S7-1200常用编程语言有哪些？各有什么特点？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%982%E8%AF%B4%E6%98%8Eplc%E4%B8%80%E4%B8%AA%E6%89%AB%E6%8F%8F%E5%91%A8%E6%9C%9F%E7%9A%84%E5%9F%BA%E6%9C%AC%E8%BF%87%E7%A8%8B"><span class="toc-number">1.17.2.</span> <span class="toc-text"> 题2：说明PLC一个扫描周期的基本过程。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%983ob-fc-fb-db%E5%88%86%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.17.3.</span> <span class="toc-text"> 题3：OB、FC、FB、DB分别是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%984fc%E5%92%8Cfb%E6%9C%80%E6%A0%B8%E5%BF%83%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.17.4.</span> <span class="toc-text"> 题4：FC和FB最核心区别是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%985%E5%86%99%E5%87%BA%E5%90%AF%E4%BF%9D%E5%81%9C%E9%80%BB%E8%BE%91%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%B9%B6%E8%AF%B4%E6%98%8E%E5%90%AB%E4%B9%89"><span class="toc-number">1.17.5.</span> <span class="toc-text"> 题5：写出启保停逻辑表达式并说明含义。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%986ton-tof-tp-tonr%E5%88%86%E5%88%AB%E9%80%82%E5%90%88%E4%BB%80%E4%B9%88%E5%9C%BA%E6%99%AF"><span class="toc-number">1.17.6.</span> <span class="toc-text"> 题6：TON、TOF、TP、TONR分别适合什么场景？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%987%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AE%9A%E6%97%B6%E5%99%A8%E5%92%8C%E8%AE%A1%E6%95%B0%E5%99%A8%E8%B0%83%E7%94%A8%E6%97%B6%E9%9C%80%E8%A6%81%E8%83%8C%E6%99%AF%E6%95%B0%E6%8D%AE%E5%9D%97"><span class="toc-number">1.17.7.</span> <span class="toc-text"> 题7：为什么定时器和计数器调用时需要背景数据块？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%988%E8%BD%AF%E4%BB%B6%E8%AE%A1%E6%95%B0%E5%99%A8%E5%92%8C%E9%AB%98%E9%80%9F%E8%AE%A1%E6%95%B0%E5%99%A8%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-number">1.17.8.</span> <span class="toc-text"> 题8：软件计数器和高速计数器有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%989pto%E5%92%8Cpwm%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-number">1.17.9.</span> <span class="toc-text"> 题9：PTO和PWM有什么区别？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%9810%E6%A8%A1%E6%8B%9F%E9%87%8F%E5%B7%A5%E7%A8%8B%E8%AE%A1%E7%AE%97%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%B3%A8%E6%84%8F%E5%85%88%E4%B9%98%E5%90%8E%E9%99%A4"><span class="toc-number">1.17.10.</span> <span class="toc-text"> 题10：模拟量工程计算为什么要注意“先乘后除”？</span></a></li></ol></li></ol></li></ol></div><div class="related panel pjax" data-title="系列文章"><ul><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC01%E7%AB%A0_%E5%B7%A5%E4%B8%9A%E6%8E%A7%E5%88%B6%E8%A3%85%E5%A4%87%E6%A6%82%E8%BF%B0/" rel="bookmark" title="第01章_工业控制装备概述">第01章_工业控制装备概述</a></li><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC07%E7%AB%A0_%E9%9B%86%E6%95%A3%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E4%B8%8E%E7%BB%84%E6%80%81/" rel="bookmark" title="第07章_集散控制系统与组态">第07章_集散控制系统与组态</a></li><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC02%E7%AB%A0_%E5%8F%AF%E7%BC%96%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%99%A8%E5%89%8D%E8%A8%80%E4%B8%8E%E4%BD%8E%E5%8E%8B%E7%94%B5%E5%99%A8/" rel="bookmark" title="第02章_可编程控制器前言与低压电器">第02章_可编程控制器前言与低压电器</a></li><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC05%E7%AB%A0_S7-1200%E7%94%A8%E6%88%B7%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84/" rel="bookmark" title="第05章_S7-1200用户程序结构">第05章_S7-1200用户程序结构</a></li><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC06%E7%AB%A0_%E6%95%B0%E5%AD%97%E9%87%8F%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%A2%AF%E5%BD%A2%E5%9B%BE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95/" rel="bookmark" title="第06章_数字量控制系统梯形图程序设计方法">第06章_数字量控制系统梯形图程序设计方法</a></li><li class="active"><a href="/legacy/2026/05/11/plc/%E7%AC%AC04%E7%AB%A0_S7-1200%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8C%87%E4%BB%A4/" rel="bookmark" title="第04章_S7-1200程序设计基础与指令">第04章_S7-1200程序设计基础与指令</a></li><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC03%E7%AB%A0_S7-1200%E7%A1%AC%E4%BB%B6%E4%B8%8E%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%80%81/" rel="bookmark" title="第03章_S7-1200硬件与硬件组态">第03章_S7-1200硬件与硬件组态</a></li><li><a href="/legacy/2026/05/13/plc/%E5%B7%A5%E4%B8%9A%E6%8E%A7%E5%88%B6%E8%A3%85%E7%BD%AE_%E6%8C%89%E8%AF%BE%E7%A8%8B%E7%9B%AE%E6%A0%87%E5%88%86%E7%B1%BB_%E9%A2%98%E7%9B%AE%E7%AD%94%E6%A1%88%E9%AB%98%E5%88%86%E7%89%88/" rel="bookmark" title="工业控制装置_按课程目标分类_题目答案高分版">工业控制装置_按课程目标分类_题目答案高分版</a></li></ul></div><div class="overview panel" data-title="站点概览"><div class="sidebar-profile-card"><div class="author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><img class="image" loading="lazy" decoding="async" itemprop="image" alt="曾阿牛" src="/legacy/assets/head.avif"><p class="name" itemprop="name">曾阿牛</p><div class="description sidebar-typing" itemprop="description" data-words="I’M Zzzzzzzzzzzz|Por Una Cabeza"><span class="typing-text">Por Una Cabeza</span><span class="typing-cursor" aria-hidden="true">|</span></div></div><div class="social"><a target="_blank" rel="noopener" href="https://github.com/dying4ever" class="item github" title="https://github.com/dying4ever"><i class="ic i-github"></i></a><a href="mailto:zhangjingxuan@163.com" class="item email" title="mailto:zhangjingxuan@163.com"><i class="ic i-envelope"></i></a><a target="_blank" rel="noopener" href="https://www.douban.com/people/244425591/?_i=9515043jR6tETx" class="item douban" title="https://www.douban.com/people/244425591/?_i=9515043jR6tETx"><i class="ic i-douban"></i></a></div><div class="sidebar-contact"><div class="contact-row"><span class="label">LOCATION:</span><span class="value">NANJING</span></div></div><nav class="state"><div class="item posts"><a href="/legacy/archives/"><span class="count">131</span><span class="name">文章</span></a></div><div class="item categories"><a href="/legacy/categories/"><span class="count">37</span><span class="name">分类</span></a></div><div class="item tags"><a href="/legacy/tags/"><span class="count">44</span><span class="name">标签</span></a></div></nav><div class="menu"><li class="item"><a href="/legacy/" rel="section"><i class="ic i-home"></i>首页</a></li><li class="item"><a href="/legacy/about/" rel="section"><i class="ic i-user"></i>关于</a></li><li class="item"><a href="/legacy/projects/" rel="section"><i class="ic i-feather"></i>projects</a></li><li class="item"><a href="/legacy/categories/" rel="section"><i class="ic i-th"></i>分类</a></li><li class="item"><a href="/legacy/archives/" rel="section"><i class="ic i-list-alt"></i>归档</a></li><li class="item"><a href="/legacy/friends/" rel="section"><i class="ic i-heart"></i>友链</a></li></div></div><script>(() => {
+  const nodes = document.querySelectorAll('.sidebar-typing');
+  nodes.forEach((node) => {
+    if (node.dataset.ready === 'true') return;
+    node.dataset.ready = 'true';
+    const textNode = node.querySelector('.typing-text');
+    const words = (node.dataset.words || 'Por Una Cabeza').split('|').filter(Boolean);
+    if (!textNode || words.length < 1) return;
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    let hold = 0;
+    const tick = () => {
+      const word = words[wordIndex % words.length];
+      textNode.textContent = deleting ? word.slice(0, charIndex--) : word.slice(0, charIndex++);
+      if (!deleting && charIndex > word.length) {
+        if (hold < 42) {
+          hold++;
+          window.setTimeout(tick, 200);
+          return;
+        }
+        hold = 0;
+        deleting = true;
+      }
+      if (deleting && charIndex < 0) {
+        deleting = false;
+        wordIndex++;
+        charIndex = 0;
+      }
+      window.setTimeout(tick, deleting ? 170 : 220);
+    };
+    tick();
+  });
+})();</script></div></div></div><ul id="quick"><li class="prev pjax"><a href="/legacy/2026/05/11/plc/%E7%AC%AC03%E7%AB%A0_S7-1200%E7%A1%AC%E4%BB%B6%E4%B8%8E%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%80%81/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a></li><li class="up"><i class="ic i-arrow-up"></i></li><li class="down"><i class="ic i-arrow-down"></i></li><li class="next pjax"><a href="/legacy/2026/05/11/plc/%E7%AC%AC05%E7%AB%A0_S7-1200%E7%94%A8%E6%88%B7%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a></li><li class="percent"></li></ul></div></div><div class="dimmer"></div></div><div id="player"></div></main><footer id="footer"><div class="inner"><div class="widgets"><div class="rpost pjax"><h2>最新评论</h2></div></div><div class="status"><div class="copyright">© 2025 -<span itemprop="copyrightYear">2026</span><span class="with-love"><i class="ic i-sakura rotate"></i></span><span class="author" itemprop="copyrightHolder">曾阿牛 @ Frostbitten Carpe Diem</span></div><div class="count"><span class="post-meta-item-icon"><i class="ic i-chart-area"></i></span><span title="站点总字数">1.3m 字</span><span class="post-meta-divider"> | </span><span class="post-meta-item-icon"><i class="ic i-coffee"></i></span><span title="站点阅读时长">19:17</span></div><div class="powered-by">基于 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> &amp; Theme.<a target="_blank" rel="noopener" href="https://github.com/theme-shoka-x/hexo-theme-shokaX/">ShokaX</a></div></div></div></footer></div><script data-config="" type="text/javascript">var LOCAL = {
+    ispost: true,
+    path: `2026/05/11/plc/第04章_S7-1200程序设计基础与指令/`,
+    favicon: {
+        show: `不负韶华`,
+        hide: `以梦为马！`
+    },
+    search: {
+        placeholder: "文章搜索",
+        empty: "关于 「 ${query} 」，什么也没搜到",
+        stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    nocopy: "false",
+    copyright: `复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。`,
+    copy_tex: false,
+    katex: false,
+    mermaid: false,
+    audio: undefined,
+    nocopy: false,
+    outime: true,
+    template: `<div class="note warning"><p><span class="label warning">文章时效性提示</span><br>这是一篇发布于 {{publish}} 天前，最后一次更新在 {{updated}} 天前的文章，部分信息可能已经发生改变，请注意甄别。</p></div>`,
+    quiz: {
+        choice: `单选题`,
+        multiple: `多选题`,
+        true_false: `判断题`,
+        essay: `问答题`,
+        gap_fill: `填空题`,
+        mistake: `错题备注`
+    }
+};
+</script><script src="/legacy/js/siteInit.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script><script src="/legacy/js/gallery-random-covers.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script></body></html>

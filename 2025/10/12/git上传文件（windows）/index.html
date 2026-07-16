@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="git上传文件（windows）" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>git上传文件（windows） · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>git上传文件（windows）</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-10-12T11:09:19">2025-10-12</time>
+    <span class="content-meta__categories"><a href="/categories/git/">git</a></span>
+    <span class="content-meta__tags"><a href="/tags/git/">git</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#1.%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E5%A4%B9%E6%89%93%E5%BC%80gitbash">1.进入文件夹打开gitbash</a></li><li class="article-toc__level-3"><a href="#2.%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93">2.初始化仓库</a></li><li class="article-toc__level-3"><a href="#3.%E5%AE%89%E8%A3%85git-lfs-%EF%BC%88%E5%A4%84%E7%90%86%E5%A4%A7%E6%96%87%E4%BB%B6%EF%BC%89">3.安装git lfs （处理大文件）</a></li><li class="article-toc__level-3"><a href="#3.1.git-lfs%E7%94%A8%E6%B3%95">3.1.git lfs用法</a></li><li class="article-toc__level-3"><a href="#3.2%E6%9F%A5%E7%9C%8B%E8%B7%9F%E8%B8%AA%E7%8A%B6%E6%80%81">3.2查看跟踪状态</a></li><li class="article-toc__level-3"><a href="#3.3.-%E8%BF%81%E7%A7%BB%E5%8E%86%E5%8F%B2%E5%A4%A7%E6%96%87%E4%BB%B6%E4%B8%BA-lfs">3.3. 迁移历史大文件为 LFS</a></li><li class="article-toc__level-3"><a href="#4.%E9%93%BE%E6%8E%A5%E4%BB%93%E5%BA%93">4.链接仓库</a></li><li class="article-toc__level-3"><a href="#5.%E4%B8%8A%E4%BC%A0%E5%B9%B6%E5%8F%91%E9%80%81">5.上传并发送</a></li><li class="article-toc__level-3"><a href="#6.%E5%90%8E%E7%BB%AD%E6%9B%B4%E6%94%B9">6.后续更改</a></li><li class="article-toc__level-3"><a href="#7.%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3">7.报错解决</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="1.%E8%BF%9B%E5%85%A5%E6%96%87%E4%BB%B6%E5%A4%B9%E6%89%93%E5%BC%80gitbash" tabindex="-1">1.进入文件夹打开gitbash</h3>
+<h3 id="2.%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BB%93%E5%BA%93" tabindex="-1">2.初始化仓库</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">git config --global user.name &quot;dying4ever&quot;
+git config --global user.email &quot;1607782513@qq.com&quot;
+git config -l //查看
+git init
+</code></pre>
+<p>git init 是一个 Git 命令，用于在当前目录中初始化一个新的 Git 仓库。通过运行该命令，Git 会在当前目录下创建一个隐藏的 .git 文件夹，用于存储仓库的相关信息和版本控制的历史记录。</p>
+<p>如果执行成功，有输出：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">Initialized empty Git repository in /path/to/your/repository/.git/
+</code></pre>
+<h3 id="3.%E5%AE%89%E8%A3%85git-lfs-%EF%BC%88%E5%A4%84%E7%90%86%E5%A4%A7%E6%96%87%E4%BB%B6%EF%BC%89" tabindex="-1">3.安装git lfs （处理大文件）</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">git lfs install（windows）
+sudo apt install git-lfs（ubuntu）
+</code></pre>
+<p>如果执行成功，有输出：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">Updated git hooks.
+Git LFS initialized.
+</code></pre>
+<p>这表示 Git LFS 已成功安装和初始化。</p>
+<p>现在，你的系统已安装 Git LFS，并可以在 Git 仓库中使用 Git LFS 来管理大文件。你可以使用其他 Git LFS 命令来跟踪大文件、添加文件到 Git LFS 管理、推送和拉取文件等操作。请确保你的 Git 服务器和其他协作者也已正确配置和支持 Git LFS，以便顺利地使用 Git LFS 功能。</p>
+<h3 id="3.1.git-lfs%E7%94%A8%E6%B3%95" tabindex="-1">3.1.git lfs用法</h3>
+<p>选择你想用 LFS 管理的文件类型，比如模型文件：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">git lfs track &quot;*.pt&quot;
+git lfs track &quot;*.onnx&quot;
+git lfs track &quot;*.zip&quot;
+</code></pre>
+<p>这会自动生成一个 <code>.gitattributes</code> 文件，内容类似：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">*.pt filter=lfs diff=lfs merge=lfs -text
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+</code></pre>
+<p>然后提交这个文件：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">git add .gitattributes
+git commit -m &quot;Track large files with Git LFS&quot;
+</code></pre>
+<p>现在你可以像普通文件一样提交大文件了：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">git add model.pt
+git commit -m &quot;Add YOLOv8 model weights&quot;
+git push
+</code></pre>
+<p>或一个文件夹</p>
+<pre class="code-frame"><code class="hljs language-plaintext">git lfs track &quot;models/*&quot;
+</code></pre>
+<p>如何：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">git add .gitattributes
+git add models/
+git commit -m &quot;Add model folder with LFS&quot;
+git push
+</code></pre>
+<h3 id="3.2%E6%9F%A5%E7%9C%8B%E8%B7%9F%E8%B8%AA%E7%8A%B6%E6%80%81" tabindex="-1">3.2查看跟踪状态</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">git lfs ls-files
+</code></pre>
+<p>如果还没有添加文件，这里不会显示内容；稍后提交后可以再看。</p>
+<h3 id="3.3.-%E8%BF%81%E7%A7%BB%E5%8E%86%E5%8F%B2%E5%A4%A7%E6%96%87%E4%BB%B6%E4%B8%BA-lfs" tabindex="-1">3.3. 迁移历史大文件为 LFS</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">git lfs migrate import --include=&quot;*.img,*.bin,*.hex,*.elf,*.tar.gz,*.tar.xz,*.tar.bz2,*.zip&quot;
+</code></pre>
+<p>说明：仅 <code>git lfs track</code> 是不够的，历史文件不会被自动转换为 LFS，需要用 <code>migrate import</code> 扫描历史并替换为 LFS 对象，否则仍会出现 GitHub 上传失败的问题。</p>
+<h3 id="4.%E9%93%BE%E6%8E%A5%E4%BB%93%E5%BA%93" tabindex="-1">4.链接仓库</h3>
+<p>将本地与新建仓库进行配对</p>
+<pre class="code-frame"><code class="hljs language-plaintext">git remote add origin git@github.com:zhangjingxuan123/VR-.git
+</code></pre>
+<p>确认添加成功</p>
+<pre class="code-frame"><code class="hljs language-plaintext">git remote -v
+</code></pre>
+<p>输出</p>
+<pre class="code-frame"><code class="hljs language-plaintext">origin  https://github.com/yourname/air_purifier_simulation.git (fetch)
+origin  https://github.com/yourname/air_purifier_simulation.git (push)
+</code></pre>
+<h3 id="5.%E4%B8%8A%E4%BC%A0%E5%B9%B6%E5%8F%91%E9%80%81" tabindex="-1">5.上传并发送</h3>
+<h4 id="%E6%B7%BB%E5%8A%A0%E6%96%87%E4%BB%B6%E5%88%B0%E6%9A%82%E5%AD%98%E5%8C%BA" tabindex="-1">添加文件到暂存区</h4>
+<pre class="code-frame"><code class="hljs language-plaintext">git add .
+</code></pre>
+<p>你可能会看到很多类似的警告（LF/CRLF），可忽略：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">warning: LF will be replaced by CRLF the next time Git touches it
+</code></pre>
+<h4 id="%E6%8F%90%E4%BA%A4%E6%9B%B4%E6%94%B9" tabindex="-1">提交更改</h4>
+<pre class="code-frame"><code class="hljs language-plaintext">git commit -m &quot;Initial commit with LFS tracking&quot;
+</code></pre>
+<p>输出示例</p>
+<pre class="code-frame"><code class="hljs language-plaintext">[main (root-commit) 1def56f] Initial commit with LFS tracking
+ 77 files changed, 11 insertions(+), 3 deletions(-)
+ create mode 100644 .gitattributes
+
+</code></pre>
+<h4 id="%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%BB%BA%E7%AB%8B%E5%85%B3%E7%B3%BB%E5%B9%B6%E5%8F%91%E9%80%81" tabindex="-1">第一次建立关系并发送</h4>
+<pre class="code-frame"><code class="hljs language-plaintext">git push --set-upstream origin main
+</code></pre>
+<p>输出示例</p>
+<pre class="code-frame"><code class="hljs language-plaintext">Uploading LFS objects: 100% (25/25), 1.2 GB | 5.6 MB/s, done.
+Enumerating objects: 150, done.
+Counting objects: 100% (150/150), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (120/120), done.
+Writing objects: 100% (150/150), 15.43 MiB | 3.21 MiB/s, done.
+Total 150 (delta 10), reused 0 (delta 0), pack-reused 0
+To https://github.com/yourname/air_purifier_simulation.git
+ * [new branch]      main -&gt; main
+Branch &#x27;main&#x27; set up to track remote branch &#x27;main&#x27; from &#x27;origin&#x27;.
+</code></pre>
+<h3 id="6.%E5%90%8E%E7%BB%AD%E6%9B%B4%E6%94%B9" tabindex="-1">6.后续更改</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">git add .
+git commit -m &quot;update something&quot;
+git push
+</code></pre>
+<p>Git 会自动识别被 LFS 管理的文件并上传。</p>
+<h3 id="7.%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3" tabindex="-1">7.报错解决</h3>
+<blockquote>
+<p>[!danger]- [报错解决] Failed to connect to <a href="http://github.com" target="_blank" rel="noreferrer noopener">github.com</a> port 443 after ***** ms: Couldn‘t connect to server</p>
+</blockquote>
+<pre class="code-frame"><code class="hljs language-plaintext">git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
+</code></pre>
+<p>7890是点口号
+<img src="/2025/10/12/git上传文件（windows）/git上传文件（windows）.assets/image-20251012115359722.png" alt="" loading="lazy" decoding="async"></p>
+<blockquote>
+<p>[!danger]- [报错解决] 远程仓库不是空的（推送被拒）
+远程仓库中已有 README / .gitignore / license 等文件，<br>
+本地与远程的提交历史不同步。- 如果想保留远程文件（安全做法）：</p>
+</blockquote>
+<ul>
+<li>如果想保留远程文件（安全做法）：</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-plaintext">git pull --rebase origin main git push -u origin main
+</code></pre>
+<ul>
+<li>如果远程内容不重要（如空仓库自动生成的 README）：</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-plaintext">git push -u origin main --force
+</code></pre>
+<blockquote>
+<p>[!danger]- [报错解决] Please make sure you have the correct access rights
+and the repository exists.
+<a href="https://zhuanlan.zhihu.com/p/615525814" target="_blank" rel="noreferrer noopener">https://zhuanlan.zhihu.com/p/615525814</a></p>
+</blockquote>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/10/07/网络调试/"><small>上一篇</small><strong>网络调试</strong></a>
+        <a href="/2025/10/12/中文输入法ibus/"><small>下一篇</small><strong>中文输入法ibus</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

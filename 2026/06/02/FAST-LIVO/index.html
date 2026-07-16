@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FAST-LIVO" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>FAST-LIVO · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>FAST-LIVO</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-06-02T14:34:31">2026-06-02</time>
+    <span class="content-meta__categories"><a href="/categories/%E5%AF%BC%E8%88%AA/">导航</a><a href="/categories/slam/">slam</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E5%AF%BC%E8%88%AA/">导航</a><a href="/tags/slam/">slam</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#fast-livo">FAST-LIVO</a></li><li class="article-toc__level-1"><a href="#fast-livo-%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%8E%9F%E7%90%86%E3%80%81%E5%A4%8D%E7%8E%B0%E4%B8%8E%E6%8B%93%E5%B1%95%E6%B5%81%E7%A8%8B">FAST-LIVO 笔记：原理、复现与拓展流程</a></li><li class="article-toc__level-2"><a href="#1.-fast-livo-%E6%A6%82%E5%BF%B5%E4%B8%8E%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3">1. FAST-LIVO 概念与核心思想</a></li><li class="article-toc__level-2"><a href="#2.-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8A%A0%E5%85%A5%E8%A7%86%E8%A7%89%E4%BF%A1%E6%81%AF">2. 为什么加入视觉信息</a></li><li class="article-toc__level-2"><a href="#3.-%E7%B3%BB%E7%BB%9F%E7%BB%84%E6%88%90">3. 系统组成</a></li><li class="article-toc__level-2"><a href="#4.-fast-livo-%E4%B8%8E%E5%B8%B8%E8%A7%81-slam-%E6%96%B9%E6%B3%95%E5%AF%B9%E6%AF%94">4. FAST-LIVO 与常见 SLAM 方法对比</a></li><li class="article-toc__level-2"><a href="#5.-%E5%A4%8D%E7%8E%B0%E5%87%86%E5%A4%87">5. 复现准备</a></li><li class="article-toc__level-2"><a href="#6.-%E5%A4%8D%E7%8E%B0%E6%B5%81%E7%A8%8B">6. 复现流程</a></li><li class="article-toc__level-3"><a href="#6.1-%E7%8E%AF%E5%A2%83%E4%B8%8E%E6%BA%90%E7%A0%81">6.1 环境与源码</a></li><li class="article-toc__level-3"><a href="#6.2-%E4%BC%A0%E6%84%9F%E5%99%A8%E8%AF%9D%E9%A2%98%E6%A3%80%E6%9F%A5">6.2 传感器话题检查</a></li><li class="article-toc__level-3"><a href="#6.3-%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5">6.3 时间同步</a></li><li class="article-toc__level-3"><a href="#6.4-%E5%A4%96%E5%8F%82%E6%A0%87%E5%AE%9A">6.4 外参标定</a></li><li class="article-toc__level-3"><a href="#6.5-%E5%85%88%E8%B7%91-fast-lio2">6.5 先跑 FAST-LIO2</a></li><li class="article-toc__level-3"><a href="#6.6-%E5%86%8D%E8%B7%91-fast-livo">6.6 再跑 FAST-LIVO</a></li><li class="article-toc__level-2"><a href="#7.-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%87%8D%E7%82%B9%E5%8F%82%E6%95%B0">7. 配置文件重点参数</a></li><li class="article-toc__level-2"><a href="#8.-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E6%8E%92%E6%9F%A5">8. 常见问题与排查</a></li><li class="article-toc__level-2"><a href="#9.-%E6%8B%93%E5%B1%95%E6%B5%81%E7%A8%8B">9. 拓展流程</a></li><li class="article-toc__level-3"><a href="#9.1-fast-livo2">9.1 FAST-LIVO2</a></li><li class="article-toc__level-3"><a href="#9.2-%E6%8E%A5%E5%85%A5-nav2">9.2 接入 Nav2</a></li><li class="article-toc__level-3"><a href="#9.3-%E7%94%9F%E6%88%90%E5%BD%A9%E8%89%B2%E7%82%B9%E4%BA%91%E5%9C%B0%E5%9B%BE">9.3 生成彩色点云地图</a></li><li class="article-toc__level-3"><a href="#9.4-%E5%8A%A0%E5%85%A5%E8%AF%AD%E4%B9%89%E4%BF%A1%E6%81%AF">9.4 加入语义信息</a></li><li class="article-toc__level-3"><a href="#9.5-%E5%8A%A0%E5%85%A5-gps%2Frtk">9.5 加入 GPS/RTK</a></li><li class="article-toc__level-2"><a href="#10.-%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A4%8D%E7%8E%B0%E5%BB%BA%E8%AE%AE">10. 学习与复现建议</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="fast-livo" tabindex="-1">FAST-LIVO</h1>
+<p>可参考教程：<a href="https://gitee.com/gwmunan/ros2/wikis/pages?sort_id=13524686&amp;doc_id=4855084#fast-livo2%E7%9A%84%E9%83%A8%E7%BD%B2%E4%B8%8E%E9%85%8D%E7%BD%AE" target="_blank" rel="noreferrer noopener">FAST-LIVO2</a>
+“ <strong>一个极其高效的，抵抗各种极端退化环境，可达像素级精度，首个可以用到UAV自动导航的激光雷达-视觉-惯性里程计，并可以实时重建高精度彩色点云地图</strong> ”</p>
+<p><strong>辨析</strong></p>
+<blockquote>
+<p>FAST-LIVO 在 FAST-LIO/LIO 的基础上加入了<strong>相机视觉约束</strong>，利用图像的光度信息和纹理信息辅助定位，属于 LiDAR-Inertial-Visual Odometry。后续 FAST-LIVO2 进一步把 LiDAR、IMU、图像测量统一到 ESIKF 中，并使用直接法处理 LiDAR 和视觉测量</p>
+</blockquote>
+<h1 id="fast-livo-%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%8E%9F%E7%90%86%E3%80%81%E5%A4%8D%E7%8E%B0%E4%B8%8E%E6%8B%93%E5%B1%95%E6%B5%81%E7%A8%8B" tabindex="-1">FAST-LIVO 笔记：原理、复现与拓展流程</h1>
+<h2 id="1.-fast-livo-%E6%A6%82%E5%BF%B5%E4%B8%8E%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3" tabindex="-1">1. FAST-LIVO 概念与核心思想</h2>
+<p>FAST-LIVO 全称为 Fast and Tightly-coupled Sparse-Direct LiDAR-Inertial-Visual Odometry，是一种激光、惯性、视觉紧耦合里程计系统。</p>
+<p>它在 FAST-LIO 的基础上加入相机信息，形成 LiDAR + IMU + Camera 的多传感器融合定位方法。
+FAST-LIO2 主要依靠激光点云几何结构和 IMU 估计位姿，而 FAST-LIVO 进一步利用图像纹理和光度信息，在几何退化场景下提升定位鲁棒性。简单理解：FAST-LIO2 = LiDAR + IMU，FAST-LIVO = LiDAR + IMU + Camera。</p>
+<p>整体流程：IMU 预测位姿 -&gt; LiDAR 点云与地图匹配 -&gt; Camera 进行直接法光度跟踪 -&gt; 融合更新状态 -&gt; 输出位姿和地图。</p>
+<h2 id="2.-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8A%A0%E5%85%A5%E8%A7%86%E8%A7%89%E4%BF%A1%E6%81%AF" tabindex="-1">2. 为什么加入视觉信息</h2>
+<p>纯激光惯性系统在普通环境中已经很强，但在长走廊、空旷区域、重复结构、平面墙面等场景中，点云几何约束可能不足，容易出现退化。视觉信息可以提供纹理、颜色、边缘等信息，用来补充激光的不足。例如白墙走廊中，激光看到的几何结构比较相似，但相机可能看到墙上的海报、门框、纹理变化，这些信息可以帮助系统更稳定地估计位姿。因此 FAST-LIVO 更适合复杂室内环境、移动机器人、无人机和多传感器建图任务。</p>
+<h2 id="3.-%E7%B3%BB%E7%BB%9F%E7%BB%84%E6%88%90" tabindex="-1">3. 系统组成</h2>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>输入</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IMU 预测</td>
+<td>加速度、角速度</td>
+<td>高频预测运动状态，提供初值</td>
+</tr>
+<tr>
+<td>LiDAR 更新</td>
+<td>点云</td>
+<td>利用空间几何结构约束位姿</td>
+</tr>
+<tr>
+<td>Camera 更新</td>
+<td>图像</td>
+<td>利用光度误差和纹理信息约束位姿</td>
+</tr>
+<tr>
+<td>状态估计</td>
+<td>IMU + LiDAR + Camera</td>
+<td>融合更新最终位姿</td>
+</tr>
+<tr>
+<td>地图维护</td>
+<td>点云地图/视觉地图</td>
+<td>保存环境结构信息，辅助后续匹配</td>
+</tr>
+</tbody>
+</table>
+<p>FAST-LIVO 使用稀疏直接法处理视觉信息。直接法不依赖 ORB、SIFT 等特征点，而是直接比较图像块的灰度或亮度变化。常见光度误差形式为：<br>
+$$<br>
+E=\sum_i \left(I_t(u_i)-I_r(u_i')\right)^2<br>
+$$<br>
+其中，$I_t$ 表示当前图像，$I_r$ 表示参考图像，$u_i$ 和 $u_i'$ 表示同一空间点在不同图像中的像素位置。优化目标是让同一位置在不同图像中的亮度尽可能一致，从而反推出相机和机器人的运动。</p>
+<h2 id="4.-fast-livo-%E4%B8%8E%E5%B8%B8%E8%A7%81-slam-%E6%96%B9%E6%B3%95%E5%AF%B9%E6%AF%94" tabindex="-1">4. FAST-LIVO 与常见 SLAM 方法对比</h2>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>传感器</th>
+<th>类型</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ORB-SLAM3</td>
+<td>Camera / Camera + IMU</td>
+<td>视觉 SLAM</td>
+<td>特征点法，依赖图像特征</td>
+</tr>
+<tr>
+<td>VINS-Fusion</td>
+<td>Camera + IMU</td>
+<td>VIO</td>
+<td>经典视觉惯性系统</td>
+</tr>
+<tr>
+<td>FAST-LIO2</td>
+<td>LiDAR + IMU</td>
+<td>LIO</td>
+<td>速度快，依赖点云几何</td>
+</tr>
+<tr>
+<td>LVI-SAM</td>
+<td>LiDAR + Camera + IMU</td>
+<td>LVI 融合</td>
+<td>激光和视觉相对模块化</td>
+</tr>
+<tr>
+<td>FAST-LIVO</td>
+<td>LiDAR + Camera + IMU</td>
+<td>LIVO</td>
+<td>紧耦合，融合几何与视觉纹理</td>
+</tr>
+</tbody>
+</table>
+<p>简单来说，FAST-LIO2 更偏向高效激光惯性建图，FAST-LIVO 更偏向复杂场景下的多传感器鲁棒定位。</p>
+<h2 id="5.-%E5%A4%8D%E7%8E%B0%E5%87%86%E5%A4%87" tabindex="-1">5. 复现准备</h2>
+<p>复现 FAST-LIVO 前，需要先准备 LiDAR、IMU、Camera 三类传感器，并保证三件事：话题正常、时间同步正常、外参标定正确。推荐不要一开始直接跑 FAST-LIVO，而是按传感器和模块逐步验证。</p>
+<p>硬件准备：LiDAR + IMU + Camera -&gt; 工控机/笔记本/Jetson -&gt; ROS 环境 -&gt; FAST-LIVO 源码。</p>
+<p>常见传感器组合：Livox Mid360 + 相机 + IMU，或 Velodyne/Ouster + 工业相机 + IMU。若使用 RealSense D435i，需要注意它自带 IMU 和相机，但 LiDAR 与相机之间仍然需要外参标定。</p>
+<h2 id="6.-%E5%A4%8D%E7%8E%B0%E6%B5%81%E7%A8%8B" tabindex="-1">6. 复现流程</h2>
+<p>复现建议顺序：安装依赖 -&gt; 编译源码 -&gt; 启动传感器驱动 -&gt; 检查 ROS 话题 -&gt; 标定外参 -&gt; 先跑 FAST-LIO2 -&gt; 再接入相机跑 FAST-LIVO -&gt; 录包与回放调试 -&gt; 参数优化。</p>
+<h3 id="6.1-%E7%8E%AF%E5%A2%83%E4%B8%8E%E6%BA%90%E7%A0%81" tabindex="-1">6.1 环境与源码</h3>
+<p>先确认 ROS 版本、PCL、Eigen、OpenCV、Livox SDK 或对应 LiDAR 驱动是否安装正常。然后创建工作空间并编译：</p>
+<pre class="code-frame"><code class="hljs language-bash"><span class="hljs-built_in">mkdir</span> -p ~/fast_livo_ws/src
+<span class="hljs-built_in">cd</span> ~/fast_livo_ws/src
+git <span class="hljs-built_in">clone</span> &lt;FAST-LIVO 仓库地址&gt;
+<span class="hljs-built_in">cd</span> ..
+colcon build
+<span class="hljs-built_in">source</span> install/setup.bash
+</code></pre>
+<p><code>colcon build</code> 用于编译 ROS2 工作空间，<code>source install/setup.bash</code> 用于加载当前工作空间环境。如果找不到包或 launch 文件，优先检查是否执行了 <code>source</code>。</p>
+<h3 id="6.2-%E4%BC%A0%E6%84%9F%E5%99%A8%E8%AF%9D%E9%A2%98%E6%A3%80%E6%9F%A5" tabindex="-1">6.2 传感器话题检查</h3>
+<p>启动传感器驱动后，检查关键话题是否存在：</p>
+<pre class="code-frame"><code class="hljs language-bash">ros2 topic list
+ros2 topic hz /imu/data
+ros2 topic hz /camera/image_raw
+ros2 topic hz /livox/lidar
+</code></pre>
+<p><code>ros2 topic list</code> 用于查看当前 ROS 系统中的话题；<code>ros2 topic hz</code> 用于查看话题发布频率。IMU 频率通常较高，相机频率一般为 20～30 Hz，LiDAR 频率根据型号不同可能为 10 Hz 或更高。如果频率不稳定，后续定位容易漂移或失败。</p>
+<h3 id="6.3-%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5" tabindex="-1">6.3 时间同步</h3>
+<p>时间同步是 FAST-LIVO 复现的关键。IMU、LiDAR、Camera 的时间戳必须尽量一致，否则会出现轨迹漂移、地图重影、图像跟踪失败等问题。理想情况是硬件同步，例如触发同步、PPS 同步或统一硬件时钟；如果没有硬同步，至少要保证系统时间一致，并检查 ROS 消息时间戳是否正常。</p>
+<p>检查思路：查看每个话题 header.stamp -&gt; 对比传感器时间差 -&gt; 判断是否存在明显延迟 -&gt; 必要时使用 rosbag 回放分析。</p>
+<h3 id="6.4-%E5%A4%96%E5%8F%82%E6%A0%87%E5%AE%9A" tabindex="-1">6.4 外参标定</h3>
+<p>FAST-LIVO 至少需要 LiDAR-IMU 外参和 Camera-IMU 外参，也可以理解为要知道三个传感器之间的空间安装关系。常见外参包括：<br>
+$$<br>
+T_{LI}<br>
+$$<br>
+表示 LiDAR 到 IMU 的变换，$$<br>
+T_{CI}<br>
+$$<br>
+表示 Camera 到 IMU 的变换。外参错误会直接导致地图扭曲、轨迹发散、视觉投影不准等问题。</p>
+<p>外参调试顺序：先保证 IMU 方向正确 -&gt; 再保证 LiDAR 点云不扭曲 -&gt; 再检查相机图像与点云投影是否对齐。</p>
+<h3 id="6.5-%E5%85%88%E8%B7%91-fast-lio2" tabindex="-1">6.5 先跑 FAST-LIO2</h3>
+<p>在接入视觉前，建议先单独跑 FAST-LIO2 或 FAST-LIVO 中的 LIO 部分。原因是 FAST-LIVO 建立在激光惯性里程计稳定的基础上，如果 LIO 本身就不稳定，加入视觉后问题会更难排查。</p>
+<p>判断标准：点云地图不明显重影，轨迹连续，机器人静止时位姿不剧烈抖动，快速转动时地图不发散。</p>
+<h3 id="6.6-%E5%86%8D%E8%B7%91-fast-livo" tabindex="-1">6.6 再跑 FAST-LIVO</h3>
+<p>当 LiDAR + IMU 已经稳定后，再接入相机图像。启动顺序通常是：传感器驱动 -&gt; FAST-LIVO 配置文件 -&gt; FAST-LIVO launch -&gt; RViz 可视化。重点观察轨迹是否连续、点云地图是否扭曲、视觉跟踪是否稳定、CPU 占用是否过高。</p>
+<p>如果视觉加入后效果变差，优先检查相机外参、时间同步、图像曝光、图像模糊和相机内参。</p>
+<h2 id="7.-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E9%87%8D%E7%82%B9%E5%8F%82%E6%95%B0" tabindex="-1">7. 配置文件重点参数</h2>
+<table>
+<thead>
+<tr>
+<th>参数类别</th>
+<th>关注内容</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>话题名称</td>
+<td>LiDAR、IMU、Camera topic</td>
+<td>必须和实际 ROS 话题一致</td>
+</tr>
+<tr>
+<td>相机内参</td>
+<td>$f_x,f_y,c_x,c_y$</td>
+<td>决定图像投影是否准确</td>
+</tr>
+<tr>
+<td>相机畸变</td>
+<td>$k_1,k_2,p_1,p_2$ 等</td>
+<td>畸变不准会影响视觉误差</td>
+</tr>
+<tr>
+<td>外参矩阵</td>
+<td>$T_{LI},T_{CI}$</td>
+<td>决定传感器空间关系</td>
+</tr>
+<tr>
+<td>IMU 噪声</td>
+<td>gyro、acc noise</td>
+<td>影响预测和滤波稳定性</td>
+</tr>
+<tr>
+<td>图像参数</td>
+<td>分辨率、曝光、帧率</td>
+<td>影响视觉跟踪效果</td>
+</tr>
+<tr>
+<td>点云参数</td>
+<td>过滤范围、体素大小</td>
+<td>影响速度和建图质量</td>
+</tr>
+</tbody>
+</table>
+<p>参数调试原则：先保证话题和外参正确，再调噪声参数和滤波参数；先低速运动测试，再增加运动幅度；先室内简单场景测试，再进入复杂环境。</p>
+<h2 id="8.-%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E6%8E%92%E6%9F%A5" tabindex="-1">8. 常见问题与排查</h2>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>可能原因</th>
+<th>排查方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>地图重影</td>
+<td>时间不同步、外参错误</td>
+<td>检查时间戳和 $T_{LI}$</td>
+</tr>
+<tr>
+<td>轨迹漂移严重</td>
+<td>IMU 参数错误、LiDAR 退化</td>
+<td>检查 IMU 噪声和点云质量</td>
+</tr>
+<tr>
+<td>加入视觉后变差</td>
+<td>相机外参错误、曝光不合适</td>
+<td>检查 $T_{CI}$、图像质量</td>
+</tr>
+<tr>
+<td>图像跟踪失败</td>
+<td>运动模糊、纹理太弱</td>
+<td>提高快门速度，降低运动速度</td>
+</tr>
+<tr>
+<td>点云扭曲</td>
+<td>IMU-LiDAR 同步问题</td>
+<td>检查 deskew 和时间戳</td>
+</tr>
+<tr>
+<td>编译失败</td>
+<td>依赖缺失、ROS 版本不匹配</td>
+<td>检查 PCL、OpenCV、Eigen、SDK</td>
+</tr>
+<tr>
+<td>CPU 占用高</td>
+<td>图像分辨率高、点云过密</td>
+<td>降分辨率、加体素滤波</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9.-%E6%8B%93%E5%B1%95%E6%B5%81%E7%A8%8B" tabindex="-1">9. 拓展流程</h2>
+<h3 id="9.1-fast-livo2" tabindex="-1">9.1 FAST-LIVO2</h3>
+<p>FAST-LIVO2 是 FAST-LIVO 的后续改进版本，通常在速度、精度和系统统一性上更强。如果目标是做长期研究或工程部署，可以优先关注 FAST-LIVO2。学习路线：FAST-LIO2 -&gt; FAST-LIVO -&gt; FAST-LIVO2。</p>
+<h3 id="9.2-%E6%8E%A5%E5%85%A5-nav2" tabindex="-1">9.2 接入 Nav2</h3>
+<p>FAST-LIVO 可以作为定位模块，为机器人导航提供位姿估计。典型链路为：FAST-LIVO 输出 odom/pose -&gt; 转换为 Nav2 可用 TF -&gt; Nav2 使用地图和定位进行规划 -&gt; 输出 <code>/cmd_vel</code> -&gt; 底盘执行。重点是保证 TF 链完整，例如 <code>map -&gt; odom -&gt; base_link -&gt; lidar/camera</code>。</p>
+<h3 id="9.3-%E7%94%9F%E6%88%90%E5%BD%A9%E8%89%B2%E7%82%B9%E4%BA%91%E5%9C%B0%E5%9B%BE" tabindex="-1">9.3 生成彩色点云地图</h3>
+<p>由于 FAST-LIVO 同时有点云和图像，可以进一步把图像颜色投影到点云上，生成彩色点云地图。流程为：LiDAR 点云 -&gt; 根据外参投影到图像平面 -&gt; 读取像素颜色 -&gt; 给点云赋 RGB -&gt; 保存彩色点云地图。</p>
+<h3 id="9.4-%E5%8A%A0%E5%85%A5%E8%AF%AD%E4%B9%89%E4%BF%A1%E6%81%AF" tabindex="-1">9.4 加入语义信息</h3>
+<p>可以结合 YOLO、语义分割或目标检测模型，把图像中的目标类别加入地图。流程为：相机图像 -&gt; 目标检测/语义分割 -&gt; 与点云关联 -&gt; 生成带类别标签的语义地图。这个方向适合机器人导航、具身智能、场景理解和安全避障。</p>
+<h3 id="9.5-%E5%8A%A0%E5%85%A5-gps%2Frtk" tabindex="-1">9.5 加入 GPS/RTK</h3>
+<p>如果在室外使用，可以加入 GPS 或 RTK，形成局部高精度 + 全局无漂移的系统。流程为：FAST-LIVO 提供局部连续位姿 -&gt; RTK 提供全局位置约束 -&gt; 融合优化 -&gt; 输出全局一致轨迹。</p>
+<h2 id="10.-%E5%AD%A6%E4%B9%A0%E4%B8%8E%E5%A4%8D%E7%8E%B0%E5%BB%BA%E8%AE%AE" tabindex="-1">10. 学习与复现建议</h2>
+<p>推荐学习顺序：FAST-LIO2 原理 -&gt; ESKF/ESIKF -&gt; 点云配准与 ikd-Tree -&gt; 视觉直接法 -&gt; FAST-LIVO 系统结构 -&gt; 传感器标定与同步 -&gt; 真机部署。复现时不要一上来改源码，先跑通官方数据集，再跑自己的 rosbag，最后上真机实时运行。</p>
+<p>最重要的复现原则：先让 IMU 正常，再让 LiDAR + IMU 稳定，再加入 Camera；先解决时间同步和外参，再考虑调算法参数。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/06/02/navigation2/"><small>上一篇</small><strong>navigation2</strong></a>
+        <a href="/2026/06/02/第13章_语义分割/"><small>下一篇</small><strong>第13章_语义分割</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

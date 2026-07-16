@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="README" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>README · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>README</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-06-02T14:47:48">2026-06-02</time>
+    <span class="content-meta__categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/categories/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0%E7%9B%AE%E5%BD%95">数字图像处理笔记目录</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E7%AC%94%E8%AE%B0%E7%9B%AE%E5%BD%95" tabindex="-1">数字图像处理笔记目录</h1>
+<p>本目录按课程学习顺序整理 13 份 PPT 对应的 Markdown 笔记。每份笔记保留原课件知识顺序，并补充公式解释、图示说明、算法步骤和代码参数说明。</p>
+<table>
+<thead>
+<tr>
+<th>章节</th>
+<th>笔记</th>
+<th>主要内容</th>
+<th>复习重点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第1章</td>
+<td><a href="./%E7%AC%AC01%E7%AB%A0_%E7%BB%AA%E8%AE%BA.md">第01章_绪论.md</a></td>
+<td>图像处理概念、系统组成、应用领域、课程内容框架</td>
+<td>图像处理与图像分析/理解的区别；图像矩阵表示；典型应用与处理目标</td>
+</tr>
+<tr>
+<td>第2章</td>
+<td><a href="./%E7%AC%AC02%E7%AB%A0_%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%9F%BA%E7%A1%80.md">第02章_数字图像基础.md</a></td>
+<td>视觉感知、采样量化、像素关系、距离度量、图像基本操作</td>
+<td>采样/量化；4/8/m 邻接；距离公式；噪声模型；空间操作与图像变换</td>
+</tr>
+<tr>
+<td>第3章</td>
+<td><a href="./%E7%AC%AC03%E7%AB%A0_%E7%81%B0%E5%BA%A6%E5%8F%98%E6%8D%A2%E4%B8%8E%E7%A9%BA%E5%9F%9F%E6%BB%A4%E6%B3%A2.md">第03章_灰度变换与空域滤波.md</a></td>
+<td>灰度变换、直方图均衡/规定化、平滑滤波、锐化滤波</td>
+<td>灰度映射公式；均衡 CDF；均值/高斯/中值滤波差异；Sobel 与 Laplacian 模板</td>
+</tr>
+<tr>
+<td>第4章</td>
+<td><a href="./%E7%AC%AC04%E7%AB%A0_%E9%A2%91%E7%8E%87%E5%9F%9F%E6%BB%A4%E6%B3%A2.md">第04章_频率域滤波.md</a></td>
+<td>DFT、频域滤波流程、低通/高通、同态滤波、陷波滤波</td>
+<td>频谱含义；理想/Butterworth/高斯滤波差异；同态滤波模型；周期噪声陷波</td>
+</tr>
+<tr>
+<td>第5章</td>
+<td><a href="./%E7%AC%AC05%E7%AB%A0_%E5%BD%A2%E6%80%81%E5%AD%A6%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86.md">第05章_形态学图像处理.md</a></td>
+<td>结构元、腐蚀膨胀、开闭运算、形态学算法、灰度形态学</td>
+<td>腐蚀/膨胀定义；开闭运算效果差异；边界/填洞/连通分量公式；顶帽和黑帽</td>
+</tr>
+<tr>
+<td>第6章</td>
+<td><a href="./%E7%AC%AC06%E7%AB%A0_%E5%BD%A9%E8%89%B2%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86.md">第06章_彩色图像处理.md</a></td>
+<td>彩色基础、颜色模型、伪彩色、彩色增强、彩色分割、噪声与压缩</td>
+<td>RGB/CMY/HSI 转换；HSI 分量含义；亮度与色度分离处理；彩色分割思路</td>
+</tr>
+<tr>
+<td>第7章</td>
+<td><a href="./%E7%AC%AC07%E7%AB%A0_%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2.md">第07章_图像分割.md</a></td>
+<td>边缘检测、Canny、阈值分割、区域分割、分水岭</td>
+<td>分割条件；Sobel/Laplacian/Canny；阈值选择；区域生长；标记分水岭</td>
+</tr>
+<tr>
+<td>第8章</td>
+<td><a href="./%E7%AC%AC08%E7%AB%A0_CNN.md">第08章_CNN.md</a></td>
+<td>卷积层、池化、ReLU、BN、VGG、ResNet</td>
+<td>卷积参数和输出尺寸；池化作用；ReLU/BN 公式；残差连接</td>
+</tr>
+<tr>
+<td>第9章</td>
+<td><a href="./%E7%AC%AC09%E7%AB%A0_Transformer.md">第09章_Transformer.md</a></td>
+<td>Seq2seq、Encoder/Decoder、自注意力、Q/K/V、多头注意力</td>
+<td>Q/K/V 公式；softmax 权重；scaled attention；multi-head；mask 的作用</td>
+</tr>
+<tr>
+<td>第10章</td>
+<td><a href="./%E7%AC%AC10%E7%AB%A0_ViT.md">第10章_ViT.md</a></td>
+<td>ViT patch embedding、Transformer Encoder、迁移学习代码、Swin Transformer</td>
+<td>token 数公式；class token；位置编码；ViT 代码参数；window/shifted window</td>
+</tr>
+<tr>
+<td>第11章</td>
+<td><a href="./%E7%AC%AC11%E7%AB%A0_%E7%89%B9%E5%BE%81%E7%82%B9%E6%A3%80%E6%B5%8B%E4%B8%8E%E5%8C%B9%E9%85%8D.md">第11章_特征点检测与匹配.md</a></td>
+<td>Harris、SIFT、SURF、ORB、特征匹配、SuperGlue、LoFTR</td>
+<td>Harris 响应；SIFT 尺度空间；OpenCV 参数；匹配距离；RANSAC；学习式匹配</td>
+</tr>
+<tr>
+<td>第12章</td>
+<td><a href="./%E7%AC%AC12%E7%AB%A0_%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B.md">第12章_目标检测.md</a></td>
+<td>目标检测指标、数据集、R-CNN 系列、YOLO、Anchor、Mask R-CNN、DETR</td>
+<td>IoU/PR/AP/mAP；two-stage vs one-stage；anchor 数量；RPN；DETR 集合预测</td>
+</tr>
+<tr>
+<td>第13章</td>
+<td><a href="./%E7%AC%AC13%E7%AB%A0_%E8%AF%AD%E4%B9%89%E5%88%86%E5%89%B2.md">第13章_语义分割.md</a></td>
+<td>语义分割定义、数据集、mIoU、FCN、U-Net、SegNet、DeepLab</td>
+<td>像素级分类；mIoU 公式；编码器-解码器；跳跃连接；空洞卷积和 ASPP</td>
+</tr>
+</tbody>
+</table>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/06/02/第01章_绪论/"><small>上一篇</small><strong>第01章_绪论</strong></a>
+        <a href="/2026/06/02/两数之和/"><small>下一篇</small><strong>两数之和</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="2.2、图像处理(2-3_图像平滑)" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>2.2、图像处理(2-3_图像平滑) · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>2.2、图像处理(2-3_图像平滑)</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:41:51">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/Python/">Python</a><a href="/categories/opencv/">opencv</a></span>
+    <span class="content-meta__tags"><a href="/tags/Python/">Python</a><a href="/tags/opencv/">opencv</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#2-3-%E5%9B%BE%E5%83%8F%E5%B9%B3%E6%BB%91">2-3 图像平滑</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="2-3-%E5%9B%BE%E5%83%8F%E5%B9%B3%E6%BB%91" tabindex="-1">2-3 图像平滑</h3>
+<h4 id="2-3-1%E5%9B%BE%E5%83%8F%E5%99%AA%E5%A3%B0" tabindex="-1">2-3-1图像噪声</h4>
+<h5 id="3-1-1-%E6%A4%92%E7%9B%90%E5%99%AA%E5%A3%B0" tabindex="-1">3-1-1 椒盐噪声</h5>
+<p>椒盐噪声也称为脉冲噪声，是图像中经常见到的一种噪声，它是一种随机出现的白点或者黑点，可能是亮的区域有黑色像素或是在暗的区域有白色像素（或是两者皆有）。椒盐噪声的成因可能是影像讯号受到突如其来的强烈干扰而产生、类比数位转换器或位元传输错误等。例如失效的感应器导致像素值为最小值，饱和的感应器导致像素值为最大值。</p>
+<p>![](2.2、图像处理(2-3 图像平滑).assets/image-20240127143525.png)</p>
+<h5 id="3-1-2-%E9%AB%98%E6%96%AF%E5%99%AA%E5%A3%B0" tabindex="-1">3-1-2 高斯噪声</h5>
+<p>高斯噪声是指噪声密度函数服从高斯分布的一类噪声。由于高斯噪声在空间和频域中数学上的易处理性，这种噪声(也称为正态噪声)模型经常被用于实践中</p>
+<p>![](2.2、图像处理(2-3 图像平滑).assets/image-20240127143636.png)</p>
+<h4 id="2-3-2-%E5%9B%BE%E5%83%8F%E5%B9%B3%E6%BB%91%E6%93%8D%E4%BD%9C" tabindex="-1">2-3-2 图像平滑操作</h4>
+<h5 id="3-2-1-%E5%9D%87%E5%80%BC%E6%BB%A4%E6%B3%A2" tabindex="-1">3-2-1 均值滤波</h5>
+<p>均值滤波的优点是算法简单，计算速度较快，缺点是在去噪的同时去除了很多细节部分，==将图像变得模糊。==</p>
+<p>API:</p>
+<pre class="code-frame"><code class="hljs language-python">cv.blur(src, ksize, anchor, borderType)
+</code></pre>
+<p>参数:</p>
+<ul>
+<li>src：输入图像</li>
+<li>ksize：卷积核的大小</li>
+<li>anchor：默认值 (-1,-1) ，表示核中心</li>
+<li>borderType：边界类型</li>
+</ul>
+<p>示例：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 图像读取</span>
+img = cv.imread(<span class="hljs-string">&#x27;./image/dogsp.jpeg&#x27;</span>)
+<span class="hljs-comment"># 2 均值滤波</span>
+blur = cv.blur(img,(<span class="hljs-number">5</span>,<span class="hljs-number">5</span>))
+<span class="hljs-comment"># 3 图像显示</span>
+plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>),dpi=<span class="hljs-number">100</span>)
+plt.subplot(<span class="hljs-number">121</span>),plt.imshow(img[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;原图&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.subplot(<span class="hljs-number">122</span>),plt.imshow(blur[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;均值滤波后结果&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+<p>![](2.2、图像处理(2-3 图像平滑).assets/image-20240127143921.png)</p>
+<h5 id="3-2-2-%E9%AB%98%E6%96%AF%E6%BB%A4%E6%B3%A2" tabindex="-1">3-2-2 高斯滤波</h5>
+<p>API：</p>
+<pre class="code-frame"><code class="hljs language-python">cv2.GaussianBlur(src,ksize,sigmaX,sigmay,borderType)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>src: 输入图像</li>
+<li>ksize:高斯卷积核的大小，<strong>注意</strong> ： 卷积核的宽度和高度都应为奇数，且可以不同</li>
+<li>sigmaX: 水平方向的标准差</li>
+<li>sigmaY: 垂直方向的标准差，默认值为0，表示与sigmaX相同</li>
+<li>borderType:填充边界类型</li>
+</ul>
+<p><strong>示例</strong>：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 图像读取</span>
+img = cv.imread(<span class="hljs-string">&#x27;./image/dogGasuss.jpeg&#x27;</span>)
+<span class="hljs-comment"># 2 高斯滤波</span>
+blur = cv.GaussianBlur(img,(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>),<span class="hljs-number">1</span>)
+<span class="hljs-comment"># 3 图像显示</span>
+plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>),dpi=<span class="hljs-number">100</span>)
+plt.subplot(<span class="hljs-number">121</span>),plt.imshow(img[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;原图&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.subplot(<span class="hljs-number">122</span>),plt.imshow(blur[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;高斯滤波后结果&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+<p>![](2.2、图像处理(2-3 图像平滑).assets/image-20240127144024.png)</p>
+<h5 id="3-2-3-%E4%B8%AD%E5%80%BC%E6%BB%A4%E6%B3%A2" tabindex="-1">3-2-3 中值滤波</h5>
+<p>中值滤波是一种典型的非线性滤波技术，基本思想是用像素点邻域灰度值的中值来代替该像素点的灰度值。</p>
+<p>中值滤波对椒盐噪声（salt-and-pepper noise）来说尤其有用，因为它不依赖于邻域内那些与典型值差别很大的值。</p>
+<p>API：</p>
+<pre class="code-frame"><code class="hljs language-python">cv.medianBlur(src, ksize )
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>src：输入图像</li>
+<li>ksize：卷积核的大小</li>
+</ul>
+<p>示例：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 图像读取</span>
+img = cv.imread(<span class="hljs-string">&#x27;./image/dogsp.jpeg&#x27;</span>)
+<span class="hljs-comment"># 2 中值滤波</span>
+blur = cv.medianBlur(img,<span class="hljs-number">5</span>)
+<span class="hljs-comment"># 3 图像展示</span>
+plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>),dpi=<span class="hljs-number">100</span>)
+plt.subplot(<span class="hljs-number">121</span>),plt.imshow(img[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;原图&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.subplot(<span class="hljs-number">122</span>),plt.imshow(blur[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;中值滤波后结果&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+<p>![](2.2、图像处理(2-3 图像平滑).assets/image-20240127145358.png)</p>
+<h5 id="2-3-%E7%A4%BC%E5%B8%BD%E5%92%8C%E9%BB%91%E5%B8%BD" tabindex="-1">2-3 礼帽和黑帽</h5>
+<ol>
+<li>
+<p><strong>礼帽运算</strong></p>
+<p>原图像与“开运算“的结果图之差，如下式计算：</p>
+<p>![](2.2、图像处理(2-3 图像平滑).assets/image-20240127134830.png)</p>
+<p>　　因为开运算带来的结果是放大了裂缝或者局部低亮度的区域，因此，从原图中减去开运算后的图，得到的效果图突出了比原图轮廓周围的区域更明亮的区域，且这一操作和选择的核的大小相关。</p>
+<p>　　礼帽运算用来分离比邻近点亮一些的斑块。当一幅图像具有大幅的背景的时候，而微小物品比较有规律的情况下，可以使用顶帽运算进行背景提取。</p>
+</li>
+<li>
+<p><strong>黑帽运算</strong></p>
+<p>为”闭运算“的结果图与原图像之差。数学</p>
+<p>式为：</p>
+<p>　![](2.2、图像处理(2-3 图像平滑).assets/image-20240127134839.png)</p>
+<p>黑帽运算后的效果图突出了比原图轮廓周围的区域更暗的区域，且这一操作和选择的核的大小相关。</p>
+<p>黑帽运算用来分离比邻近点暗一些的斑块。</p>
+</li>
+<li>
+<p><strong>API</strong></p>
+<pre class="code-frame"><code class="hljs language-python">cv.morphologyEx(img, op, kernel)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>
+<p>img: 要处理的图像</p>
+</li>
+<li>
+<p>op: 处理方式：</p>
+<p>![](2.2、图像处理(2-3 图像平滑).assets/image-20240127134908.png)</p>
+</li>
+<li>
+<p>Kernel： 核结构</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>示例</strong></p>
+</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 读取图像</span>
+img1 = cv.imread(<span class="hljs-string">&quot;./image/image5.png&quot;</span>)
+img2 = cv.imread(<span class="hljs-string">&quot;./image/image6.png&quot;</span>)
+<span class="hljs-comment"># 2 创建核结构</span>
+kernel = np.ones((<span class="hljs-number">10</span>, <span class="hljs-number">10</span>), np.uint8)
+<span class="hljs-comment"># 3 图像的礼帽和黑帽运算</span>
+cvOpen = cv.morphologyEx(img1,cv.MORPH_TOPHAT,kernel) <span class="hljs-comment"># 礼帽运算</span>
+cvClose = cv.morphologyEx(img2,cv.MORPH_BLACKHAT,kernel)<span class="hljs-comment"># 黑帽运算</span>
+
+<span class="hljs-comment"># 4 图像显示</span>
+fig,axes=plt.subplots(nrows=<span class="hljs-number">2</span>,ncols=<span class="hljs-number">2</span>,figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>))
+axes[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>].imshow(img1)
+axes[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>].set_title(<span class="hljs-string">&quot;原图&quot;</span>)
+axes[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>].imshow(cvOpen)
+axes[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&quot;礼帽运算结果&quot;</span>)
+axes[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>].imshow(img2)
+axes[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>].set_title(<span class="hljs-string">&quot;原图&quot;</span>)
+axes[<span class="hljs-number">1</span>,<span class="hljs-number">1</span>].imshow(cvClose)
+axes[<span class="hljs-number">1</span>,<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&quot;黑帽运算结果&quot;</span>)
+plt.show()
+</code></pre>
+<p>![](2.2、图像处理(2-3 图像平滑).assets/image-20240127134921.png)</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/2.2、图像处理(2-4_直方图)/"><small>上一篇</small><strong>2.2、图像处理(2-4_直方图)</strong></a>
+        <a href="/2025/07/17/2.2、图像处理(2-2_形态学操作)/"><small>下一篇</small><strong>2.2、图像处理(2-2_形态学操作)</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

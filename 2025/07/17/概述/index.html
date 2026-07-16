@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="概述" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>概述 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>概述</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:41:51">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/Python/">Python</a><a href="/categories/opencv/">opencv</a></span>
+    <span class="content-meta__tags"><a href="/tags/Python/">Python</a><a href="/tags/opencv/">opencv</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#1.%E9%AA%8C%E8%AF%81%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F">1.验证是否安装成功</a></li><li class="article-toc__level-2"><a href="#2.%E5%9F%BA%E7%A1%80%E4%BB%A3%E7%A0%81">2.基础代码</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="1.%E9%AA%8C%E8%AF%81%E6%98%AF%E5%90%A6%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F" tabindex="-1">1.验证是否安装成功</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">import cv2
+print(cv2.__version__)
+</code></pre>
+<h2 id="2.%E5%9F%BA%E7%A1%80%E4%BB%A3%E7%A0%81" tabindex="-1">2.基础代码</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">import cv2
+#######################################图像操作#################################
+img = cv2.imread(&#x27;lyc.jpg&#x27;)
+#cv2.namedWindow(&#x27;lyc&#x27;,cv2.WINDOW_NORMAL)  #窗口命名
+#cv2.resizeWindow(&#x27;lyc&#x27;, 640, 480)  #窗口改大小
+
+# 拆分通道
+b, g, r = cv2.split(img)
+# 对蓝色通道进行简单操作（例如，将其置为零）
+b[:] = 0
+# 合并通道
+merged_img = cv2.merge((b, g, r))
+
+cv2.imshow(&#x27;image&#x27;, img)  #1.指定名字 2.变量
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+#######################################摄像头操作#################################
+capture = cv2.VideoCapture(1)#打开笔记本内置摄像头. 对capture实例化
+while capture.isOpened(): # 笔记本内置摄像头被打开后
+    retval, image = capture.read() # 从摄像头中实时读取视频
+    cv2.imshow(&quot;Video&quot;, image) # 在窗口中显示读取到的视频
+    key = cv2.waitKey(1) # 窗口的图像刷新时间为1毫秒
+    if key == 27: # 如果按下空格键
+        break
+capture.release() # 关闭笔记本内置摄像头
+cv2.destroyAllWindows() # 销毁显示摄像头视频的窗口
+
+
+
+
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/1.1、python基础语法/"><small>上一篇</small><strong>1.1、python基础语法</strong></a>
+        <a href="/2025/07/17/智能车/"><small>下一篇</small><strong>智能车</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

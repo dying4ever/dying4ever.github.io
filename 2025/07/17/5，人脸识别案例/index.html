@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="5，人脸识别案例" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>5，人脸识别案例 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>5，人脸识别案例</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:41:51">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/Python/">Python</a><a href="/categories/opencv/">opencv</a></span>
+    <span class="content-meta__tags"><a href="/tags/Python/">Python</a><a href="/tags/opencv/">opencv</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#5%EF%BC%8C%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%A1%88%E4%BE%8B">5，人脸识别案例</a></li><li class="article-toc__level-3"><a href="#5-1-%E5%9F%BA%E7%A1%80">5-1 基础</a></li><li class="article-toc__level-3"><a href="#5-2.%E5%AE%9E%E7%8E%B0">5-2.实现</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="5%EF%BC%8C%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%A1%88%E4%BE%8B" tabindex="-1">5，人脸识别案例</h2>
+<h3 id="5-1-%E5%9F%BA%E7%A1%80" tabindex="-1">5-1 基础</h3>
+<p>我们使用机器学习的方法完成人脸检测，首先需要大量的正样本图像（面部图像）和负样本图像（不含面部的图像）来训练分类器。我们需要从其中提取特征。下图中的 Haar 特征会被使用，就像我们的卷积核，每一个特征是一 个值，这个值等于黑色矩形中的像素值之后减去白色矩形中的像素值之和。</p>
+<p><img src="/2025/07/17/5，人脸识别案例/5，人脸识别案例.assets/image-20240127223249.png" alt="" loading="lazy" decoding="async"></p>
+<p>Haar特征值反映了图像的灰度变化情况。例如：脸部的一些特征能由矩形特征简单的描述，眼睛要比脸颊颜色要深，鼻梁两侧比鼻梁颜色要深，嘴巴比周围颜色要深等。</p>
+<p>Haar特征可用于于图像任意位置，大小也可以任意改变，所以矩形特征值是矩形模版类别、矩形位置和矩形大小这三个因素的函数。故类别、大小和位置的变化，使得很小的检测窗口含有非常多的矩形特征。</p>
+<p><img src="/2025/07/17/5，人脸识别案例/5，人脸识别案例.assets/image-20240127223300.png" alt="" loading="lazy" decoding="async"></p>
+<p>得到图像的特征后，训练一个决策树构建的adaboost级联决策器来识别是否为人脸。</p>
+<p><img src="/2025/07/17/5，人脸识别案例/5，人脸识别案例.assets/image-20240127223312.png" alt="" loading="lazy" decoding="async"></p>
+<h3 id="5-2.%E5%AE%9E%E7%8E%B0" tabindex="-1">5-2.实现</h3>
+<p>OpenCV中自带已训练好的检测器，包括面部，眼睛，猫脸等，都保存在XML文件中，我们可以通过以下程序找到他们：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-built_in">print</span>(cv.__file__)
+</code></pre>
+<p>找到的文件如下所示：</p>
+<p><img src="/2025/07/17/5，人脸识别案例/5，人脸识别案例.assets/image-20240127223338.png" alt="" loading="lazy" decoding="async"></p>
+<p>那我们就利用这些文件来识别人脸，眼睛等。检测流程如下：</p>
+<ol>
+<li>
+<p>读取图片，并转换成灰度图</p>
+</li>
+<li>
+<p>实例化人脸和眼睛检测的分类器对象</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-comment"># 实例化级联分类器</span>
+classifier =cv.CascadeClassifier( <span class="hljs-string">&quot;haarcascade_frontalface_default.xml&quot;</span> ) 
+<span class="hljs-comment"># 加载分类器</span>
+classifier.load(<span class="hljs-string">&#x27;haarcascade_frontalface_default.xml&#x27;</span>)
+</code></pre>
+</li>
+<li>
+<p>进行人脸和眼睛的检测</p>
+<pre class="code-frame"><code class="hljs language-python">rect = classifier.detectMultiScale(gray, scaleFactor, minNeighbors, minSize,maxsize)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>Gray: 要进行检测的人脸图像</li>
+<li>scaleFactor: 前后两次扫描中，搜索窗口的比例系数</li>
+<li>minneighbors：目标至少被检测到minNeighbors次才会被认为是目标</li>
+<li>minsize和maxsize: 目标的最小尺寸和最大尺寸</li>
+</ul>
+</li>
+<li>
+<p>将检测结果绘制出来就可以了。</p>
+</li>
+</ol>
+<p>主程序如下所示：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1.以灰度图的形式读取图片</span>
+img = cv.imread(<span class="hljs-string">&quot;16.jpg&quot;</span>)
+gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+
+<span class="hljs-comment"># 2.实例化OpenCV人脸和眼睛识别的分类器 </span>
+face_cas = cv.CascadeClassifier( <span class="hljs-string">&quot;haarcascade_frontalface_default.xml&quot;</span> ) 
+face_cas.load(<span class="hljs-string">&#x27;haarcascade_frontalface_default.xml&#x27;</span>)
+
+eyes_cas = cv.CascadeClassifier(<span class="hljs-string">&quot;haarcascade_eye.xml&quot;</span>)
+eyes_cas.load(<span class="hljs-string">&quot;haarcascade_eye.xml&quot;</span>)
+
+<span class="hljs-comment"># 3.调用识别人脸 </span>
+faceRects = face_cas.detectMultiScale( gray, scaleFactor=<span class="hljs-number">1.2</span>, minNeighbors=<span class="hljs-number">3</span>, minSize=(<span class="hljs-number">32</span>, <span class="hljs-number">32</span>)) 
+<span class="hljs-keyword">for</span> faceRect <span class="hljs-keyword">in</span> faceRects: 
+    x, y, w, h = faceRect 
+    <span class="hljs-comment"># 框出人脸 </span>
+    cv.rectangle(img, (x, y), (x + h, y + w),(<span class="hljs-number">0</span>,<span class="hljs-number">255</span>,<span class="hljs-number">0</span>), <span class="hljs-number">3</span>) 
+    <span class="hljs-comment"># 4.在识别出的人脸中进行眼睛的检测</span>
+    roi_color = img[y:y+h, x:x+w]
+    roi_gray = gray[y:y+h, x:x+w]
+    eyes = eyes_cas.detectMultiScale(roi_gray) 
+    <span class="hljs-keyword">for</span> (ex,ey,ew,eh) <span class="hljs-keyword">in</span> eyes:
+        cv.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(<span class="hljs-number">0</span>,<span class="hljs-number">255</span>,<span class="hljs-number">0</span>),<span class="hljs-number">2</span>)
+<span class="hljs-comment"># 5. 检测结果的绘制</span>
+plt.figure(figsize=(<span class="hljs-number">8</span>,<span class="hljs-number">6</span>),dpi=<span class="hljs-number">100</span>)
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;检测结果&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+<p>结果：</p>
+<p><img src="/2025/07/17/5，人脸识别案例/5，人脸识别案例.assets/image-20240127223403.png" alt="" loading="lazy" decoding="async"></p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+img = cv.imread(<span class="hljs-string">&#x27;./img/yangzi.jpg&#x27;</span>)
+gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+
+<span class="hljs-comment"># 实例化检测器</span>
+face_cas = cv.CascadeClassifier( <span class="hljs-string">&quot;D:\\Users\\anaconda3\\Lib\\site-packages\\cv2\\data\\haarcascade_frontalface_default.xml&quot;</span> )
+face_cas.load(<span class="hljs-string">&#x27;D:\\Users\\anaconda3\\Lib\\site-packages\\cv2\\data\\haarcascade_frontalface_default.xml&#x27;</span>)
+
+eyes_cas = cv.CascadeClassifier(<span class="hljs-string">&quot;D:\\Users\\anaconda3\\Lib\\site-packages\cv2\\data\\haarcascade_eye.xml&quot;</span>)
+eyes_cas.load(<span class="hljs-string">&quot;D:\\Users\\anaconda3\\Lib\\site-packages\cv2\\data\\haarcascade_eye.xml&quot;</span>)
+
+<span class="hljs-comment"># 人脸检测</span>
+face_rects = face_cas.detectMultiScale(gray,scaleFactor =<span class="hljs-number">1.2</span>,minNeighbors = <span class="hljs-number">3</span>,minSize=(<span class="hljs-number">32</span>,<span class="hljs-number">32</span>))
+<span class="hljs-comment"># 绘制人脸检测眼睛</span>
+<span class="hljs-keyword">for</span> facerect <span class="hljs-keyword">in</span> face_rects:
+    x,y,w,h = facerect
+    cv.rectangle(img,(x,y),(x+w,y+h),(<span class="hljs-number">0</span>,<span class="hljs-number">255</span>,<span class="hljs-number">0</span>),<span class="hljs-number">3</span>)
+    roi_color = img[y:y+h,x:x+w]
+    roi_gray = gray[y:y+h,x:x+w]
+    eyes = eyes_cas.detectMultiScale(roi_gray)
+    <span class="hljs-keyword">for</span> (ex,ey,ew,eh) <span class="hljs-keyword">in</span> eyes:
+        cv.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(<span class="hljs-number">0</span>,<span class="hljs-number">255</span>,<span class="hljs-number">0</span>),<span class="hljs-number">3</span>)
+
+plt.figure(figsize=(<span class="hljs-number">8</span>,<span class="hljs-number">6</span>),dpi=<span class="hljs-number">100</span>)
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;检测结果&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>])
+</code></pre>
+<p>我们也可在视频中对人脸进行检测：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1.读取视频</span>
+cap = cv.VideoCapture(<span class="hljs-string">&quot;movie.mp4&quot;</span>)
+<span class="hljs-comment"># 2.在每一帧数据中进行人脸识别</span>
+<span class="hljs-keyword">while</span>(cap.isOpened()):
+    ret, frame = cap.read()
+    <span class="hljs-keyword">if</span> ret==<span class="hljs-literal">True</span>:
+        gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)
+        <span class="hljs-comment"># 3.实例化OpenCV人脸识别的分类器 </span>
+        face_cas = cv.CascadeClassifier( <span class="hljs-string">&quot;haarcascade_frontalface_default.xml&quot;</span> ) 
+        face_cas.load(<span class="hljs-string">&#x27;haarcascade_frontalface_default.xml&#x27;</span>)
+        <span class="hljs-comment"># 4.调用识别人脸 </span>
+        faceRects = face_cas.detectMultiScale(gray, scaleFactor=<span class="hljs-number">1.2</span>, minNeighbors=<span class="hljs-number">3</span>, minSize=(<span class="hljs-number">32</span>, <span class="hljs-number">32</span>)) 
+        <span class="hljs-keyword">for</span> faceRect <span class="hljs-keyword">in</span> faceRects: 
+            x, y, w, h = faceRect 
+            <span class="hljs-comment"># 框出人脸 </span>
+            cv.rectangle(frame, (x, y), (x + h, y + w),(<span class="hljs-number">0</span>,<span class="hljs-number">255</span>,<span class="hljs-number">0</span>), <span class="hljs-number">3</span>) 
+        cv.imshow(<span class="hljs-string">&quot;frame&quot;</span>,frame)
+        <span class="hljs-keyword">if</span> cv.waitKey(<span class="hljs-number">1</span>) &amp; <span class="hljs-number">0xFF</span> == <span class="hljs-built_in">ord</span>(<span class="hljs-string">&#x27;q&#x27;</span>):
+            <span class="hljs-keyword">break</span>
+<span class="hljs-comment"># 5. 释放资源</span>
+cap.release()  
+cv.destroyAllWindows()
+</code></pre>
+<hr>
+<p><strong>总结</strong></p>
+<p>opencv中人脸识别的流程是：</p>
+<ol>
+<li>读取图片，并转换成灰度图</li>
+<li>实例化人脸和眼睛检测的分类器对象</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-comment"># 实例化级联分类器</span>
+classifier =cv.CascadeClassifier( <span class="hljs-string">&quot;haarcascade_frontalface_default.xml&quot;</span> ) 
+<span class="hljs-comment"># 加载分类器</span>
+classifier.load(<span class="hljs-string">&#x27;haarcascade_frontalface_default.xml&#x27;</span>)
+</code></pre>
+<ol>
+<li>进行人脸和眼睛的检测</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-python">rect = classifier.detectMultiScale(gray, scaleFactor, minNeighbors, minSize,maxsize)
+</code></pre>
+<ol>
+<li>将检测结果绘制出来就可以了。</li>
+</ol>
+<p>我们也可以在视频中进行人脸识别</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/智能车/"><small>上一篇</small><strong>智能车</strong></a>
+        <a href="/2025/07/17/4，视频操作/"><small>下一篇</small><strong>4，视频操作</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

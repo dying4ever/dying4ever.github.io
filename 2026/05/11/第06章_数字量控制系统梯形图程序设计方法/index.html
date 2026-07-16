@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="第06章_数字量控制系统梯形图程序设计方法" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>第06章_数字量控制系统梯形图程序设计方法 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>第06章_数字量控制系统梯形图程序设计方法</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-05-11T23:20:36">2026-05-11</time>
+    <span class="content-meta__categories"><a href="/categories/plc/">plc</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E5%B7%A5%E4%B8%9A%E6%8E%A7%E5%88%B6%E8%A3%85%E5%A4%87/">工业控制装备</a><a href="/tags/S7-1200/">S7-1200</a><a href="/tags/PLC/">PLC</a><a href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/">课程笔记</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E7%AC%AC6%E7%AB%A0-%E6%95%B0%E5%AD%97%E9%87%8F%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%A2%AF%E5%BD%A2%E5%9B%BE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95">第6章 数字量控制系统梯形图程序设计方法</a></li><li class="article-toc__level-2"><a href="#%E8%B5%84%E6%96%99%E6%9D%A5%E6%BA%90">资料来源</a></li><li class="article-toc__level-2"><a href="#1.-%E6%9C%AC%E7%AB%A0%E8%84%89%E7%BB%9C">1. 本章脉络</a></li><li class="article-toc__level-2"><a href="#2.-%E7%BB%8F%E9%AA%8C%E8%AE%BE%E8%AE%A1%E6%B3%95">2. 经验设计法</a></li><li class="article-toc__level-3"><a href="#2.1-%E5%90%AF%E4%BF%9D%E5%81%9C%E7%94%B5%E8%B7%AF">2.1 启保停电路</a></li><li class="article-toc__level-3"><a href="#2.2-%E5%BB%B6%E6%97%B6%E6%8E%A5%E9%80%9A%2F%E6%96%AD%E5%BC%80%E7%94%B5%E8%B7%AF">2.2 延时接通/断开电路</a></li><li class="article-toc__level-3"><a href="#2.3-%E9%97%AA%E7%83%81%E7%94%B5%E8%B7%AF">2.3 闪烁电路</a></li><li class="article-toc__level-2"><a href="#3.-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE-sfc">3. 顺序功能图 SFC</a></li><li class="article-toc__level-2"><a href="#4.-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0">4. 顺序功能图基本元素</a></li><li class="article-toc__level-3"><a href="#4.1-%E6%AD%A5-step">4.1 步 Step</a></li><li class="article-toc__level-3"><a href="#4.2-%E5%88%9D%E5%A7%8B%E6%AD%A5%E4%B8%8E%E6%B4%BB%E5%8A%A8%E6%AD%A5">4.2 初始步与活动步</a></li><li class="article-toc__level-3"><a href="#4.3-%E5%8A%A8%E4%BD%9C%E6%88%96%E5%91%BD%E4%BB%A4">4.3 动作或命令</a></li><li class="article-toc__level-3"><a href="#4.4-%E6%9C%89%E5%90%91%E8%BF%9E%E7%BA%BF%E4%B8%8E%E8%BD%AC%E6%8D%A2%E6%9D%A1%E4%BB%B6">4.4 有向连线与转换条件</a></li><li class="article-toc__level-2"><a href="#5.-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84">5. 顺序功能图基本结构</a></li><li class="article-toc__level-2"><a href="#6.-%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E8%A7%84%E5%88%99">6. 转换实现规则</a></li><li class="article-toc__level-3"><a href="#6.1-%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E6%9D%A1%E4%BB%B6">6.1 转换实现条件</a></li><li class="article-toc__level-3"><a href="#6.2-%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E6%93%8D%E4%BD%9C">6.2 转换实现操作</a></li><li class="article-toc__level-2"><a href="#7.-%E9%A1%BA%E5%BA%8F%E6%8E%A7%E5%88%B6%E6%A2%AF%E5%BD%A2%E5%9B%BE%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95">7. 顺序控制梯形图实现方法</a></li><li class="article-toc__level-3"><a href="#7.1-%E8%B5%B7%E4%BF%9D%E5%81%9C%E8%AE%BE%E8%AE%A1%E6%B3%95">7.1 起保停设计法</a></li><li class="article-toc__level-3"><a href="#7.2-%E7%BD%AE%E4%BD%8D%E5%A4%8D%E4%BD%8D%E8%AE%BE%E8%AE%A1%E6%B3%95">7.2 置位复位设计法</a></li><li class="article-toc__level-2"><a href="#8.-%E7%BB%84%E5%90%88%E6%9C%BA%E5%BA%8A%E5%8A%A8%E5%8A%9B%E5%A4%B4%E8%BF%90%E5%8A%A8%E6%A1%88%E4%BE%8B">8. 组合机床动力头运动案例</a></li><li class="article-toc__level-3"><a href="#8.1-%E6%8E%A7%E5%88%B6%E8%A6%81%E6%B1%82">8.1 控制要求</a></li><li class="article-toc__level-3"><a href="#8.2-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E6%8B%86%E5%88%86">8.2 顺序功能图拆分</a></li><li class="article-toc__level-2"><a href="#9.-%E4%B8%93%E7%94%A8%E9%92%BB%E5%BA%8A%E6%8E%A7%E5%88%B6%E5%AE%9E%E4%BE%8B">9. 专用钻床控制实例</a></li><li class="article-toc__level-3"><a href="#9.1-%E6%8E%A7%E5%88%B6%E8%A6%81%E6%B1%82%E6%A6%82%E8%A6%81">9.1 控制要求概要</a></li><li class="article-toc__level-3"><a href="#9.2-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%88%86%E9%85%8D">9.2 输入输出分配</a></li><li class="article-toc__level-3"><a href="#9.3-%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84%E5%BB%BA%E8%AE%AE">9.3 程序结构建议</a></li><li class="article-toc__level-2"><a href="#10.-%E5%9B%BE%E8%A1%A8%E7%B4%A2%E5%BC%95">10. 图表索引</a></li><li class="article-toc__level-2"><a href="#11.-%E6%98%93%E9%94%99%E7%82%B9">11. 易错点</a></li><li class="article-toc__level-2"><a href="#12.-%E8%80%83%E5%89%8D%E8%A1%A5%E5%85%85%EF%BC%9Asfc%E8%AE%BE%E8%AE%A1%E9%A2%98%E7%AD%94%E9%A2%98%E5%A5%97%E8%B7%AF">12. 考前补充：SFC设计题答题套路</a></li><li class="article-toc__level-3"><a href="#12.1-%E9%A1%BA%E5%BA%8F%E6%8E%A7%E5%88%B6%E8%AE%BE%E8%AE%A1%E6%AD%A5%E9%AA%A4">12.1 顺序控制设计步骤</a></li><li class="article-toc__level-3"><a href="#12.2-%E5%8D%95%E5%BA%8F%E5%88%97%E3%80%81%E9%80%89%E6%8B%A9%E5%BA%8F%E5%88%97%E3%80%81%E5%B9%B6%E5%88%97%E5%BA%8F%E5%88%97%E5%88%A4%E6%96%AD">12.2 单序列、选择序列、并列序列判断</a></li><li class="article-toc__level-3"><a href="#12.3-%E7%94%B1sfc%E8%BD%AC%E6%A2%AF%E5%BD%A2%E5%9B%BE%E7%9A%84%E6%A0%B8%E5%BF%83%E5%85%AC%E5%BC%8F">12.3 由SFC转梯形图的核心公式</a></li><li class="article-toc__level-3"><a href="#12.4-%E7%BB%BC%E5%90%88%E9%A2%98%E5%AE%89%E5%85%A8%E6%A3%80%E6%9F%A5%E6%B8%85%E5%8D%95">12.4 综合题安全检查清单</a></li><li class="article-toc__level-2"><a href="#13.-%E6%9C%AC%E7%AB%A0%E9%A2%84%E6%B5%8B%E9%A2%98%E4%B8%8E%E7%AD%94%E6%A1%88">13. 本章预测题与答案</a></li><li class="article-toc__level-3"><a href="#%E9%A2%981%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AF%E7%BB%8F%E9%AA%8C%E8%AE%BE%E8%AE%A1%E6%B3%95%EF%BC%9F">题1：什么是经验设计法？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%982%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AF%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%82%B9%EF%BC%9F">题2：什么是顺序功能图？有什么优点？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%983%EF%BC%9A%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E4%B8%AD%E7%9A%84%E2%80%9C%E6%AD%A5%E2%80%9D%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D%EF%BC%9F">题3：顺序功能图中的“步”是什么意思？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%984%EF%BC%9A%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E9%9C%80%E8%A6%81%E6%BB%A1%E8%B6%B3%E5%93%AA%E4%B8%A4%E4%B8%AA%E6%9D%A1%E4%BB%B6%EF%BC%9F">题4：转换实现需要满足哪两个条件？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%985%EF%BC%9A%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E6%97%B6%E8%A6%81%E5%AE%8C%E6%88%90%E4%BB%80%E4%B9%88%E6%93%8D%E4%BD%9C%EF%BC%9F">题5：转换实现时要完成什么操作？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%986%EF%BC%9A%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E6%9C%89%E5%93%AA%E4%B8%89%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84%EF%BC%9F">题6：顺序功能图有哪三种基本结构？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%987%EF%BC%9A%E8%B5%B7%E4%BF%9D%E5%81%9C%E8%AE%BE%E8%AE%A1%E6%B3%95%E5%AE%9E%E7%8E%B0%E9%A1%BA%E5%BA%8F%E6%8E%A7%E5%88%B6%E6%97%B6%E7%A8%8B%E5%BA%8F%E9%80%9A%E5%B8%B8%E5%88%86%E4%B8%BA%E5%93%AA%E4%B8%A4%E9%83%A8%E5%88%86%EF%BC%9F">题7：起保停设计法实现顺序控制时程序通常分为哪两部分？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%988%EF%BC%9A%E7%BD%AE%E4%BD%8D%E5%A4%8D%E4%BD%8D%E8%AE%BE%E8%AE%A1%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F">题8：置位复位设计法的基本思想是什么？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%989%EF%BC%9A%E5%8A%A8%E5%8A%9B%E5%A4%B4%E6%8E%A7%E5%88%B6%E6%A1%88%E4%BE%8B%E4%B8%AD%EF%BC%8C%E4%BB%8E%E5%BF%AB%E8%BF%9B%E8%BD%AC%E4%B8%BA%E5%B7%A5%E8%BF%9B%E7%9A%84%E6%9D%A1%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F">题9：动力头控制案例中，从快进转为工进的条件是什么？</a></li><li class="article-toc__level-3"><a href="#%E9%A2%9810%EF%BC%9A%E4%B8%93%E7%94%A8%E9%92%BB%E5%BA%8A%E6%8E%A7%E5%88%B6%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%AE%BE%E7%BD%AE%E6%89%8B%E5%8A%A8%E5%92%8C%E8%87%AA%E5%8A%A8%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%9F">题10：专用钻床控制中为什么要设置手动和自动两种方式？</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="%E7%AC%AC6%E7%AB%A0-%E6%95%B0%E5%AD%97%E9%87%8F%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%A2%AF%E5%BD%A2%E5%9B%BE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95" tabindex="-1">第6章 数字量控制系统梯形图程序设计方法</h1>
+<h2 id="%E8%B5%84%E6%96%99%E6%9D%A5%E6%BA%90" tabindex="-1">资料来源</h2>
+<ul>
+<li>PPT：<code>第6.1章 顺序功能图设计法.pptx</code></li>
+<li>辅导书：<code>S7-1200 PLC编程及应用 第3版</code>，目录中第5章为“数字量控制系统梯形图程序设计方法”。</li>
+</ul>
+<h2 id="1.-%E6%9C%AC%E7%AB%A0%E8%84%89%E7%BB%9C" tabindex="-1">1. 本章脉络</h2>
+<pre class="code-frame"><code class="hljs language-text">数字量控制系统梯形图程序设计方法
+├─ 6.1 经验设计法
+│  ├─ 启保停电路
+│  ├─ 延时接通/断开电路
+│  └─ 闪烁电路
+├─ 6.2 顺序功能图
+│  ├─ 步
+│  ├─ 初始步与活动步
+│  ├─ 动作或命令
+│  ├─ 有向连线与转换条件
+│  ├─ 单序列、选择序列、并列序列
+│  └─ 绘制规则
+└─ 6.3 顺序控制设计法
+   ├─ 起保停设计法
+   ├─ 置位复位设计法
+   └─ 专用钻床控制实例
+</code></pre>
+<h2 id="2.-%E7%BB%8F%E9%AA%8C%E8%AE%BE%E8%AE%A1%E6%B3%95" tabindex="-1">2. 经验设计法</h2>
+<p>经验设计法是在典型梯形图程序基础上，根据实际控制要求和PLC工作原理不断修改完善的方法。</p>
+<p>特点：</p>
+<ul>
+<li>入门容易；</li>
+<li>适合简单逻辑；</li>
+<li>依赖经验，复杂系统容易混乱；</li>
+<li>程序可读性和可维护性不如顺序功能图法。</li>
+</ul>
+<h3 id="2.1-%E5%90%AF%E4%BF%9D%E5%81%9C%E7%94%B5%E8%B7%AF" tabindex="-1">2.1 启保停电路</h3>
+<p>启保停是最基本的电机控制程序。</p>
+<p>逻辑公式：</p>
+<p>[
+Q=(SB_{start}\lor Q)\land SB_{stop}\land FR
+]</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(Q)</td>
+<td>输出线圈，如电机接触器</td>
+</tr>
+<tr>
+<td>(SB_{start})</td>
+<td>启动按钮常开触点</td>
+</tr>
+<tr>
+<td>(SB_{stop})</td>
+<td>停止按钮常闭触点，正常为1</td>
+</tr>
+<tr>
+<td>(FR)</td>
+<td>热继电器保护触点，正常为1</td>
+</tr>
+</tbody>
+</table>
+<p>适用条件：普通电机启停、自保持控制。</p>
+<p>工程意义：按启动按钮后，输出通过自身触点保持；按停止或保护动作后断开。</p>
+<h3 id="2.2-%E5%BB%B6%E6%97%B6%E6%8E%A5%E9%80%9A%2F%E6%96%AD%E5%BC%80%E7%94%B5%E8%B7%AF" tabindex="-1">2.2 延时接通/断开电路</h3>
+<ul>
+<li>延时接通：输入条件成立一段时间后输出动作；</li>
+<li>延时断开：输入条件消失后输出继续保持一段时间再断开。</li>
+</ul>
+<p>典型用途：运输带顺序启动/停止、风机延时、冲水延时、报警延时确认。</p>
+<h3 id="2.3-%E9%97%AA%E7%83%81%E7%94%B5%E8%B7%AF" tabindex="-1">2.3 闪烁电路</h3>
+<p>闪烁电路用于周期性改变输出状态，如报警灯闪烁。可用两个定时器交替控制，也可用CPU时钟存储器位实现。</p>
+<h2 id="3.-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE-sfc" tabindex="-1">3. 顺序功能图 SFC</h2>
+<p>顺序功能图是根据工艺过程先画出状态转换图，再由图转化为梯形图程序的方法。它特别适合顺序动作明显的机械设备和生产过程。</p>
+<p>优点：</p>
+<ul>
+<li>逻辑清楚；</li>
+<li>调试方便；</li>
+<li>修改容易；</li>
+<li>适合初学者理解复杂顺序控制。</li>
+</ul>
+<h2 id="4.-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0" tabindex="-1">4. 顺序功能图基本元素</h2>
+<h3 id="4.1-%E6%AD%A5-step" tabindex="-1">4.1 步 Step</h3>
+<p>步是系统工作周期中的一个阶段，通常用M位代表。</p>
+<p>例如动力头控制中可分为：初始等待、快进、工进、快退、停止等步。</p>
+<h3 id="4.2-%E5%88%9D%E5%A7%8B%E6%AD%A5%E4%B8%8E%E6%B4%BB%E5%8A%A8%E6%AD%A5" tabindex="-1">4.2 初始步与活动步</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初始步</td>
+<td>系统初始状态对应的步，等待启动</td>
+</tr>
+<tr>
+<td>活动步</td>
+<td>系统当前处于的步，该步对应动作被执行</td>
+</tr>
+</tbody>
+</table>
+<p>步的活动状态可用M位表示：M=1表示活动，M=0表示不活动。</p>
+<h3 id="4.3-%E5%8A%A8%E4%BD%9C%E6%88%96%E5%91%BD%E4%BB%A4" tabindex="-1">4.3 动作或命令</h3>
+<p>每一步对应的输出状态或操作称为动作。动作可写在步旁边的矩形框中。</p>
+<p>如果某动作跨越多个连续步为1，可使用动作修饰词S/R：</p>
+<ul>
+<li>S：在动作开始步置位；</li>
+<li>R：在动作结束后的下一步复位。</li>
+</ul>
+<h3 id="4.4-%E6%9C%89%E5%90%91%E8%BF%9E%E7%BA%BF%E4%B8%8E%E8%BD%AC%E6%8D%A2%E6%9D%A1%E4%BB%B6" tabindex="-1">4.4 有向连线与转换条件</h3>
+<p>有向连线表示步的进展方向；转换条件写在步与步之间的转换符号旁。</p>
+<p>转换条件可以是：</p>
+<ul>
+<li>文字说明；</li>
+<li>布尔表达式；</li>
+<li>输入点、定时器、计数器条件；</li>
+<li>图形符号。</li>
+</ul>
+<h2 id="5.-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84" tabindex="-1">5. 顺序功能图基本结构</h2>
+<table>
+<thead>
+<tr>
+<th>结构</th>
+<th>含义</th>
+<th>典型场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单序列</td>
+<td>每次只沿一条固定路径执行</td>
+<td>普通机械往返动作</td>
+</tr>
+<tr>
+<td>选择序列</td>
+<td>根据条件选择不同分支</td>
+<td>合格/不合格分拣</td>
+</tr>
+<tr>
+<td>并列序列</td>
+<td>多个分支同时执行，最后汇合</td>
+<td>两个机构同时动作</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6.-%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E8%A7%84%E5%88%99" tabindex="-1">6. 转换实现规则</h2>
+<h3 id="6.1-%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E6%9D%A1%E4%BB%B6" tabindex="-1">6.1 转换实现条件</h3>
+<p>一个转换要实现，必须同时满足：</p>
+<ol>
+<li>该转换所有前级步都是活动步；</li>
+<li>相应转换条件满足。</li>
+</ol>
+<p>逻辑公式：</p>
+<p>[
+T_i = X_{pre1}\land X_{pre2}\land \cdots \land C_i
+]</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(T_i)</td>
+<td>第i个转换是否实现</td>
+</tr>
+<tr>
+<td>(X_{pre})</td>
+<td>前级步活动状态</td>
+</tr>
+<tr>
+<td>(C_i)</td>
+<td>转换条件</td>
+</tr>
+</tbody>
+</table>
+<p>适用条件：所有SFC结构，包括单序列、选择序列、并列序列。</p>
+<p>工程意义：只有当前步已经活动且外部条件满足时，系统才允许进入下一步。</p>
+<h3 id="6.2-%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E6%93%8D%E4%BD%9C" tabindex="-1">6.2 转换实现操作</h3>
+<p>转换实现时同时完成两件事：</p>
+<ol>
+<li>后续步变为活动步；</li>
+<li>前级步变为不活动步。</li>
+</ol>
+<p>即：</p>
+<p>[
+X_{next}=1,\quad X_{pre}=0
+]</p>
+<h2 id="7.-%E9%A1%BA%E5%BA%8F%E6%8E%A7%E5%88%B6%E6%A2%AF%E5%BD%A2%E5%9B%BE%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95" tabindex="-1">7. 顺序控制梯形图实现方法</h2>
+<h3 id="7.1-%E8%B5%B7%E4%BF%9D%E5%81%9C%E8%AE%BE%E8%AE%A1%E6%B3%95" tabindex="-1">7.1 起保停设计法</h3>
+<p>程序分为两大部分：</p>
+<pre class="code-frame"><code class="hljs language-text">转换条件控制步序标志
+步序标志实现输出
+</code></pre>
+<p>每一步用类似启保停电路保持，当转换条件满足时，下一步置位，当前步断开。</p>
+<p>优点：逻辑直观，便于从启保停理解SFC。</p>
+<p>缺点：步数多时程序较长，转换逻辑较复杂。</p>
+<h3 id="7.2-%E7%BD%AE%E4%BD%8D%E5%A4%8D%E4%BD%8D%E8%AE%BE%E8%AE%A1%E6%B3%95" tabindex="-1">7.2 置位复位设计法</h3>
+<p>使用S/R指令控制步状态。</p>
+<p>基本思想：</p>
+<pre class="code-frame"><code class="hljs language-text">转换条件满足 → 置位下一步 → 复位当前步
+</code></pre>
+<p>优点：程序简洁，适合较复杂的顺序控制。</p>
+<p>易错点：必须处理好初始步置位、互斥步复位、并行分支汇合等问题。</p>
+<h2 id="8.-%E7%BB%84%E5%90%88%E6%9C%BA%E5%BA%8A%E5%8A%A8%E5%8A%9B%E5%A4%B4%E8%BF%90%E5%8A%A8%E6%A1%88%E4%BE%8B" tabindex="-1">8. 组合机床动力头运动案例</h2>
+<h3 id="8.1-%E6%8E%A7%E5%88%B6%E8%A6%81%E6%B1%82" tabindex="-1">8.1 控制要求</h3>
+<p>动力头初始位置在左边，左限位为I0.3。按启动按钮I0.0后：</p>
+<pre class="code-frame"><code class="hljs language-text">初始位置I0.3
+→ 按I0.0启动
+→ 向右快进：Q0.0和Q0.1控制
+→ 到达I0.1后转入工作进给：Q0.1控制
+→ 到达I0.2后快速返回：Q0.2控制
+→ 回到I0.3后停止
+</code></pre>
+<h3 id="8.2-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E6%8B%86%E5%88%86" tabindex="-1">8.2 顺序功能图拆分</h3>
+<table>
+<thead>
+<tr>
+<th>步</th>
+<th>状态</th>
+<th>输出</th>
+<th>转换条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S0</td>
+<td>初始等待</td>
+<td>无</td>
+<td>I0.0且I0.3</td>
+</tr>
+<tr>
+<td>S1</td>
+<td>快进</td>
+<td>Q0.0、Q0.1</td>
+<td>I0.1</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>工进</td>
+<td>Q0.1</td>
+<td>I0.2</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>快退</td>
+<td>Q0.2</td>
+<td>I0.3</td>
+</tr>
+<tr>
+<td>S0</td>
+<td>回初始</td>
+<td>无</td>
+<td>循环结束</td>
+</tr>
+</tbody>
+</table>
+<p>工程意义：把机械运动流程转化为“步-动作-转换条件”结构。</p>
+<h2 id="9.-%E4%B8%93%E7%94%A8%E9%92%BB%E5%BA%8A%E6%8E%A7%E5%88%B6%E5%AE%9E%E4%BE%8B" tabindex="-1">9. 专用钻床控制实例</h2>
+<h3 id="9.1-%E6%8E%A7%E5%88%B6%E8%A6%81%E6%B1%82%E6%A6%82%E8%A6%81" tabindex="-1">9.1 控制要求概要</h3>
+<p>加工圆盘状工件上均匀分布的6个孔，即每次钻两个孔，旋转120°，重复三次。</p>
+<p>自动过程：</p>
+<pre class="code-frame"><code class="hljs language-text">初始：大小钻头在上限位
+→ 启动
+→ 工件夹紧
+→ 夹紧到位
+→ 大小钻头同时下行
+→ 下限位到达
+→ 大小钻头上行
+→ 上限位到达
+→ 工件旋转120°
+→ 旋转到位
+→ 重复钻第二对孔
+→ 再旋转120°钻第三对孔
+→ 松开工件
+→ 松开到位
+→ 返回初始状态
+</code></pre>
+<h3 id="9.2-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%88%86%E9%85%8D" tabindex="-1">9.2 输入输出分配</h3>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I0.0</td>
+<td>启动按钮</td>
+</tr>
+<tr>
+<td>I0.1</td>
+<td>工件夹紧检测开关</td>
+</tr>
+<tr>
+<td>I0.2</td>
+<td>大钻头下限位</td>
+</tr>
+<tr>
+<td>I0.3</td>
+<td>大钻头上限位</td>
+</tr>
+<tr>
+<td>I0.4</td>
+<td>小钻头下限位</td>
+</tr>
+<tr>
+<td>I0.5</td>
+<td>小钻头上限位</td>
+</tr>
+<tr>
+<td>I0.6</td>
+<td>旋转到位检测</td>
+</tr>
+<tr>
+<td>I0.7</td>
+<td>工件松开检测</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>输出</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q0.0</td>
+<td>工件夹紧电磁阀</td>
+</tr>
+<tr>
+<td>Q0.1</td>
+<td>大钻头下行接触器</td>
+</tr>
+<tr>
+<td>Q0.2</td>
+<td>大钻头上行接触器</td>
+</tr>
+<tr>
+<td>Q0.3</td>
+<td>小钻头下行接触器</td>
+</tr>
+<tr>
+<td>Q0.4</td>
+<td>小钻头上行接触器</td>
+</tr>
+<tr>
+<td>Q0.5</td>
+<td>工件正转</td>
+</tr>
+<tr>
+<td>Q0.6</td>
+<td>工件松开电磁阀</td>
+</tr>
+<tr>
+<td>Q0.7</td>
+<td>工件反转</td>
+</tr>
+</tbody>
+</table>
+<h3 id="9.3-%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84%E5%BB%BA%E8%AE%AE" tabindex="-1">9.3 程序结构建议</h3>
+<ul>
+<li>OB1负责模式选择和总调用；</li>
+<li>自动流程封装为FB1；</li>
+<li>手动控制封装为FB2；</li>
+<li>自动FB内部按顺序功能图设计步序；</li>
+<li>每个输出都要考虑互锁，避免上下行、夹紧松开、正反转同时动作。</li>
+</ul>
+<h2 id="10.-%E5%9B%BE%E8%A1%A8%E7%B4%A2%E5%BC%95" tabindex="-1">10. 图表索引</h2>
+<table>
+<thead>
+<tr>
+<th>图表</th>
+<th>来源位置</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>启保停电路</td>
+<td>第6.1章PPT 6.1部分</td>
+<td>掌握基本自锁逻辑</td>
+</tr>
+<tr>
+<td>延时接通/断开电路</td>
+<td>第6.1章PPT 6.1部分</td>
+<td>掌握定时器应用</td>
+</tr>
+<tr>
+<td>动力头运动示意图</td>
+<td>第6.1章PPT 6.2部分</td>
+<td>理解步序拆分</td>
+</tr>
+<tr>
+<td>动力头顺序功能图</td>
+<td>第6.1章PPT 6.2部分</td>
+<td>学会SFC表示方法</td>
+</tr>
+<tr>
+<td>单序列/选择/并列结构图</td>
+<td>第6.1章PPT 6.2部分</td>
+<td>掌握SFC三种基本结构</td>
+</tr>
+<tr>
+<td>起保停法梯形图</td>
+<td>第6.1章PPT 6.3.1</td>
+<td>学会SFC转梯形图</td>
+</tr>
+<tr>
+<td>置位复位法梯形图</td>
+<td>第6.1章PPT 6.3.2</td>
+<td>学会S/R实现步序</td>
+</tr>
+<tr>
+<td>专用钻床SFC</td>
+<td>第6.1章PPT后半部分</td>
+<td>综合设计题重点</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11.-%E6%98%93%E9%94%99%E7%82%B9" tabindex="-1">11. 易错点</h2>
+<ol>
+<li>顺序功能图不是梯形图，但可以转化为梯形图。</li>
+<li>步是状态，动作是该状态下的输出，不要混淆。</li>
+<li>转换实现必须同时满足前级步活动和转换条件成立。</li>
+<li>转换发生时要同时置位后续步、复位前级步。</li>
+<li>选择序列要注意互斥条件，避免多个分支同时进入。</li>
+<li>并列序列要注意所有分支完成后才能汇合。</li>
+<li>手动/自动程序要有模式互锁。</li>
+<li>上下行、正反转、夹紧松开等相反动作必须互锁。</li>
+</ol>
+<h2 id="12.-%E8%80%83%E5%89%8D%E8%A1%A5%E5%85%85%EF%BC%9Asfc%E8%AE%BE%E8%AE%A1%E9%A2%98%E7%AD%94%E9%A2%98%E5%A5%97%E8%B7%AF" tabindex="-1">12. 考前补充：SFC设计题答题套路</h2>
+<h3 id="12.1-%E9%A1%BA%E5%BA%8F%E6%8E%A7%E5%88%B6%E8%AE%BE%E8%AE%A1%E6%AD%A5%E9%AA%A4" tabindex="-1">12.1 顺序控制设计步骤</h3>
+<pre class="code-frame"><code class="hljs language-text">读工艺要求
+→ 列输入/输出表
+→ 划分工作步
+→ 写每步动作
+→ 写步间转换条件
+→ 检查初始步、互锁、停止/复位
+→ 转换为梯形图或置位复位程序
+</code></pre>
+<h3 id="12.2-%E5%8D%95%E5%BA%8F%E5%88%97%E3%80%81%E9%80%89%E6%8B%A9%E5%BA%8F%E5%88%97%E3%80%81%E5%B9%B6%E5%88%97%E5%BA%8F%E5%88%97%E5%88%A4%E6%96%AD" tabindex="-1">12.2 单序列、选择序列、并列序列判断</h3>
+<table>
+<thead>
+<tr>
+<th>结构</th>
+<th>判断关键词</th>
+<th>转换特点</th>
+<th>易错点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单序列</td>
+<td>只有一条执行路径</td>
+<td>一步接一步</td>
+<td>少写初始步或复位条件</td>
+</tr>
+<tr>
+<td>选择序列</td>
+<td>按条件走不同分支</td>
+<td>多选一，条件通常互斥</td>
+<td>条件不互斥会误入多个分支</td>
+</tr>
+<tr>
+<td>并列序列</td>
+<td>多个分支同时执行</td>
+<td>一个转换后激活多个步</td>
+<td>汇合时通常要等所有分支完成</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12.3-%E7%94%B1sfc%E8%BD%AC%E6%A2%AF%E5%BD%A2%E5%9B%BE%E7%9A%84%E6%A0%B8%E5%BF%83%E5%85%AC%E5%BC%8F" tabindex="-1">12.3 由SFC转梯形图的核心公式</h3>
+<p>每一步通常可按“启动条件 + 自保持 - 下一步复位”的思路实现：</p>
+<p>[
+M_i=(M_{i-1}\land T_{i-1})\lor(M_i\land \lnot T_i)
+]</p>
+<p>其中 (M_i) 是当前步标志，(T_i) 是当前步到下一步的转换条件。置位复位法则更直观：转换条件成立时置位后续步、复位前级步。</p>
+<h3 id="12.4-%E7%BB%BC%E5%90%88%E9%A2%98%E5%AE%89%E5%85%A8%E6%A3%80%E6%9F%A5%E6%B8%85%E5%8D%95" tabindex="-1">12.4 综合题安全检查清单</h3>
+<ul>
+<li>初始状态是否明确，如动力头在左限位、钻头在上限位。</li>
+<li>相反动作是否互锁，如上行/下行、正转/反转、夹紧/松开。</li>
+<li>自动循环是否有停止、急停、复位或故障处理。</li>
+<li>输出动作是否只由对应活动步决定，避免多个程序段重复驱动同一输出。</li>
+</ul>
+<h2 id="13.-%E6%9C%AC%E7%AB%A0%E9%A2%84%E6%B5%8B%E9%A2%98%E4%B8%8E%E7%AD%94%E6%A1%88" tabindex="-1">13. 本章预测题与答案</h2>
+<h3 id="%E9%A2%981%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AF%E7%BB%8F%E9%AA%8C%E8%AE%BE%E8%AE%A1%E6%B3%95%EF%BC%9F" tabindex="-1">题1：什么是经验设计法？</h3>
+<p>答案：经验设计法是在典型梯形图程序基础上，结合实际控制要求和PLC工作原理不断修改完善的方法。它适合简单控制任务，但复杂系统中容易出现逻辑混乱和维护困难。</p>
+<h3 id="%E9%A2%982%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AF%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%82%B9%EF%BC%9F" tabindex="-1">题2：什么是顺序功能图？有什么优点？</h3>
+<p>答案：顺序功能图是根据工艺过程，把系统工作周期划分为若干步，并用转换条件表示步之间切换关系的图形设计方法。优点是逻辑清楚、便于调试、修改方便，适合顺序控制系统。</p>
+<h3 id="%E9%A2%983%EF%BC%9A%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E4%B8%AD%E7%9A%84%E2%80%9C%E6%AD%A5%E2%80%9D%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D%EF%BC%9F" tabindex="-1">题3：顺序功能图中的“步”是什么意思？</h3>
+<p>答案：步是系统工作周期中的一个阶段，通常用M位表示。系统处于某一步时，该步为活动步，并执行该步对应的动作。</p>
+<h3 id="%E9%A2%984%EF%BC%9A%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E9%9C%80%E8%A6%81%E6%BB%A1%E8%B6%B3%E5%93%AA%E4%B8%A4%E4%B8%AA%E6%9D%A1%E4%BB%B6%EF%BC%9F" tabindex="-1">题4：转换实现需要满足哪两个条件？</h3>
+<p>答案：第一，该转换所有前级步都处于活动状态；第二，相应转换条件成立。两者同时满足时，转换才能实现。</p>
+<h3 id="%E9%A2%985%EF%BC%9A%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E6%97%B6%E8%A6%81%E5%AE%8C%E6%88%90%E4%BB%80%E4%B9%88%E6%93%8D%E4%BD%9C%EF%BC%9F" tabindex="-1">题5：转换实现时要完成什么操作？</h3>
+<p>答案：转换实现时，要使所有后续步变为活动步，同时使所有前级步变为不活动步。</p>
+<h3 id="%E9%A2%986%EF%BC%9A%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E6%9C%89%E5%93%AA%E4%B8%89%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84%EF%BC%9F" tabindex="-1">题6：顺序功能图有哪三种基本结构？</h3>
+<p>答案：单序列、选择序列和并列序列。单序列按固定路径执行；选择序列按条件选择分支；并列序列多个分支同时执行并在后续汇合。</p>
+<h3 id="%E9%A2%987%EF%BC%9A%E8%B5%B7%E4%BF%9D%E5%81%9C%E8%AE%BE%E8%AE%A1%E6%B3%95%E5%AE%9E%E7%8E%B0%E9%A1%BA%E5%BA%8F%E6%8E%A7%E5%88%B6%E6%97%B6%E7%A8%8B%E5%BA%8F%E9%80%9A%E5%B8%B8%E5%88%86%E4%B8%BA%E5%93%AA%E4%B8%A4%E9%83%A8%E5%88%86%EF%BC%9F" tabindex="-1">题7：起保停设计法实现顺序控制时程序通常分为哪两部分？</h3>
+<p>答案：一部分用转换条件控制步序标志，另一部分用步序标志实现输出动作。</p>
+<h3 id="%E9%A2%988%EF%BC%9A%E7%BD%AE%E4%BD%8D%E5%A4%8D%E4%BD%8D%E8%AE%BE%E8%AE%A1%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F" tabindex="-1">题8：置位复位设计法的基本思想是什么？</h3>
+<p>答案：当某步的转换条件满足时，使用置位指令使下一步活动，同时使用复位指令使当前步不活动。</p>
+<h3 id="%E9%A2%989%EF%BC%9A%E5%8A%A8%E5%8A%9B%E5%A4%B4%E6%8E%A7%E5%88%B6%E6%A1%88%E4%BE%8B%E4%B8%AD%EF%BC%8C%E4%BB%8E%E5%BF%AB%E8%BF%9B%E8%BD%AC%E4%B8%BA%E5%B7%A5%E8%BF%9B%E7%9A%84%E6%9D%A1%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F" tabindex="-1">题9：动力头控制案例中，从快进转为工进的条件是什么？</h3>
+<p>答案：动力头按启动后先快进，当到达位置检测I0.1时，由快进步转换为工作进给步。</p>
+<h3 id="%E9%A2%9810%EF%BC%9A%E4%B8%93%E7%94%A8%E9%92%BB%E5%BA%8A%E6%8E%A7%E5%88%B6%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%AE%BE%E7%BD%AE%E6%89%8B%E5%8A%A8%E5%92%8C%E8%87%AA%E5%8A%A8%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%EF%BC%9F" tabindex="-1">题10：专用钻床控制中为什么要设置手动和自动两种方式？</h3>
+<p>答案：自动方式用于正常生产循环，提高效率；手动方式用于调试、维护、单步检查和异常处理。两种方式要互锁，避免同时控制同一输出。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/05/11/第02章_可编程控制器前言与低压电器/"><small>上一篇</small><strong>第02章_可编程控制器前言与低压电器</strong></a>
+        <a href="/2026/05/11/第05章_S7-1200用户程序结构/"><small>下一篇</small><strong>第05章_S7-1200用户程序结构</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

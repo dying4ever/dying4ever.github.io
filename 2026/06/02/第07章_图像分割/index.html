@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="第07章_图像分割" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>第07章_图像分割 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>第07章_图像分割</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-06-02T14:47:48">2026-06-02</time>
+    <span class="content-meta__categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/categories/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E7%AC%AC-7-%E7%AB%A0-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2">第 7 章 图像分割</a></li><li class="article-toc__level-2"><a href="#%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC">本章概括</a></li><li class="article-toc__level-2"><a href="#7.1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86">7.1 基础知识</a></li><li class="article-toc__level-2"><a href="#7.2-%E7%82%B9%E3%80%81%E7%BA%BF%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B">7.2 点、线和边缘检测</a></li><li class="article-toc__level-3"><a href="#7.2.1-%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86">7.2.1 背景知识</a></li><li class="article-toc__level-3"><a href="#7.2.2-%E5%AD%A4%E7%AB%8B%E7%82%B9%E6%A3%80%E6%B5%8B">7.2.2 孤立点检测</a></li><li class="article-toc__level-3"><a href="#7.2.3-%E7%BA%BF%E6%A3%80%E6%B5%8B">7.2.3 线检测</a></li><li class="article-toc__level-3"><a href="#7.2.4-%E8%BE%B9%E7%BC%98%E6%A8%A1%E5%9E%8B">7.2.4 边缘模型</a></li><li class="article-toc__level-3"><a href="#7.2.5-%E5%9F%BA%E6%9C%AC%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E5%AD%90">7.2.5 基本边缘检测算子</a></li><li class="article-toc__level-3"><a href="#7.2.6-canny-%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B">7.2.6 Canny 边缘检测</a></li><li class="article-toc__level-2"><a href="#7.3-%E9%98%88%E5%80%BC%E5%A4%84%E7%90%86">7.3 阈值处理</a></li><li class="article-toc__level-2"><a href="#7.4-%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9F%9F%E7%9A%84%E5%88%86%E5%89%B2">7.4 基于区域的分割</a></li><li class="article-toc__level-3"><a href="#%E5%8C%BA%E5%9F%9F%E7%94%9F%E9%95%BF">区域生长</a></li><li class="article-toc__level-3"><a href="#%E5%8C%BA%E5%9F%9F%E5%88%86%E8%A3%82%E4%B8%8E%E5%90%88%E5%B9%B6">区域分裂与合并</a></li><li class="article-toc__level-2"><a href="#7.5-%E5%88%86%E6%B0%B4%E5%B2%AD%E5%88%86%E5%89%B2%E7%AE%97%E6%B3%95">7.5 分水岭分割算法</a></li><li class="article-toc__level-3"><a href="#%E6%B0%B4%E5%9D%9D%E6%9E%84%E5%BB%BA">水坝构建</a></li><li class="article-toc__level-3"><a href="#%E6%A0%87%E8%AE%B0%E6%8E%A7%E5%88%B6%E5%88%86%E6%B0%B4%E5%B2%AD">标记控制分水岭</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="%E7%AC%AC-7-%E7%AB%A0-%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2" tabindex="-1">第 7 章 图像分割</h1>
+<h2 id="%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC" tabindex="-1">本章概括</h2>
+<p>本章讨论把图像划分为目标区域的基本方法，包括分割定义、点线边缘检测、Canny 边缘检测、阈值处理、区域生长、区域分裂合并和分水岭算法。重点是理解边缘型分割、阈值型分割和区域型分割的适用条件。</p>
+<h2 id="7.1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86" tabindex="-1">7.1 基础知识</h2>
+<p>图像分割的目标是把图像区域 $R$ 划分为若干互不重叠的子区域：</p>
+<p>$$
+R=\bigcup_{i=1}^{n}R_i,\qquad R_i\cap R_j=\varnothing\ (i\ne j)
+$$</p>
+<p>每个区域内部应满足某种一致性准则 $P(R_i)=\text{TRUE}$，而不同相邻区域合并后不再满足该准则：</p>
+<p>$$
+P(R_i\cup R_j)=\text{FALSE}
+$$</p>
+<p>这里的一致性可以是灰度、颜色、纹理、边缘或语义类别。</p>
+<h2 id="7.2-%E7%82%B9%E3%80%81%E7%BA%BF%E5%92%8C%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B" tabindex="-1">7.2 点、线和边缘检测</h2>
+<h3 id="7.2.1-%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86" tabindex="-1">7.2.1 背景知识</h3>
+<p>点、线和边缘检测本质上都是寻找灰度突变。模板响应可写为：</p>
+<p>$$
+R=\sum_{k=1}^{9}w_k z_k
+$$</p>
+<p>其中 $w_k$ 是模板系数，$z_k$ 是邻域像素值。不同模板对孤立点、线段或边缘有不同响应。</p>
+<h3 id="7.2.2-%E5%AD%A4%E7%AB%8B%E7%82%B9%E6%A3%80%E6%B5%8B" tabindex="-1">7.2.2 孤立点检测</h3>
+<p>孤立点检测常使用拉普拉斯类模板。若模板响应绝对值超过阈值，则认为该点与邻域差异明显。</p>
+<h3 id="7.2.3-%E7%BA%BF%E6%A3%80%E6%B5%8B" tabindex="-1">7.2.3 线检测</h3>
+<p>线检测使用方向性模板，如水平、垂直、$45^\circ$ 和 $-45^\circ$ 模板。某方向模板响应最大，说明图像中可能存在该方向线结构。</p>
+<h3 id="7.2.4-%E8%BE%B9%E7%BC%98%E6%A8%A1%E5%9E%8B" tabindex="-1">7.2.4 边缘模型</h3>
+<p>常见边缘包括阶跃边缘、斜坡边缘和屋顶边缘。实际图像中由于成像模糊和噪声，理想阶跃边缘常表现为斜坡边缘。</p>
+<p>一阶导数在边缘处出现峰值，二阶导数在边缘附近出现零交叉。边缘检测常利用梯度幅值和方向。</p>
+<h3 id="7.2.5-%E5%9F%BA%E6%9C%AC%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B%E7%AE%97%E5%AD%90" tabindex="-1">7.2.5 基本边缘检测算子</h3>
+<p>Sobel 模板为：</p>
+<p>$$
+S_x=
+\begin{bmatrix}
+-1 &amp; 0 &amp; 1\
+-2 &amp; 0 &amp; 2\
+-1 &amp; 0 &amp; 1
+\end{bmatrix},
+\quad
+S_y=
+\begin{bmatrix}
+-1 &amp; -2 &amp; -1\
+0 &amp; 0 &amp; 0\
+1 &amp; 2 &amp; 1
+\end{bmatrix}
+$$</p>
+<p>$S_x$ 对垂直边缘响应强，$S_y$ 对水平边缘响应强。</p>
+<p>Laplacian 离散形式为：</p>
+<p>$$
+\nabla^2 f(x,y)=f(x+1,y)+f(x-1,y)+f(x,y+1)+f(x,y-1)-4f(x,y)
+$$</p>
+<p>它对灰度突变敏感，但也容易放大噪声。</p>
+<h3 id="7.2.6-canny-%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B" tabindex="-1">7.2.6 Canny 边缘检测</h3>
+<p>Canny 是常用的最优边缘检测方法，目标是低错误率、边缘定位准确、单边缘响应。</p>
+<p>算法步骤：</p>
+<ol>
+<li>用高斯滤波平滑图像，降低噪声。</li>
+<li>计算梯度幅值和方向。</li>
+<li>进行非最大抑制，保留局部梯度最大点。</li>
+<li>使用双阈值区分强边缘和弱边缘。</li>
+<li>通过边缘连接保留与强边缘相连的弱边缘。</li>
+</ol>
+<p>高斯平滑为：</p>
+<p>$$
+f_s(x,y)=G(x,y)*f(x,y)
+$$</p>
+<p>梯度幅值和方向为：</p>
+<p>$$
+M(x,y)=\sqrt{g_x^2+g_y^2},\qquad
+\alpha(x,y)=\arctan\frac{g_y}{g_x}
+$$</p>
+<p>双阈值中，高阈值 $T_H$ 保留可靠边缘，低阈值 $T_L$ 保留候选边缘。$T_H$ 过高会漏检，$T_L$ 过低会引入噪声边缘。</p>
+<h2 id="7.3-%E9%98%88%E5%80%BC%E5%A4%84%E7%90%86" tabindex="-1">7.3 阈值处理</h2>
+<p>阈值分割根据灰度值把像素分为目标和背景：</p>
+<p>$$
+g(x,y)=
+\begin{cases}
+1,&amp;f(x,y)\ge T\
+0,&amp;f(x,y)&lt;T
+\end{cases}
+$$</p>
+<p>$T$ 为阈值。全局阈值适合光照均匀且目标/背景灰度差异明显的图像；局部阈值适合光照不均或背景变化明显的图像。</p>
+<p>多阈值分割可把图像划分为多个灰度区域，适合多个目标类别或多层结构图像。</p>
+<h2 id="7.4-%E5%9F%BA%E4%BA%8E%E5%8C%BA%E5%9F%9F%E7%9A%84%E5%88%86%E5%89%B2" tabindex="-1">7.4 基于区域的分割</h2>
+<h3 id="%E5%8C%BA%E5%9F%9F%E7%94%9F%E9%95%BF" tabindex="-1">区域生长</h3>
+<p>区域生长从种子点开始，把满足相似性条件的邻域像素加入区域。关键是选择种子点和相似性准则，如灰度差、颜色距离或纹理相似度。</p>
+<p>算法流程：</p>
+<ol>
+<li>选取一个或多个种子点。</li>
+<li>检查种子邻域像素。</li>
+<li>若满足相似性准则，则加入区域。</li>
+<li>重复扩展直到没有新像素可加入。</li>
+</ol>
+<p>区域生长能得到连通区域，但对种子选择和噪声敏感。</p>
+<h3 id="%E5%8C%BA%E5%9F%9F%E5%88%86%E8%A3%82%E4%B8%8E%E5%90%88%E5%B9%B6" tabindex="-1">区域分裂与合并</h3>
+<p>分裂合并先把图像划分为较大区域，若区域不满足一致性则继续分裂；相邻区域若合并后满足一致性则合并。它适合区域内部性质较稳定但目标位置未知的情况。</p>
+<h2 id="7.5-%E5%88%86%E6%B0%B4%E5%B2%AD%E5%88%86%E5%89%B2%E7%AE%97%E6%B3%95" tabindex="-1">7.5 分水岭分割算法</h2>
+<p>分水岭把灰度图像看成地形表面，灰度值表示高度。局部极小值形成集水盆地，盆地边界即分水岭线。</p>
+<h3 id="%E6%B0%B4%E5%9D%9D%E6%9E%84%E5%BB%BA" tabindex="-1">水坝构建</h3>
+<p>水从局部极小值开始上涨，不同盆地即将合并时修建水坝，水坝位置形成分割边界。</p>
+<h3 id="%E6%A0%87%E8%AE%B0%E6%8E%A7%E5%88%B6%E5%88%86%E6%B0%B4%E5%B2%AD" tabindex="-1">标记控制分水岭</h3>
+<p>直接分水岭容易过分割，因此常使用标记控制：</p>
+<ol>
+<li>对图像预处理，去噪并增强边界。</li>
+<li>生成前景标记和背景标记。</li>
+<li>修改梯度图，使标记位置成为极小值。</li>
+<li>在修改后的梯度图上执行分水岭。</li>
+</ol>
+<p>标记控制可以显著减少过分割，使分割结果更符合目标区域。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/06/02/第08章_CNN/"><small>上一篇</small><strong>第08章_CNN</strong></a>
+        <a href="/2026/06/02/第06章_彩色图像处理/"><small>下一篇</small><strong>第06章_彩色图像处理</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

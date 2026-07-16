@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="2.1、opencv基础（绘图）" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>2.1、opencv基础（绘图） · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>2.1、opencv基础（绘图）</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-25T16:11:30">2025-07-25</time>
+    <span class="content-meta__categories"><a href="/categories/Python/">Python</a><a href="/categories/opencv/">opencv</a></span>
+    <span class="content-meta__tags"><a href="/tags/Python/">Python</a><a href="/tags/opencv/">opencv</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#cv2.line(...)">cv2.line(...)</a></li><li class="article-toc__level-3"><a href="#cv2.puttext(...)">cv2.putText(...)</a></li><li class="article-toc__level-3"><a href="#cv2.circle(...)">cv2.circle(...)</a></li><li class="article-toc__level-3"><a href="#%E8%BF%9E%E7%BA%BF">连线</a></li><li class="article-toc__level-3"><a href="#cpp%3A">cpp:</a></li><li class="article-toc__level-2"><a href="#1.-%E9%80%90%E4%B8%AA%E6%8F%8F%E7%82%B9%EF%BC%88cv%3A%3Acircle%EF%BC%89">1. 逐个描点（cv::circle）</a></li><li class="article-toc__level-2"><a href="#2.-%E5%B0%86%E7%82%B9%E8%BF%9E%E6%88%90%E7%BA%BF%EF%BC%88cv%3A%3Apolylines%EF%BC%89">2. 将点连成线（cv::polylines）</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="cv2.line(...)" tabindex="-1"><code>cv2.line(...)</code></h3>
+<pre class="code-frame"><code class="hljs language-plaintext">cv2.line(result_img,
+         (x1,y1),
+         (x2,y2),
+         (0, 255, 0), 2, cv2.LINE_AA)
+</code></pre>
+<h4 id="%E5%8F%82%E6%95%B0%E8%A7%A3%E9%87%8A%EF%BC%9A" tabindex="-1">参数解释：</h4>
+<ul>
+<li>
+<p><code>result_img</code>: 要画线的目标图像（一般是 RGB 图像）。</p>
+</li>
+<li>
+<p><code>(x1,y1)</code>: 线的起点坐标，x 坐标为 <code>avg_x</code>，y 从顶部 <code>0</code> 开始。</p>
+</li>
+<li>
+<p><code>(x2,y2)</code>: 线的终点，x 坐标同样是 <code>avg_x</code>，y 为图像高度，即图像底部。</p>
+</li>
+<li>
+<p><code>(0, 255, 0)</code>: 线的颜色，绿色（BGR 格式）。</p>
+</li>
+<li>
+<p><code>2</code>: 线的粗细，单位是像素。</p>
+</li>
+<li>
+<p><code>cv2.LINE_AA</code>: 使用抗锯齿（Anti-Aliased）线，使得线条更平滑美观。</p>
+</li>
+</ul>
+<hr>
+<h3 id="cv2.puttext(...)" tabindex="-1"><code>cv2.putText(...)</code></h3>
+<pre class="code-frame"><code class="hljs language-plaintext">cv2.putText(result_img, &#x27;right_line&#x27;,
+            (x1- 120, y1 - 20),
+            cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+
+</code></pre>
+<h4 id="%E5%8F%82%E6%95%B0%E8%A7%A3%E9%87%8A%EF%BC%9A-1" tabindex="-1">参数解释：</h4>
+<ul>
+<li>
+<p><code>result_img</code>: 要绘制文字的图像。</p>
+</li>
+<li>
+<p><code>'right_line'</code>: 要显示的文本内容。</p>
+</li>
+<li>
+<p><code>(x1- 120, y1 - 20)</code>: 文本左下角的坐标，x 位置稍微偏左 120 像素，y 是图像底部往上偏移 20 像素。</p>
+</li>
+<li>
+<p><code>cv2.FONT_HERSHEY_SIMPLEX</code>: 字体样式（OpenCV 默认的无衬线字体）。</p>
+</li>
+<li>
+<p><code>0.7</code>: 字体缩放因子（字体大小）。</p>
+</li>
+<li>
+<p><code>(0, 255, 0)</code>: 文本颜色，绿色（BGR 格式）。</p>
+</li>
+<li>
+<p><code>2</code>: 字体粗细。</p>
+</li>
+</ul>
+<hr>
+<h3 id="cv2.circle(...)" tabindex="-1"><code>cv2.circle(...)</code></h3>
+<pre class="code-frame"><code class="hljs language-plaintext">cv2.circle(result_img, 
+			(x, y), 
+			3, (0, 0, 255), -1)
+</code></pre>
+<h4 id="%E5%8F%82%E6%95%B0%E8%A7%A3%E9%87%8A%EF%BC%9A-2" tabindex="-1">参数解释：</h4>
+<ul>
+<li>
+<p><code>result_img</code>: 目标图像。</p>
+</li>
+<li>
+<p><code>(x, y)</code>: 要描的点的坐标。</p>
+</li>
+<li>
+<p><code>3</code>: 圆的半径（像素），可以根据需要调整。</p>
+</li>
+<li>
+<p><code>(0, 0, 255)</code>: 点的颜色，这里是红色（BGR 格式）。</p>
+</li>
+<li>
+<p><code>-1</code>: 填充圆（-1 表示实心圆），你也可以写 <code>1</code> 表示只有边框。</p>
+</li>
+</ul>
+<h3 id="%E8%BF%9E%E7%BA%BF" tabindex="-1">连线</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">for pt in point_list:
+    cv2.circle(result_img, (int(pt[0]), int(pt[1])), 2, (0, 0, 255), -1)
+</code></pre>
+<hr>
+<h3 id="cpp%3A" tabindex="-1">cpp:</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">#include &lt;opencv2/opencv.hpp&gt;
+#include &lt;vector&gt;
+
+int main() {
+    cv::Mat result_img = cv::Mat::zeros(480, 640, CV_8UC3);
+
+    std::vector&lt;cv::Point&gt; points = {
+        cv::Point(100, 150),
+        cv::Point(120, 160),
+        cv::Point(140, 170),
+        cv::Point(160, 180)
+    };
+
+    // 描点
+    for (const auto&amp; pt : points) {
+        cv::circle(result_img, pt, 2, cv::Scalar(0, 0, 255), -1);
+    }
+
+    // 连线
+    cv::polylines(result_img, points, false, cv::Scalar(0, 255, 0), 2, cv::LINE_AA);
+
+    // 显示图像
+    cv::imshow(&quot;Result&quot;, result_img);
+    cv::waitKey(0);
+    return 0;
+}
+
+</code></pre>
+<hr>
+<h2 id="1.-%E9%80%90%E4%B8%AA%E6%8F%8F%E7%82%B9%EF%BC%88cv%3A%3Acircle%EF%BC%89" tabindex="-1">1. <strong>逐个描点（cv::circle）</strong></h2>
+<pre class="code-frame"><code class="hljs language-plaintext">#include &lt;opencv2/opencv.hpp&gt;
+#include &lt;vector&gt;
+
+std::vector&lt;cv::Point&gt; points = {
+    cv::Point(100, 150),
+    cv::Point(120, 160),
+    cv::Point(140, 170),
+    cv::Point(160, 180)
+};
+
+for (const auto&amp; pt : points) {//遍历 points 容器中的每一个元素
+    cv::circle(result_img, pt, 2, cv::Scalar(0, 0, 255), -1);  // 红色实心圆
+}
+</code></pre>
+<ul>
+<li><code>cv::circle()</code> 在图像上画点。</li>
+<li><code>cv::Scalar(B, G, R)</code> 是颜色格式。</li>
+</ul>
+<hr>
+<h2 id="2.-%E5%B0%86%E7%82%B9%E8%BF%9E%E6%88%90%E7%BA%BF%EF%BC%88cv%3A%3Apolylines%EF%BC%89" tabindex="-1">2. <strong>将点连成线（cv::polylines）</strong></h2>
+<pre class="code-frame"><code class="hljs language-plaintext">cv::polylines(result_img, points, false, cv::Scalar(0, 255, 0), 2, cv::LINE_AA);
+</code></pre>
+<ul>
+<li><code>points</code>: <code>std::vector&lt;cv::Point&gt;</code>，点的数组。</li>
+<li><code>false</code>: 表示这不是一个封闭的图形。</li>
+<li><code>cv::Scalar(0, 255, 0)</code>: 绿色线条。</li>
+<li><code>2</code>: 线宽。</li>
+<li><code>cv::LINE_AA</code>: 抗锯齿线。</li>
+</ul>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/22/龙芯2k3000_联网/"><small>上一篇</small><strong>龙芯2k3000_联网</strong></a>
+        <a href="/2025/08/01/mklink/"><small>下一篇</small><strong>mklink</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

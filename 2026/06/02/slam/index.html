@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="slam" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>slam · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>slam</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-06-02T13:45:47">2026-06-02</time>
+    <span class="content-meta__categories"><a href="/categories/%E5%AF%BC%E8%88%AA/">导航</a><a href="/categories/slam/">slam</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E5%AF%BC%E8%88%AA/">导航</a><a href="/tags/slam/">slam</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#slam-%E7%AE%97%E6%B3%95%E5%B8%B8%E8%A7%81%E5%88%86%E7%B1%BB">SLAM 算法常见分类</a></li><li class="article-toc__level-2"><a href="#1.-%E6%BF%80%E5%85%89-slam">1. 激光 SLAM</a></li><li class="article-toc__level-2"><a href="#2.-%E8%A7%86%E8%A7%89-slam">2. 视觉 SLAM</a></li><li class="article-toc__level-2"><a href="#3.-%E8%A7%86%E8%A7%89%E6%83%AF%E6%80%A7-slam-%2F-vio">3. 视觉惯性 SLAM / VIO</a></li><li class="article-toc__level-2"><a href="#4.-%E6%BF%80%E5%85%89%E6%83%AF%E6%80%A7-slam-%2F-lio">4. 激光惯性 SLAM / LIO</a></li><li class="article-toc__level-2"><a href="#5.-%E5%A4%9A%E4%BC%A0%E6%84%9F%E5%99%A8%E8%9E%8D%E5%90%88-slam">5. 多传感器融合 SLAM</a></li><li class="article-toc__level-2"><a href="#6.-%E5%B7%A5%E7%A8%8B%E5%9C%BA%E6%99%AF%E9%80%89%E6%8B%A9">6. 工程场景选择</a></li><li class="article-toc__level-2"><a href="#7.-%E6%80%BB%E7%BB%93">7. 总结</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="slam-%E7%AE%97%E6%B3%95%E5%B8%B8%E8%A7%81%E5%88%86%E7%B1%BB" tabindex="-1">SLAM 算法常见分类</h1>
+<p>SLAM（Simultaneous Localization and Mapping，同步定位与建图）是指机器人在未知环境中，一边估计自身位置，一边构建环境地图。常见 SLAM 算法主要可以按传感器组合分为以下几类。</p>
+<h2 id="1.-%E6%BF%80%E5%85%89-slam" tabindex="-1">1. 激光 SLAM</h2>
+<p>激光 SLAM 主要使用 2D 或 3D 激光雷达进行定位与建图，常用于移动机器人、无人车和室内导航。</p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GMapping</td>
+<td>经典 2D 激光 SLAM，基于粒子滤波</td>
+</tr>
+<tr>
+<td>Hector SLAM</td>
+<td>不依赖里程计，适合高频激光雷达</td>
+</tr>
+<tr>
+<td>Cartographer</td>
+<td>Google 开源，支持 2D/3D，工程应用较多</td>
+</tr>
+<tr>
+<td>Karto SLAM</td>
+<td>基于图优化的 2D 激光 SLAM</td>
+</tr>
+<tr>
+<td>LOAM</td>
+<td>经典 3D 激光 SLAM</td>
+</tr>
+<tr>
+<td>LeGO-LOAM</td>
+<td>面向地面机器人的轻量化 3D 激光 SLAM</td>
+</tr>
+<tr>
+<td>特点：精度较高、尺度准确、对光照不敏感；但激光雷达成本较高，语义信息较少。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="2.-%E8%A7%86%E8%A7%89-slam" tabindex="-1">2. 视觉 SLAM</h2>
+<p>视觉 SLAM 主要使用相机进行定位与建图，包括单目、双目和 RGB-D 相机，常用于机器人、AR/VR 和无人机。</p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>类型</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ORB-SLAM</td>
+<td>单目</td>
+<td>经典特征点法视觉 SLAM</td>
+</tr>
+<tr>
+<td>ORB-SLAM2</td>
+<td>单目/双目/RGB-D</td>
+<td>支持多种相机输入</td>
+</tr>
+<tr>
+<td>ORB-SLAM3</td>
+<td>视觉/视觉惯性</td>
+<td>支持 IMU，多地图能力更强</td>
+</tr>
+<tr>
+<td>LSD-SLAM</td>
+<td>单目</td>
+<td>直接法，适合大尺度环境</td>
+</tr>
+<tr>
+<td>DSO</td>
+<td>单目</td>
+<td>直接法，不依赖特征点</td>
+</tr>
+<tr>
+<td>RTAB-Map</td>
+<td>RGB-D/双目/激光</td>
+<td>回环检测能力强，适合 RGB-D 建图</td>
+</tr>
+<tr>
+<td>特点：相机成本低、信息丰富，可获取纹理和颜色；但对光照、运动模糊和弱纹理环境较敏感，单目还存在尺度不确定问题。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="3.-%E8%A7%86%E8%A7%89%E6%83%AF%E6%80%A7-slam-%2F-vio" tabindex="-1">3. 视觉惯性 SLAM / VIO</h2>
+<p>视觉惯性 SLAM 使用相机和 IMU 融合。相机提供图像信息，IMU 提供加速度和角速度信息，可以提高快速运动场景下的稳定性。</p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MSCKF</td>
+<td>经典滤波式 VIO</td>
+</tr>
+<tr>
+<td>OKVIS</td>
+<td>优化式视觉惯性算法</td>
+</tr>
+<tr>
+<td>VINS-Mono</td>
+<td>经典单目 + IMU 算法</td>
+</tr>
+<tr>
+<td>VINS-Fusion</td>
+<td>支持单目、双目、IMU、GPS 融合</td>
+</tr>
+<tr>
+<td>OpenVINS</td>
+<td>开源 VIO 框架</td>
+</tr>
+<tr>
+<td>特点：比纯视觉 SLAM 更稳定，适合无人机、AR/VR 和移动机器人；但需要相机与 IMU 标定，对时间同步要求较高。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="4.-%E6%BF%80%E5%85%89%E6%83%AF%E6%80%A7-slam-%2F-lio" tabindex="-1">4. 激光惯性 SLAM / LIO</h2>
+<p>激光惯性 SLAM 使用激光雷达和 IMU 融合。激光雷达提供空间结构，IMU 提供高频运动信息，常用于高精度三维建图。</p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LOAM</td>
+<td>经典激光里程计与建图算法</td>
+</tr>
+<tr>
+<td>LeGO-LOAM</td>
+<td>针对地面机器人优化</td>
+</tr>
+<tr>
+<td>LIO-SAM</td>
+<td>激光 + IMU + GPS，基于因子图优化</td>
+</tr>
+<tr>
+<td>FAST-LIO</td>
+<td>实时性强，适合机载或车载平台</td>
+</tr>
+<tr>
+<td>FAST-LIO2</td>
+<td>速度快、精度高，工程应用较多</td>
+</tr>
+<tr>
+<td>特点：精度高、实时性强、适合室外和三维建图；但传感器成本较高，标定和参数调试较复杂。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="5.-%E5%A4%9A%E4%BC%A0%E6%84%9F%E5%99%A8%E8%9E%8D%E5%90%88-slam" tabindex="-1">5. 多传感器融合 SLAM</h2>
+<p>多传感器融合 SLAM 会同时使用激光雷达、相机、IMU、轮速计、GPS 等传感器，以提高系统鲁棒性。</p>
+<table>
+<thead>
+<tr>
+<th>算法</th>
+<th>传感器组合</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LIO-SAM</td>
+<td>LiDAR + IMU + GPS</td>
+<td>适合室外三维建图</td>
+</tr>
+<tr>
+<td>VINS-Fusion</td>
+<td>Camera + IMU + GPS</td>
+<td>适合视觉惯性定位</td>
+</tr>
+<tr>
+<td>LVI-SAM</td>
+<td>LiDAR + Visual + IMU</td>
+<td>融合激光、视觉和惯性信息</td>
+</tr>
+<tr>
+<td>R3LIVE</td>
+<td>LiDAR + Camera + IMU</td>
+<td>可生成彩色三维地图</td>
+</tr>
+<tr>
+<td>Kimera</td>
+<td>Camera + IMU</td>
+<td>支持语义建图和三维重建</td>
+</tr>
+<tr>
+<td>特点：鲁棒性强，能适应复杂环境，是机器人和自动驾驶的重要方向；但系统结构复杂，对标定、同步和计算资源要求较高。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="6.-%E5%B7%A5%E7%A8%8B%E5%9C%BA%E6%99%AF%E9%80%89%E6%8B%A9" tabindex="-1">6. 工程场景选择</h2>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>常用方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>室内差速轮机器人</td>
+<td>2D 激光 SLAM</td>
+</tr>
+<tr>
+<td>ROS 2 小车建图导航</td>
+<td>SLAM Toolbox、Cartographer</td>
+</tr>
+<tr>
+<td>RGB-D 室内建图</td>
+<td>RTAB-Map、ORB-SLAM2 RGB-D</td>
+</tr>
+<tr>
+<td>无人机定位</td>
+<td>VINS-Mono、VINS-Fusion</td>
+</tr>
+<tr>
+<td>室外三维建图</td>
+<td>LOAM、LeGO-LOAM、LIO-SAM、FAST-LIO2</td>
+</tr>
+<tr>
+<td>自动驾驶/高精度机器人</td>
+<td>LIO、多传感器融合 SLAM</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7.-%E6%80%BB%E7%BB%93" tabindex="-1">7. 总结</h2>
+<p>常见 SLAM 主要包括：激光 SLAM、视觉 SLAM、视觉惯性 SLAM、激光惯性 SLAM 和多传感器融合SLAM。对于 ROS 移动机器人，最常用的是激光 SLAM；对于无人机和 AR/VR，常用视觉惯性 SLAM；对于自动驾驶和高精度三维建图，常用激光惯性 SLAM 或多传感器融合 SLAM。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/05/25/TRAP/"><small>上一篇</small><strong>TRAP</strong></a>
+        <a href="/2026/06/02/navigation2/"><small>下一篇</small><strong>navigation2</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

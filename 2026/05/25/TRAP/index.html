@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TRAP" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>TRAP · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>TRAP</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-05-25T18:50:00">2026-05-25</time>
+    <span class="content-meta__categories"><a href="/categories/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD/">具身智能</a><a href="/categories/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8/">具身智能安全</a><a href="/categories/TRAP/">TRAP</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD/">具身智能</a><a href="/tags/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E5%AE%89%E5%85%A8/">具身智能安全</a><a href="/tags/TRAP/">TRAP</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#(2026-03-24)-trap%3A-hijacking-vla-cot-reasoning-via-adversarial-patches">(2026-03-24) TRAP: Hijacking VLA CoT-Reasoning via Adversarial Patches</a></li><li class="article-toc__level-2"><a href="#%F0%9F%93%9C-%E7%A0%94%E7%A9%B6%E6%A0%B8%E5%BF%83">📜 研究核心</a></li><li class="article-toc__level-3"><a href="#%E2%9A%99%EF%B8%8F-%E5%86%85%E5%AE%B9">⚙️ 内容</a></li><li class="article-toc__level-3"><a href="#%F0%9F%92%A1-%E5%88%9B%E6%96%B0%E7%82%B9">💡 创新点</a></li><li class="article-toc__level-3"><a href="#%F0%9F%A7%A9-%E4%B8%8D%E8%B6%B3">🧩 不足</a></li><li class="article-toc__level-2"><a href="#%F0%9F%94%81-%E7%A0%94%E7%A9%B6%E5%86%85%E5%AE%B9">🔁 研究内容</a></li><li class="article-toc__level-3"><a href="#%F0%9F%92%A7-%E6%95%B0%E6%8D%AE">💧 数据</a></li><li class="article-toc__level-3"><a href="#%F0%9F%91%A9%F0%9F%8F%BB%E2%80%8D%F0%9F%92%BB-%E6%96%B9%E6%B3%95">👩🏻‍💻 方法</a></li><li class="article-toc__level-1"><a href="#%E4%B8%BA%E4%BA%86%E4%BC%98%E5%8C%96%E5%AF%B9%E6%8A%97%E8%A1%A5%E4%B8%81-%24%5Cdelta%24%EF%BC%8C%E6%88%91%E4%BB%AC%E9%87%87%E7%94%A8%E6%8A%95%E5%BD%B1%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%EF%BC%8C%E5%8D%B3-pgd%EF%BC%88pgd-%E6%98%AF%E5%AF%B9%E6%8A%97%E6%94%BB%E5%87%BB%E9%87%8C%E9%9D%9E%E5%B8%B8%E5%B8%B8%E8%A7%81%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%EF%BC%89%EF%BC%8C%E5%B9%B6%E5%B0%86%E4%BC%98%E5%8C%96%E8%BF%87%E7%A8%8B%E8%A1%A8%E7%A4%BA%E4%B8%BA%EF%BC%9A%24%24%5Cdelta_%7Bt%2B1%7D">为了优化对抗补丁 $\delta$，我们采用投影梯度下降，即 PGD（PGD 是对抗攻击里非常常见的优化方法），并将优化过程表示为： $$ \delta_{t+1}</a></li><li class="article-toc__level-1"><a href="#%E9%A2%9C%E8%89%B2%E5%B9%B3%E6%BB%91%E7%9A%84%E7%9B%AE%E6%A0%87%E6%98%AF%E5%87%8F%E5%B0%91%E8%A1%A5%E4%B8%81%E4%B8%AD%E7%9A%84%E9%AB%98%E9%A2%91%E5%99%AA%E5%A3%B0%EF%BC%8C%E8%AE%A9%E8%A1%A5%E4%B8%81%E9%A2%9C%E8%89%B2%E6%9B%B4%E5%8A%A0%E8%BF%9E%E7%BB%AD%E3%80%81%E8%87%AA%E7%84%B6%E3%80%81%E5%8F%AF%E6%89%93%E5%8D%B0%E3%80%82%E9%87%87%E7%94%A8total-variation%EF%BC%8C%E5%8D%B3-tv-%E6%8D%9F%E5%A4%B1%24%24l_%7Btv%7D">颜色平滑的目标是减少补丁中的高频噪声，让补丁颜色更加连续、自然、可打印。 采用Total Variation，即 TV 损失 $$ L_{tv}</a></li><li class="article-toc__level-3"><a href="#%F0%9F%94%AC-%E5%AE%9E%E9%AA%8C">🔬 实验</a></li><li class="article-toc__level-2"><a href="#%F0%9F%A4%94-%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93">🤔 个人总结</a></li><li class="article-toc__level-3"><a href="#%F0%9F%99%8B%E2%80%8D%E2%99%80%EF%B8%8F-%E9%87%8D%E7%82%B9%E8%AE%B0%E5%BD%95">🙋‍♀️ 重点记录</a></li><li class="article-toc__level-3"><a href="#%F0%9F%93%8C-%E5%BE%85%E8%A7%A3%E5%86%B3">📌 待解决</a></li><li class="article-toc__level-3"><a href="#%F0%9F%92%AD-%E6%80%9D%E8%80%83%E5%90%AF%E5%8F%91">💭 思考启发</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="(2026-03-24)-trap%3A-hijacking-vla-cot-reasoning-via-adversarial-patches" tabindex="-1"><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(238, 249, 253);">(2026-03-24) TRAP: Hijacking VLA CoT-Reasoning via Adversarial Patches</span></span></h1>
+<table>
+<thead>
+<tr>
+<th><!-- --></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(219, 238, 221);">作者:</span></span></strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(219, 238, 221);"> Zhengxian Huang; Wenjun Zhu; Haoxuan Qiu; Xiaoyu Ji; Wenyuan Xu;</span></span></td>
+</tr>
+<tr>
+<td><strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(243, 250, 244);">期刊: </span></span><span style="color: rgb(255, 0, 0);"><span style="background-color: rgb(243, 250, 244);">, </span></span><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(243, 250, 244);">2026.</span></span></strong></td>
+</tr>
+<tr>
+<td><strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(219, 238, 221);">期刊分区:</span></span></strong></td>
+</tr>
+<tr>
+<td><strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(243, 250, 244);">本地链接: </span></span></strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(243, 250, 244);"><a href="zotero://open-pdf/0_AGXZR5TK" rel="noopener noreferrer nofollow">14177_TRAP_Hijacking_VLA_CoT_R.pdf</a></span></span></td>
+</tr>
+<tr>
+<td><strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(219, 238, 221);">DOI: </span></span></strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(219, 238, 221);"><a href="https://doi.org/10.48550/arXiv.2603.23117" rel="noopener noreferrer nofollow">10.48550/arXiv.2603.23117</a></span></span></td>
+</tr>
+<tr>
+<td><strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(243, 250, 244);">摘要: </span></span></strong><em><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(243, 250, 244);">By integrating Chain-of-Thought (CoT) reasoning, Vision-Language-Action (VLA) models have demonstrated strong capabilities in robotic manipulation, particularly by improving generalization and interpretability. However, the security of CoT-based reasoning mechanisms remains largely unexplored.</span></span></em></td>
+</tr>
+<tr>
+<td><strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(219, 238, 221);">标签:</span></span></strong></td>
+</tr>
+<tr>
+<td><strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(243, 250, 244);">笔记日期: </span></span></strong><span style="color: rgb(25, 60, 71);"><span style="background-color: rgb(243, 250, 244);">2026/5/25 18:40:17</span></span></td>
+</tr>
+</tbody>
+</table>
+<h2 id="%F0%9F%93%9C-%E7%A0%94%E7%A9%B6%E6%A0%B8%E5%BF%83" tabindex="-1"><span style="color: rgb(224, 255, 255);"><span style="background-color: rgb(102, 205, 170);">📜 研究核心</span></span></h2>
+<hr>
+<blockquote>
+<p>Tips: 做了什么，解决了什么问题，创新点与不足？</p>
+</blockquote>
+<h3 id="%E2%9A%99%EF%B8%8F-%E5%86%85%E5%AE%B9" tabindex="-1">⚙️ 内容</h3>
+<h4 id="%E8%83%8C%E6%99%AF" tabindex="-1">背景</h4>
+<h5 id="1%E3%80%81cot-%3D-chain-of-thought%EF%BC%8C%E4%B8%AD%E8%AF%91%EF%BC%9A%E6%80%9D%E7%BB%B4%E9%93%BE" tabindex="-1">1、CoT = Chain-of-Thought，中译：思维链</h5>
+<ul>
+<li>在普通大语言模型里，CoT 是“先推理，再回答”。</li>
+<li>在 VLA 机器人里，CoT 可以是：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>CoT 形式</th>
+<th>含义</th>
+<th>对动作的作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sub-goal decomposition</td>
+<td>子目标分解</td>
+<td>把任务拆成几个步骤</td>
+</tr>
+<tr>
+<td>object bounding boxes</td>
+<td>目标物体框</td>
+<td>告诉模型要操作哪个物体、在哪里</td>
+</tr>
+<tr>
+<td>predicted trajectories</td>
+<td>预测轨迹</td>
+<td>告诉模型机械臂大概要怎么走</td>
+</tr>
+<tr>
+<td>论文指出，CoT-reasoning VLA 会先生成中间推理 R，再基于 R、图像 O、指令 I 生成动作 a。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>普通 VLA：看图 + 听指令 → 直接动作<br>
+CoT-VLA：看图 + 听指令 → 先生成中间计划 → 再动作</p>
+</blockquote>
+<p>$$r_t​∼P_θ​(r_t​∣r_{&lt;t}​,O,I)$$
+$$a​∼P_θ​(a​∣R​,O,I)$$</p>
+<ul>
+<li>$P_θ​$​ 表示参数为 $θ$的推理型 VLA模型</li>
+<li>$O$表示环境观察</li>
+<li>$I$表示用户指令</li>
+<li>$r_t​$ 表示生成的 CoT 中第 t 个 token。</li>
+</ul>
+<p>具备 CoT 推理能力的 VLA 大体上可以分为两类：<strong>集成式 VLA（Integrated-VLAs）</strong> 和 <strong>层级式 VLA（Hierarchical-VLAs）</strong>。</p>
+<blockquote>
+<p>Integrated-VLA 是一个模型同时负责推理和动作生成；<br>
+Hierarchical-VLA 是高层 VLM 负责生成 CoT，低层 policy 负责执行具体动作。
+<img src="/2026/05/25/TRAP/TRAP.assets/image-2026_05_27_11.png" alt="" loading="lazy" decoding="async"></p>
+</blockquote>
+<h6 id="integrated-vla%EF%BC%9A" tabindex="-1">Integrated-VLA：</h6>
+<p>在同一个模型中同时完成推理和动作生成，又可分为：</p>
+<ul>
+<li><strong>离散 token 动作生成Discrete-token-based methods</strong>（类似openvla）</li>
+</ul>
+<blockquote>
+<p>这类方法会先把连续动作量化成一个个离散区间，也就是 <strong>discrete bins</strong>，然后把动作当成 token 来生成。</p>
+</blockquote>
+<ul>
+<li><strong>基于连续回归两类Continuous-regression-based methods；</strong></li>
+</ul>
+<blockquote>
+<p>这类方法不把动作离散化成 token，而是直接输出连续动作值。</p>
+</blockquote>
+<p>原文提到三种常见方式：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>中文</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>diffusion models</td>
+<td>扩散模型</td>
+<td>通过逐步去噪生成动作</td>
+</tr>
+<tr>
+<td>flow matching</td>
+<td>流匹配</td>
+<td>学习从噪声到目标动作的连续变换</td>
+</tr>
+<tr>
+<td>MLP heads</td>
+<td>多层感知机头</td>
+<td>直接回归动作数值</td>
+</tr>
+</tbody>
+</table>
+<h6 id="hierarchical-vla%EF%BC%9A" tabindex="-1">Hierarchical-VLA：</h6>
+<p>采用高层 VLM 规划、低层 policy 执行的双系统结构。</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>英文</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>高层</td>
+<td>high-level planner / VLM</td>
+<td>理解任务，生成 CoT</td>
+</tr>
+<tr>
+<td>低层</td>
+<td>low-level policy</td>
+<td>根据 CoT 执行精确动作</td>
+</tr>
+<tr>
+<td>示例</td>
+<td>vanilla VLA</td>
+<td>普通 VLA 可以作为低层执行器</td>
+</tr>
+</tbody>
+</table>
+<h5 id="2%E3%80%81adversarial-patch%EF%BC%8C%E4%B8%AD%E8%AF%91%EF%BC%9A%E5%AF%B9%E6%8A%97%E8%A1%A5%E4%B8%81" tabindex="-1">2、Adversarial Patch，中译：对抗补丁</h5>
+<p>Adversarial Patch 就是一个故意设计出来的“视觉干扰图案”。</p>
+<p>它不是随机贴纸，而是通过优化算法生成的图案。<strong>人看起来可能只是一个花纹、杯垫、标签，但模型看到后会被误导。</strong></p>
+<p>在这篇论文中，攻击者把补丁放在桌面上，模型看到补丁后，中间 CoT 被污染，最终动作被劫持。论文把这个攻击框架叫 <strong>TRAP</strong>。</p>
+<h5 id="3%E3%80%81%E7%9B%AE%E6%A0%87%E6%94%BB%E5%87%BB%E5%92%8C%E6%99%AE%E9%80%9A%E6%94%BB%E5%87%BB%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F" tabindex="-1">3、目标攻击和普通攻击有什么区别？</h5>
+<p>这是安全论文里非常重要的区别。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>目标</th>
+<th>危险程度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Untargeted attack</td>
+<td>让机器人==失败==、卡住、抓错</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>Targeted attack</td>
+<td>让机器人执行攻击者指定动作</td>
+<td>更危险</td>
+</tr>
+</tbody>
+</table>
+<h6 id="--%E6%99%AE%E9%80%9A%E6%94%BB%E5%87%BB%EF%BC%9A%E8%AE%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%8A%93%E4%B8%8D%E5%88%B0%E8%8B%B9%E6%9E%9C%E3%80%82" tabindex="-1">- 普通攻击：让机器人抓不到苹果。</h6>
+<ul>
+<li><strong>perception-based approaches</strong>，即基于感知的攻击;
+这类方法会破坏模型的场景理解能力和跨模态对齐能力。</li>
+<li><strong>action-based approaches</strong>，即基于动作的攻击；
+这类方法不一定重点破坏模型对场景的理解，而是直接让模型生成错误动作。</li>
+</ul>
+<h6 id="--%E7%9B%AE%E6%A0%87%E6%94%BB%E5%87%BB%EF%BC%9A%E8%AE%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%B8%8D%E6%8A%93%E8%8B%B9%E6%9E%9C%EF%BC%8C%E6%94%B9%E5%8E%BB%E6%8A%93%E5%88%80%E3%80%82" tabindex="-1">- 目标攻击：让机器人不抓苹果，改去抓刀。</h6>
+<p>这篇论文的重点是 <strong>targeted control hijacking</strong>，也就是“目标型控制劫持”。这比单纯让机器人失败危险很多。</p>
+<h4 id="introduce%EF%BC%9A" tabindex="-1">introduce：</h4>
+<p>CoT 提升了泛化、解释和潜在安全性（降低“黑盒动作”的风险）；另一方面，也可能引入新的安全漏洞。</p>
+<p>目前一般研究主要攻击：视觉感知和动作输出，而且大多的攻击无针对性（目标攻击）；而CoT经常使模型任务意图显性化，可能引入新的安全漏洞。</p>
+<p>基于预实验发现 CoT 会强烈影响动作生成，因此提出 TRAP，通过优化 CoT <strong>对抗损失（adversarial loss）</strong> 来劫持 VLA，并在多种 VLA 架构、CoT 机制以及真实世界实验中验证了攻击有效性。</p>
+<h3 id="%F0%9F%92%A1-%E5%88%9B%E6%96%B0%E7%82%B9" tabindex="-1">💡 创新点</h3>
+<p>论文创新：</p>
+<ul>
+<li>第一，作者发现 CoT 推理机制会扩大 VLA 的攻击面，使对抗补丁可以通过污染 CoT 来操控机器人行为；</li>
+<li>第二，作者提出 TRAP，声称这是首个针对 VLA 的目标型对抗攻击框架；</li>
+<li>第三，作者在多种 VLA 架构、推理机制和真实世界场景中验证了该攻击的有效性。</li>
+</ul>
+<h3 id="%F0%9F%A7%A9-%E4%B8%8D%E8%B6%B3" tabindex="-1">🧩 不足</h3>
+<h2 id="%F0%9F%94%81-%E7%A0%94%E7%A9%B6%E5%86%85%E5%AE%B9" tabindex="-1"><span style="color: rgb(32, 178, 170);"><span style="background-color: rgb(175, 238, 238);">🔁 研究内容</span></span></h2>
+<hr>
+<h3 id="%F0%9F%92%A7-%E6%95%B0%E6%8D%AE" tabindex="-1">💧 数据</h3>
+<h3 id="%F0%9F%91%A9%F0%9F%8F%BB%E2%80%8D%F0%9F%92%BB-%E6%96%B9%E6%B3%95" tabindex="-1">👩🏻‍💻 方法</h3>
+<h4 id="threat-model%EF%BC%9A" tabindex="-1">Threat Model：</h4>
+<p><strong>攻击目标。</strong></p>
+<ul>
+<li>攻击者的主要目标是诱导 VLA 执行一种目标化的恶意行为，例如让机器人把刀递给用户。</li>
+</ul>
+<p><strong>攻击者能力。</strong></p>
+<ul>
+<li>参考已有工作，本文考虑一种==<strong>白盒攻击者</strong>==：==该攻击者可以完全访问受害 VLA 的模型架构、参数和梯度。==</li>
+<li>在黑盒设定（==只能观察模型输出，不能访问内部参数。==）下，攻击者可以将在替代 VLA 模型上优化得到的对抗补丁迁移到目标模型上（<strong>transfer attack，也就是迁移攻击</strong>）。</li>
+<li>本文进一步假设攻击者可以在物理环境中部署该补丁，例如放置一个杯垫或把补丁贴在桌子上，并确保它处于受害 VLA 的视觉范围内。</li>
+<li>最后，攻击者不允许操控指令输入-》文本指令始终保持为良性的用户交互。。</li>
+</ul>
+<h4 id="preliminary-analysis" tabindex="-1">Preliminary Analysis</h4>
+<h5 id="1.%E9%A6%96%E5%85%88%E8%AE%BA%E6%96%87%E9%A6%96%E5%85%88%E6%8F%90%E5%87%BA%E4%B8%A4%E4%B8%AA%E9%A2%84%E5%A4%87%E9%97%AE%E9%A2%98%EF%BC%9A" tabindex="-1">1.首先论文首先提出两个预备问题：</h5>
+<ul>
+<li>CoT 对动作生成有多重要？</li>
+<li>CoT 与 instruction 冲突时哪一个信号主导最终动作？</li>
+</ul>
+<h5 id="2.%E4%B8%BA%E4%BA%86%E5%9B%9E%E7%AD%94%E4%B8%8A%E8%BF%B0%E4%B8%A4%E4%B8%AA%E9%97%AE%E9%A2%98%EF%BC%8C%E5%AF%B9%E6%8E%A8%E7%90%86%E5%9E%8B-vla-%E7%9A%84%E5%9B%A0%E6%9E%9C%E6%9C%BA%E5%88%B6%E8%BF%9B%E8%A1%8C%E4%BA%86%E4%B8%80%E4%B8%AA%E9%A2%84%E5%A4%87%E5%88%86%E6%9E%90%E3%80%82" tabindex="-1">2.为了回答上述两个问题，对推理型 VLA 的因果机制进行了一个预备分析。</h5>
+<p>具体来说，我们对 VLA 的输入:$$P_θ​(a​∣R​,O,I)$$ 进行主动干预，并观察后续动作生成的变化。我们首先在线收集原始的 $(I, R)$ 配对，然后考虑两种实验设置：
+这里的$(I,R)$表示：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">I = instruction
+用户指令R = CoT，模型生成的中间推理
+</code></pre>
+<p>比如：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">I：pick apple
+R：the target object is apple, move toward apple
+</code></pre>
+<h6 id="1%E3%80%81-instruction-masking" tabindex="-1">1、 <strong>Instruction Masking</strong></h6>
+<p>我们通过遮蔽 instruction tokens 来评估 $CoT  R$对动作生成的影响，此时模型形式为 :$$P_θ​(a∣R,O,⋅)$$这种设置使我们能够弄清楚：在只给定 CoT 的情况下，VLA 是否仍然能够完成任务。</p>
+<h6 id="2%E3%80%81cross-sample-shuffling" tabindex="-1">2、Cross-Sample Shuffling</h6>
+<p>为了制造语义冲突，<strong>我们打乱 instruction 和 CoT 之间的对应关系</strong>:</p>
+<ul>
+<li>对于第 i 个配对样本，我们用来自另一个任务实例 j 的干扰指令$I^{(j)}$替换掉它原本的指令$I^{(i)}$ ，其中 j≠i。</li>
+<li>动作通过$$ P_θ​(a∣R^{(i)},O,I^{(j)}) $$生成。</li>
+<li>这个设置会让 instruction 和 CoT 指向不同的后续动作，从而帮助我们判断二者谁主导最终动作；同时，它也更接近后续的攻击场景。</li>
+</ul>
+<h6 id="3%E3%80%81results-and-analysis" tabindex="-1">3、Results and Analysis</h6>
+<p><img src="/2026/05/25/TRAP/TRAP.assets/image-2026_05_27_16.png" alt="" loading="lazy" decoding="async"></p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>InstructVLA</td>
+<td>层级式/指令推理型 VLA</td>
+</tr>
+<tr>
+<td>MolmoACT</td>
+<td>集成式、离散动作 token 类 VLA</td>
+</tr>
+<tr>
+<td>GraspVLA</td>
+<td>集成式、连续动作抓取类 VLA</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$TSR_{ori}$</td>
+<td>Task Success Rate <strong>original</strong>，正常配置下的任务成功率</td>
+</tr>
+<tr>
+<td>$TSR_m$</td>
+<td>instruction masking 下的任务成功率</td>
+</tr>
+<tr>
+<td>$SIM_m$</td>
+<td>similarity，遮蔽 instruction 后的轨迹相似度</td>
+</tr>
+<tr>
+<td>$TSR_{s_i}(模型更跟随 CoT)$<br>$TSR_{s_j}(模型更跟随 instruction)$</td>
+<td>cross-sample shuffling 下偏向不同信号的任务成功率</td>
+</tr>
+<tr>
+<td>$Score$</td>
+<td>衡量动作更偏向 CoT 还是 instruction 的分数</td>
+</tr>
+<tr>
+<td>==sim怎么计算？==</td>
+<td></td>
+</tr>
+<tr>
+<td>$$Score(T)=(sim(T,TA​)+sim(T,TB​))/(sim(T,TA​)−sim(T,TB​))$$​</td>
+<td></td>
+</tr>
+<tr>
+<td>作者在多个任务上考察了三种主流推理型 VLA，比较了两种干预设置与正常配置之间的行为变化。表 1 显示：</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>相比正常任务成功率 $TSR_{ori}​$，两种干预设置都会导致性能下降，**说明</li>
+<li>instruction 和 CoT 都对动作生成有正向贡献。**</li>
+<li>在 instruction masking 下，即使只依赖 CoT，<strong>VLA 仍然保留部分任务能力，说明 CoT 会影响动作生成。</strong></li>
+<li>在 cross-sample shuffling 下，不同指标显示 CoT 和 instruction 会相互竞争；尤其是 InstructVLA 和 MolmoACT 的 score 接近 0，<strong>说明二者影响力大致相当。</strong></li>
+</ul>
+<h4 id="methodology" tabindex="-1">Methodology</h4>
+<h5 id="5.1-problem-formulation%EF%BC%9A%E9%97%AE%E9%A2%98%E5%BD%A2%E5%BC%8F%E5%8C%96" tabindex="-1">5.1 Problem Formulation：问题形式化</h5>
+<h6 id="1%E3%80%81adversarial-patch-injection-%E5%AF%B9%E6%8A%97%E8%A1%A5%E4%B8%81%E6%B3%A8%E5%85%A5" tabindex="-1">1、Adversarial Patch Injection 对抗补丁注入</h6>
+<p>令 $\delta \in \mathbb{R}^{h \times w \times c}$ 表示对抗补丁，令 $M \in {(0, 1)}^{H \times W}$ 表示补丁位置掩码</p>
+<ul>
+<li>$h$：补丁高度</li>
+<li>$w$：补丁宽度</li>
+<li>$c$：图像通道数，例如 RGB 图像中 $c=3$</li>
+<li>$0$：保留原始图像</li>
+<li>$1$：替换为对抗补丁</li>
+</ul>
+<p>对于每一个时间步 $t$，加入补丁后的对抗观察 $\tilde{O}$ 可以表示为：
+$$\tilde{O}=(1−M)⊙O+M⊙δ$$</p>
+<ul>
+<li>$O$：原始环境观察，例如相机图像</li>
+<li>$\tilde{O}$：加入补丁后的对抗观察</li>
+<li>$M$：指示补丁位置的 mask</li>
+<li>$\delta$：对抗补丁</li>
+<li>$\odot$：element-wise multiplication，逐元素乘法
+这个公式可以拆成两部分看。</li>
+</ul>
+<p>第一部分：
+$$(1−M)⊙O$$
+表示：在非补丁区域保留原始图像，在补丁区域把原图清掉。</p>
+<p>第二部分：
+$$M⊙δ$$
+表示：在补丁区域放入对抗补丁，在非补丁区域不放补丁。</p>
+<h6 id="2%E3%80%81offline-rollout%EF%BC%9A%E7%A6%BB%E7%BA%BF%E8%BD%A8%E8%BF%B9%E9%87%87%E9%9B%86" tabindex="-1">2、Offline Rollout：离线轨迹采集</h6>
+<p>不同于以往只针对单个静态帧的补丁攻击工作，我们的目标是劫持 VLA，使其执行一个连贯的、序列化的目标行为。因此，我们通过让 VLA 在不同任务上进行 rollout，构建了一个离线干净数据集 :$$D = {\tau_n}_{n=1}^{N}$$</p>
+<ul>
+<li>$D$：离线干净轨迹数据集|</li>
+<li><strong>$\tau_n$：第 $n$ 条轨迹，轨迹 $\tau$ 表示为三元组 $(O, R, a)$。</strong></li>
+</ul>
+<blockquote>
+<p>一组数据的I应该是固定的，因为后面也用到了</p>
+</blockquote>
+<ul>
+<li>$N$：轨迹总数</li>
+</ul>
+<h6 id="3%E3%80%81-optimization-objective%EF%BC%9A%E4%BC%98%E5%8C%96%E7%9B%AE%E6%A0%87" tabindex="-1">3、 Optimization Objective：优化目标</h6>
+<p>对抗目标是优化补丁 $\delta$，<strong>使得当它被应用到数据集 $D$ 中的干净观察上时，VLA $P_\theta$ 会被诱导生成目标推理 CoT $R^<em>$ 和目标动作 $a^</em>$。</strong></p>
+<p>目标：最小化  总优化目标函数：
+$$
+\min_{\delta \in \Delta} \mathbb{E}<em>{\tau \sim D^*}
+\left[
+L</em>{cot}(\tilde{O}, I, R^<em>) + \lambda L_{action}(\tilde{O}, R^</em>, I, a^*)
+\right]
+$$</p>
+<ul>
+<li>$\min_{\delta \in \Delta}$
+表示 <strong>在允许的补丁集合 $\Delta$ 中寻找最优最小补丁 $\delta$。</strong></li>
+</ul>
+<p>$\delta$：adversarial patch，对抗补丁
+$\Delta$ ：补丁的可行空间，例如像素值范围、扰动预算、打印限制等。</p>
+<ul>
+<li>$\mathbb{E}_{\tau \sim D^<em>}$
+表示 **对从数据集 $D^</em>$ 中采样到的轨迹 $\tau$ 取平均。**</li>
+</ul>
+<p>$\tau$：一条机器人轨迹
+$D^*$：用于攻击目标优化的数据集 / 目标轨迹数据分布
+$\mathbb{E}$：expectation，期望，也就是平均</p>
+<ul>
+<li>$\lambda$   动作损失的权重
+如果 $\lambda$ 太小，模型可能 CoT 被劫持，但动作不稳定；<br>
+如果 $\lambda$ 太大，攻击更像普通 action attack，可能没有充分利用 CoT 这个中间攻击面</li>
+</ul>
+<h5 id="5.2-%24l_%7Bcot%7D(%5Ctilde%7Bo%7D%2C-i%2C-r%5E*)%24-cot-%E5%8A%AB%E6%8C%81%E6%8D%9F%E5%A4%B1" tabindex="-1">5.2 $L_{cot}(\tilde{O}, I, R^*)$  CoT 劫持损失</h5>
+<p>当前主流的推理型 VLA 通常使用 VLM 来生成 CoT 推理，并将这一生成过程建模为标准的 next-token prediction 任务，因此，我们采用==<strong>交叉熵损失Cross-Entropy Loss）</strong>==，使模型生成的 CoT tokens 与目标序列 $R^*$ 对齐。</p>
+<ul>
+<li>交叉熵损失：
+$$L=−log(p_y​)$$</li>
+</ul>
+<blockquote>
+<p>why？
+因为 token 生成本质上是==<strong>分类</strong>==：从词表 vocabulary 中选下一个词 token
+所以只要输出是“离散类别”，交叉熵就很适合。</p>
+</blockquote>
+<p>在给定前面已经生成的目标 CoT tokens、带补丁图像 $\tilde{O}$ 和用户指令 $I$ 的情况下，让模型尽可能把下一个 token 预测成攻击者指定的 $r_t^<em>$。
+$$
+L_{cot} = - \sum_{t=1}^{T} \log P_{\theta}(r_t^</em> \mid r_{&lt;t}^*, \tilde{O}, I)
+$$
+比如目标 CoT 是：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">The target object is the knife.
+</code></pre>
+<p>当模型已经看到：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">The target object is the
+</code></pre>
+<p>它应该预测下一个 token：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">knife
+</code></pre>
+<p>如果模型给 “knife” 的概率很高，那么损失小；<br>
+如果模型给 “knife” 的概率很低，那么损失大。</p>
+<p>所以最小化 $L_{cot}$ 的效果是：让模型越来越倾向于生成攻击者指定的 CoT $R*$</p>
+<h5 id="5.3-%24l_%7Baction%7D(%5Ctilde%7Bo%7D%2C-r%5E%2C-i%2C-a%5E)%24-%E5%8A%A8%E4%BD%9C%E6%8D%9F%E5%A4%B1" tabindex="-1">5.3 $L_{action}(\tilde{O}, R^<em>, I, a^</em>)$   动作损失</h5>
+<p>这里的 $a^<em>$ 是<strong>目标动作 token</strong>，或者更常见是<strong>目标动作 token 序列</strong>。
+$$a^</em> = [a_1^<em>, a_2^</em>, ..., a_T^*]$$</p>
+<h6 id="5.3.1-%E7%A6%BB%E6%95%A3%E5%8A%A8%E4%BD%9C%E6%8D%9F%E5%A4%B1%EF%BC%9A" tabindex="-1">5.3.1 离散动作损失：</h6>
+<p>对于将动作视为离散 token 的 VLA，使用交叉熵损失：
+$$
+L_{action}^{disc} = - \log P_{\theta}(a^* \mid R^<em>, \tilde{O}, I)
+$$
+让模型在看到带补丁图像 $\tilde{O}$、目标 CoT $R^</em>$ 和原始指令 $I$ 时，更大概率生成攻击者指定的动作 token $a^*$。</p>
+<h6 id="5.3.2-%E8%BF%9E%E7%BB%AD%E5%8A%A8%E4%BD%9C%E6%8D%9F%E5%A4%B1%EF%BC%9A" tabindex="-1">5.3.2 连续动作损失：</h6>
+<p>对于回归连续动作的 VLA，例如基于扩散模型的方法，尤其是使用 action chunking 技术的模型（<strong>模型一次输出一段动作</strong>），我们将动作序列转换为 waypoints（轨迹上的关键点），使用均方误差损失，即 MSE：
+$$
+L_{action}^{cont} = \left| f_{traj}(a) - f_{traj}(a^*) \right|_2^2
+$$</p>
+<blockquote>
+<p>预测轨迹和目标轨迹之间的距离平方。</p>
+</blockquote>
+<h6 id="5.3.3-pgd%E4%BC%98%E5%8C%96%E8%A1%A5%E4%B8%81" tabindex="-1">5.3.3 PGD优化补丁</h6>
+<h1 id="%E4%B8%BA%E4%BA%86%E4%BC%98%E5%8C%96%E5%AF%B9%E6%8A%97%E8%A1%A5%E4%B8%81-%24%5Cdelta%24%EF%BC%8C%E6%88%91%E4%BB%AC%E9%87%87%E7%94%A8%E6%8A%95%E5%BD%B1%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D%EF%BC%8C%E5%8D%B3-pgd%EF%BC%88pgd-%E6%98%AF%E5%AF%B9%E6%8A%97%E6%94%BB%E5%87%BB%E9%87%8C%E9%9D%9E%E5%B8%B8%E5%B8%B8%E8%A7%81%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95%EF%BC%89%EF%BC%8C%E5%B9%B6%E5%B0%86%E4%BC%98%E5%8C%96%E8%BF%87%E7%A8%8B%E8%A1%A8%E7%A4%BA%E4%B8%BA%EF%BC%9A%24%24%5Cdelta_%7Bt%2B1%7D" tabindex="-1">为了优化对抗补丁 $\delta$，我们采用投影梯度下降，即 PGD（PGD 是对抗攻击里非常常见的优化方法），并将优化过程表示为：
+$$
+\delta_{t+1}</h1>
+<p>\operatorname{Proj}<em>{|\cdot|</em>{\infty} \le \epsilon}
+\left(
+\delta_t + \eta \cdot \nabla_{\delta} L(\delta_t)
+\right)
+$$</p>
+<ul>
+<li>$\delta_t$：第 $t$ 次迭代时的补丁</li>
+<li>$\delta_{t+1}$：更新后的补丁</li>
+<li>$\eta$：步长 / 学习率</li>
+<li>$\nabla_{\delta}L(\delta_t)$：总损失对补丁的梯度</li>
+</ul>
+<blockquote>
+<p>如果改变补丁某些像素，损失会怎么变化。
+攻击者用梯度来调整补丁，让它更容易实现目标 CoT 和目标动作。</p>
+</blockquote>
+<ul>
+<li>$\epsilon$：扰动预算 / 补丁允许范围</li>
+<li>$\operatorname{Proj}$：投影操作</li>
+<li>$|\cdot|_{\infty}$：无穷范数约束，限制最大像素扰动</li>
+</ul>
+<h5 id="5.4.-physical-robustness" tabindex="-1">5.4. Physical Robustness</h5>
+<blockquote>
+<p><strong>数字图像里的对抗补丁，怎么打印出来后在真实桌面、真实相机、真实光照下仍然有效？</strong> 作者主要用了三类技术：
+<strong>单应性变换 Homography Transformation
+颜色平滑与颜色校准 Color Smoothing and Calibration
+EoT 变换增强 Expectation over Transformation</strong>。</p>
+</blockquote>
+<h6 id="1%E3%80%81homography-transformation.%E5%8D%95%E5%BA%94%E6%80%A7%E5%8F%98%E6%8D%A2" tabindex="-1">1、Homography Transformation.单应性变换</h6>
+<p><strong>Homography Transformation</strong> 用来模拟真实桌面上的补丁，从桌面平面投影到相机图像平面时产生的几何变化。</p>
+<p>它用来描述一个平面上的点，例如桌面上的补丁，如何映射到相机图像里的点</p>
+<ul>
+<li>令 $p = [u, v, 1]^T$ 表示<strong>标准补丁空间</strong>中某个像素的齐次坐标</li>
+<li>令 $p' = [x, y, 1]^T$ 表示它在<strong>目标图像空间</strong>中对应位置的齐次坐标。
+二者之间通过单应性矩阵 $H$ 进行映射：
+$$p′∼Hp$$
+$$
+\lambda
+\begin{bmatrix}
+x \
+y \
+1
+\end{bmatrix}
+=
+\begin{bmatrix}
+h_{11} &amp; h_{12} &amp; h_{13} \
+h_{21} &amp; h_{22} &amp; h_{23} \
+h_{31} &amp; h_{32} &amp; h_{33}
+\end{bmatrix}
+\begin{bmatrix}
+u \
+v \
+1
+\end{bmatrix}
+$$</li>
+</ul>
+<p>如果只用普通二维坐标 $[u,v]^T$，一个 $2 \times 2$ 矩阵只能表达旋转、缩放、剪切这类线性变换，很难自然表达“平移”和“透视投影”。</p>
+<h6 id="2%E3%80%81color-smoothing-%EF%BC%9A%E9%A2%9C%E8%89%B2%E5%B9%B3%E6%BB%91" tabindex="-1">2、Color Smoothing ：颜色平滑</h6>
+<h1 id="%E9%A2%9C%E8%89%B2%E5%B9%B3%E6%BB%91%E7%9A%84%E7%9B%AE%E6%A0%87%E6%98%AF%E5%87%8F%E5%B0%91%E8%A1%A5%E4%B8%81%E4%B8%AD%E7%9A%84%E9%AB%98%E9%A2%91%E5%99%AA%E5%A3%B0%EF%BC%8C%E8%AE%A9%E8%A1%A5%E4%B8%81%E9%A2%9C%E8%89%B2%E6%9B%B4%E5%8A%A0%E8%BF%9E%E7%BB%AD%E3%80%81%E8%87%AA%E7%84%B6%E3%80%81%E5%8F%AF%E6%89%93%E5%8D%B0%E3%80%82%E9%87%87%E7%94%A8total-variation%EF%BC%8C%E5%8D%B3-tv-%E6%8D%9F%E5%A4%B1%24%24l_%7Btv%7D" tabindex="-1">颜色平滑的目标是减少补丁中的高频噪声，让补丁颜色更加连续、自然、可打印。
+采用Total Variation，即 TV 损失
+$$
+L_{tv}</h1>
+<p>\sum_{i,j}
+\sqrt{
+(x_{i,j}-x_{i+1,j})^2
++
+(x_{i,j}-x_{i,j+1})^2
+}
+$$
+如果相邻像素差异越大，$L_{tv}$ 越大，优化时就会惩罚这种剧烈变化。</p>
+<blockquote>
+<p>在哪优化？
+$Ltotal​=Lcot​+λLaction​+βLtv​$?</p>
+</blockquote>
+<h6 id="3%E3%80%81color-calibration%EF%BC%9A%E9%A2%9C%E8%89%B2%E6%A0%A1%E5%87%86" tabindex="-1">3、Color Calibration：颜色校准</h6>
+<p>颜色校准用于解决数字颜色和真实物理颜色不一致的问题。</p>
+<ul>
+<li>使用一个 <strong>MLP，多层感知机</strong> 学习数字颜色到真实颜色的映射。</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-plaintext">构造数字参考色板 Bd
+↓
+打印该色板
+↓
+在真实环境下用相机拍摄
+↓
+得到物理拍摄色板 Bf
+↓
+用 {Bd, Bf} 训练 MLP
+↓
+让 MLP 学习 digital simulation → physical domain 的颜色映射
+</code></pre>
+<ul>
+<li>在优化阶段，该模型作为一个校准函数，将数字补丁的颜色分布与物理现实中的颜色分布对齐。</li>
+</ul>
+<h6 id="4%E3%80%81expectation-over-transformation%EF%BC%8Ceot" tabindex="-1">4、Expectation over Transformation，EoT</h6>
+<p><strong>EoT，Expectation over Transformation</strong> ，优化对抗样本时，不只考虑一种固定变换，而是考虑很多可能的真实世界变换，让对抗样本在多种情况下都有效</p>
+<p>优化时加入随机但真实的 Homography 变换</p>
+<h3 id="%F0%9F%94%AC-%E5%AE%9E%E9%AA%8C" tabindex="-1">🔬 实验</h3>
+<h4 id="%E4%B8%80%E3%80%81%E5%AE%9E%E9%AA%8C%E8%AE%BE%E7%BD%AE" tabindex="-1">一、实验设置</h4>
+<h5 id="1.-vla-models%EF%BC%9A%E6%B5%8B%E8%AF%95%E5%93%AA%E4%BA%9B%E6%A8%A1%E5%9E%8B%EF%BC%9F" tabindex="-1">1. VLA models：测试哪些模型？</h5>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>架构</th>
+<th>动作形式</th>
+<th>CoT 类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MolmoACT</td>
+<td>Integrated-VLA</td>
+<td>Discrete，离散动作</td>
+<td>Trace, Depth</td>
+</tr>
+<tr>
+<td>GraspVLA</td>
+<td>Integrated-VLA</td>
+<td>Continuous，连续动作</td>
+<td>BBox, Grasp pose</td>
+</tr>
+<tr>
+<td>InstructVLA</td>
+<td>Hierarchical-VLA</td>
+<td>Continuous，连续动作</td>
+<td>Subtasks</td>
+</tr>
+</tbody>
+</table>
+<h5 id="2.-tasks%EF%BC%9A%E4%BB%BB%E5%8A%A1%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1%EF%BC%9F" tabindex="-1">2. Tasks：任务怎么设计？</h5>
+<p>作者设计了 5 个 manipulation tasks。每个任务都会生成两条 instruction：</p>
+<table>
+<thead>
+<tr>
+<th>指令类型</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user intention</td>
+<td>用户真实意图，始终输入给 VLA，不能被攻击者修改</td>
+</tr>
+<tr>
+<td>attack target</td>
+<td>攻击者希望机器人执行的目标行为</td>
+</tr>
+<tr>
+<td>例如：</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre class="code-frame"><code class="hljs language-plaintext">用户指令：pick up carrot攻击目标：pick up knife
+</code></pre>
+<p>攻击者做的事情不是改用户指令，而是放置 adversarial patch，让机器人从用户目标偏向攻击目标。原文明确说，用户意图指令会持续提供给 victim VLA，并且 remains unalterable；攻击者则希望通过 patch 劫持模型去执行另一条指令指定的行为。</p>
+<h5 id="3.-evaluation-metrics%EF%BC%9A%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87" tabindex="-1">3. Evaluation metrics：评价指标</h5>
+<p>作者用了两个主要指标。</p>
+<ul>
+<li>
+<p>ASR：Attack Success Rate
+ASR 表示攻击成功率，也就是机器人完成攻击目标任务的比例。比如攻击目标是 “pick up knife”，如果机器人真的去拿 knife，这次就算攻击成功。</p>
+</li>
+<li>
+<p>Score：轨迹劫持程度$$
+Score(T)
+=
+\frac{
+sim(T,T_A)-sim(T,T_B)
+}{
+sim(T,T_A)+sim(T,T_B)
+}
+$$</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$T$</td>
+<td>当前要评估的轨迹</td>
+</tr>
+<tr>
+<td>$T_A$</td>
+<td>攻击目标轨迹</td>
+</tr>
+<tr>
+<td>$T_B$</td>
+<td>用户原始指令对应的正常轨迹</td>
+</tr>
+<tr>
+<td>$sim(\cdot,\cdot)$</td>
+<td>两条轨迹的相似度，使用 DTW 计算</td>
+</tr>
+<tr>
+<td>Score 越大，说明当前轨迹越接近攻击目标；Score 越小或为负，说明当前轨迹越接近用户原始目标。论文说 $sim \in [0,1]$，并使用 Dynamic Time Warping，DTW，计算轨迹相似度。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="4.-baselines%EF%BC%9A%E5%AF%B9%E6%AF%94%E6%96%B9%E6%B3%95" tabindex="-1">4. Baselines：对比方法</h5>
+<p>作者设置了 3 个 baseline：</p>
+<table>
+<thead>
+<tr>
+<th>Baseline</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Random Noise</td>
+<td>随机噪声 patch，作为下界</td>
+</tr>
+<tr>
+<td>Action-Only Attack</td>
+<td>只==攻击动作输出==，相当于标准 end-to-end VLA 对抗攻击</td>
+</tr>
+<tr>
+<td>CoT-Only Attack</td>
+<td>只==误导 CoT 推理==，类似 VLM jailbreak 思路</td>
+</tr>
+<tr>
+<td>TRAP 和这些 baseline 的区别是：它同时优化 CoT loss 和 action loss，也就是既让模型“想错”，又让模型“动错”。</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="5.-implementation-details%EF%BC%9A%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82" tabindex="-1">5. Implementation details：实现细节</h5>
+<p>作者在 SimplerEnv 风格的数据与仿真评估中，每个 task instance 采样 25 个 object layouts 用于训练，另外 10 个 layouts 用于测试；每个任务执行 5 次 trial，总共每个 VLA 有 175 次 rollout。patch 优化时，pixel update step 设置为 $8/255$，batch size 为 4；MolmoACT 和 GraspVLA 的 loss weight $\lambda$ 设为 1，InstructVLA 设为 2；patch 生成实验使用 NVIDIA H800，仿真评估使用 RTX 4090。</p>
+<ul>
+<li>要点：</li>
+</ul>
+<ol>
+<li><strong>训练布局和测试布局分开</strong>：为了验证 patch 是否泛化，而不是记住某个固定桌面布局。</li>
+<li><strong>每个任务优化一张 patch</strong>：后面 6.2 里会明确说，作者是 one adversarial patch per task。</li>
+</ol>
+<h4 id="6.2-overall-performance-%E6%80%BB%E4%BD%93%E6%94%BB%E5%87%BB%E6%95%88%E6%9E%9C" tabindex="-1">6.2 Overall Performance 总体攻击效果</h4>
+<h5 id="1.-main-results%EF%BC%9A%E4%B8%BB%E7%BB%93%E6%9E%9C" tabindex="-1">1. Main Results：主结果</h5>
+<p>作者每个任务优化一张 adversarial patch，用 25 个 object layout instances 训练，再在 10 个 unseen layouts 上测试。。</p>
+<p>Table 3 的核心结果如下：
+<img src="/2026/05/25/TRAP/TRAP.assets/image-2026_05_28_11.png" alt="" loading="lazy" decoding="async"></p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>平均 ASR</th>
+<th>平均 Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Random Noise</td>
+<td>1.56%</td>
+<td>-0.3371</td>
+</tr>
+<tr>
+<td>Action-Only</td>
+<td>5.48%</td>
+<td>-0.1467</td>
+</tr>
+<tr>
+<td>CoT-Only</td>
+<td>40.86%</td>
+<td>0.2329</td>
+</tr>
+<tr>
+<td>TRAP</td>
+<td>52.54%</td>
+<td>0.3294</td>
+</tr>
+<tr>
+<td>TRAP Unseen layouts</td>
+<td>51.60%</td>
+<td>0.2386</td>
+</tr>
+<tr>
+<td>这些数字说明几个结论：</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>第一，Random Noise 基本没用，说明不是“随便放个图案”就能成功。</li>
+<li>第二，Action-Only 效果弱，平均 ASR 只有 5.48%，说明直接攻击动作输出并不如攻击 CoT 有效。</li>
+<li>第三，CoT-Only 在 MolmoACT 和 GraspVLA 上很强，说明 CoT 一旦被劫持，动作就容易跟着变。</li>
+<li>第四，TRAP 整体最好，平均 ASR 达到 52.54%，因为它同时优化 CoT 和 action。</li>
+<li>Table 3 中 TRAP 在 InstructVLA 和 GraspVLA 上明显优于 baseline；在 MolmoACT 上，TRAP 的 ASR 和 CoT-Only 接近，但 score 更高，说明轨迹更接近攻击目标。</li>
+</ul>
+<h5 id="2.-%E4%B8%BA%E4%BB%80%E4%B9%88-cot-only-%E5%9C%A8-instructvla-%E4%B8%8A%E4%B8%8D%E8%A1%8C%EF%BC%9F" tabindex="-1">2. 为什么 CoT-Only 在 InstructVLA 上不行？</h5>
+<p>InstructVLA 的 CoT-Only 虽然能生成目标 CoT，比如目标 subtask prediction，但动作生成会出现严重 <strong>mode collapse</strong>，也就是动作退化成重复输出。TRAP 加入显式 action loss，可以把动作约束在更合理的 behavioral manifold 中，从而保持攻击过程中的动作稳定性。</p>
+<h5 id="3.-%E6%B3%9B%E5%8C%96%E8%83%BD%E5%8A%9B%EF%BC%9Aunseen-layouts" tabindex="-1">3. 泛化能力：Unseen layouts</h5>
+<p>Table 3 里还有一行 “Unseen layouts”。TRAP 在训练布局上的平均 ASR 是 52.54%，在未见布局上的平均 ASR 是 51.60%。论文认为性能几乎没有下降，说明 TRAP 学到的是 layout-invariant adversarial features，而不是对某个固定空间位置过拟合。</p>
+<h5 id="4.-interpretability-analysis%EF%BC%9A%E5%8F%AF%E8%A7%A3%E9%87%8A%E6%80%A7%E5%88%86%E6%9E%90" tabindex="-1">4. Interpretability Analysis：可解释性分析</h5>
+<p><img src="/2026/05/25/TRAP/TRAP.assets/image-2026_05_28_13.png" alt="556" loading="lazy" decoding="async">
+这一部分对应 Figure 4。作者可视化了 MolmoACT 第 19 层在生成 CoT 时对图像 token 的注意力分配。
+Figure 4 有三部分：**模型注意力从 benign user intent “pick orange” 转向 adversarial target “pick coke can”。**这种 attention shift 在不同空间布局和 VLA 模型中保持一致，说明攻击建立了语义概念与视觉特征之间的虚假映射。</p>
+<h4 id="6.3-further-analysis-%E8%BF%9B%E4%B8%80%E6%AD%A5%E5%88%86%E6%9E%90" tabindex="-1">6.3 Further Analysis 进一步分析</h4>
+<p>主要做三个补充实验：</p>
+<ol>
+<li>Impact of Instruction Variants</li>
+<li>Universal Patch on different Instructions</li>
+<li>Impact of Patch Size</li>
+</ol>
+<h5 id="6.3.1-impact-of-instruction-variants-%E6%8C%87%E4%BB%A4%E5%8F%98%E4%BD%93%E5%BD%B1%E5%93%8D" tabindex="-1">6.3.1 Impact of Instruction Variants 指令变体影响</h5>
+<h6 id="%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84" tabindex="-1">实验目的</h6>
+<p>真实用户可能不会总是说同一句话。比如同样是“拿橙子”，用户可能说：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">pick orangegrasp the orange
+could you pick up the orange?
+carefully pick orange
+</code></pre>
+<ul>
+<li>设计了两种 instruction variants：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>含义</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Paraphrasing</td>
+<td>改变句法表达，但语义类似</td>
+<td>“grasp the orange” 替代 “pick orange”</td>
+</tr>
+<tr>
+<td>Extra-Context</td>
+<td>加入无关或环境描述</td>
+<td>“pick the orange on the table”</td>
+</tr>
+<tr>
+<td>由于 GraspVLA 的 instruction set 变化很有限，主要是 “pick up + object”，作者在这个实验里省略 GraspVLA，重点测试 InstructVLA 和 MolmoACT。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h6 id="table-4-%E7%BB%93%E6%9E%9C" tabindex="-1">Table 4 结果</h6>
+<p><img src="/2026/05/25/TRAP/TRAP.assets/image-2026_05_28_13 1.png" alt="" loading="lazy" decoding="async"></p>
+<p>作者认为 TRAP 对不同 instruction variants 有一定迁移能力，尤其在 MolmoACT 上，Paraphrasing 和 Extra-Context 的 ASR 仍有 53.6% 和 57.6%，score 也保持在 0.3 以上。论文进一步解释：优化过程可能在 adversarial patch 和特定 object names 之间建立了绑定关系，形成类似 trigger mechanism 的效果。</p>
+<blockquote>
+<p>patch 不只是记住一句完整指令，而可能绑定了“orange”“coke can”这类关键词，一旦指令里出现相关目标词，就可能触发攻击。</p>
+</blockquote>
+<p>(但是instructVLA的迁移能力很低？)</p>
+<blockquote>
+<p>InstructVLA 是 Hierarchical-VLA，它的高层 VLM 会先根据语言指令生成 textual subtask CoT；所以它对语言表达方式更敏感</p>
+</blockquote>
+<h5 id="6.3.2-universal-patch-on-different-instructions-%E4%B8%8D%E5%90%8C%E6%8C%87%E4%BB%A4%E4%B8%8B%E7%9A%84%E9%80%9A%E7%94%A8%E8%A1%A5%E4%B8%81" tabindex="-1">6.3.2 Universal Patch on different Instructions 不同指令下的通用补丁</h5>
+<h6 id="%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84-1" tabindex="-1">实验目的</h6>
+<p>前面主实验大多是每个任务优化一张 patch。这里作者想问：</p>
+<blockquote>
+<p>能不能优化一张 universal patch，让它在很多不同指令下都诱导同一个攻击目标行为？</p>
+</blockquote>
+<p>做法是：构造一个固定的多样化 instruction pool，每次优化时随机采样一条 instruction，用同一个 patch 诱导模型执行一致的攻击目标。</p>
+<ul>
+<li>把 instruction 分成两类：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scene-Relevant</td>
+<td>指令和场景中的物体相关，比如场景有 orange 和 apple，指令是 “grasp the apple”</td>
+</tr>
+<tr>
+<td>Scene-Irrelevant</td>
+<td>指令和当前物体无关，甚至指向不存在物体，比如 “pick up the box”</td>
+</tr>
+</tbody>
+</table>
+<h6 id="table-5-%E7%BB%93%E6%9E%9C" tabindex="-1">Table 5 结果</h6>
+<p><img src="/2026/05/25/TRAP/TRAP.assets/image-2026_05_28_13 2.png" alt="" loading="lazy" decoding="async">
+结果说明：当指令和场景相关时，模型更容易坚持真实任务目标，universal patch 很难劫持；当指令和场景无关时，攻击效果明显增强。作者据此认为，VLA 的攻击效果受到视觉特征和语言指令的共同影响，同时也说明相对通用的 patch 是有可能构造的。</p>
+<blockquote>
+<p>如果用户明确说“抓场景里的 apple”，模型更有依据抵抗 patch；如果用户说的是场景无关或模糊任务，patch 更容易把模型带偏。</p>
+</blockquote>
+<h5 id="6.3.3-impact-of-patch-size-%E8%A1%A5%E4%B8%81%E5%A4%A7%E5%B0%8F%E5%BD%B1%E5%93%8D" tabindex="-1">6.3.3 Impact of Patch Size 补丁大小影响</h5>
+<h6 id="%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84-2" tabindex="-1">实验目的</h6>
+<p>作者测试不同 patch size 对 TRAP 攻击成功率的影响，对应 Figure 5。</p>
+<h6 id="%E7%BB%93%E8%AE%BA" tabindex="-1">结论</h6>
+<p><img src="/2026/05/25/TRAP/TRAP.assets/image-2026_05_28_13 3.png" alt="" loading="lazy" decoding="async">
+随着 patch size 增大，攻击指标整体上升。
+原因也比较直观：patch 越大，可优化像素空间越大，视觉影响也越强。</p>
+<p>Figure 5 展示的是不同 patch size 下的 ASR。作者特别提到 MolmoACT 中出现一个 behavioral phase transition：当 patch size 为 0.3 时，模型仍然严格遵循用户意图；到 0.35 附近时，机器人几乎静止，像是用户指令和攻击信号发生强烈冲突；超过这个临界点后，模型行为明显转向攻击者目标。</p>
+<p>这说明 patch size 不只是影响攻击强度，还可能导致模型行为从“听用户”到“僵持”再到“听攻击者”的阶段性变化。</p>
+<h5 id="6.4-transferability-study-%E8%BF%81%E7%A7%BB%E6%80%A7%E7%A0%94%E7%A9%B6" tabindex="-1">6.4 Transferability Study 迁移性研究</h5>
+<h6 id="%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84-3" tabindex="-1">实验目的</h6>
+<p>这一节研究：在一个 VLA 变体上优化的 adversarial patch，能不能迁移到另一个 VLA 变体上。</p>
+<p>这对应<strong>黑盒攻击的</strong>现实意义：真实攻击者可能拿不到目标模型参数，但可以找一个开源模型或相似模型作为 surrogate model 来优化 patch。</p>
+<p>作者做了两组：</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>优化源模型</th>
+<th>测试目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MolmoACT</td>
+<td>RT-1 fine-tuned 版本</td>
+<td>unfine-tuned baseline</td>
+</tr>
+<tr>
+<td>InstructVLA</td>
+<td>state-agnostic model，无机器人本体状态</td>
+<td>state-aware variant，有机器人本体状态</td>
+</tr>
+</tbody>
+</table>
+<h6 id="%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C%EF%BC%9A" tabindex="-1">实验结果：</h6>
+<p><img src="/2026/05/25/TRAP/TRAP.assets/image-2026_05_28_13 4.png" alt="" loading="lazy" decoding="async">
+作者认为这些结果显示了攻击具有一定迁移性。虽然 transfer 后成功率下降，但并没有完全失效。论文还强调现实部署中，很多人会基于开源 VLA 权重进行私有数据微调，因此攻击者可以用 pre-trained VLA 作为 surrogate model 进行黑盒攻击。</p>
+<blockquote>
+<p>你不一定要拿到目标机器人的完整模型，只要拿到相似的开源 VLA，就可能训练出有一定迁移能力的 patch。</p>
+</blockquote>
+<h5 id="6.5-real-world-evaluation-%E7%9C%9F%E5%AE%9E%E4%B8%96%E7%95%8C%E8%AF%84%E4%BC%B0" tabindex="-1">6.5 Real-world evaluation 真实世界评估</h5>
+<h6 id="%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84-4" tabindex="-1">实验目的</h6>
+<p>前面很多实验是仿真或离线评估。6.5 研究的是：</p>
+<blockquote>
+<p>打印出来的真实 adversarial patch 能不能在真实机器人上造成危险行为？</p>
+</blockquote>
+<p>作者设计了一个 safety-critical manipulation task，也就是安全关键操作任务。场景是：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">用户原始指令：pick up carrot攻击者目标：pick up knife
+</code></pre>
+<h6 id="%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C" tabindex="-1">实验结果</h6>
+<p><img src="/2026/05/25/TRAP/TRAP.assets/image-2026_05_28_13 5.png" alt="" loading="lazy" decoding="async">
+Figure 6 展示了真实实验。图中第一行是 benign setting，用黑色方块作为对照 patch；第二行是 adversarial setting，使用真实打印出来的 adversarial patch。原文明确说明，VLA 输入是 “pick up carrot”，攻击者目标是让机器人 pick up knife。</p>
+<p>作者做了 15 次独立实验：</p>
+<table>
+<thead>
+<tr>
+<th>结果</th>
+<th>次数</th>
+<th>比例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>至少劫持一个 reasoning step</td>
+<td>13/15</td>
+<td>86.7%</td>
+</tr>
+<tr>
+<td>完整控制整个物理操作过程并完成恶意目标</td>
+<td>5/15</td>
+<td>33.3%</td>
+</tr>
+<tr>
+<td>这个结果说明两点：</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>第一，patch 在真实世界中确实能高概率影响模型内部推理，13/15 次至少劫持一个推理步骤。</li>
+<li>第二，完整物理行为劫持更难，只有 5/15 次成功完成从头到尾的恶意目标。这也符合真实机器人系统的特点：相机视角、机械臂运动、光照、动作随机性都会影响攻击稳定性。</li>
+</ul>
+<h2 id="%F0%9F%A4%94-%E4%B8%AA%E4%BA%BA%E6%80%BB%E7%BB%93" tabindex="-1"><span style="color: rgb(0, 77, 153);"><span style="background-color: rgb(135, 206, 250);">🤔 个人总结</span></span></h2>
+<hr>
+<blockquote>
+<p>Tips: 你对哪些内容产生了疑问，你认为可以如何改进？</p>
+</blockquote>
+<h3 id="%F0%9F%99%8B%E2%80%8D%E2%99%80%EF%B8%8F-%E9%87%8D%E7%82%B9%E8%AE%B0%E5%BD%95" tabindex="-1">🙋‍♀️ 重点记录</h3>
+<h3 id="%F0%9F%93%8C-%E5%BE%85%E8%A7%A3%E5%86%B3" tabindex="-1">📌 待解决</h3>
+<h3 id="%F0%9F%92%AD-%E6%80%9D%E8%80%83%E5%90%AF%E5%8F%91" tabindex="-1">💭 思考启发</h3>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/05/13/工业控制装置_按课程目标分类_题目答案高分版/"><small>上一篇</small><strong>工业控制装置_按课程目标分类_题目答案高分版</strong></a>
+        <a href="/2026/06/02/slam/"><small>下一篇</small><strong>slam</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

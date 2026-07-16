@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="i2c" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>i2c · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>i2c</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/stm32/">stm32</a></span>
+    <span class="content-meta__tags"><a href="/tags/stm32/">stm32</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%88%E5%8D%83%E4%B8%87%E5%88%AB%E5%BF%98%E8%AE%B0%EF%BC%81%EF%BC%81%EF%BC%8C%E5%8A%A0%E5%9C%A8lcd_init%E4%B9%8B%E5%90%8E%EF%BC%89">初始化（千万别忘记！！，加在Lcd_Init之后）</a></li><li class="article-toc__level-2"><a href="#%E5%86%99%E5%85%A5">写入</a></li><li class="article-toc__level-2"><a href="#%E8%AF%BB%E5%8F%96">读取</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%88%E5%8D%83%E4%B8%87%E5%88%AB%E5%BF%98%E8%AE%B0%EF%BC%81%EF%BC%81%EF%BC%8C%E5%8A%A0%E5%9C%A8lcd_init%E4%B9%8B%E5%90%8E%EF%BC%89" tabindex="-1">初始化（千万别忘记！！，加在Lcd_Init之后）</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
+LCD_Init();
+LCD_Clear(Black);
+LCD_SetBackColor(Black);
+LCD_SetTextColor(White);
+
+I2CInit();//important
+
+int a,b,c,d;
+if(e2prom_read(4)==0x11)//断电以后检测依然保存数据
+{
+	a=e2prom_read(0);
+	b=e2prom_read(1);
+	c=e2prom_read(2);
+	d=e2prom_read(3);
+}
+else//第一次检测,置零,然后把数据存入e2prom,如果是浮点数,则x10,再/10转换
+{
+    e2prom_write(0,0);
+	e2prom_write(1,0);
+	e2prom_write(2,0);
+	e2prom_write(3,0);
+	
+	e2prom_write(4,0x11);//标志位
+}
+
+
+</code></pre>
+<h2 id="%E5%86%99%E5%85%A5" tabindex="-1">写入</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">void e2prom_write(uint8_t adr,uint8_t data)
+{
+	I2CStart();
+	I2CSendByte(0xA0);
+	I2CWaitAck();
+	I2CSendByte(adr);
+	I2CWaitAck();
+	I2CSendByte(data);
+	I2CWaitAck();
+	I2CStop();
+	HAL_Delay(20);//掩饰别忘记了
+
+}
+</code></pre>
+<h2 id="%E8%AF%BB%E5%8F%96" tabindex="-1">读取</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">uint8_t e2prom_read(uint8_t adr)
+{
+	I2CStart();
+	I2CSendByte(0xA0);
+	I2CWaitAck();
+	I2CSendByte(adr);
+	I2CWaitAck();
+	
+	I2CStart();
+	I2CSendByte(0xA1);
+	I2CWaitAck();
+	uint8_t data = I2CReceiveByte();
+	I2CSendNotAck();//是I2CSendNotAck,不是I2CSendAck()!!!
+	I2CStop();
+
+	
+	return data;
+
+}
+
+</code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">void write_resistor(uint8_t data)
+{   
+	I2CStart();
+	I2CSendByte(0x5E);  
+	I2CWaitAck();
+	
+	I2CSendByte(data);  
+	I2CWaitAck();
+	I2CStop();
+}
+uint8_t read_resistor(void)
+{   
+	I2CStart();
+	I2CSendByte(0x5F);  
+	I2CWaitAck();
+	
+	uint8_t value = I2CReceiveByte();
+	I2CSendNotAck();
+	I2CStop();
+
+	return value;
+}
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/key/"><small>上一篇</small><strong>key</strong></a>
+        <a href="/2025/07/17/flash/"><small>下一篇</small><strong>flash</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

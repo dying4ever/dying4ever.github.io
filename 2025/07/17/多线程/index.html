@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="多线程" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>多线程 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>多线程</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:41:51">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/cpp/">cpp</a></span>
+    <span class="content-meta__tags"><a href="/tags/cpp/">cpp</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#%F0%9F%94%B9-std%3A%3Aqueue%3Cfloat%3E-queue%3B">🔹 std::queue&lt;float&gt; queue;</a></li><li class="article-toc__level-3"><a href="#%F0%9F%94%B9-std%3A%3Amutex-mtx%3B">🔹 std::mutex mtx;</a></li><li class="article-toc__level-3"><a href="#%F0%9F%94%B9-std%3A%3Acondition_variable-cv%3B">🔹 std::condition_variable cv;</a></li><li class="article-toc__level-3"><a href="#%F0%9F%94%B9-volatile-bool-stop_flag-%3D-false%3B">🔹 volatile bool stop_flag = false;</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<p>全局结构图</p>
+<pre class="code-frame"><code class="hljs language-plaintext">struct SteerQueue {
+    std::queue&lt;float&gt; queue;        // 存储舵机角度值的队列
+    std::mutex mtx;                 // 互斥锁保护队列
+    std::condition_variable cv;     // 条件变量用于线程同步
+    volatile bool stop_flag = false; // 线程停止标志
+};
+
+SteerQueue steer_queue;
+</code></pre>
+<h3 id="%F0%9F%94%B9-std%3A%3Aqueue%3Cfloat%3E-queue%3B" tabindex="-1">🔹 <code>std::queue&lt;float&gt; queue;</code></h3>
+<ul>
+<li><strong>作用</strong>：存储即将发送给舵机的角度值（如 65°、75°、85°）。</li>
+<li><strong>典型流程</strong>：图像线程计算完角度后调用 <code>steer_queue.queue.push(angle)</code>；舵机线程再从中读取 <code>queue.front()</code> 执行控制。</li>
+</ul>
+<hr>
+<h3 id="%F0%9F%94%B9-std%3A%3Amutex-mtx%3B" tabindex="-1">🔹 <code>std::mutex mtx;</code></h3>
+<ul>
+<li>
+<p><strong>作用</strong>：互斥锁，用于<strong>保护队列的读写</strong>，防止两个线程同时访问导致“数据竞争”或程序崩溃。</p>
+</li>
+<li>
+<p><strong>使用方式</strong>：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">std::lock_guard&lt;std::mutex&gt; lock(steer_queue.mtx);
+steer_queue.queue.push(angle);
+</code></pre>
+</li>
+</ul>
+<hr>
+<h3 id="%F0%9F%94%B9-std%3A%3Acondition_variable-cv%3B" tabindex="-1">🔹 <code>std::condition_variable cv;</code></h3>
+<ul>
+<li>
+<p><strong>作用</strong>：条件变量，用于<strong>通知舵机线程有新角度可以处理</strong>，否则舵机线程就一直阻塞、等待。</p>
+</li>
+<li>
+<p><strong>工作流程</strong>：</p>
+<ol>
+<li>
+<p>图像线程调用 <code>cv.notify_one();</code> 通知舵机线程。</p>
+</li>
+<li>
+<p>舵机线程使用 <code>cv.wait(lock, 条件)</code> 挂起等待新值。</p>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h3 id="%F0%9F%94%B9-volatile-bool-stop_flag-%3D-false%3B" tabindex="-1">🔹 <code>volatile bool stop_flag = false;</code></h3>
+<ul>
+<li>
+<p><strong>作用</strong>：控制舵机线程的停止条件。</p>
+</li>
+<li>
+<p><strong><code>volatile</code> 关键词含义</strong>：告诉编译器这个变量<strong>可能会被其他线程修改</strong>，不要对它进行优化缓存，确保读取的是最新值。</p>
+</li>
+<li>
+<p><strong>使用方式</strong>：当主程序要退出时设置 <code>stop_flag = true;</code>，舵机线程检测后退出循环：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">if (steer_queue.stop_flag) break;
+</code></pre>
+</li>
+</ul>
+<hr>
+<ul>
+<li><strong>图像线程</strong>：负责分析图像并“投递”角度值；</li>
+<li><strong>舵机线程</strong>：负责从队列中取出角度值并控制舵机；</li>
+<li><strong>互斥锁 &amp; 条件变量</strong>：确保线程之间安全地读写队列；</li>
+<li><strong>停止标志</strong>：支持程序优雅地退出。</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-plaintext">// 舵机控制线程函数
+void steeringThread() {
+    // 循环直到收到停止信号
+    while (!steer_queue.stop_flag) {
+        std::unique_lock&lt;std::mutex&gt; lock(steer_queue.mtx);
+        // 等待条件：队列非空或停止标志置位
+        steer_queue.cv.wait(lock, []{ 
+            return !steer_queue.queue.empty() || steer_queue.stop_flag; 
+        });
+
+        // 检查退出条件
+        if (steer_queue.stop_flag &amp;&amp; steer_queue.queue.empty()) break;
+
+        if (!steer_queue.queue.empty()) {
+            // 优化策略：跳过所有积压指令，只处理最新角度
+            float angle;
+            while (!steer_queue.queue.empty()) {
+                angle = steer_queue.queue.front(); // 获取队首
+                steer_queue.queue.pop();           // 移除指令
+            }
+        
+            lock.unlock(); // 提前释放锁，减少临界区时间
+        
+            // 调试输出（实际使用时可能注释掉）
+            // printf(&quot;Steer_Angle = %d\n&quot;, static_cast&lt;int&gt;(angle));
+            
+            // 更新舵机PWM信号：将角度转换为占空比值
+            update_duty(0, angle_to_duty(angle));
+            
+            // 控制舵机更新频率（200ms/5Hz）
+            usleep(200000); // 200毫秒延时
+        }
+    }
+}
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/2.1、opencv基础/"><small>上一篇</small><strong>2.1、opencv基础</strong></a>
+        <a href="/2025/07/17/chrono计算时间/"><small>下一篇</small><strong>chrono计算时间</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

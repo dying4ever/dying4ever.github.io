@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="rtc" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>rtc · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>rtc</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/stm32/">stm32</a></span>
+    <span class="content-meta__tags"><a href="/tags/stm32/">stm32</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#rtc">RTC</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h1 id="rtc" tabindex="-1">RTC</h1>
+<p>配置：</p>
+<p>[文件已丢失]</p>
+<p>[文件已丢失]</p>
+<p>![4fb6b5fc0bb1e8cb10c46bfbd822c65](E:\WeChat\files\WeChat Files\wxid_eluxtt970oud22\FileStorage\Temp\4fb6b5fc0bb1e8cb10c46bfbd822c65.png</p>
+<p>[文件已丢失]</p>
+<blockquote>
+<p>[!NOTE]</p>
+<p>记得开中断！！</p>
+<p>结构体一定要从rtc.c里复制</p>
+</blockquote>
+<pre class="code-frame"><code class="hljs language-plaintext">  RTC_DateTypeDef sDate = {0};
+  RTC_AlarmTypeDef sAlarm = {0};
+</code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">{
+    HAL_RTC_GetTime(&amp;hrtc,&amp;sTime,RTC_FORMAT_BIN)
+{
+    HAL_RTC_GetTime(&amp;hrtc,&amp;sTime,RTC_FORMAT_BIN);//获得日期，时间
+    HAL_RTC_GetDate(&amp;hrtc,&amp;sDate,RTC_FORMAT_BIN);//第二个是&amp;结构体名字，第三个是cubemx选的
+
+	sprintf(text,&quot;       %d:%d:%d &quot;,sTime.Hours,sTime.Minutes ,sTime.Seconds);//crt+alt+空格查看结构体
+	LCD_DisplayStringLine(Line2,(uint8_t*)text);
+	sprintf(text,&quot;       20%d/%d/%d &quot;,sDate.Year ,sDate.Month ,sDate.Date);
+	LCD_DisplayStringLine(Line9,(uint8_t*)text);
+
+	led(5,p);
+}
+//闹钟中断
+void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
+{
+ p=1;
+}
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/一些吊的技巧/"><small>上一篇</small><strong>一些吊的技巧</strong></a>
+        <a href="/2025/07/17/led_lcd/"><small>下一篇</small><strong>led_lcd</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

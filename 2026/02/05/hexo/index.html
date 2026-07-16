@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="hexo" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>hexo · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>hexo</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-02-05T19:49:57">2026-02-05</time>
+    <span class="content-meta__categories"><a href="/categories/git/">git</a></span>
+    <span class="content-meta__tags"><a href="/tags/git/">git</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<p>基本操作</p>
+<pre class="code-frame"><code class="hljs language-plaintext">#清理缓存
+hexo cl 
+#构建产物
+hexo g 
+#在线预览
+hexo s 
+#推送到GitHub
+hexo d 
+</code></pre>
+<p>测试</p>
+<pre class="code-frame"><code class="hljs language-plaintext">hexo cl &amp; hexo g &amp; hexo s 
+
+</code></pre>
+<p>powershell</p>
+<pre class="code-frame"><code class="hljs language-plaintext">hexo clean; hexo g; hexo s
+pnpm clean; pnpm build; pnpm run server -- -p 4000
+</code></pre>
+<p>上传</p>
+<pre class="code-frame"><code class="hljs language-plaintext">hexo cl &amp; hexo g &amp; hexo d
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/01/31/3.Pytorch神经网络基础/"><small>上一篇</small><strong>3.Pytorch神经网络基础</strong></a>
+        <a href="/2026/02/09/git分支管理/"><small>下一篇</small><strong>git分支管理</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

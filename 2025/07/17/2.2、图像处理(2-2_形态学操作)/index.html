@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="2.2、图像处理(2-2_形态学操作)" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>2.2、图像处理(2-2_形态学操作) · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>2.2、图像处理(2-2_形态学操作)</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:41:51">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/Python/">Python</a><a href="/categories/opencv/">opencv</a></span>
+    <span class="content-meta__tags"><a href="/tags/Python/">Python</a><a href="/tags/opencv/">opencv</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#2-2-%E5%BD%A2%E6%80%81%E5%AD%A6%E6%93%8D%E4%BD%9C">2-2 形态学操作</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="2-2-%E5%BD%A2%E6%80%81%E5%AD%A6%E6%93%8D%E4%BD%9C" tabindex="-1">2-2 形态学操作</h3>
+<h4 id="2-2-1-%E8%BF%9E%E9%80%9A%E6%80%A7" tabindex="-1">2-2-1 连通性</h4>
+<p><img src="/2025/07/17/2.2、图像处理(2-2_形态学操作)/2.2、图像处理(2-2形态学操作).assets/image-20240127132209.png" alt="" loading="lazy" decoding="async"></p>
+<p><strong>连通性</strong>是描述区域和边界的重要概念，两个像素连通的两个必要条件是：</p>
+<ol>
+<li>两个像素的位置是否相邻</li>
+<li>两个像素的灰度值是否满足特定的相 似性准则（或者是否相等</li>
+</ol>
+<p>根据连通性的定义，有4联通、8联通和m联通三种。</p>
+<p>![](2.2、图像处理(2-2 形态学操作).assets/image-20240127132246.png)</p>
+<p>![](2.2、图像处理(2-2 形态学操作).assets/image-20240127132304.png)</p>
+<h4 id="2-2-2-%E5%BD%A2%E6%80%81%E5%AD%A6%E6%93%8D%E4%BD%9C" tabindex="-1">2-2-2 形态学操作</h4>
+<h5 id="2-1-%E8%85%90%E8%9A%80%E5%92%8C%E8%86%A8%E8%83%80" tabindex="-1">2-1  腐蚀和膨胀</h5>
+<p>腐蚀和膨胀是最基本的形态学操作，<strong>腐蚀和膨胀都是针对白色部分（高亮部分）而言的。</strong></p>
+<p><strong>膨胀就是使图像中高亮部分扩张，效果图拥有比原图更大的高亮区域</strong>；<strong>腐蚀是原图中的高亮区域被蚕食，效果图拥有比原图更小的高亮区域</strong>。<strong>膨胀是求局部最大值的操作，腐蚀是求局部最小值的操作</strong>。</p>
+<h6 id="1%EF%BC%8C%E8%85%90%E8%9A%80" tabindex="-1">1，腐蚀</h6>
+<p>具体操作是：用一个结构元素扫描图像中的每一个像素，用结构元素中的每一个像素与其覆盖的像素做“与”操作，如果都为1，则该像素为1，否则为0。如下图所示，结构A被结构B腐蚀后：</p>
+<p>![](2.2、图像处理(2-2 形态学操作).assets/image-20240127132747.png)</p>
+<p>**腐蚀的作用是消除物体边界点，使目标缩小，可以消除小于结构元素的噪声点。 **                                        (感觉这个(3,4)不需要)</p>
+<p><strong>API</strong>：</p>
+<pre class="code-frame"><code class="hljs language-python">   cv.erode(img,kernel,iterations)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>img: 要处理的图像</li>
+<li>kernel: 核结构</li>
+<li>iterations: 腐蚀的次数，默认是1</li>
+</ul>
+<h6 id="2%EF%BC%8C%E8%86%A8%E8%83%80" tabindex="-1">2，膨胀</h6>
+<p>具体操作是：用一个结构元素扫描图像中的每一个像素，用结构元素中的每一个像素与其覆盖的像素做“与”操作，如果都为0，则该像素为0，否则为1。如下图所示，结构A被结构B腐蚀后：</p>
+<p>![](2.2、图像处理(2-2 形态学操作).assets/image-20240127132833.png)</p>
+<hr>
+<p><strong>API</strong>：</p>
+<pre class="code-frame"><code class="hljs language-python">   cv.dilate(img,kernel,iterations)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>img: 要处理的图像</li>
+<li>kernel: 核结构</li>
+<li>iterations: 腐蚀的次数，默认是1</li>
+</ul>
+<ol>
+<li><strong>示例</strong></li>
+</ol>
+<p>我们使用一个5*5的卷积核实现腐蚀和膨胀的运算：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 读取图像</span>
+img = cv.imread(<span class="hljs-string">&quot;./image/image3.png&quot;</span>)
+<span class="hljs-comment"># 2 创建核结构</span>
+kernel = np.ones((<span class="hljs-number">5</span>, <span class="hljs-number">5</span>), np.uint8)
+
+<span class="hljs-comment"># 3 图像腐蚀和膨胀</span>
+erosion = cv.erode(img, kernel) <span class="hljs-comment"># 腐蚀</span>
+dilate = cv.dilate(img,kernel) <span class="hljs-comment"># 膨胀</span>
+
+<span class="hljs-comment"># 4 图像展示</span>
+fig,axes=plt.subplots(nrows=<span class="hljs-number">1</span>,ncols=<span class="hljs-number">3</span>,figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>),dpi=<span class="hljs-number">100</span>)
+axes[<span class="hljs-number">0</span>].imshow(img)
+axes[<span class="hljs-number">0</span>].set_title(<span class="hljs-string">&quot;原图&quot;</span>)
+axes[<span class="hljs-number">1</span>].imshow(erosion)
+axes[<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&quot;腐蚀后结果&quot;</span>)
+axes[<span class="hljs-number">2</span>].imshow(dilate)
+axes[<span class="hljs-number">2</span>].set_title(<span class="hljs-string">&quot;膨胀后结果&quot;</span>)
+plt.show()
+</code></pre>
+<p><img src="/2025/07/17/2.2、图像处理(2-2_形态学操作)/2.2、图像处理(2-2_形态学操作).assets/image-20240127133431.png" alt="" loading="lazy" decoding="async"></p>
+<h5 id="2-2-%E5%BC%80%E9%97%AD%E8%BF%90%E7%AE%97" tabindex="-1">2-2 开闭运算</h5>
+<p>开运算和闭运算是将腐蚀和膨胀按照一定的次序进行处理。 但这两者并不是可逆的，即先开后闭并不能得到原来的图像。</p>
+<ol>
+<li>
+<p><strong>开运算</strong></p>
+<p>开运算是先腐蚀后膨胀，其<strong>作用</strong>是：==分离物体，消除小区域==。<strong>特点</strong>：==消除噪点，去除小的干扰块，而不影响原来的图像。==</p>
+<p>![](2.2、图像处理(2-2 形态学操作).assets/image-20240127134357.png)</p>
+</li>
+<li>
+<p><strong>闭运算</strong></p>
+<p>闭运算与开运算相反，是先膨胀后腐蚀，<strong>作用</strong>是消除/“闭合”物体里面的孔洞，<strong>特点</strong>：可以填充闭合区域。</p>
+<p>![](2.2、图像处理(2-2 形态学操作).assets/image-20240127134411.png)</p>
+</li>
+<li>
+<p><strong>API</strong></p>
+<pre class="code-frame"><code class="hljs language-plaintext">cv.morphologyEx(img, op, kernel)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>img: 要处理的图像</li>
+<li>op: 处理方式：若进行开运算，则设为cv.MORPH_OPEN，若进行闭运算，则设为cv.MORPH_CLOSE</li>
+<li>Kernel： 核结构</li>
+</ul>
+</li>
+<li>
+<p><strong>示例</strong></p>
+<p>使用10*10的核结构对卷积进行开闭运算的实现。</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 读取图像</span>
+img1 = cv.imread(<span class="hljs-string">&quot;./image/image5.png&quot;</span>)
+img2 = cv.imread(<span class="hljs-string">&quot;./image/image6.png&quot;</span>)
+<span class="hljs-comment"># 2 创建核结构</span>
+kernel = np.ones((<span class="hljs-number">10</span>, <span class="hljs-number">10</span>), np.uint8)
+<span class="hljs-comment"># 3 图像的开闭运算</span>
+cvOpen = cv.morphologyEx(img1,cv.MORPH_OPEN,kernel) <span class="hljs-comment"># 开运算</span>
+cvClose = cv.morphologyEx(img2,cv.MORPH_CLOSE,kernel)<span class="hljs-comment"># 闭运算</span>
+<span class="hljs-comment"># 4 图像展示</span>
+fig,axes=plt.subplots(nrows=<span class="hljs-number">2</span>,ncols=<span class="hljs-number">2</span>,figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>))
+axes[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>].imshow(img1)
+axes[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>].set_title(<span class="hljs-string">&quot;原图&quot;</span>)
+axes[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>].imshow(cvOpen)
+axes[<span class="hljs-number">0</span>,<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&quot;开运算结果&quot;</span>)
+axes[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>].imshow(img2)
+axes[<span class="hljs-number">1</span>,<span class="hljs-number">0</span>].set_title(<span class="hljs-string">&quot;原图&quot;</span>)
+axes[<span class="hljs-number">1</span>,<span class="hljs-number">1</span>].imshow(cvClose)
+axes[<span class="hljs-number">1</span>,<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&quot;闭运算结果&quot;</span>)
+plt.show()
+</code></pre>
+</li>
+</ol>
+<p>![](2.2、图像处理(2-2 形态学操作).assets/image-20240127134732.png)</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/2.2、图像处理(2-3_图像平滑)/"><small>上一篇</small><strong>2.2、图像处理(2-3_图像平滑)</strong></a>
+        <a href="/2025/07/17/2.2、图像处理(2-1_几何变换)/"><small>下一篇</small><strong>2.2、图像处理(2-1_几何变换)</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

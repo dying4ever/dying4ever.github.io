@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="第02章_数字图像基础" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>第02章_数字图像基础 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>第02章_数字图像基础</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-06-02T14:47:48">2026-06-02</time>
+    <span class="content-meta__categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/categories/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E7%AC%AC-2-%E7%AB%A0-%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%9F%BA%E7%A1%80">第 2 章 数字图像基础</a></li><li class="article-toc__level-2"><a href="#%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC">本章概括</a></li><li class="article-toc__level-2"><a href="#2.1-%E8%A7%86%E8%A7%89%E6%84%9F%E7%9F%A5%E8%A6%81%E7%B4%A0">2.1 视觉感知要素</a></li><li class="article-toc__level-2"><a href="#2.2-%E5%85%89%E5%92%8C%E7%94%B5%E7%A3%81%E6%B3%A2%E8%B0%B1">2.2 光和电磁波谱</a></li><li class="article-toc__level-2"><a href="#2.3-%E5%9B%BE%E5%83%8F%E6%84%9F%E7%9F%A5%E5%92%8C%E8%8E%B7%E5%8F%96">2.3 图像感知和获取</a></li><li class="article-toc__level-3"><a href="#%E5%9B%BE%E7%A4%BA%E8%AF%B4%E6%98%8E">图示说明</a></li><li class="article-toc__level-2"><a href="#2.4-%E5%9B%BE%E5%83%8F%E9%87%87%E6%A0%B7%E5%92%8C%E9%87%8F%E5%8C%96">2.4 图像采样和量化</a></li><li class="article-toc__level-2"><a href="#2.5-%E5%83%8F%E7%B4%A0%E9%97%B4%E5%85%B3%E7%B3%BB">2.5 像素间关系</a></li><li class="article-toc__level-3"><a href="#%E9%82%BB%E5%9F%9F%E4%B8%8E%E9%82%BB%E6%8E%A5">邻域与邻接</a></li><li class="article-toc__level-3"><a href="#%E9%80%9A%E8%B7%AF%E4%B8%8E%E8%BF%9E%E9%80%9A">通路与连通</a></li><li class="article-toc__level-3"><a href="#%E8%B7%9D%E7%A6%BB%E5%BA%A6%E9%87%8F">距离度量</a></li><li class="article-toc__level-2"><a href="#2.6-%E5%9B%BE%E5%83%8F%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">2.6 图像基本操作</a></li><li class="article-toc__level-3"><a href="#2.6.1-%E9%98%B5%E5%88%97%E6%93%8D%E4%BD%9C">2.6.1 阵列操作</a></li><li class="article-toc__level-3"><a href="#2.6.2-%E9%80%BB%E8%BE%91%E6%93%8D%E4%BD%9C">2.6.2 逻辑操作</a></li><li class="article-toc__level-3"><a href="#2.6.3-%E7%AE%97%E6%9C%AF%E6%93%8D%E4%BD%9C">2.6.3 算术操作</a></li><li class="article-toc__level-3"><a href="#2.6.4-%E9%9B%86%E5%90%88%E4%B8%8E%E9%80%BB%E8%BE%91%E6%93%8D%E4%BD%9C">2.6.4 集合与逻辑操作</a></li><li class="article-toc__level-3"><a href="#2.6.5-%E7%A9%BA%E9%97%B4%E6%93%8D%E4%BD%9C">2.6.5 空间操作</a></li><li class="article-toc__level-1"><a href="#%24%24%5Cbegin%7Bbmatrix%7Dx%5Cy%5C1%5Cend%7Bbmatrix%7D">$$ \begin{bmatrix} x\ y\ 1 \end{bmatrix}</a></li><li class="article-toc__level-3"><a href="#2.6.6-%E5%9B%BE%E5%83%8F%E5%8F%98%E6%8D%A2">2.6.6 图像变换</a></li><li class="article-toc__level-3"><a href="#2.6.7-%E6%A6%82%E7%8E%87%E6%96%B9%E6%B3%95">2.6.7 概率方法</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="%E7%AC%AC-2-%E7%AB%A0-%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%9F%BA%E7%A1%80" tabindex="-1">第 2 章 数字图像基础</h1>
+<h2 id="%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC" tabindex="-1">本章概括</h2>
+<p>本章介绍数字图像的底层基础，包括视觉感知、光与电磁波谱、图像获取、采样与量化、像素邻接关系、距离度量、图像基本运算和概率方法。这些概念是后续增强、滤波、分割和识别算法的基础。</p>
+<h2 id="2.1-%E8%A7%86%E8%A7%89%E6%84%9F%E7%9F%A5%E8%A6%81%E7%B4%A0" tabindex="-1">2.1 视觉感知要素</h2>
+<p>人眼视觉系统决定了图像处理结果的主观评价。亮度、对比度、空间分辨率和颜色感知都会影响观察效果。PPT 中关于视觉错觉和亮度适应的图说明：同一灰度值在不同背景下会产生不同视觉感受，因此图像增强不能只看像素值，还要考虑视觉感知。</p>
+<p>亮度适应说明人眼对绝对亮度不敏感，而对局部对比度更敏感。数字图像处理中常利用这一点，通过对比度拉伸、直方图均衡等方法增强可见细节。</p>
+<h2 id="2.2-%E5%85%89%E5%92%8C%E7%94%B5%E7%A3%81%E6%B3%A2%E8%B0%B1" tabindex="-1">2.2 光和电磁波谱</h2>
+<p>光是电磁波的一部分，可见光只占电磁波谱的很小范围。不同成像系统可以利用不同波段，如 X 射线用于医学影像，红外用于夜视和热成像，微波用于雷达遥感。</p>
+<p>光子能量与频率关系为：</p>
+<p>$$
+E=h\nu
+$$</p>
+<p>其中 $E$ 为光子能量，$h$ 为普朗克常数，$\nu$ 为频率。频率越高，单个光子的能量越高。</p>
+<p>波长与频率满足：</p>
+<p>$$
+\lambda=\frac{c}{\nu}
+$$</p>
+<p>其中 $\lambda$ 为波长，$c$ 为光速。该关系用于理解不同波段成像的物理差异。</p>
+<h2 id="2.3-%E5%9B%BE%E5%83%8F%E6%84%9F%E7%9F%A5%E5%92%8C%E8%8E%B7%E5%8F%96" tabindex="-1">2.3 图像感知和获取</h2>
+<p>图像获取通常经历“照射源照射目标、目标反射或透射能量、传感器接收能量、数字化输出图像”的过程。单个传感器可通过扫描形成二维图像，传感器条带和传感器阵列可直接获取二维数据。</p>
+<h3 id="%E5%9B%BE%E7%A4%BA%E8%AF%B4%E6%98%8E" tabindex="-1">图示说明</h3>
+<p>图像获取示意图强调两个关键环节：成像能量源和传感器响应。若照明不足或传感器噪声较大，后续图像会出现低对比度、噪声或模糊。</p>
+<h2 id="2.4-%E5%9B%BE%E5%83%8F%E9%87%87%E6%A0%B7%E5%92%8C%E9%87%8F%E5%8C%96" tabindex="-1">2.4 图像采样和量化</h2>
+<p>连续图像数字化包括采样和量化。采样决定空间坐标离散化程度，量化决定灰度值离散化程度。</p>
+<p>图像存储量为：</p>
+<p>$$
+b=M\times N\times k
+$$</p>
+<p>其中 $M,N$ 为图像尺寸，$k$ 为每个像素的比特数，$b$ 为存储总比特数。当 $M=N$ 时，$b=N^2k$。</p>
+<p>采样间隔过大会造成空间细节丢失和混叠；量化级数过少会出现伪轮廓。提高空间分辨率可以保留细节，提高灰度分辨率可以改善灰度过渡。</p>
+<h2 id="2.5-%E5%83%8F%E7%B4%A0%E9%97%B4%E5%85%B3%E7%B3%BB" tabindex="-1">2.5 像素间关系</h2>
+<p>像素关系是区域分析、连通域标记和形态学处理的基础。</p>
+<h3 id="%E9%82%BB%E5%9F%9F%E4%B8%8E%E9%82%BB%E6%8E%A5" tabindex="-1">邻域与邻接</h3>
+<p>对像素 $p=(x,y)$：</p>
+<ul>
+<li>4 邻域 $N_4(p)$ 包含上、下、左、右四个像素。</li>
+<li>对角邻域 $N_D(p)$ 包含四个对角像素。</li>
+<li>8 邻域 $N_8(p)=N_4(p)\cup N_D(p)$。</li>
+</ul>
+<p>邻接不仅要求空间相邻，还要求像素灰度属于指定集合 $V$。因此 m 邻接用于减少 8 邻接可能导致的连接歧义。</p>
+<h3 id="%E9%80%9A%E8%B7%AF%E4%B8%8E%E8%BF%9E%E9%80%9A" tabindex="-1">通路与连通</h3>
+<p>从 $p$ 到 $q$ 的通路是一个像素序列，相邻像素之间满足指定邻接关系。若两个像素之间存在通路，则称它们连通。连通性是分割和连通域提取的基础。</p>
+<h3 id="%E8%B7%9D%E7%A6%BB%E5%BA%A6%E9%87%8F" tabindex="-1">距离度量</h3>
+<p>欧氏距离为：</p>
+<p>$$
+D_e(p,q)=\sqrt{(x_p-x_q)^2+(y_p-y_q)^2}
+$$</p>
+<p>它表示两点间的直线距离。</p>
+<p>城市街区距离为：</p>
+<p>$$
+D_4(p,q)=|x_p-x_q|+|y_p-y_q|
+$$</p>
+<p>它对应 4 邻接下的最短路径长度。</p>
+<p>棋盘距离为：</p>
+<p>$$
+D_8(p,q)=\max(|x_p-x_q|,\ |y_p-y_q|)
+$$</p>
+<p>它对应 8 邻接下的最短路径长度。</p>
+<h2 id="2.6-%E5%9B%BE%E5%83%8F%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C" tabindex="-1">2.6 图像基本操作</h2>
+<h3 id="2.6.1-%E9%98%B5%E5%88%97%E6%93%8D%E4%BD%9C" tabindex="-1">2.6.1 阵列操作</h3>
+<p>阵列操作直接作用于像素矩阵，如访问像素、截取子图、改变图像尺寸或通道。它是所有算法实现的基础。</p>
+<h3 id="2.6.2-%E9%80%BB%E8%BE%91%E6%93%8D%E4%BD%9C" tabindex="-1">2.6.2 逻辑操作</h3>
+<p>逻辑操作包括与、或、非、异或，常用于二值图像处理。例如用掩膜保留目标区域，用逻辑与删除背景。</p>
+<h3 id="2.6.3-%E7%AE%97%E6%9C%AF%E6%93%8D%E4%BD%9C" tabindex="-1">2.6.3 算术操作</h3>
+<p>图像加法可用于叠加、平均降噪；减法可用于变化检测；乘法常用于掩膜处理；除法可用于校正非均匀照明。</p>
+<p>带噪图像模型常写为：</p>
+<p>$$
+g(x,y)=f(x,y)+\eta(x,y)
+$$</p>
+<p>其中 $f(x,y)$ 为原图，$\eta(x,y)$ 为噪声，$g(x,y)$ 为观测图像。多幅同场景图像求平均可以降低随机噪声。</p>
+<h3 id="2.6.4-%E9%9B%86%E5%90%88%E4%B8%8E%E9%80%BB%E8%BE%91%E6%93%8D%E4%BD%9C" tabindex="-1">2.6.4 集合与逻辑操作</h3>
+<p>二值图像可看成像素集合，因此集合并、交、差、补与逻辑运算对应。形态学图像处理正是建立在集合观点之上。</p>
+<h3 id="2.6.5-%E7%A9%BA%E9%97%B4%E6%93%8D%E4%BD%9C" tabindex="-1">2.6.5 空间操作</h3>
+<p>空间操作包括单像素变换、邻域处理和几何变换。邻域处理常通过模板或卷积核完成，几何变换用于平移、旋转、缩放和配准。</p>
+<p>仿射变换可写成齐次坐标形式：</p>
+<h1 id="%24%24%5Cbegin%7Bbmatrix%7Dx%5Cy%5C1%5Cend%7Bbmatrix%7D" tabindex="-1">$$
+\begin{bmatrix}
+x\
+y\
+1
+\end{bmatrix}</h1>
+<p>\begin{bmatrix}
+a_{11} &amp; a_{12} &amp; t_x\
+a_{21} &amp; a_{22} &amp; t_y\
+0 &amp; 0 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+u\
+v\
+1
+\end{bmatrix}
+$$</p>
+<p>矩阵中的线性部分控制旋转、缩放和剪切，$t_x,t_y$ 控制平移。</p>
+<h3 id="2.6.6-%E5%9B%BE%E5%83%8F%E5%8F%98%E6%8D%A2" tabindex="-1">2.6.6 图像变换</h3>
+<p>图像变换将图像从空间域转换到其他域，例如傅里叶变换用于频率分析，余弦变换用于压缩，小波变换用于多尺度分析。</p>
+<h3 id="2.6.7-%E6%A6%82%E7%8E%87%E6%96%B9%E6%B3%95" tabindex="-1">2.6.7 概率方法</h3>
+<p>概率方法用于描述图像灰度分布、噪声模型和统计特征。直方图可看成灰度概率分布的估计，是直方图均衡、阈值分割和统计识别的基础。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/06/02/第03章_灰度变换与空域滤波/"><small>上一篇</small><strong>第03章_灰度变换与空域滤波</strong></a>
+        <a href="/2026/06/02/第01章_绪论/"><small>下一篇</small><strong>第01章_绪论</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

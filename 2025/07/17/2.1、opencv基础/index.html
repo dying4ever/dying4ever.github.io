@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="2.1、opencv基础" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>2.1、opencv基础 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>2.1、opencv基础</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:41:51">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/Python/">Python</a><a href="/categories/opencv/">opencv</a></span>
+    <span class="content-meta__tags"><a href="/tags/Python/">Python</a><a href="/tags/opencv/">opencv</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E4%BA%8C%EF%BC%8Copencv%E5%9F%BA%E7%A1%80">二，openCV基础</a></li><li class="article-toc__level-2"><a href="#1%EF%BC%8C%E5%9B%BE%E5%83%8F%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C">1，图像基本操作</a></li><li class="article-toc__level-3"><a href="#1-1-%E5%9B%BE%E5%83%8F%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C">1-1 图像基础操作</a></li><li class="article-toc__level-3"><a href="#1-2-%E7%AE%97%E6%95%B0%E6%93%8D%E4%BD%9C">1-2 算数操作</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h1 id="%E4%BA%8C%EF%BC%8Copencv%E5%9F%BA%E7%A1%80" tabindex="-1">二，openCV基础</h1>
+<p><strong>说明：笔记是跟着B站黑马程序员的openCV课程时做的</strong></p>
+<h2 id="1%EF%BC%8C%E5%9B%BE%E5%83%8F%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C" tabindex="-1">1，图像基本操作</h2>
+<h3 id="1-1-%E5%9B%BE%E5%83%8F%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C" tabindex="-1">1-1 图像基础操作</h3>
+<h4 id="1-1-1-%E5%AE%89%E8%A3%85%E7%9B%B8%E5%85%B3%E5%BA%93" tabindex="-1">1-1-1 安装相关库</h4>
+<pre class="code-frame"><code class="hljs language-python">pip install opencv-python
+pip install opencv-contrib-python 
+
+<span class="hljs-comment">## 尽量保持两个库安装的版本，比如我都是4.9.0.80</span>
+opencv-contrib-python         <span class="hljs-number">4.9</span><span class="hljs-number">.0</span><span class="hljs-number">.80</span>
+opencv-python                 <span class="hljs-number">4.9</span><span class="hljs-number">.0</span><span class="hljs-number">.80</span>
+
+</code></pre>
+<h4 id="1-1-2-%E5%AF%BC%E5%85%A5%E4%BD%BF%E7%94%A8" tabindex="-1">1-1-2 导入使用</h4>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2
+<span class="hljs-keyword">import</span> matplotlib.pyplot  <span class="hljs-keyword">as</span> plt
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+</code></pre>
+<h4 id="1-1-3-%E5%AF%BC%E5%85%A5%E5%9B%BE%E7%89%87" tabindex="-1">1-1-3 导入图片</h4>
+<h5 id="1-3-1-cv2.imshow()-%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87" tabindex="-1">1-3-1 cv2.imshow()   显示图片</h5>
+<p>参数：</p>
+<ul>
+<li>显示图像的窗口名称，以字符串类型表示</li>
+<li>要加载的图像</li>
+</ul>
+<p><strong>注意：在调用显示图像的API后，要调用cv.waitKey()给图像绘制留下时间，否则窗口会出现无响应情况，并且图像无法显示出来</strong>。</p>
+<pre class="code-frame"><code class="hljs language-python">img = cv2.imread(<span class="hljs-string">&#x27;./img/01.jpg&#x27;</span>)
+<span class="hljs-built_in">print</span>(img)
+
+<span class="hljs-comment">## 图像的显示</span>
+cv2.imshow(<span class="hljs-string">&#x27;image&#x27;</span>,img)
+<span class="hljs-comment">## 等待时间，毫秒级。0表示任意键终止</span>
+cv2.waitKey(<span class="hljs-number">0</span>)
+cv2.destroyAllWindows()
+</code></pre>
+<ul>
+<li>cv.IMREAD*COLOR：以彩色模式加载图像，任何图像的透明度都将被忽略。这是默认参数。</li>
+<li>cv.IMREAD*GRAYSCALE：以灰度模式加载图像</li>
+<li>cv.IMREAD_UNCHANGED：包括alpha通道的加载图像模式。</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-comment">## 第二个参数，设置彩色还是灰度</span>
+img = cv2.imread(<span class="hljs-string">&#x27;./img/01.jpg&#x27;</span>,cv2.IMREAD_GRAYSCALE )
+
+<span class="hljs-comment"># 以灰度图的形式读取图像</span>
+img = cv.imread(<span class="hljs-string">&#x27;messi5.jpg&#x27;</span>,<span class="hljs-number">0</span>)
+</code></pre>
+<h5 id="1-3-2-matplotlib-%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87" tabindex="-1">1-3-2 matplotlib 显示图片</h5>
+<p>彩色图</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> matplotlib.pyplot  <span class="hljs-keyword">as</span> plt
+img = cv2.imread(<span class="hljs-string">&#x27;./img/01.jpg&#x27;</span>)
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>])
+plt.show()
+</code></pre>
+<p>灰度图</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> matplotlib.pyplot  <span class="hljs-keyword">as</span> plt
+img = cv2.imread(<span class="hljs-string">&#x27;./img/01.jpg&#x27;</span>，<span class="hljs-number">0</span>)
+plt.imshow(img,cmap=plt.cm.gray)
+plt.show()
+</code></pre>
+<h4 id="1-1-4-%E5%9B%BE%E7%89%87%E4%BF%9D%E5%AD%98" tabindex="-1">1-1-4 图片保存</h4>
+<p>参数：</p>
+<ul>
+<li>文件名，要保存在哪里</li>
+<li>要保存的图像</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-comment"># 路径和保存的图片</span>
+cv2.imwrite(<span class="hljs-string">&#x27;nwe_img.png&#x27;</span>,img)
+</code></pre>
+<pre class="code-frame"><code class="hljs language-Python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 读取图像</span>
+img = cv.imread(<span class="hljs-string">&#x27;messi5.jpg&#x27;</span>,<span class="hljs-number">0</span>)
+<span class="hljs-comment"># 2 显示图像</span>
+<span class="hljs-comment"># 2.1 利用opencv展示图像</span>
+cv.imshow(<span class="hljs-string">&#x27;image&#x27;</span>,img)
+<span class="hljs-comment"># 2.2 在matplotplotlib中展示图像</span>
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>])
+plt.title(<span class="hljs-string">&#x27;匹配结果&#x27;</span>), plt.xticks([]), plt.yticks([])
+plt.show()
+k = cv.waitKey(<span class="hljs-number">0</span>)
+<span class="hljs-comment"># 3 保存图像</span>
+cv.imwrite(<span class="hljs-string">&#x27;messigray.png&#x27;</span>,img)
+</code></pre>
+<h4 id="1-1-5-%E8%A7%86%E9%A2%91%E7%9A%84%E8%AF%BB%E5%8F%96" tabindex="-1">1-1-5 视频的读取</h4>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-comment"># 不指定文件可以捕获摄像头</span>
+vc = cv2.VideoCapture()
+
+<span class="hljs-comment">## 指定文件路径，可以读取视频</span>
+vc = cv2.VideoCapture(<span class="hljs-string">&#x27;test.mp4&#x27;</span>)
+
+<span class="hljs-comment">## 判断视频能否打得开</span>
+<span class="hljs-keyword">if</span> vc.isOpened():
+	<span class="hljs-built_in">open</span>,frame = vc.read()
+<span class="hljs-keyword">else</span>:
+	<span class="hljs-built_in">open</span> = <span class="hljs-literal">False</span>
+</code></pre>
+<pre class="code-frame"><code class="hljs language-Python"><span class="hljs-keyword">while</span> <span class="hljs-built_in">open</span>:
+	ret,frame = vc.read()
+	<span class="hljs-keyword">if</span> frame <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+		<span class="hljs-keyword">break</span>
+	<span class="hljs-keyword">if</span> ret == <span class="hljs-literal">True</span>:
+        <span class="hljs-comment">## 转换成黑白图</span>
+		gray = cv2.cvtColor(frame,cv2.COLOR_BGR2GRAY)
+		cv2.imshow(<span class="hljs-string">&#x27;result&#x27;</span>,gray)
+        <span class="hljs-comment">## 100 是指处理完一帧等待的时间，单位是ms</span>
+		<span class="hljs-keyword">if</span> cv2.waitKey(<span class="hljs-number">10</span>) &amp; <span class="hljs-number">0xFF</span> == <span class="hljs-number">27</span>:
+			<span class="hljs-keyword">break</span>
+vc.release()
+cv2.destroyAllWindows()
+</code></pre>
+<h4 id="1-1-6-%E6%88%AA%E5%8F%96%E9%83%A8%E5%88%86%E5%9B%BE%E5%83%8F%E6%95%B0%E6%8D%AE" tabindex="-1">1-1-6 截取部分图像数据</h4>
+<pre class="code-frame"><code class="hljs language-python">img =cv2.imread(<span class="hljs-string">&#x27;./img/01.jpg&#x27;</span>)
+cat = img[<span class="hljs-number">0</span>:<span class="hljs-number">200</span>,<span class="hljs-number">0</span>:<span class="hljs-number">200</span>]
+cv2.imshow(<span class="hljs-string">&#x27;cat&#x27;</span>,cat)
+</code></pre>
+<h4 id="1-1-7-%E9%A2%9C%E8%89%B2%E9%80%9A%E9%81%93%E6%8F%90%E5%8F%96" tabindex="-1">1-1-7 颜色通道提取</h4>
+<pre class="code-frame"><code class="hljs language-python">b,g,r = cv2.split(img)
+<span class="hljs-built_in">print</span>(r.shape)
+</code></pre>
+<h4 id="1-1-8-%E9%80%9A%E9%81%93%E7%9A%84%E5%90%88%E5%B9%B6" tabindex="-1">1-1-8 通道的合并</h4>
+<pre class="code-frame"><code class="hljs language-plaintext">img = cv2.merge(b,g,r)
+img.shape
+</code></pre>
+<h4 id="1-1-9-%E5%8F%AA%E6%8F%90%E5%8F%96%E6%9F%90%E4%B8%AA%E9%80%9A%E9%81%93" tabindex="-1">1-1-9 只提取某个通道</h4>
+<h5 id="1-9-1-%E5%8F%AA%E4%BF%9D%E7%95%99r" tabindex="-1">1-9-1 只保留R</h5>
+<pre class="code-frame"><code class="hljs language-python">img =cv2.imread(<span class="hljs-string">&#x27;./img/01.jpg&#x27;</span>)
+cur_img = img.copy()
+cur_img[:,:,<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>
+cur_img[:,:,<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>
+cv2.imshow(<span class="hljs-string">&#x27;R&#x27;</span>,cur_img)
+
+cv2.waitKey(<span class="hljs-number">0</span>)
+cv2.destroyAllWindows()
+</code></pre>
+<h5 id="1-9-2-%E5%8F%AA%E4%BF%9D%E7%95%99g" tabindex="-1">1-9-2 只保留G</h5>
+<pre class="code-frame"><code class="hljs language-python">img =cv2.imread(<span class="hljs-string">&#x27;./img/01.jpg&#x27;</span>)
+cur_img = img.copy()
+cur_img[:,:,<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>
+cur_img[:,:,<span class="hljs-number">2</span>] = <span class="hljs-number">0</span>
+cv2.imshow(<span class="hljs-string">&#x27;G&#x27;</span>,cur_img)
+
+cv2.waitKey(<span class="hljs-number">0</span>)
+cv2.destroyAllWindows()
+</code></pre>
+<h5 id="1-9-3-%E5%8F%AA%E4%BF%9D%E7%95%99b" tabindex="-1">1-9-3 只保留B</h5>
+<pre class="code-frame"><code class="hljs language-python">img =cv2.imread(<span class="hljs-string">&#x27;./img/01.jpg&#x27;</span>)
+cur_img = img.copy()
+cur_img[:,:,<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>
+cur_img[:,:,<span class="hljs-number">2</span>] = <span class="hljs-number">0</span>
+cv2.imshow(<span class="hljs-string">&#x27;B&#x27;</span>,cur_img)
+
+cv2.waitKey(<span class="hljs-number">0</span>)
+cv2.destroyAllWindows()
+</code></pre>
+<h4 id="1-1-10-%E8%BE%B9%E7%95%8C%E5%A1%AB%E5%85%85" tabindex="-1">1-1-10 边界填充</h4>
+<p>cv2.BORDER_REPLICATE ： 复制法，也就是复制最边缘像素</p>
+<p>cv2.BORDER_REFLECT ： 反射法，对感兴趣的图像中的像素在两边进行复制</p>
+<p>cv2.BORDER_REFLECT_101： 反射法，也就是以最边缘像素为轴，对称</p>
+<p>cv2.BORDER_WRAP：外包装法</p>
+<p>cv2.BORDER_CONSTANT：常量法：常数值填充</p>
+<pre class="code-frame"><code class="hljs language-Python">top_size,bottom_size,left_size,right_size = (<span class="hljs-number">50</span>,<span class="hljs-number">50</span>,<span class="hljs-number">50</span>,<span class="hljs-number">50</span>)
+img = cv2.imread(<span class="hljs-string">&#x27;./img/01.jpg&#x27;</span>)
+
+replicate = cv2.copyMakeBorder(img,top_size,bottom_size,left_size,right_size,borderType=cv2.BORDER_REPLICATE)
+reflect = cv2.copyMakeBorder(img,top_size,bottom_size,left_size,right_size,borderType=cv2.BORDER_REFLECT)
+reflect101 = cv2.copyMakeBorder(img,top_size,bottom_size,left_size,right_size,borderType=cv2.BORDER_REFLECT_101)
+wrap = cv2.copyMakeBorder(img,top_size,bottom_size,left_size,right_size,borderType=cv2.BORDER_WRAP)
+constant = cv2.copyMakeBorder(img, top_size, bottom_size, left_size, right_size, borderType=cv2.BORDER_CONSTANT, value=<span class="hljs-number">0</span>)
+
+cv2.imshow(<span class="hljs-string">&#x27;B&#x27;</span>,img)
+
+cv2.waitKey(<span class="hljs-number">0</span>)
+cv2.destroyAllWindows()
+</code></pre>
+<h4 id="1-1-11%EF%BC%8C%E5%9B%BE%E5%83%8F%E4%B8%8A%E7%BB%98%E5%88%B6%E7%9B%B4%E7%BA%BF" tabindex="-1">1-1-11，图像上绘制直线</h4>
+<h5 id="1-11-1-%E7%BB%98%E5%88%B6%E7%9B%B4%E7%BA%BF" tabindex="-1">1-11-1 绘制直线</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">cv.line(img,start,end,color,thickness)
+
+cv.line(img,(0,0),(511,511),(255,0,0),5)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>img:要绘制直线的图像</li>
+<li>Start,end: 直线的起点和终点</li>
+<li>color: 线条的颜色</li>
+<li>Thickness: 线条宽度</li>
+</ul>
+<h5 id="1-11-2-%E7%BB%98%E5%88%B6%E5%9C%86%E5%BD%A2" tabindex="-1">1-11-2 绘制圆形</h5>
+<pre class="code-frame"><code class="hljs language-python">cv.circle(img,centerpoint, r, color, thickness)
+cv.circle(img,(<span class="hljs-number">447</span>,<span class="hljs-number">63</span>), <span class="hljs-number">63</span>, (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">255</span>), -<span class="hljs-number">1</span>)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>img:要绘制圆形的图像</li>
+<li>Centerpoint, r: 圆心和半径</li>
+<li>color: 线条的颜色</li>
+<li>Thickness: 线条宽度，为-1时生成闭合图案并填充颜色</li>
+</ul>
+<h5 id="1-11-3-%E7%BB%98%E5%88%B6%E7%9F%A9%E5%BD%A2" tabindex="-1">1-11-3 绘制矩形</h5>
+<pre class="code-frame"><code class="hljs language-python">cv.rectangle(img,leftupper,rightdown,color,thickness)
+cv.rectangle(img,(<span class="hljs-number">384</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">510</span>,<span class="hljs-number">128</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">255</span>,<span class="hljs-number">0</span>),<span class="hljs-number">3</span>)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>img:要绘制矩形的图像</li>
+<li>Leftupper, rightdown: 矩形的左上角和右下角坐标</li>
+<li>color: 线条的颜色</li>
+<li>Thickness: 线条宽度</li>
+</ul>
+<h5 id="1-11-4-%E5%90%91%E5%9B%BE%E5%83%8F%E4%B8%AD%E6%B7%BB%E5%8A%A0%E6%96%87%E5%AD%97" tabindex="-1">1-11-4 向图像中添加文字</h5>
+<pre class="code-frame"><code class="hljs language-python">cv.putText(img,text,station, font, fontsize,color,thickness,cv.LINE_AA)
+
+cv.putText(img,<span class="hljs-string">&#x27;OpenCV&#x27;</span>,(<span class="hljs-number">10</span>,<span class="hljs-number">500</span>), font, <span class="hljs-number">4</span>,(<span class="hljs-number">255</span>,<span class="hljs-number">255</span>,<span class="hljs-number">255</span>),<span class="hljs-number">2</span>,cv.LINE_AA)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>img: 图像</li>
+<li>text：要写入的文本数据</li>
+<li>station：文本的放置位置</li>
+<li>font：字体</li>
+<li>Fontsize :字体大小</li>
+</ul>
+<h5 id="1-11-5-%E6%95%88%E6%9E%9C%E5%B1%95%E7%A4%BA" tabindex="-1">1-11-5 效果展示</h5>
+<p>我们生成一个全黑的图像，然后在里面绘制图像并添加文字</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 创建一个空白的图像</span>
+img = np.zeros((<span class="hljs-number">512</span>,<span class="hljs-number">512</span>,<span class="hljs-number">3</span>), np.uint8)
+<span class="hljs-comment"># 2 绘制图形</span>
+cv.line(img,(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">511</span>,<span class="hljs-number">511</span>),(<span class="hljs-number">255</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>),<span class="hljs-number">5</span>)
+cv.rectangle(img,(<span class="hljs-number">384</span>,<span class="hljs-number">0</span>),(<span class="hljs-number">510</span>,<span class="hljs-number">128</span>),(<span class="hljs-number">0</span>,<span class="hljs-number">255</span>,<span class="hljs-number">0</span>),<span class="hljs-number">3</span>)
+cv.circle(img,(<span class="hljs-number">447</span>,<span class="hljs-number">63</span>), <span class="hljs-number">63</span>, (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">255</span>), -<span class="hljs-number">1</span>)
+font = cv.FONT_HERSHEY_SIMPLEX
+cv.putText(img,<span class="hljs-string">&#x27;OpenCV&#x27;</span>,(<span class="hljs-number">10</span>,<span class="hljs-number">500</span>), font, <span class="hljs-number">4</span>,(<span class="hljs-number">255</span>,<span class="hljs-number">255</span>,<span class="hljs-number">255</span>),<span class="hljs-number">2</span>,cv.LINE_AA)
+<span class="hljs-comment"># 3 图像展示</span>
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>])
+plt.title(<span class="hljs-string">&#x27;匹配结果&#x27;</span>), plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+<h4 id="1-1-12%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%9B%BE%E5%83%8F%E4%B8%AD%E7%9A%84%E5%83%8F%E7%B4%A0%E7%82%B9" tabindex="-1">1-1-12，获取图像中的像素点</h4>
+<p>我们可以通过行和列的坐标值获取该像素点的像素值。对于BGR图像，它返回一个蓝，绿，红值的数组。对于灰度图像，仅返回相应的强度值。使用相同的方法对像素值进行修改。</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+img = cv.imread(<span class="hljs-string">&#x27;messi5.jpg&#x27;</span>)
+<span class="hljs-comment"># 获取某个像素点的值</span>
+px = img[<span class="hljs-number">100</span>,<span class="hljs-number">100</span>]
+<span class="hljs-comment"># 仅获取蓝色通道的强度值</span>
+blue = img[<span class="hljs-number">100</span>,<span class="hljs-number">100</span>,<span class="hljs-number">0</span>]
+<span class="hljs-comment"># 修改某个位置的像素值</span>
+img[<span class="hljs-number">100</span>,<span class="hljs-number">100</span>] = [<span class="hljs-number">255</span>,<span class="hljs-number">255</span>,<span class="hljs-number">255</span>]
+</code></pre>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+
+img = np.zeros((<span class="hljs-number">256</span>,<span class="hljs-number">256</span>,<span class="hljs-number">3</span>),np.uint8)
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>])
+</code></pre>
+<p><img src="/2025/07/17/2.1、opencv基础/2.1、opencv基础.assets/image-20240127103502.png" alt="" loading="lazy" decoding="async"></p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-comment"># 获取（100,100）处的像素值</span>
+img[<span class="hljs-number">100</span>,<span class="hljs-number">100</span>]
+
+<span class="hljs-comment">## # 仅获取蓝色通道的强度值</span>
+img[<span class="hljs-number">100</span>,<span class="hljs-number">100</span>,<span class="hljs-number">0</span>]
+
+<span class="hljs-comment">## 修改某一点的像素值</span>
+img[<span class="hljs-number">100</span>,<span class="hljs-number">100</span>] = (<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">255</span>)
+</code></pre>
+<p><img src="/2025/07/17/2.1、opencv基础/2.1、opencv基础.assets/image-20240127103738.png" alt="" loading="lazy" decoding="async"></p>
+<h4 id="1-1-13-%EF%BC%8C%E8%8E%B7%E5%8F%96%E5%9B%BE%E5%83%8F%E7%9A%84%E5%B1%9E%E6%80%A7" tabindex="-1">1-1-13 ，获取图像的属性</h4>
+<p>图像属性包括行数，列数和通道数，图像数据类型，像素数等。</p>
+<p><img src="/2025/07/17/2.1、opencv基础/2.1、opencv基础.assets/image-20240126173746.png" alt="" loading="lazy" decoding="async"></p>
+<pre class="code-frame"><code class="hljs language-python">img.shape   <span class="hljs-comment">## （256,256,3） 256*256 的三个通道的</span>
+</code></pre>
+<pre class="code-frame"><code class="hljs language-python">img.dtype   <span class="hljs-comment">## dtype(&#x27;uint8&#x27;)</span>
+</code></pre>
+<pre class="code-frame"><code class="hljs language-Python">img.size   <span class="hljs-comment">## 196608</span>
+</code></pre>
+<h4 id="1-1-14%EF%BC%8C%E5%9B%BE%E5%83%8F%E9%80%9A%E9%81%93%E7%9A%84%E6%8B%86%E5%88%86%E4%B8%8E%E5%90%88%E5%B9%B6" tabindex="-1">1-1-14，图像通道的拆分与合并</h4>
+<p>有时需要在B，G，R通道图像上单独工作。在这种情况下，需要将BGR图像分割为单个通道。或者在其他情况下，可能需要将这些单独的通道合并到BGR图像。你可以通过以下方式完成。</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-comment"># 通道拆分</span>
+b,g,r = cv.split(img)
+<span class="hljs-comment"># 通道合并</span>
+img = cv.merge((b,g,r))
+</code></pre>
+<pre class="code-frame"><code class="hljs language-python">dili = cv.imread(<span class="hljs-string">&quot;./image/dili.jpg&quot;</span>)
+plt.imshow(dili[:,:,::-<span class="hljs-number">1</span>])
+
+
+b,g,r = cv.split(dili)
+<span class="hljs-comment">## b通道灰色显示</span>
+plt.imshow(b,cmap=plt.cm.gray)
+
+<span class="hljs-comment"># 通道合并</span>
+img2 = cv.merge((b,g,r))
+plt.imshow(img2[:,:,::-<span class="hljs-number">1</span>])
+</code></pre>
+<h4 id="1-1-15%EF%BC%8C%E8%89%B2%E5%BD%A9%E7%A9%BA%E9%97%B4%E7%9A%84%E6%94%B9%E5%8F%98" tabindex="-1">1-1-15，色彩空间的改变</h4>
+<p>OpenCV中有150多种颜色空间转换方法。最广泛使用的转换方法有两种，BGR↔Gray和BGR↔HSV。</p>
+<p>API：</p>
+<pre class="code-frame"><code class="hljs language-python">cv.cvtColor(input_image，flag)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>input_image: 进行颜色空间转换的图像</li>
+<li>flag: 转换类型
+<ul>
+<li>cv.COLOR_BGR2GRAY : BGR↔Gray</li>
+<li>cv.COLOR_BGR2HSV: BGR→HSV</li>
+</ul>
+</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-comment"># 转换成灰度图片</span>
+gray = cv.cvtColor(dili,cv.COLOR_BGR2GRAY)
+plt.imshow(gray,cmap=plt.cm.gray)
+
+<span class="hljs-comment"># 转换成hsv</span>
+hsv = cv.cvtColor(dili,cv.COLOR_BGR2HSV)
+plt.imshow(hsv)
+
+</code></pre>
+<p><img src="/2025/07/17/2.1、opencv基础/2.1、opencv基础.assets/image-20240127112859.png" alt="" loading="lazy" decoding="async"></p>
+<h4 id="1-1-16-%E6%80%BB%E7%BB%93" tabindex="-1">1-1-16 总结</h4>
+<ol>
+<li>
+<p>图像IO操作的API：</p>
+<pre class="code-frame"><code class="hljs language-python">cv.imread(): <span class="hljs-comment">## 读取图像</span>
+cv.imshow()：<span class="hljs-comment">## 显示图像</span>
+cv.imwrite(): <span class="hljs-comment">## 保存图像</span>
+</code></pre>
+</li>
+<li>
+<p>在图像上绘制几何图像</p>
+<pre class="code-frame"><code class="hljs language-python">cv.line(): <span class="hljs-comment">## 绘制直线</span>
+cv.circle(): <span class="hljs-comment">## 绘制圆形</span>
+cv.rectangle(): <span class="hljs-comment">## 绘制矩形</span>
+cv.putText(): <span class="hljs-comment">## 在图像上添加文字</span>
+</code></pre>
+</li>
+<li>
+<p>直接使用行列索引获取图像中的像素并进行修改</p>
+</li>
+<li>
+<p>图像的属性</p>
+<p><img src="/2025/07/17/2.1、opencv基础/2.1、opencv基础.assets/image-20240127104906.png" alt="" loading="lazy" decoding="async"></p>
+</li>
+<li>
+<p>拆分通道：cv.split()</p>
+<p>通道合并：cv.merge()</p>
+</li>
+<li>
+<p>色彩空间的改变</p>
+<p>cv.cvtColor(input_image，flag)</p>
+</li>
+</ol>
+<h3 id="1-2-%E7%AE%97%E6%95%B0%E6%93%8D%E4%BD%9C" tabindex="-1">1-2 算数操作</h3>
+<h4 id="1-2-1-%E5%9B%BE%E5%83%8F%E7%9A%84%E5%8A%A0%E6%B3%95" tabindex="-1">1-2-1 图像的加法</h4>
+<p>你可以使用OpenCV的cv.add()函数把两幅图像相加，或者可以简单地通过numpy操作添加两个图像，如res = img1 + img2。两个图像应该具有相同的大小和类型，或者第二个图像可以是标量值。</p>
+<p><strong>注意：OpenCV加法和Numpy加法之间存在差异。OpenCV的加法是饱和操作，而Numpy添加是模运算。</strong></p>
+<p>参考以下代码：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-meta">&gt;&gt;&gt; </span>x = np.uint8([<span class="hljs-number">250</span>])
+<span class="hljs-meta">&gt;&gt;&gt; </span>y = np.uint8([<span class="hljs-number">10</span>])
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-built_in">print</span>( cv.add(x,y) ) <span class="hljs-comment"># 250+10 = 260 =&gt; 255</span>
+[[<span class="hljs-number">255</span>]]
+<span class="hljs-meta">&gt;&gt;&gt; </span><span class="hljs-built_in">print</span>( x+y )          <span class="hljs-comment"># 250+10 = 260 % 256 = 4  取模</span>
+[<span class="hljs-number">4</span>]
+</code></pre>
+<p>这种差别在你对两幅图像进行加法时会更加明显。OpenCV 的结果会更好一点。所以我们尽量使用 OpenCV 中的函数。</p>
+<p>我们将下面两幅图像：</p>
+<p><img src="/2025/07/17/2.1、opencv基础/2.1、opencv基础.assets/image-20240127113853.png" alt="" loading="lazy" decoding="async"></p>
+<p>代码：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+
+<span class="hljs-comment"># 1 读取图像</span>
+img1 = cv.imread(<span class="hljs-string">&quot;view.jpg&quot;</span>)
+img2 = cv.imread(<span class="hljs-string">&quot;rain.jpg&quot;</span>)
+
+<span class="hljs-comment"># 2 加法操作</span>
+img3 = cv.add(img1,img2) <span class="hljs-comment"># cv中的加法</span>
+img4 = img1+img2 <span class="hljs-comment"># 直接相加</span>
+
+<span class="hljs-comment"># 3 图像显示</span>
+fig,axes=plt.subplots(nrows=<span class="hljs-number">1</span>,ncols=<span class="hljs-number">2</span>,figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>),dpi=<span class="hljs-number">100</span>)
+axes[<span class="hljs-number">0</span>].imshow(img3[:,:,::-<span class="hljs-number">1</span>])
+axes[<span class="hljs-number">0</span>].set_title(<span class="hljs-string">&quot;cv中的加法&quot;</span>)
+axes[<span class="hljs-number">1</span>].imshow(img4[:,:,::-<span class="hljs-number">1</span>])
+axes[<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&quot;直接相加&quot;</span>)
+plt.show()
+</code></pre>
+<p>结果如下所示：</p>
+<p><img src="/2025/07/17/2.1、opencv基础/2.1、opencv基础.assets/image-20240127113914.png" alt="" loading="lazy" decoding="async"></p>
+<h4 id="1-2-1-%E5%9B%BE%E5%83%8F%E7%9A%84%E6%B7%B7%E5%90%88" tabindex="-1">1-2-1 图像的混合</h4>
+<p>这其实也是加法，但是不同的是两幅图像的权重不同，这就会给人一种混合或者透明的感觉。图像混合的计算公式如下：</p>
+<blockquote>
+<p>g(x) = (1−α)f0(x) + αf1(x)</p>
+</blockquote>
+<p>通过修改 α 的值（0 → 1），可以实现非常炫酷的混合。</p>
+<p>现在我们把两幅图混合在一起。第一幅图的权重是0.7，第二幅图的权重是0.3。函数cv2.addWeighted()可以按下面的公式对图片进行混合操作。</p>
+<blockquote>
+<p>dst = α⋅img1 + β⋅img2 + γ</p>
+</blockquote>
+<p>这里γ取为零。</p>
+<p>参考以下代码：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+
+<span class="hljs-comment"># 1 读取图像</span>
+img1 = cv.imread(<span class="hljs-string">&quot;view.jpg&quot;</span>)
+img2 = cv.imread(<span class="hljs-string">&quot;rain.jpg&quot;</span>)
+
+<span class="hljs-comment"># 2 图像混合</span>
+img3 = cv.addWeighted(img1,<span class="hljs-number">0.7</span>,img2,<span class="hljs-number">0.3</span>,<span class="hljs-number">0</span>)  <span class="hljs-comment"># α⋅img1 + β⋅img2 + γ 对应五个参数</span>
+
+<span class="hljs-comment"># 3 图像显示</span>
+plt.figure(figsize=(<span class="hljs-number">8</span>,<span class="hljs-number">8</span>))
+plt.imshow(img3[:,:,::-<span class="hljs-number">1</span>])
+plt.show()
+</code></pre>
+<p>窗口将如下图显示：</p>
+<p><img src="/2025/07/17/2.1、opencv基础/2.1、opencv基础.assets/image-20240127114312.png" alt="" loading="lazy" decoding="async"></p>
+<h4 id="1-2-3-%E6%80%BB%E7%BB%93" tabindex="-1">1-2-3  总结</h4>
+<ol>
+<li>
+<p>图像加法：将两幅图像加载一起</p>
+<p>cv.add()</p>
+</li>
+<li>
+<p>图像的混合：将两幅图像按照不同的比例进行混合</p>
+<p>cv.addweight()</p>
+</li>
+</ol>
+<p>注意：这里都要求两幅图像是相同大小的。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/2.2、图像处理(2-1_几何变换)/"><small>上一篇</small><strong>2.2、图像处理(2-1_几何变换)</strong></a>
+        <a href="/2025/07/17/多线程/"><small>下一篇</small><strong>多线程</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

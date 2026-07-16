@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="具身智能相关名词解释" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>具身智能相关名词解释 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>具身智能相关名词解释</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-01-09T16:45:59">2026-01-09</time>
+    <span class="content-meta__categories"><a href="/categories/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD/">具身智能</a><a href="/categories/VLA/">VLA</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD/">具身智能</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#%E5%90%8D%E8%AF%8D">名词</a></li><li class="article-toc__level-3"><a href="#token-embedding">Token embedding</a></li><li class="article-toc__level-2"><a href="#%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD">具身智能</a></li><li class="article-toc__level-3"><a href="#1.-%E4%BB%80%E4%B9%88%E6%98%AF%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD-(what-is-embodied-ai)">1. 什么是具身智能 (What is Embodied AI)</a></li><li class="article-toc__level-3"><a href="#2.-%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E4%B8%8E%E5%85%B6%E4%BB%96ai%E7%9A%84%E5%8C%BA%E5%88%AB-(differences-from-traditional-ai)">2. 具身智能与其他AI的区别 (Differences from Traditional AI)</a></li><li class="article-toc__level-3"><a href="#3.-%E7%A0%94%E7%A9%B6%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%88%99-(core-principles)">3. 研究具身智能的核心原则 (Core Principles)</a></li><li class="article-toc__level-2"><a href="#vision-language-action-model%EF%BC%88%E8%A7%86%E8%A7%89-%E8%AF%AD%E8%A8%80-%E5%8A%A8%E4%BD%9C%E6%A8%A1%E5%9E%8B%EF%BC%89">Vision-Language-Action Model（视觉-语言-动作模型）</a></li><li class="article-toc__level-2"><a href="#%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%EF%BC%88world-model%EF%BC%89">世界模型（World Model）</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="%E5%90%8D%E8%AF%8D" tabindex="-1">名词</h2>
+<h3 id="token-embedding" tabindex="-1"><strong>Token embedding</strong></h3>
+<p>是指：  把一个离散的 token 编号映射成一个连续向量的过程或结果。</p>
+<h5 id="1.%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E5%A4%84%E7%90%86%E6%96%87%E5%AD%97%EF%BC%8C%E4%B9%9F%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E7%90%86%E8%A7%A3-token-%E7%BC%96%E5%8F%B7%E3%80%82" tabindex="-1">1.大模型不能直接处理文字，也不能直接理解 token 编号。</h5>
+<p>比如一个词被 tokenizer 编成编号：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">cube → 3456
+</code></pre>
+<p>但是编号 <code>3456</code> 本身没有语义，只是一个索引。</p>
+<h5 id="2.%E6%89%80%E4%BB%A5%E6%A8%A1%E5%9E%8B%E4%BC%9A%E6%9F%A5%E4%B8%80%E5%BC%A0-embedding-%E8%A1%A8%EF%BC%8C%E6%8A%8A%E5%AE%83%E5%8F%98%E6%88%90%E4%B8%80%E4%B8%AA%E5%90%91%E9%87%8F%EF%BC%9A" tabindex="-1">2.所以模型会查一张 <strong>embedding 表</strong>，把它变成一个向量：</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">3456 → [0.21, -0.44, 0.73, ...]
+</code></pre>
+<ul>
+<li>这个向量才是<strong>模型真正参与计算的输入</strong></li>
+<li>这样模型才能进行<strong>矩阵乘法、注意力计算、相似度计算</strong></li>
+<li>embedding 向量不是人工规定的，而是<strong>训练学出来</strong>的。</li>
+</ul>
+<p>训练之后，<strong>语义相近的 token，它们的 embedding 往往也会更接近</strong>。</p>
+<h5 id="3.%E5%9C%A8-llama2-%E9%87%8C%EF%BC%8C%E6%AF%8F%E4%B8%AA-token-%E4%BC%9A%E5%8F%98%E6%88%90%E4%B8%80%E4%B8%AA%E9%AB%98%E7%BB%B4%E5%90%91%E9%87%8F%E3%80%82" tabindex="-1">3.在 Llama2 里，每个 token 会变成一个高维向量。</h5>
+<p>Llama2 7B 的 hidden size 是 4096，所以每个 token 会被映射成一个 4096 维向量。</p>
+<p>然后这些向量会被送进 Transformer 层，进行注意力计算</p>
+<h2 id="%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD" tabindex="-1">具身智能</h2>
+<h3 id="1.-%E4%BB%80%E4%B9%88%E6%98%AF%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD-(what-is-embodied-ai)" tabindex="-1">1. 什么是具身智能 (What is Embodied AI)</h3>
+<p>具身智能（Embodied AI）是指能够在物理或虚拟环境中<strong>通过感知、行动和交互</strong>来学习与完成任务的人工智能。不同于仅在静态数据（文本、图像、语音等）上进行训练和推理的传统 AI，具身智能的智能体（agent）往往有一个“身体”（body）或“化身”（avatar），它们可以与环境交互，改变环境，并随着环境的改变自己作出调整。</p>
+<p><strong>核心特征：</strong></p>
+<ul>
+<li>拥有多模态感知能力（视觉、触觉、语音等）</li>
+<li>能够执行动作并影响环境</li>
+<li>学习可以通过<strong>与环境交互</strong>而不仅仅是被动监督完成</li>
+</ul>
+<h3 id="2.-%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E4%B8%8E%E5%85%B6%E4%BB%96ai%E7%9A%84%E5%8C%BA%E5%88%AB-(differences-from-traditional-ai)" tabindex="-1">2. 具身智能与其他AI的区别 (Differences from Traditional AI)</h3>
+<p>具身智能与传统 AI 的主要区别在于它的<strong>主动性、交互性，以及对动作数据的依赖</strong>。传统 AI 可以利用互联网上丰富的图像、文本、语音等大规模数据集进行训练（参考LLM的成功），而具身智能体所需的动作数据必须通过与环境的真实交互来收集，这使得数据获取代价高昂且规模有限。一言以蔽之，数据问题是具身智能目前最大的bottleneck。那么很自然的两个关键问题是，</p>
+<ul>
+<li>如何scale up机器人数据？ 例如：<a href="https://pku-epic.github.io/GraspVLA-web/" target="_blank" rel="noreferrer noopener">GraspVLA</a>（在仿真中以合成的方式猛猛造）, <a href="https://www.physicalintelligence.company/blog/pi0" target="_blank" rel="noreferrer noopener">pi0</a>和<a href="https://agibot-world.com/" target="_blank" rel="noreferrer noopener">AgiBot-World</a>（在真实世界猛猛遥操采）, <a href="https://umi-gripper.github.io/" target="_blank" rel="noreferrer noopener">UMI</a>和<a href="https://airexo.github.io/" target="_blank" rel="noreferrer noopener">AirExo</a>（可穿戴设备，如外骨骼的高效数据采集装置）</li>
+<li>在不能scale up机器人数据的情况下，如何利用好已有的数据实现你的目的？ 例如：<a href="https://diffusion-policy.cs.columbia.edu/" target="_blank" rel="noreferrer noopener">Diffusion Policy</a> (100条机器人数据训一个特定任务的policy）, <a href="https://arxiv.org/pdf/2507.15597" target="_blank" rel="noreferrer noopener">Being-H0</a>（利用human video参与policy训练），<a href="https://mimicgen.github.io/" target="_blank" rel="noreferrer noopener">MimicGen</a>、<a href="https://demo-generation.github.io/" target="_blank" rel="noreferrer noopener">DemoGen</a>、<a href="https://yangsizhe.github.io/robosplat/" target="_blank" rel="noreferrer noopener">Robosplat</a>（从一条机器人轨迹中augment得到更多数据）</li>
+</ul>
+<h3 id="3.-%E7%A0%94%E7%A9%B6%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD%E7%9A%84%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%88%99-(core-principles)" tabindex="-1">3. 研究具身智能的核心原则 (Core Principles)</h3>
+<ul>
+<li>
+<p><strong>首先把任务定义（task formulation）想清楚，而不是一开始就盯着模型</strong>。在CV领域，研究者之所以可以直接关注模型，是因为任务往往已经被定义得很清晰，数据集也由他人整理好， 比如图像分类就是输入图片输出类别标签，检测就是输出四个数的bounding box；</p>
+<p>但在具身智能中，如何合理地建模任务、确定目标与评价指标，往往比模型选择更为关键。说白了，你得知道你想让机器人学会什么样的技能，输入是啥，输出是啥，用的什么传感器？你所研究的问题是否在合理的setting下？有没有有可能通过更好的setting来解决问题（比如机器人头部相机对场景观测不全，那我们可以考虑加装腕部相机，或者使用鱼眼相机）</p>
+</li>
+<li>
+<p>必须认识到<strong>用学习（learning）来解决机器人问题并不是理所当然的选择</strong>。在许多场景中，传统的控制（Control）、规划（Planning）或优化方法（Optimization）依然高效且可靠，而学习方法更多是在任务复杂、环境多变(泛化性) 或缺乏解析建模手段时才展现优势。因此，做具身智能研究时，首先要想回答，为什么你研究的这件事传统robotics解决不了？为什么非得用learning？</p>
+</li>
+</ul>
+<h2 id="vision-language-action-model%EF%BC%88%E8%A7%86%E8%A7%89-%E8%AF%AD%E8%A8%80-%E5%8A%A8%E4%BD%9C%E6%A8%A1%E5%9E%8B%EF%BC%89" tabindex="-1">Vision-Language-Action Model（视觉-语言-动作模型）</h2>
+<p>VLA模型是在视觉语言模型（VLM）的基础上发展而来的。VLM是一种能够处理图像和自然语言文本的机器学习模型，它可以将一张或多张图片作为输入，并生成一系列标记来表示自然语言。然而，VLA不仅限于此，它还利用了机器人或汽车运动轨迹的数据，进一步训练这些现有的VLM，以输出可用于机器人或汽车控制的动作序列。通过这种方式，VLA可以解释复杂的指令并在物理世界中执行相应的动作。</p>
+<p><img src="/2026/01/09/具身智能相关名词解释/具身智能相关名词解释.assets/image-2026_01_09_16.webp" alt="" loading="lazy" decoding="async"></p>
+<p>==典型输入输出：==</p>
+<ul>
+<li>输入：
+<ul>
+<li>相机图像</li>
+<li>自然语言指令（“把红色积木放到盒子里”）</li>
+</ul>
+</li>
+<li>输出：
+<ul>
+<li>关节角度 / 末端位姿 / 力 / 速度等动作
+<img src="/2026/01/09/具身智能相关名词解释/具身智能相关名词解释.assets/image-2026_01_09_16.png" alt="" loading="lazy" decoding="async"></li>
+</ul>
+</li>
+</ul>
+<h4 id="%E4%BC%98%E7%82%B9" tabindex="-1">优点</h4>
+<ul>
+<li>能听懂自然语言</li>
+<li>泛化性强（新物体、新指令）</li>
+<li>端到端，工程简单</li>
+</ul>
+<h4 id="%E7%BC%BA%E7%82%B9" tabindex="-1">缺点</h4>
+<ul>
+<li>不懂物理、不懂因果</li>
+<li>只在「静态图像 + 文本」上预训练</li>
+<li>所有物理与时序 → 靠昂贵机器人示教学</li>
+</ul>
+<h2 id="%E4%B8%96%E7%95%8C%E6%A8%A1%E5%9E%8B%EF%BC%88world-model%EF%BC%89" tabindex="-1">世界模型（World Model）</h2>
+<p>指能够对环境或世界的状态进行表征，并预测状态之间转移的模型 。这个模型的核心目标是让AI系统能够像人类一样，在内部构建一个对外部物理环境的模拟和理解 。通过这种方式，AI可以在“脑海”中模拟和预测不同行为可能导致的后果，从而进行有效的规划和决策。世界模型的概念源于<strong>认知科学和机器人学</strong>，它强调<strong>AI系统需要具备对物理世界的直观理解，而不仅仅是处理离散的符号或数据</strong> 。例如，一个具备世界模型的自动驾驶系统，可以在遇到湿滑路面时，预判到如果车速过快可能会导致刹车距离延长，从而提前减速，避免危险。这种能力源于AI内部对物理规律（如摩擦力、惯性）的模拟，而不是简单地记忆“湿滑路面要减速”这条规则。
+世界模型的构建通常依赖于大量的交互数据。智能体在环境中执行各种动作，并观察这些动作带来的结果。通过这些观察，模型学习到如何根据当前的世界状态和智能体采取的行动来预测下一个状态。训练的目标是最小化预测误差，即模型预测的状态与实际发生的状态之间的差异。这种学习方式使得模型能够内化关于物理规律、因果关系以及物体间相互作用的知识。例如，一个经过充分训练的世界模型能够理解“物体上升后必然会下落”这一基本物理常识，或者预测“推动一个物体会使其移动”这一简单因果关系。这种对世界的内在表征，被认为是实现通用人工智能（<em>AGI</em>）的关键一步，因为它赋予了AI系统真正的常识性理解能力，而不仅仅是模式识别或数据拟合。</p>
+<h4 id="%E4%BC%98%E7%82%B9-1" tabindex="-1">优点</h4>
+<ul>
+<li>显式学物理与时序</li>
+<li>可用于规划和推演</li>
+<li>数据效率高（可用视频）</li>
+</ul>
+<h4 id="%E7%BC%BA%E7%82%B9-1" tabindex="-1">缺点</h4>
+<ul>
+<li>生成视频计算昂贵</li>
+<li>误差会逐步累积</li>
+<li>单独用来控制不够稳定</li>
+</ul>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/12/25/6、串行通信/"><small>上一篇</small><strong>6、串行通信</strong></a>
+        <a href="/2026/01/12/图语法相关名词/"><small>下一篇</small><strong>图语法相关名词</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

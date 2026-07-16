@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="led_lcd" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>led_lcd · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>led_lcd</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/stm32/">stm32</a></span>
+    <span class="content-meta__tags"><a href="/tags/stm32/">stm32</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E7%82%B9%E7%81%AF">点灯</a></li><li class="article-toc__level-1"><a href="#lcd%E6%98%BE%E7%A4%BA">LCD显示</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h1 id="%E7%82%B9%E7%81%AF" tabindex="-1">点灯</h1>
+<h5 id="%E6%89%80%E6%9C%89%E4%B8%80%E8%B5%B7%E7%82%B9%EF%BC%880x88%EF%BC%89%EF%BC%9A" tabindex="-1">所有一起点（0x88）：</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">void Led_display(unsigned char ucLed)
+{//熄灭所有灯
+    HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15|GPIO_PIN_8|GPIO_PIN_9|
+                      GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_12, GPIO_PIN_SET);
+    
+    HAL_GPIO_WritePin(GPIOC,ucLed&lt;&lt;8, GPIO_PIN_RESET);
+
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_SET);   
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
+
+}
+</code></pre>
+<h5 id="%E5%8D%95%E4%B8%AA%E7%82%B9%EF%BC%9A" tabindex="-1">单个点：</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">void led(uint8_t led,uint8_t mode)
+{
+    if (mode)
+    	HAL_GPIO_WritePin(GPIOC,( GPIO_PIN_8&lt;&lt;(led-1)), GPIO_PIN_RESET);
+    else
+    	HAL_GPIO_WritePin(GPIOC,( GPIO_PIN_8&lt;&lt;(led-1)), GPIO_PIN_SET);
+
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_SET);	
+    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
+}
+</code></pre>
+<h5 id="%E9%97%AA%E7%83%81%EF%BC%9A" tabindex="-1"><strong>闪烁</strong>：</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">uint16_t timer_5s;
+uint16_t led_state = 0;
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if (htim-&gt;Instance == TIM4)
+    { 
+        timer_5s++;
+        led_state = ！led_state
+        if(timer_5s&gt;=50)
+        {
+            timer_5s=0;//5s
+
+        }
+    }
+}
+</code></pre>
+<h1 id="lcd%E6%98%BE%E7%A4%BA" tabindex="-1">LCD显示</h1>
+<blockquote>
+<p>[!NOTE]</p>
+<h5 id="%3D%3D%E7%9C%9F%E9%A2%98%E6%96%87%E6%A1%A3%E7%BB%99%E7%9A%84%E8%A1%8C%E6%95%B0%E4%B8%8Elcd_displaystringline(line1%2C(uint8_t-)text)%3B%E7%9B%B8%E5%B7%AE%E4%B8%80%E4%BD%8D%EF%BC%81%EF%BC%81%E8%A6%81%E5%87%8F1%EF%BC%81%EF%BC%81%3D%3D%EF%BC%81***" tabindex="-1">==真题文档给的行数与LCD_DisplayStringLine(Line1,(uint8_t <em>)text);相差一位！！要减1！！==！</em>***</h5>
+</blockquote>
+<h5 id="%E5%85%88%E9%94%81%E5%AD%98%2C%E4%BD%8E%E7%94%B5%E5%B9%B3" tabindex="-1">先锁存,低电平</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">	 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2, GPIO_PIN_RESET);
+	 LCD_Init();
+	 LCD_Clear(Black);
+	 LCD_SetBackColor(Black);
+	 LCD_SetTextColor(White);
+</code></pre>
+<h5 id="%E5%86%8D%E5%9C%A8-(49)%3D%3Dlcd_init%3D%3D(96)%3D%3Dlcd_displaystringline%3D%3D(109)%3D%3Dlcd_clear%3D%3D%E5%89%8D%E5%90%8E%E5%8A%A0%E8%BF%99%E4%B8%A4%E6%AE%B5%E4%BB%A3%E7%A0%81" tabindex="-1">再在 (49)==LCD_Init==(96)==LCD_DisplayStringLine==(109)==LCD_Clear==前后加这两段代码</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">	//开始
+	uint16_t temp=GPIOC-&gt;ODR;
+	//末尾
+	GPIOC-&gt;ODR=temp;
+</code></pre>
+<h5 id="%E6%98%BE%E7%A4%BA%E4%BB%A3%E7%A0%81" tabindex="-1">显示代码</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">char text[20];
+void Lcd_Show(void){
+	sprintf(text,&quot;   test   &quot;);
+	LCD_DisplayStringLine(Line1,(uint8_t *)text);
+}
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/rtc/"><small>上一篇</small><strong>rtc</strong></a>
+        <a href="/2025/07/17/key/"><small>下一篇</small><strong>key</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

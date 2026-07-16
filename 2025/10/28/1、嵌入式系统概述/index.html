@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="1、嵌入式系统概述" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>1、嵌入式系统概述 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>1、嵌入式系统概述</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-10-28T14:06:05">2025-10-28</time>
+    <span class="content-meta__categories"><a href="/categories/stm32/">stm32</a><a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/">嵌入式_--（沈捷）</a></span>
+    <span class="content-meta__tags"><a href="/tags/stm32/">stm32</a><a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/">嵌入式_--（沈捷）</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#%E4%B8%80%E3%80%81%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%8F%91%E5%B1%95">一、嵌入式系统的定义与发展</a></li><li class="article-toc__level-3"><a href="#%E4%BA%8C%E3%80%81%E9%80%9A%E7%94%A8%E8%AE%A1%E7%AE%97%E6%9C%BA-vs-%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F">二、通用计算机 vs 嵌入式系统</a></li><li class="article-toc__level-3"><a href="#%E4%B8%89%E3%80%81%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%88%86%E7%B1%BB">三、嵌入式系统分类</a></li><li class="article-toc__level-3"><a href="#%E5%9B%9B%E3%80%81%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%89%B9%E7%82%B9">四、嵌入式系统特点</a></li><li class="article-toc__level-2"><a href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E6%96%B9%E5%BC%8F">第二部分：嵌入式软件开发方式</a></li><li class="article-toc__level-3"><a href="#1%EF%B8%8F%E2%83%A3-%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%BC%8F">1️⃣ 编程模式</a></li><li class="article-toc__level-3"><a href="#2%EF%B8%8F%E2%83%A3-%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E6%96%B9%E5%BC%8F">2️⃣ 程序开发方式</a></li><li class="article-toc__level-2"><a href="#%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%EF%BC%9A%E5%AD%A6%E4%B9%A0%E4%BD%93%E7%B3%BB%E4%B8%8E%E6%96%B9%E6%B3%95">第三部分：学习体系与方法</a></li><li class="article-toc__level-2"><a href="#%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%9A%E5%BE%AE%E6%8E%A7%E5%88%B6%E5%99%A8-mcu-%E4%B8%8E-stm32">第四部分：微控制器 MCU 与 STM32</a></li><li class="article-toc__level-3"><a href="#1%EF%B8%8F%E2%83%A3-mcu-%E6%A6%82%E5%BF%B5">1️⃣ MCU 概念</a></li><li class="article-toc__level-3"><a href="#2%EF%B8%8F%E2%83%A3-stm32-%E7%B3%BB%E5%88%97%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99">2️⃣ STM32 系列命名规则</a></li><li class="article-toc__level-3"><a href="#3%EF%B8%8F%E2%83%A3-arm-%E6%9E%B6%E6%9E%84%E7%AE%80%E8%BF%B0">3️⃣ ARM 架构简述</a></li><li class="article-toc__level-2"><a href="#%E6%80%BB%E7%BB%93">总结</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="%E4%B8%80%E3%80%81%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E5%8F%91%E5%B1%95" tabindex="-1">一、嵌入式系统的定义与发展</h3>
+<h4 id="1%EF%B8%8F%E2%83%A3-%E5%AE%9A%E4%B9%89" tabindex="-1">1️⃣ 定义</h4>
+<ul>
+<li><strong>核心定义</strong>：
+嵌入式系统是以应用为中心，以现代计算机技术为基础，能够根据用户需求 ，如功能、可靠性、成本、体积、功耗、环境等灵活裁剪软硬件模块的专用计算机系统。</li>
+<li><strong>中国国家标准 GB/T22033-2008</strong>：
+置入应用对象内部，起信息处理和控制作用的专用计算机系统。</li>
+<li><strong>IEEE 定义</strong>：
+用于控制、监测或辅助设备运行的装置。</li>
+<li><strong>维基百科定义</strong>：
+嵌入到机械或电气系统中的计算机控制系统，具有实时性。</li>
+</ul>
+<p><strong>延伸理解：</strong>
+嵌入式系统不是通用计算机（如 PC），它通常“藏”在设备内部（如手机、洗衣机、无人机、工业控制器等）。其本质是一种<strong>特定任务的计算机</strong>，例如 STM32 微控制器控制电机或传感器。</p>
+<hr>
+<h4 id="2%EF%B8%8F%E2%83%A3-%E5%8F%91%E5%B1%95%E9%98%B6%E6%AE%B5" tabindex="-1">2️⃣ 发展阶段</h4>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>时间</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>出现</td>
+<td>1960–1970</td>
+<td>最早的机载专用数字计算机（Verdan）；实现工业直接数字控制 (DDC)。</td>
+</tr>
+<tr>
+<td>兴起</td>
+<td>1971–1989</td>
+<td>微处理器出现，嵌入式计算机广泛应用于工业与军用领域。</td>
+</tr>
+<tr>
+<td>繁荣</td>
+<td>1990–现在</td>
+<td>嵌入式系统深入工业、通信、汽车电子、家电等领域。</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>1971 年 Intel 推出 <strong>4004</strong> 微处理器，标志着嵌入式计算机时代的开端。</li>
+<li>随着 <strong>IoT（物联网）</strong> 发展，嵌入式系统成为智能设备的基础。</li>
+</ul>
+<h3 id="%E4%BA%8C%E3%80%81%E9%80%9A%E7%94%A8%E8%AE%A1%E7%AE%97%E6%9C%BA-vs-%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F" tabindex="-1">二、通用计算机 vs 嵌入式系统</h3>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>通用计算机</th>
+<th>嵌入式系统</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>形式</td>
+<td>可见计算机（如 PC）</td>
+<td>融入设备内部，不以计算机形态出现</td>
+</tr>
+<tr>
+<td>组成</td>
+<td>通用 CPU；标准总线 + 外设；软硬件相对独立</td>
+<td>专用 MCU；总线、外部接口集成在处理器内部；软硬件紧密结合</td>
+</tr>
+<tr>
+<td>开发方式</td>
+<td>本机开发</td>
+<td>交叉开发（PC 上编译 → 下载到目标板）</td>
+</tr>
+<tr>
+<td>二次开发</td>
+<td>可扩展</td>
+<td>固化程序，不可修改</td>
+</tr>
+<tr>
+<td><strong>嵌入式系统的</strong>不可二次开发性<strong>源于程序固化在 Flash 中，适合</strong>产品级部署**。但现代系统支持 OTA 更新和可配置固件。</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="%E4%B8%89%E3%80%81%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E5%88%86%E7%B1%BB" tabindex="-1">三、嵌入式系统分类</h3>
+<ol>
+<li><strong>按处理器位数</strong>：4位、8位（51，Arduino）、16位、32位（stm32）、64位。
+<img src="/2025/10/28/1、嵌入式系统概述/1、嵌入式系统概述.assets/image-2025_12_20_17.png" alt="" loading="lazy" decoding="async"></li>
+<li><strong>按应用</strong>：通信类、信息家电、汽车电子、工业控制、移动终端等。</li>
+<li><strong>按实时性</strong>：硬实时、软实时、非实时。</li>
+<li><strong>按软件结构</strong>：循环轮询、状态机、前后台系统、RTOS 多任务系统。</li>
+</ol>
+<p>位数：一次处理几位数据
+stm32 /32位控制器
+51单片机  /8位控制器</p>
+<h4 id="arm%EF%BC%9A" tabindex="-1">arm：</h4>
+<p><img src="/2025/10/28/1、嵌入式系统概述/1、嵌入式系统概述.assets/image-2025_12_20_16.png" alt="" loading="lazy" decoding="async"></p>
+<h4 id="%E8%8A%AF%E7%89%87%E7%BB%93%E6%9E%84%EF%BC%88f411%EF%BC%89%EF%BC%9A" tabindex="-1">芯片结构（f411）：</h4>
+<p><img src="/2025/10/28/1、嵌入式系统概述/1、嵌入式系统概述.assets/image-2025_12_20_16_1.png" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/2025/10/28/1、嵌入式系统概述/1、嵌入式系统概述.assets/image-2025_12_20_19_1.jpg" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/2025/10/28/1、嵌入式系统概述/1、嵌入式系统概述.assets/image-2025_12_20_17_4.png" alt="" loading="lazy" decoding="async"></p>
+<p><img src="/2025/10/28/1、嵌入式系统概述/1、嵌入式系统概述.assets/image-2025_12_20_19.jpg" alt="" loading="lazy" decoding="async"></p>
+<ul>
+<li>现代嵌入式系统多采用 <strong>RTOS（实时操作系统）</strong>，如 FreeRTOS、RT-Thread、Zephyr。</li>
+<li>在汽车和工业领域，<strong>硬实时性</strong>是安全关键。</li>
+</ul>
+<h3 id="%E5%9B%9B%E3%80%81%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%89%B9%E7%82%B9" tabindex="-1">四、嵌入式系统特点</h3>
+<ol>
+<li>特定应用性</li>
+<li>实时性与可靠性</li>
+<li>多种体系结构（ARM、RISC-V）</li>
+<li>成本敏感</li>
+<li>嵌入式操作系统支持</li>
+<li>专用开发工具链（Keil、STM32CubeIDE）</li>
+</ol>
+<p>在物联网时代，系统需兼顾 <strong>功耗控制与网络通信</strong>（如 BLE、Wi-Fi、CAN、RS485）。</p>
+<h2 id="%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E5%B5%8C%E5%85%A5%E5%BC%8F%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91%E6%96%B9%E5%BC%8F" tabindex="-1">第二部分：嵌入式软件开发方式</h2>
+<h3 id="1%EF%B8%8F%E2%83%A3-%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%BC%8F" tabindex="-1">1️⃣ 编程模式</h3>
+<h4 id="%EF%BC%881%EF%BC%89%E5%89%8D%2F%E5%90%8E%E5%8F%B0%E7%B3%BB%E7%BB%9F%EF%BC%88%E8%A3%B8%E6%9C%BA%E7%B3%BB%E7%BB%9F%EF%BC%89" tabindex="-1">（1）前/后台系统（裸机系统）</h4>
+<ul>
+<li><strong>主循环负责轮询</strong>任务（后台系统）:一个无限循环，循环中断相关函数完成所需要的操作</li>
+<li><strong>中断响应实时</strong>事件（前台系统）:若干个中断服务程序，用于处理系统的异步事件和实时性要求较高的任务</li>
+<li><img src="/2025/10/28/1、嵌入式系统概述/1、嵌入式系统概述.assets/image-2025_12_20_17_1.png" alt="" loading="lazy" decoding="async"></li>
+</ul>
+<h4 id="%EF%BC%882%EF%BC%89%E5%B5%8C%E5%85%A5%E5%BC%8F%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%EF%BC%88rtos%EF%BC%89" tabindex="-1">（2）嵌入式操作系统（RTOS）</h4>
+<ul>
+<li>提供任务调度、同步通信、内存管理。</li>
+<li>适合多任务并行与复杂系统。
+RTOS 常见功能包括任务调度、信号量、消息队列、内存管理。</li>
+</ul>
+<h3 id="2%EF%B8%8F%E2%83%A3-%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E6%96%B9%E5%BC%8F" tabindex="-1">2️⃣ 程序开发方式</h3>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>特点</th>
+<th>优缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>寄存器方式</td>
+<td>直接操作硬件寄存器</td>
+<td>高效但复杂</td>
+</tr>
+<tr>
+<td>库函数方式</td>
+<td>使用厂家 HAL 库</td>
+<td>简单易用，适合工程开发</td>
+</tr>
+</tbody>
+</table>
+<p>STM32 开发常用：</p>
+<ul>
+<li>HAL（Hardware Abstraction Layer）库</li>
+<li>LL（Low Layer）库</li>
+</ul>
+<h2 id="%E7%AC%AC%E4%B8%89%E9%83%A8%E5%88%86%EF%BC%9A%E5%AD%A6%E4%B9%A0%E4%BD%93%E7%B3%BB%E4%B8%8E%E6%96%B9%E6%B3%95" tabindex="-1">第三部分：学习体系与方法</h2>
+<ol>
+<li><strong>硬件基础</strong>：最小系统（电源、复位、时钟）。</li>
+<li><strong>软件基础</strong>：GPIO、定时器、中断、串口通信。</li>
+<li><strong>通信接口</strong>：UART、SPI、I²C、CAN、USB。</li>
+<li><strong>模块化设计</strong>：使用扩展板开发。</li>
+<li><strong>RTOS 实践</strong>：掌握任务调度与通信。</li>
+</ol>
+<p><strong>学习建议：</strong></p>
+<ul>
+<li>先易后难，从裸机到 RTOS。</li>
+<li>实践驱动，使用开发板实验。</li>
+<li>掌握调试手段（串口、逻辑分析仪、仿真器）。</li>
+</ul>
+<h2 id="%E7%AC%AC%E5%9B%9B%E9%83%A8%E5%88%86%EF%BC%9A%E5%BE%AE%E6%8E%A7%E5%88%B6%E5%99%A8-mcu-%E4%B8%8E-stm32" tabindex="-1">第四部分：微控制器 MCU 与 STM32</h2>
+<h3 id="1%EF%B8%8F%E2%83%A3-mcu-%E6%A6%82%E5%BF%B5" tabindex="-1">1️⃣ MCU 概念</h3>
+<p><img src="/2025/10/28/1、嵌入式系统概述/1、嵌入式系统概述.assets/image-2025_12_20_17_2.png" alt="" loading="lazy" decoding="async"></p>
+<ul>
+<li>MCU = Microcontroller Unit = 单片微型计算机</li>
+<li>集成 CPU、RAM、ROM、I/O、定时器、A/D、D/A</li>
+<li>常用于控制系统核心部分</li>
+</ul>
+<p>MCU 与 MPU 区别：</p>
+<ul>
+<li>MCU：资源有限，控制导向（STM32、51）</li>
+<li>MPU：带 MMU，应用导向（树莓派）</li>
+</ul>
+<h3 id="2%EF%B8%8F%E2%83%A3-stm32-%E7%B3%BB%E5%88%97%E5%91%BD%E5%90%8D%E8%A7%84%E5%88%99" tabindex="-1">2️⃣ STM32 系列命名规则</h3>
+<p><strong>STM32F103RBT6</strong><br>
+<img src="/2025/10/28/1、嵌入式系统概述/1、嵌入式系统概述.assets/image-2025_12_20_17_3.png" alt="" loading="lazy" decoding="async"></p>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STM32</td>
+<td>ARM Cortex-M 系列</td>
+</tr>
+<tr>
+<td>F</td>
+<td>芯片子系列</td>
+</tr>
+<tr>
+<td>103</td>
+<td>增强型系列</td>
+</tr>
+<tr>
+<td>R</td>
+<td>64 引脚封装</td>
+</tr>
+<tr>
+<td>B</td>
+<td>128 KB Flash</td>
+</tr>
+<tr>
+<td>T</td>
+<td>LQFP 封装</td>
+</tr>
+<tr>
+<td>6</td>
+<td>-40～85℃</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3%EF%B8%8F%E2%83%A3-arm-%E6%9E%B6%E6%9E%84%E7%AE%80%E8%BF%B0" tabindex="-1">3️⃣ ARM 架构简述</h3>
+<ul>
+<li>Cortex-A：高性能应用处理器</li>
+<li>Cortex-R：实时控制类</li>
+<li>Cortex-M：微控制器系列（STM32 属于此类）</li>
+</ul>
+<p>Cortex-M 使用 <strong>Thumb-2 指令集</strong>，内置 <strong>NVIC</strong> 支持嵌套中断，具备低功耗与高响应能力。</p>
+<h2 id="%E6%80%BB%E7%BB%93" tabindex="-1">总结</h2>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>核心内容</th>
+<th>延伸理解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>嵌入式定义与发展</td>
+<td>从机载系统到物联网时代</td>
+<td>ARM、RISC-V 引领低功耗趋势</td>
+</tr>
+<tr>
+<td>分类</td>
+<td>位数、应用、实时性、结构</td>
+<td>RTOS 与非 RTOS 各有适用场景</td>
+</tr>
+<tr>
+<td>特点</td>
+<td>实时性、可靠性、成本敏感</td>
+<td>IoT 需联网与低功耗设计</td>
+</tr>
+<tr>
+<td>开发方式</td>
+<td>裸机/RTOS；寄存器/库函数</td>
+<td>HAL 与 LL 结合开发</td>
+</tr>
+<tr>
+<td>学习路径</td>
+<td>硬件 + 软件 + 调试 + RTOS</td>
+<td>STM32CubeMX + FreeRTOS 实践</td>
+</tr>
+<tr>
+<td>MCU</td>
+<td>STM32 命名与架构</td>
+<td>理解 Cortex-M4：NVIC、SysTick、FPU</td>
+</tr>
+</tbody>
+</table>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/10/20/换清华源（apt安装包紊乱）/"><small>上一篇</small><strong>换清华源（apt安装包紊乱）</strong></a>
+        <a href="/2025/10/28/2、硬件基础/"><small>下一篇</small><strong>2、硬件基础</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

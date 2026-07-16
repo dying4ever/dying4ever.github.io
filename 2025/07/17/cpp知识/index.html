@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="cpp知识" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>cpp知识 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>cpp知识</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/ros2/">ros2</a></span>
+    <span class="content-meta__tags"><a href="/tags/ros2/">ros2</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#this">this</a></li><li class="article-toc__level-2"><a href="#%F0%9F%A7%A0-%E4%BB%80%E4%B9%88%E6%98%AF-this%EF%BC%9F">🧠 什么是 this ？</a></li><li class="article-toc__level-2"><a href="#%E2%9C%85%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%B1%BB-demo">✅一个简单的机器人类 Demo</a></li><li class="article-toc__level-2"><a href="#%F0%9F%94%8D-%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C%EF%BC%9A">🔍 运行结果：</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="this" tabindex="-1">this</h2>
+<h2 id="%F0%9F%A7%A0-%E4%BB%80%E4%B9%88%E6%98%AF-this%EF%BC%9F" tabindex="-1">🧠 什么是 <code>this</code>？</h2>
+<p>在 C++ 中，<code>this</code> 是一个 <strong>指向当前对象本身的指针</strong>。</p>
+<p>比如你在类 <code>TarkbotRobot</code> 的某个成员函数中写代码：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">cpp
+
+
+复制编辑
+this-&gt;declare_parameter(&quot;robot_port&quot;, &quot;/dev/ttyACM0&quot;);
+</code></pre>
+<p>这其实等价于：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">(*this).declare_parameter(&quot;robot_port&quot;, &quot;/dev/ttyACM0&quot;);
+</code></pre>
+<p>意思就是：</p>
+<blockquote>
+<p>&quot;调用当前这个对象的 <code>declare_parameter</code> 函数&quot;</p>
+</blockquote>
+<hr>
+<h2 id="%E2%9C%85%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA%E7%B1%BB-demo" tabindex="-1">✅一个简单的机器人类 Demo</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Robot {
+public:
+    // 构造函数
+    Robot(std::string name, int speed)
+        : name(name), speed(speed) {}
+
+    // 打印速度（演示 this-&gt; 的用途）
+    void printSpeed(int speed) {
+        std::cout &lt;&lt; &quot;局部变量 speed: &quot; &lt;&lt; speed &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;成员变量 speed: &quot; &lt;&lt; this-&gt;speed &lt;&lt; std::endl;
+    }
+
+    // 显式调用成员函数
+    void move() {
+        this-&gt;printName();  // 使用 this-&gt; 显示调用成员函数
+    }
+
+private:
+    std::string name;
+    int speed;
+
+    void printName() {
+        std::cout &lt;&lt; &quot;机器人名字是：&quot; &lt;&lt; name &lt;&lt; std::endl;
+    }
+};
+
+int main() {
+    Robot r(&quot;Tarkbot&quot;, 100);
+
+    r.printSpeed(10);   // 传入局部变量 speed=10，成员变量 speed=100
+    r.move();           // 调用成员函数
+    return 0;
+}
+</code></pre>
+<hr>
+<h2 id="%F0%9F%94%8D-%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C%EF%BC%9A" tabindex="-1">🔍 运行结果：</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">text复制编辑局部变量 speed: 10
+成员变量 speed: 100
+机器人名字是：Tarkbot
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/Cursor/"><small>上一篇</small><strong>Cursor</strong></a>
+        <a href="/2025/07/17/城市道路识别/"><small>下一篇</small><strong>城市道路识别</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

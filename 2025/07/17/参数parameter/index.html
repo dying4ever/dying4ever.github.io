@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="参数parameter" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>参数parameter · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>参数parameter</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/ros2/">ros2</a></span>
+    <span class="content-meta__tags"><a href="/tags/ros2/">ros2</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#%E5%8F%82%E6%95%B0%E8%B5%8B%E5%80%BC%E6%9D%A5%E6%BA%90%E4%B8%80%E8%A7%88">参数赋值来源一览</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="%E5%8F%82%E6%95%B0%E8%B5%8B%E5%80%BC%E6%9D%A5%E6%BA%90%E4%B8%80%E8%A7%88" tabindex="-1">参数赋值来源一览</h2>
+<p>在 ROS 中，节点的参数有<strong>多个来源</strong>，赋值顺序如下（后者会覆盖前者）：</p>
+<ol>
+<li><strong>代码中的默认值</strong>（你 <code>declare_parameter(..., default_value)</code> 设置的）</li>
+<li><strong>Launch 文件中通过 <code>param</code> 指定的值</strong></li>
+<li><strong>YAML 参数文件中加载的值</strong></li>
+<li><strong>命令行参数，如 <code>ros2 run pkg node --ros-args -p xxx:=value</code></strong></li>
+</ol>
+<h4 id="%E4%BE%8B%E5%A6%82%EF%BC%9A" tabindex="-1">例如：</h4>
+<h5 id="%E4%B8%BB%E7%A8%8B%E5%BA%8F%EF%BC%9A" tabindex="-1">主程序：</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">//声明和设置默认值，如果在启动时用户没有另外设置，程序就会使用这个值
+this-&gt;declare_parameter(&quot;robot_port&quot;, &quot;/dev/ttyACM0&quot;);
+//从参数服务器中读取名为 &quot;robot_port&quot; 的参数值，并将其转换为字符串，赋值给成员变量 serial_port_name_。
+//如果启动时通过 launch 文件或参数文件设置了 &quot;robot_port&quot;，那你拿到的是覆盖后的值。否则就是默认值 &quot;/dev/ttyACM0&quot;。
+serial_port_name_ = this-&gt;get_parameter(&quot;robot_port&quot;).as_string();
+</code></pre>
+<h5 id="launch%EF%BC%9A" tabindex="-1">launch：</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">DeclareLaunchArgument → 可用命令行或默认值传参
+             ↓
+   LaunchConfiguration → 绑定参数值
+             ↓
+             Node → 启动节点并传参
+             ↓
+     ROS 2 节点中 this-&gt;get_parameter(...) 获取到值
+</code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">from launch import LaunchDescription
+from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
+
+def generate_launch_description():
+    # 声明参数
+    odom_frame_arg = DeclareLaunchArgument(
+        &#x27;odom_frame&#x27;,//参数名
+        default_value=&#x27;odom&#x27;,//默认值
+        description=&#x27;Odometry frame&#x27;
+    )
+    
+    base_frame_arg = DeclareLaunchArgument(
+        &#x27;base_frame&#x27;,
+        default_value=&#x27;base_footprint&#x27;,
+        description=&#x27;Base frame&#x27;
+    )
+    
+    imu_frame_arg = DeclareLaunchArgument(
+        &#x27;imu_frame&#x27;,
+        default_value=&#x27;imu_link&#x27;,
+        description=&#x27;IMU frame&#x27;
+    )
+    
+    odom_topic_arg = DeclareLaunchArgument(
+        &#x27;odom_topic&#x27;,
+        default_value=&#x27;odom&#x27;,
+        description=&#x27;Odometry topic&#x27;
+    )
+    
+    imu_topic_arg = DeclareLaunchArgument(
+        &#x27;imu_topic&#x27;,
+        default_value=&#x27;imu&#x27;,
+        description=&#x27;IMU topic&#x27;
+    )
+    
+    battery_topic_arg = DeclareLaunchArgument(
+        &#x27;battery_topic&#x27;,
+        default_value=&#x27;bat_vol&#x27;,
+        description=&#x27;Battery voltage topic&#x27;
+    )
+    
+    cmd_vel_topic_arg = DeclareLaunchArgument(
+        &#x27;cmd_vel_topic&#x27;,
+        default_value=&#x27;cmd_vel&#x27;,
+        description=&#x27;Command velocity topic&#x27;
+    )
+    
+    beep_topic_arg = DeclareLaunchArgument(
+        &#x27;beep_topic&#x27;,
+        default_value=&#x27;beep&#x27;,
+        description=&#x27;Beep topic&#x27;
+    )
+    
+    robot_port_arg = DeclareLaunchArgument(
+        &#x27;robot_port&#x27;,
+        default_value=&#x27;/dev/ttyACM0&#x27;,
+        description=&#x27;Robot serial port&#x27;
+    )
+    
+    robot_port_baud_arg = DeclareLaunchArgument(
+        &#x27;robot_port_baud&#x27;,
+        default_value=&#x27;230400&#x27;,
+        description=&#x27;Robot serial port baud rate&#x27;
+    )
+    
+    pub_odom_tf_arg = DeclareLaunchArgument(
+        &#x27;pub_odom_tf&#x27;,
+        default_value=&#x27;true&#x27;,
+        description=&#x27;Whether to publish odometry TF&#x27;
+    )
+    
+    robot_type_send_arg = DeclareLaunchArgument(
+        &#x27;robot_type_send&#x27;,
+        default_value=&#x27;r20_twd&#x27;,
+        description=&#x27;Robot type&#x27;
+    )
+
+    # 创建节点
+    tarkbot_robot_node = Node(
+        package=&#x27;tarkbot_robot&#x27;,
+        executable=&#x27;tarkbot_robot_node&#x27;,
+        name=&#x27;tarkbot_robot_node&#x27;,
+        parameters=[{//ban
+            &#x27;odom_frame&#x27;: LaunchConfiguration(&#x27;odom_frame&#x27;),
+            &#x27;base_frame&#x27;: LaunchConfiguration(&#x27;base_frame&#x27;),
+            &#x27;imu_frame&#x27;: LaunchConfiguration(&#x27;imu_frame&#x27;),
+            &#x27;odom_topic&#x27;: LaunchConfiguration(&#x27;odom_topic&#x27;),
+            &#x27;imu_topic&#x27;: LaunchConfiguration(&#x27;imu_topic&#x27;),
+            &#x27;battery_topic&#x27;: LaunchConfiguration(&#x27;battery_topic&#x27;),
+            &#x27;cmd_vel_topic&#x27;: LaunchConfiguration(&#x27;cmd_vel_topic&#x27;),
+            &#x27;beep_topic&#x27;: LaunchConfiguration(&#x27;beep_topic&#x27;),
+            &#x27;robot_port&#x27;: LaunchConfiguration(&#x27;robot_port&#x27;),
+            &#x27;robot_port_baud&#x27;: LaunchConfiguration(&#x27;robot_port_baud&#x27;),
+            &#x27;pub_odom_tf&#x27;: LaunchConfiguration(&#x27;pub_odom_tf&#x27;),
+            &#x27;robot_type_send&#x27;: LaunchConfiguration(&#x27;robot_type_send&#x27;),
+        }],
+        output=&#x27;screen&#x27;//节点日志输出到终端（方便调试）
+    )
+
+    return LaunchDescription([
+        odom_frame_arg,
+        base_frame_arg,
+        imu_frame_arg,
+        odom_topic_arg,
+        imu_topic_arg,
+        battery_topic_arg,
+        cmd_vel_topic_arg,
+        beep_topic_arg,
+        robot_port_arg,
+        robot_port_baud_arg,
+        pub_odom_tf_arg,
+        robot_type_send_arg,
+        tarkbot_robot_node
+    ]) 
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/摄像头/"><small>上一篇</small><strong>摄像头</strong></a>
+        <a href="/2025/07/17/上位机串口通信/"><small>下一篇</small><strong>上位机串口通信</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

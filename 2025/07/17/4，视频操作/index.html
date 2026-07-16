@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="4，视频操作" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>4，视频操作 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>4，视频操作</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:41:51">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/Python/">Python</a><a href="/categories/opencv/">opencv</a></span>
+    <span class="content-meta__tags"><a href="/tags/Python/">Python</a><a href="/tags/opencv/">opencv</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#4%EF%BC%8C%E8%A7%86%E9%A2%91%E6%93%8D%E4%BD%9C">4，视频操作</a></li><li class="article-toc__level-3"><a href="#4-1-%E8%A7%86%E9%A2%91%E8%AF%BB%E5%86%99">4-1 视频读写</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="4%EF%BC%8C%E8%A7%86%E9%A2%91%E6%93%8D%E4%BD%9C" tabindex="-1">4，视频操作</h2>
+<h3 id="4-1-%E8%A7%86%E9%A2%91%E8%AF%BB%E5%86%99" tabindex="-1">4-1 视频读写</h3>
+<h4 id="4-1-1-%E4%BB%8E%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AF%BB%E5%8F%96%E8%A7%86%E9%A2%91%E5%B9%B6%E6%92%AD%E6%94%BE" tabindex="-1">4-1-1 从文件中读取视频并播放</h4>
+<p>在OpenCV中我们要获取一个视频，需要创建一个VideoCapture对象，指定你要读取的视频文件：</p>
+<p><strong>1-1</strong> <strong>创建读取视频的对象</strong></p>
+<pre class="code-frame"><code class="hljs language-python">cap = cv.VideoCapture(filepath)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>filepath: 视频文件路径</li>
+</ul>
+<p>视频的属性信息</p>
+<p><strong>2.1. 获取视频的某些属性，</strong></p>
+<pre class="code-frame"><code class="hljs language-python">retval = cap.get(propId)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>
+<p>propId: 从0到18的数字，每个数字表示视频的属性</p>
+<p>常用属性有：</p>
+<p><img src="/2025/07/17/4，视频操作/4，视频操作.assets/image-20240127220126.png" alt="" loading="lazy" decoding="async"></p>
+</li>
+</ul>
+<p><strong>2.2 修改视频的属性信息</strong></p>
+<pre class="code-frame"><code class="hljs language-python">cap.<span class="hljs-built_in">set</span>(propId，value)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>proid: 属性的索引，与上面的表格相对应</li>
+<li>value: 修改后的属性值</li>
+</ul>
+<ol>
+<li>
+<p>判断图像是否读取成功</p>
+<pre class="code-frame"><code class="hljs language-python">isornot = cap.isOpened()
+</code></pre>
+<ul>
+<li>若读取成功则返回true，否则返回False</li>
+</ul>
+</li>
+<li>
+<p>获取视频的一帧图像</p>
+<pre class="code-frame"><code class="hljs language-python">ret, frame = cap.read()
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>ret: 若获取成功返回True，获取失败，返回False</li>
+<li>Frame: 获取到的某一帧的图像</li>
+</ul>
+</li>
+<li>
+<p>调用cv.imshow()显示图像，在显示图像时使用cv.waitkey()设置适当的持续时间，如果太低视频会播放的非常快，如果太高就会播放的非常慢，通常情况下我们设置25ms就可以了。</p>
+</li>
+<li>
+<p>最后，调用cap.realease()将视频释放掉</p>
+</li>
+</ol>
+<p>示例：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-comment"># 1.获取视频对象</span>
+cap = cv.VideoCapture(<span class="hljs-string">&#x27;DOG.wmv&#x27;</span>)
+<span class="hljs-comment"># 2.判断是否读取成功</span>
+<span class="hljs-keyword">while</span>(cap.isOpened()):
+    <span class="hljs-comment"># 3.获取每一帧图像</span>
+    ret, frame = cap.read()
+    <span class="hljs-comment"># 4. 获取成功显示图像</span>
+    <span class="hljs-keyword">if</span> ret == <span class="hljs-literal">True</span>:
+        cv.imshow(<span class="hljs-string">&#x27;frame&#x27;</span>,frame)
+    <span class="hljs-comment"># 5.每一帧间隔为25ms</span>
+    <span class="hljs-keyword">if</span> cv.waitKey(<span class="hljs-number">25</span>) &amp; <span class="hljs-number">0xFF</span> == <span class="hljs-built_in">ord</span>(<span class="hljs-string">&#x27;q&#x27;</span>):
+        <span class="hljs-keyword">break</span>
+<span class="hljs-comment"># 6.释放视频对象</span>
+cap.release()
+cv.destoryAllwindows()
+</code></pre>
+<h4 id="4-1-2-%E4%BF%9D%E5%AD%98%E8%A7%86%E9%A2%91" tabindex="-1">4-1-2 保存视频</h4>
+<p>在OpenCV中我们保存视频使用的是VedioWriter对象，在其中指定输出文件的名称，如下所示：</p>
+<ol>
+<li>创建视频写入的对象</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-python">out = cv2.VideoWriter(filename,fourcc, fps, frameSize)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>
+<p>filename：视频保存的位置</p>
+</li>
+<li>
+<p>fourcc：指定视频编解码器的4字节代码</p>
+</li>
+<li>
+<p>fps：帧率</p>
+</li>
+<li>
+<p>frameSize：帧大小</p>
+</li>
+<li>
+<p>设置视频的编解码器，如下所示，</p>
+<pre class="code-frame"><code class="hljs language-plaintext">retval = cv2.VideoWriter_fourcc( c1, c2, c3, c4 )
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>
+<p>c1,c2,c3,c4: 是视频编解码器的4字节代码，在<a href="http://www.fourcc.org/codecs.php" target="_blank" rel="noreferrer noopener">fourcc.org</a>中找到可用代码列表，与平台紧密相关，常用的有：</p>
+<h6 id="%E5%9C%A8windows%E4%B8%AD%EF%BC%9Adivx%EF%BC%88.avi%EF%BC%89" tabindex="-1">在Windows中：DIVX（.avi）</h6>
+<h6 id="%E5%9C%A8os%E4%B8%AD%EF%BC%9Amjpg%EF%BC%88.mp4%EF%BC%89%EF%BC%8Cdivx%EF%BC%88.avi%EF%BC%89%EF%BC%8Cx264%EF%BC%88.mkv%EF%BC%89%E3%80%82" tabindex="-1">在OS中：MJPG（.mp4），DIVX（.avi），X264（.mkv）。</h6>
+</li>
+</ul>
+</li>
+<li>
+<p>利用cap.read()获取视频中的每一帧图像，并使用out.write()将某一帧图像写入视频中。</p>
+</li>
+<li>
+<p>使用cap.release()和out.release()释放资源。</p>
+</li>
+</ul>
+<p>示例：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+
+<span class="hljs-comment"># 1. 读取视频</span>
+cap = cv.VideoCapture(<span class="hljs-string">&quot;DOG.wmv&quot;</span>)
+
+<span class="hljs-comment"># 2. 获取图像的属性（宽和高，）,并将其转换为整数</span>
+frame_width = <span class="hljs-built_in">int</span>(cap.get(<span class="hljs-number">3</span>))
+frame_height = <span class="hljs-built_in">int</span>(cap.get(<span class="hljs-number">4</span>))
+
+<span class="hljs-comment"># 3. 创建保存视频的对象，设置编码格式，帧率，图像的宽高等</span>
+out = cv.VideoWriter(<span class="hljs-string">&#x27;outpy.avi&#x27;</span>,cv.VideoWriter_fourcc(<span class="hljs-string">&#x27;M&#x27;</span>,<span class="hljs-string">&#x27;J&#x27;</span>,<span class="hljs-string">&#x27;P&#x27;</span>,<span class="hljs-string">&#x27;G&#x27;</span>), <span class="hljs-number">10</span>, (frame_width,frame_height))
+<span class="hljs-keyword">while</span>(<span class="hljs-literal">True</span>):
+    <span class="hljs-comment"># 4.获取视频中的每一帧图像</span>
+    ret, frame = cap.read()
+    <span class="hljs-keyword">if</span> ret == <span class="hljs-literal">True</span>: 
+        <span class="hljs-comment"># 5.将每一帧图像写入到输出文件中</span>
+        out.write(frame)
+    <span class="hljs-keyword">else</span>:
+        <span class="hljs-keyword">break</span> 
+
+<span class="hljs-comment"># 6.释放资源</span>
+cap.release()
+out.release()
+cv.destroyAllWindows()
+</code></pre>
+<hr>
+<p><strong>总结</strong></p>
+<ol>
+<li>读取视频：
+<ul>
+<li>读取视频：cap = cv.VideoCapture()</li>
+<li>判断读取成功：cap.isOpened()</li>
+<li>读取每一帧图像：ret,frame = cap.read()</li>
+<li>获取属性：cap.get(proid)</li>
+<li>设置属性：cap.set(proid,value)</li>
+<li>资源释放：cap.release()</li>
+</ul>
+</li>
+<li>保存视频
+<ul>
+<li>保存视频： out = cv.VideoWrite()</li>
+<li>视频写入：out.write()</li>
+<li>资源释放：out.release()</li>
+</ul>
+</li>
+</ol>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+
+<span class="hljs-comment"># 1 获取视频</span>
+cap = cv.VideoCapture(<span class="hljs-string">&#x27;image/DOG.wmv&#x27;</span>)
+
+<span class="hljs-comment"># 2 指定追踪目标</span>
+ret,frame = cap.read()
+r,h,c,w=<span class="hljs-number">197</span>,<span class="hljs-number">141</span>,<span class="hljs-number">0</span>,<span class="hljs-number">208</span>
+win = (c,r,w,h)
+roi = frame[r:r+h,c:c+w]
+
+<span class="hljs-comment"># 3 计算直方图</span>
+hsv_roi = cv.cvtColor(roi,cv.COLOR_BGR2HSV)
+roi_hist = cv.calcHist([hsv_roi],[<span class="hljs-number">0</span>],<span class="hljs-literal">None</span>,[<span class="hljs-number">180</span>],[<span class="hljs-number">0</span>,<span class="hljs-number">180</span>])
+cv.normalize(roi_hist,roi_hist,<span class="hljs-number">0</span>,<span class="hljs-number">255</span>,cv.NORM_MINMAX)
+
+<span class="hljs-comment"># 4 目标追踪</span>
+term = (cv.TERM_CRITERIA_EPS|cv.TERM_CRITERIA_COUNT,<span class="hljs-number">10</span>,<span class="hljs-number">1</span>)
+
+<span class="hljs-keyword">while</span>(<span class="hljs-literal">True</span>):
+    ret,frame = cap.read()
+    <span class="hljs-keyword">if</span> ret ==<span class="hljs-literal">True</span>:
+        hst = cv.cvtColor(frame,cv.COLOR_BGR2HSV)
+        dst = cv.calcBackProject([hst],[<span class="hljs-number">0</span>],roi_hist,[<span class="hljs-number">0</span>,<span class="hljs-number">180</span>],<span class="hljs-number">1</span>)
+        ret,win = cv.meanShift(dst,win,term)
+
+        x,y,w,h = win
+        img2 = cv.rectangle(frame,(x,y),(x+w,y+h),<span class="hljs-number">255</span>,<span class="hljs-number">2</span>)
+        cv.imshow(<span class="hljs-string">&quot;frame&quot;</span>,img2)
+        <span class="hljs-keyword">if</span> cv.waitKey(<span class="hljs-number">60</span>)&amp;<span class="hljs-number">0xFF</span> ==<span class="hljs-built_in">ord</span>(<span class="hljs-string">&#x27;q&#x27;</span>):
+            <span class="hljs-keyword">break</span>
+
+
+<span class="hljs-comment"># 5 释放资源</span>
+cap.release()
+cv.destroyAllWindows()
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/5，人脸识别案例/"><small>上一篇</small><strong>5，人脸识别案例</strong></a>
+        <a href="/2025/07/17/3，图像的特征提取和描述/"><small>下一篇</small><strong>3，图像的特征提取和描述</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

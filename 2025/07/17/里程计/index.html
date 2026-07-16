@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="里程计" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>里程计 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>里程计</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/ros2/">ros2</a></span>
+    <span class="content-meta__tags"><a href="/tags/ros2/">ros2</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E2%80%9C%E9%87%8C%E7%A8%8B%E8%AE%A1%E2%80%9D%EF%BC%9F">一、什么是“里程计”？</a></li><li class="article-toc__level-3"><a href="#%E4%BA%8C%E3%80%81%E9%87%8C%E7%A8%8B%E8%AE%A1%E7%9A%84%E4%BD%9C%E7%94%A8">二、里程计的作用</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E2%80%9C%E9%87%8C%E7%A8%8B%E8%AE%A1%E2%80%9D%EF%BC%9F" tabindex="-1">一、什么是“里程计”？</h3>
+<p>里程计（<strong>Odometry</strong>）本质上是：</p>
+<blockquote>
+<p>根据轮子编码器（或其他传感器）推算出<strong>机器人当前位置和朝向</strong>的一种方法。</p>
+</blockquote>
+<p>它通常包含两个核心信息：</p>
+<ul>
+<li>
+<p><strong>位置（Position）</strong>：机器人现在在哪（x, y, z）；</p>
+</li>
+<li>
+<p><strong>姿态（Orientation）</strong>：机器人现在朝哪转（roll, pitch, yaw）；</p>
+</li>
+<li>
+<p><strong>速度（Velocity）</strong>：机器人的当前线速度与角速度。</p>
+</li>
+</ul>
+<h3 id="%E4%BA%8C%E3%80%81%E9%87%8C%E7%A8%8B%E8%AE%A1%E7%9A%84%E4%BD%9C%E7%94%A8" tabindex="-1">二、里程计的作用</h3>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>里程计的作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SLAM</strong></td>
+<td>用作位姿初值，和激光、相机等数据一起融合</td>
+</tr>
+<tr>
+<td><strong>导航/定位</strong></td>
+<td>帮助机器人估算“我现在在哪儿”</td>
+</tr>
+<tr>
+<td><strong>TF广播</strong></td>
+<td>提供 odom → base_link 的位姿变换</td>
+</tr>
+<tr>
+<td><strong>RViz显示</strong></td>
+<td>显示机器人运动轨迹</td>
+</tr>
+</tbody>
+</table>
+<p>虽然“里程计”不是特别准（因为轮子打滑、地形误差），但它速度快、计算轻，是机器人<strong>本体感知中不可缺少的一环</strong>。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/ADC/"><small>上一篇</small><strong>ADC</strong></a>
+        <a href="/2025/07/17/速度节点/"><small>下一篇</small><strong>速度节点</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

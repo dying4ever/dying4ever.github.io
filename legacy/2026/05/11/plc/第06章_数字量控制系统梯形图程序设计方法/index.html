@@ -1,0 +1,575 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"><meta name="renderer" content="webkit"><link rel="icon" type="image/ico" sizes="32x32" href="/legacy/assets/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/legacy/assets/favicon.jpg"><link rel="alternate" href="/legacy/rss.xml" title="终南山下，活死人墓" type="application/rss+xml"><link rel="alternate" href="/legacy/atom.xml" title="终南山下，活死人墓" type="application/atom+xml"><link rel="alternate" type="application/json" title="终南山下，活死人墓" href="https://www.dying4ever.cyou/feed.json"><link rel="preload" href="/legacy/fonts/StoryScript-Regular.woff2" as="font" type="font/woff2" crossorigin="crossorigin"><link rel="modulepreload" href="/legacy/js/siteInit.js"><link rel="modulepreload" href="/legacy/js/copy-tex-TYOT4Z7A.js"><link rel="modulepreload" href="/legacy/js/post-PEEX3S2R.js"><link rel="modulepreload" href="/legacy/js/chunk-N4ACASAP.js"><link rel="modulepreload" href="/legacy/js/chunk-K2JFEYFH.js"><link rel="stylesheet" href="/legacy/css/siteInit.css" media="none" onload="this.media='all'"><link rel="preload" href="/legacy/images/banner.webp" as="image" fetchpriority="high"><meta name="keywords" content="工业控制装备,PLC,"><meta name="description" content="Por Una Cabeza"><link rel="canonical" href="https://www.dying4ever.cyou/2026/05/11/plc/%E7%AC%AC06%E7%AB%A0_%E6%95%B0%E5%AD%97%E9%87%8F%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%A2%AF%E5%BD%A2%E5%9B%BE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95/"><link rel="stylesheet" href="/legacy/css/post.css?v=0.5.4"><link rel="stylesheet" href="/legacy/css/mermaid.css?v=0.5.4"><!-- 临时处理--><title>第06章_数字量控制系统梯形图程序设计方法</title><meta name="generator" content="Hexo 7.3.0"></head><body itemscope="" itemtype="http://schema.org/WebPage"><div id="loading"><div class="cat"><div class="body"></div><div class="head"><div class="face"></div></div><div class="foot"><div class="tummy-end"></div><div class="bottom"></div><div class="legs left"></div><div class="legs right"></div></div><div class="paw"><div class="hands left"></div><div class="hands right"></div></div></div></div><div id="pagefind_mount"></div><div id="container"><header id="header" itemscope="" itemtype="http://schema.org/WPHeader"><div class="inner"><div id="brand"><div class="pjax"><h1 itemprop="name headline">第06章_数字量控制系统梯形图程序设计方法</h1><div class="meta"><span class="item" title="创建时间：2026-05-11 23:20:36"><span class="icon"><i class="ic i-calendar"></i></span><span class="text">发表于</span><time itemprop="dateCreated datePublished" datetime="2026-05-11T23:20:36+08:00">2026-05-11</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span class="text">本文字数</span><span>5.5k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span class="text">阅读时长</span><span>5 分钟</span></span></div></div></div><nav id="nav"><div class="inner"><div class="toggle"><div class="lines" aria-label="切换导航栏"><span class="line"></span><span class="line"></span><span class="line"></span></div></div><ul class="menu"><li class="item title"><a href="/legacy/" rel="start">Frostbitten Carpe Diem</a></li></ul><ul class="right" id="rightNav"><li class="item theme"><i class="ic i-sun"></i></li><li class="item search"><i class="ic i-search"></i></li></ul></div></nav></div><div class="pjax" id="imgs"><img src="/legacy/images/banner.webp" loading="eager" decoding="async" fetchpriority="high" alt="终南山下，活死人墓"></div></header><div id="waves"><svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path></defs><g class="parallax"><use xlink:href="#gentle-wave" x="48" y="0"></use><use xlink:href="#gentle-wave" x="48" y="3"></use><use xlink:href="#gentle-wave" x="48" y="5"></use><use xlink:href="#gentle-wave" x="48" y="7"></use></g></svg></div><main><div class="inner"><div class="pjax" id="main"><div class="article wrap"><div class="breadcrumb" itemlistelement="" itemscope="" itemtype="https://schema.org/BreadcrumbList"><i class="ic i-home"></i><span><a href="/legacy/">首页</a></span><i class="ic i-angle-right"></i><span class="current" itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/legacy/categories/plc/" itemprop="item" rel="index" title="分类于plc"><span itemprop="name">plc<meta itemprop="position" content="0"></span></a></span></div><article class="post block" itemscope="itemscope" itemtype="http://schema.org/Article" data-pagefind-body="data-pagefind-body" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://www.dying4ever.cyou/2026/05/11/plc/%E7%AC%AC06%E7%AB%A0_%E6%95%B0%E5%AD%97%E9%87%8F%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%A2%AF%E5%BD%A2%E5%9B%BE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95/"><span hidden="hidden" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="image" content="/legacy/assets/head.png"><meta itemprop="name" content="曾阿牛"><meta itemprop="description" content="welcome my blog, Por Una Cabeza"></span><span hidden="hidden" itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="终南山下，活死人墓"></span><div class="body md" itemprop="articleBody"><h1 id="第6章-数字量控制系统梯形图程序设计方法"><a class="anchor" href="#第6章-数字量控制系统梯形图程序设计方法">#</a> 第6章 数字量控制系统梯形图程序设计方法</h1>
+<h2 id="资料来源"><a class="anchor" href="#资料来源">#</a> 资料来源</h2>
+<ul>
+<li>PPT：<code>第6.1章 顺序功能图设计法.pptx</code></li>
+<li>辅导书：<code>S7-1200 PLC编程及应用 第3版</code>，目录中第5章为“数字量控制系统梯形图程序设计方法”。</li>
+</ul>
+<h2 id="1-本章脉络"><a class="anchor" href="#1-本章脉络">#</a> 1. 本章脉络</h2>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>数字量控制系统梯形图程序设计方法</span></span>
+<span class="line"><span>├─ 6.1 经验设计法</span></span>
+<span class="line"><span>│  ├─ 启保停电路</span></span>
+<span class="line"><span>│  ├─ 延时接通/断开电路</span></span>
+<span class="line"><span>│  └─ 闪烁电路</span></span>
+<span class="line"><span>├─ 6.2 顺序功能图</span></span>
+<span class="line"><span>│  ├─ 步</span></span>
+<span class="line"><span>│  ├─ 初始步与活动步</span></span>
+<span class="line"><span>│  ├─ 动作或命令</span></span>
+<span class="line"><span>│  ├─ 有向连线与转换条件</span></span>
+<span class="line"><span>│  ├─ 单序列、选择序列、并列序列</span></span>
+<span class="line"><span>│  └─ 绘制规则</span></span>
+<span class="line"><span>└─ 6.3 顺序控制设计法</span></span>
+<span class="line"><span>   ├─ 起保停设计法</span></span>
+<span class="line"><span>   ├─ 置位复位设计法</span></span>
+<span class="line"><span>   └─ 专用钻床控制实例</span></span></code></pre>
+<h2 id="2-经验设计法"><a class="anchor" href="#2-经验设计法">#</a> 2. 经验设计法</h2>
+<p>经验设计法是在典型梯形图程序基础上，根据实际控制要求和PLC工作原理不断修改完善的方法。</p>
+<p>特点：</p>
+<ul>
+<li>入门容易；</li>
+<li>适合简单逻辑；</li>
+<li>依赖经验，复杂系统容易混乱；</li>
+<li>程序可读性和可维护性不如顺序功能图法。</li>
+</ul>
+<h3 id="21-启保停电路"><a class="anchor" href="#21-启保停电路">#</a> 2.1 启保停电路</h3>
+<p>启保停是最基本的电机控制程序。</p>
+<p>逻辑公式：</p>
+<p>[<br>
+Q=(SB_{start}\lor Q)\land SB_{stop}\land FR<br>
+]</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(Q)</td>
+<td>输出线圈，如电机接触器</td>
+</tr>
+<tr>
+<td>(SB_{start})</td>
+<td>启动按钮常开触点</td>
+</tr>
+<tr>
+<td>(SB_{stop})</td>
+<td>停止按钮常闭触点，正常为1</td>
+</tr>
+<tr>
+<td>(FR)</td>
+<td>热继电器保护触点，正常为1</td>
+</tr>
+</tbody>
+</table>
+<p>适用条件：普通电机启停、自保持控制。</p>
+<p>工程意义：按启动按钮后，输出通过自身触点保持；按停止或保护动作后断开。</p>
+<h3 id="22-延时接通断开电路"><a class="anchor" href="#22-延时接通断开电路">#</a> 2.2 延时接通/断开电路</h3>
+<ul>
+<li>延时接通：输入条件成立一段时间后输出动作；</li>
+<li>延时断开：输入条件消失后输出继续保持一段时间再断开。</li>
+</ul>
+<p>典型用途：运输带顺序启动/停止、风机延时、冲水延时、报警延时确认。</p>
+<h3 id="23-闪烁电路"><a class="anchor" href="#23-闪烁电路">#</a> 2.3 闪烁电路</h3>
+<p>闪烁电路用于周期性改变输出状态，如报警灯闪烁。可用两个定时器交替控制，也可用CPU时钟存储器位实现。</p>
+<h2 id="3-顺序功能图-sfc"><a class="anchor" href="#3-顺序功能图-sfc">#</a> 3. 顺序功能图 SFC</h2>
+<p>顺序功能图是根据工艺过程先画出状态转换图，再由图转化为梯形图程序的方法。它特别适合顺序动作明显的机械设备和生产过程。</p>
+<p>优点：</p>
+<ul>
+<li>逻辑清楚；</li>
+<li>调试方便；</li>
+<li>修改容易；</li>
+<li>适合初学者理解复杂顺序控制。</li>
+</ul>
+<h2 id="4-顺序功能图基本元素"><a class="anchor" href="#4-顺序功能图基本元素">#</a> 4. 顺序功能图基本元素</h2>
+<h3 id="41-步-step"><a class="anchor" href="#41-步-step">#</a> 4.1 步 Step</h3>
+<p>步是系统工作周期中的一个阶段，通常用M位代表。</p>
+<p>例如动力头控制中可分为：初始等待、快进、工进、快退、停止等步。</p>
+<h3 id="42-初始步与活动步"><a class="anchor" href="#42-初始步与活动步">#</a> 4.2 初始步与活动步</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>初始步</td>
+<td>系统初始状态对应的步，等待启动</td>
+</tr>
+<tr>
+<td>活动步</td>
+<td>系统当前处于的步，该步对应动作被执行</td>
+</tr>
+</tbody>
+</table>
+<p>步的活动状态可用M位表示：M=1表示活动，M=0表示不活动。</p>
+<h3 id="43-动作或命令"><a class="anchor" href="#43-动作或命令">#</a> 4.3 动作或命令</h3>
+<p>每一步对应的输出状态或操作称为动作。动作可写在步旁边的矩形框中。</p>
+<p>如果某动作跨越多个连续步为1，可使用动作修饰词S/R：</p>
+<ul>
+<li>S：在动作开始步置位；</li>
+<li>R：在动作结束后的下一步复位。</li>
+</ul>
+<h3 id="44-有向连线与转换条件"><a class="anchor" href="#44-有向连线与转换条件">#</a> 4.4 有向连线与转换条件</h3>
+<p>有向连线表示步的进展方向；转换条件写在步与步之间的转换符号旁。</p>
+<p>转换条件可以是：</p>
+<ul>
+<li>文字说明；</li>
+<li>布尔表达式；</li>
+<li>输入点、定时器、计数器条件；</li>
+<li>图形符号。</li>
+</ul>
+<h2 id="5-顺序功能图基本结构"><a class="anchor" href="#5-顺序功能图基本结构">#</a> 5. 顺序功能图基本结构</h2>
+<table>
+<thead>
+<tr>
+<th>结构</th>
+<th>含义</th>
+<th>典型场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单序列</td>
+<td>每次只沿一条固定路径执行</td>
+<td>普通机械往返动作</td>
+</tr>
+<tr>
+<td>选择序列</td>
+<td>根据条件选择不同分支</td>
+<td>合格/不合格分拣</td>
+</tr>
+<tr>
+<td>并列序列</td>
+<td>多个分支同时执行，最后汇合</td>
+<td>两个机构同时动作</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-转换实现规则"><a class="anchor" href="#6-转换实现规则">#</a> 6. 转换实现规则</h2>
+<h3 id="61-转换实现条件"><a class="anchor" href="#61-转换实现条件">#</a> 6.1 转换实现条件</h3>
+<p>一个转换要实现，必须同时满足：</p>
+<ol>
+<li>该转换所有前级步都是活动步；</li>
+<li>相应转换条件满足。</li>
+</ol>
+<p>逻辑公式：</p>
+<p>[<br>
+T_i = X_{pre1}\land X_{pre2}\land \cdots \land C_i<br>
+]</p>
+<table>
+<thead>
+<tr>
+<th>符号</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(T_i)</td>
+<td>第i个转换是否实现</td>
+</tr>
+<tr>
+<td>(X_{pre})</td>
+<td>前级步活动状态</td>
+</tr>
+<tr>
+<td>(C_i)</td>
+<td>转换条件</td>
+</tr>
+</tbody>
+</table>
+<p>适用条件：所有SFC结构，包括单序列、选择序列、并列序列。</p>
+<p>工程意义：只有当前步已经活动且外部条件满足时，系统才允许进入下一步。</p>
+<h3 id="62-转换实现操作"><a class="anchor" href="#62-转换实现操作">#</a> 6.2 转换实现操作</h3>
+<p>转换实现时同时完成两件事：</p>
+<ol>
+<li>后续步变为活动步；</li>
+<li>前级步变为不活动步。</li>
+</ol>
+<p>即：</p>
+<p>[<br>
+X_{next}=1,\quad X_{pre}=0<br>
+]</p>
+<h2 id="7-顺序控制梯形图实现方法"><a class="anchor" href="#7-顺序控制梯形图实现方法">#</a> 7. 顺序控制梯形图实现方法</h2>
+<h3 id="71-起保停设计法"><a class="anchor" href="#71-起保停设计法">#</a> 7.1 起保停设计法</h3>
+<p>程序分为两大部分：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>转换条件控制步序标志</span></span>
+<span class="line"><span>步序标志实现输出</span></span></code></pre>
+<p>每一步用类似启保停电路保持，当转换条件满足时，下一步置位，当前步断开。</p>
+<p>优点：逻辑直观，便于从启保停理解SFC。</p>
+<p>缺点：步数多时程序较长，转换逻辑较复杂。</p>
+<h3 id="72-置位复位设计法"><a class="anchor" href="#72-置位复位设计法">#</a> 7.2 置位复位设计法</h3>
+<p>使用S/R指令控制步状态。</p>
+<p>基本思想：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>转换条件满足 → 置位下一步 → 复位当前步</span></span></code></pre>
+<p>优点：程序简洁，适合较复杂的顺序控制。</p>
+<p>易错点：必须处理好初始步置位、互斥步复位、并行分支汇合等问题。</p>
+<h2 id="8-组合机床动力头运动案例"><a class="anchor" href="#8-组合机床动力头运动案例">#</a> 8. 组合机床动力头运动案例</h2>
+<h3 id="81-控制要求"><a class="anchor" href="#81-控制要求">#</a> 8.1 控制要求</h3>
+<p>动力头初始位置在左边，左限位为I0.3。按启动按钮I0.0后：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>初始位置I0.3</span></span>
+<span class="line"><span>→ 按I0.0启动</span></span>
+<span class="line"><span>→ 向右快进：Q0.0和Q0.1控制</span></span>
+<span class="line"><span>→ 到达I0.1后转入工作进给：Q0.1控制</span></span>
+<span class="line"><span>→ 到达I0.2后快速返回：Q0.2控制</span></span>
+<span class="line"><span>→ 回到I0.3后停止</span></span></code></pre>
+<h3 id="82-顺序功能图拆分"><a class="anchor" href="#82-顺序功能图拆分">#</a> 8.2 顺序功能图拆分</h3>
+<table>
+<thead>
+<tr>
+<th>步</th>
+<th>状态</th>
+<th>输出</th>
+<th>转换条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S0</td>
+<td>初始等待</td>
+<td>无</td>
+<td>I0.0且I0.3</td>
+</tr>
+<tr>
+<td>S1</td>
+<td>快进</td>
+<td>Q0.0、Q0.1</td>
+<td>I0.1</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>工进</td>
+<td>Q0.1</td>
+<td>I0.2</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>快退</td>
+<td>Q0.2</td>
+<td>I0.3</td>
+</tr>
+<tr>
+<td>S0</td>
+<td>回初始</td>
+<td>无</td>
+<td>循环结束</td>
+</tr>
+</tbody>
+</table>
+<p>工程意义：把机械运动流程转化为“步-动作-转换条件”结构。</p>
+<h2 id="9-专用钻床控制实例"><a class="anchor" href="#9-专用钻床控制实例">#</a> 9. 专用钻床控制实例</h2>
+<h3 id="91-控制要求概要"><a class="anchor" href="#91-控制要求概要">#</a> 9.1 控制要求概要</h3>
+<p>加工圆盘状工件上均匀分布的6个孔，即每次钻两个孔，旋转120°，重复三次。</p>
+<p>自动过程：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>初始：大小钻头在上限位</span></span>
+<span class="line"><span>→ 启动</span></span>
+<span class="line"><span>→ 工件夹紧</span></span>
+<span class="line"><span>→ 夹紧到位</span></span>
+<span class="line"><span>→ 大小钻头同时下行</span></span>
+<span class="line"><span>→ 下限位到达</span></span>
+<span class="line"><span>→ 大小钻头上行</span></span>
+<span class="line"><span>→ 上限位到达</span></span>
+<span class="line"><span>→ 工件旋转120°</span></span>
+<span class="line"><span>→ 旋转到位</span></span>
+<span class="line"><span>→ 重复钻第二对孔</span></span>
+<span class="line"><span>→ 再旋转120°钻第三对孔</span></span>
+<span class="line"><span>→ 松开工件</span></span>
+<span class="line"><span>→ 松开到位</span></span>
+<span class="line"><span>→ 返回初始状态</span></span></code></pre>
+<h3 id="92-输入输出分配"><a class="anchor" href="#92-输入输出分配">#</a> 9.2 输入输出分配</h3>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I0.0</td>
+<td>启动按钮</td>
+</tr>
+<tr>
+<td>I0.1</td>
+<td>工件夹紧检测开关</td>
+</tr>
+<tr>
+<td>I0.2</td>
+<td>大钻头下限位</td>
+</tr>
+<tr>
+<td>I0.3</td>
+<td>大钻头上限位</td>
+</tr>
+<tr>
+<td>I0.4</td>
+<td>小钻头下限位</td>
+</tr>
+<tr>
+<td>I0.5</td>
+<td>小钻头上限位</td>
+</tr>
+<tr>
+<td>I0.6</td>
+<td>旋转到位检测</td>
+</tr>
+<tr>
+<td>I0.7</td>
+<td>工件松开检测</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td>输出</td>
+<td>含义</td>
+</tr>
+<tr>
+<td>---</td>
+<td>---</td>
+</tr>
+<tr>
+<td>Q0.0</td>
+<td>工件夹紧电磁阀</td>
+</tr>
+<tr>
+<td>Q0.1</td>
+<td>大钻头下行接触器</td>
+</tr>
+<tr>
+<td>Q0.2</td>
+<td>大钻头上行接触器</td>
+</tr>
+<tr>
+<td>Q0.3</td>
+<td>小钻头下行接触器</td>
+</tr>
+<tr>
+<td>Q0.4</td>
+<td>小钻头上行接触器</td>
+</tr>
+<tr>
+<td>Q0.5</td>
+<td>工件正转</td>
+</tr>
+<tr>
+<td>Q0.6</td>
+<td>工件松开电磁阀</td>
+</tr>
+<tr>
+<td>Q0.7</td>
+<td>工件反转</td>
+</tr>
+</tbody>
+</table>
+<h3 id="93-程序结构建议"><a class="anchor" href="#93-程序结构建议">#</a> 9.3 程序结构建议</h3>
+<ul>
+<li>OB1负责模式选择和总调用；</li>
+<li>自动流程封装为FB1；</li>
+<li>手动控制封装为FB2；</li>
+<li>自动FB内部按顺序功能图设计步序；</li>
+<li>每个输出都要考虑互锁，避免上下行、夹紧松开、正反转同时动作。</li>
+</ul>
+<h2 id="10-图表索引"><a class="anchor" href="#10-图表索引">#</a> 10. 图表索引</h2>
+<table>
+<thead>
+<tr>
+<th>图表</th>
+<th>来源位置</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>启保停电路</td>
+<td>第6.1章PPT 6.1部分</td>
+<td>掌握基本自锁逻辑</td>
+</tr>
+<tr>
+<td>延时接通/断开电路</td>
+<td>第6.1章PPT 6.1部分</td>
+<td>掌握定时器应用</td>
+</tr>
+<tr>
+<td>动力头运动示意图</td>
+<td>第6.1章PPT 6.2部分</td>
+<td>理解步序拆分</td>
+</tr>
+<tr>
+<td>动力头顺序功能图</td>
+<td>第6.1章PPT 6.2部分</td>
+<td>学会SFC表示方法</td>
+</tr>
+<tr>
+<td>单序列/选择/并列结构图</td>
+<td>第6.1章PPT 6.2部分</td>
+<td>掌握SFC三种基本结构</td>
+</tr>
+<tr>
+<td>起保停法梯形图</td>
+<td>第6.1章PPT 6.3.1</td>
+<td>学会SFC转梯形图</td>
+</tr>
+<tr>
+<td>置位复位法梯形图</td>
+<td>第6.1章PPT 6.3.2</td>
+<td>学会S/R实现步序</td>
+</tr>
+<tr>
+<td>专用钻床SFC</td>
+<td>第6.1章PPT后半部分</td>
+<td>综合设计题重点</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-易错点"><a class="anchor" href="#11-易错点">#</a> 11. 易错点</h2>
+<ol>
+<li>顺序功能图不是梯形图，但可以转化为梯形图。</li>
+<li>步是状态，动作是该状态下的输出，不要混淆。</li>
+<li>转换实现必须同时满足前级步活动和转换条件成立。</li>
+<li>转换发生时要同时置位后续步、复位前级步。</li>
+<li>选择序列要注意互斥条件，避免多个分支同时进入。</li>
+<li>并列序列要注意所有分支完成后才能汇合。</li>
+<li>手动/自动程序要有模式互锁。</li>
+<li>上下行、正反转、夹紧松开等相反动作必须互锁。</li>
+</ol>
+<h2 id="12-考前补充sfc设计题答题套路"><a class="anchor" href="#12-考前补充sfc设计题答题套路">#</a> 12. 考前补充：SFC设计题答题套路</h2>
+<h3 id="121-顺序控制设计步骤"><a class="anchor" href="#121-顺序控制设计步骤">#</a> 12.1 顺序控制设计步骤</h3>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>读工艺要求</span></span>
+<span class="line"><span>→ 列输入/输出表</span></span>
+<span class="line"><span>→ 划分工作步</span></span>
+<span class="line"><span>→ 写每步动作</span></span>
+<span class="line"><span>→ 写步间转换条件</span></span>
+<span class="line"><span>→ 检查初始步、互锁、停止/复位</span></span>
+<span class="line"><span>→ 转换为梯形图或置位复位程序</span></span></code></pre>
+<h3 id="122-单序列-选择序列-并列序列判断"><a class="anchor" href="#122-单序列-选择序列-并列序列判断">#</a> 12.2 单序列、选择序列、并列序列判断</h3>
+<table>
+<thead>
+<tr>
+<th>结构</th>
+<th>判断关键词</th>
+<th>转换特点</th>
+<th>易错点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单序列</td>
+<td>只有一条执行路径</td>
+<td>一步接一步</td>
+<td>少写初始步或复位条件</td>
+</tr>
+<tr>
+<td>选择序列</td>
+<td>按条件走不同分支</td>
+<td>多选一，条件通常互斥</td>
+<td>条件不互斥会误入多个分支</td>
+</tr>
+<tr>
+<td>并列序列</td>
+<td>多个分支同时执行</td>
+<td>一个转换后激活多个步</td>
+<td>汇合时通常要等所有分支完成</td>
+</tr>
+</tbody>
+</table>
+<h3 id="123-由sfc转梯形图的核心公式"><a class="anchor" href="#123-由sfc转梯形图的核心公式">#</a> 12.3 由SFC转梯形图的核心公式</h3>
+<p>每一步通常可按“启动条件 + 自保持 - 下一步复位”的思路实现：</p>
+<p>[<br>
+M_i=(M_{i-1}\land T_{i-1})\lor(M_i\land \lnot T_i)<br>
+]</p>
+<p>其中 (M_i) 是当前步标志，(T_i) 是当前步到下一步的转换条件。置位复位法则更直观：转换条件成立时置位后续步、复位前级步。</p>
+<h3 id="124-综合题安全检查清单"><a class="anchor" href="#124-综合题安全检查清单">#</a> 12.4 综合题安全检查清单</h3>
+<ul>
+<li>初始状态是否明确，如动力头在左限位、钻头在上限位。</li>
+<li>相反动作是否互锁，如上行/下行、正转/反转、夹紧/松开。</li>
+<li>自动循环是否有停止、急停、复位或故障处理。</li>
+<li>输出动作是否只由对应活动步决定，避免多个程序段重复驱动同一输出。</li>
+</ul>
+<h2 id="13-本章预测题与答案"><a class="anchor" href="#13-本章预测题与答案">#</a> 13. 本章预测题与答案</h2>
+<h3 id="题1什么是经验设计法"><a class="anchor" href="#题1什么是经验设计法">#</a> 题1：什么是经验设计法？</h3>
+<p>答案：经验设计法是在典型梯形图程序基础上，结合实际控制要求和PLC工作原理不断修改完善的方法。它适合简单控制任务，但复杂系统中容易出现逻辑混乱和维护困难。</p>
+<h3 id="题2什么是顺序功能图有什么优点"><a class="anchor" href="#题2什么是顺序功能图有什么优点">#</a> 题2：什么是顺序功能图？有什么优点？</h3>
+<p>答案：顺序功能图是根据工艺过程，把系统工作周期划分为若干步，并用转换条件表示步之间切换关系的图形设计方法。优点是逻辑清楚、便于调试、修改方便，适合顺序控制系统。</p>
+<h3 id="题3顺序功能图中的步是什么意思"><a class="anchor" href="#题3顺序功能图中的步是什么意思">#</a> 题3：顺序功能图中的“步”是什么意思？</h3>
+<p>答案：步是系统工作周期中的一个阶段，通常用M位表示。系统处于某一步时，该步为活动步，并执行该步对应的动作。</p>
+<h3 id="题4转换实现需要满足哪两个条件"><a class="anchor" href="#题4转换实现需要满足哪两个条件">#</a> 题4：转换实现需要满足哪两个条件？</h3>
+<p>答案：第一，该转换所有前级步都处于活动状态；第二，相应转换条件成立。两者同时满足时，转换才能实现。</p>
+<h3 id="题5转换实现时要完成什么操作"><a class="anchor" href="#题5转换实现时要完成什么操作">#</a> 题5：转换实现时要完成什么操作？</h3>
+<p>答案：转换实现时，要使所有后续步变为活动步，同时使所有前级步变为不活动步。</p>
+<h3 id="题6顺序功能图有哪三种基本结构"><a class="anchor" href="#题6顺序功能图有哪三种基本结构">#</a> 题6：顺序功能图有哪三种基本结构？</h3>
+<p>答案：单序列、选择序列和并列序列。单序列按固定路径执行；选择序列按条件选择分支；并列序列多个分支同时执行并在后续汇合。</p>
+<h3 id="题7起保停设计法实现顺序控制时程序通常分为哪两部分"><a class="anchor" href="#题7起保停设计法实现顺序控制时程序通常分为哪两部分">#</a> 题7：起保停设计法实现顺序控制时程序通常分为哪两部分？</h3>
+<p>答案：一部分用转换条件控制步序标志，另一部分用步序标志实现输出动作。</p>
+<h3 id="题8置位复位设计法的基本思想是什么"><a class="anchor" href="#题8置位复位设计法的基本思想是什么">#</a> 题8：置位复位设计法的基本思想是什么？</h3>
+<p>答案：当某步的转换条件满足时，使用置位指令使下一步活动，同时使用复位指令使当前步不活动。</p>
+<h3 id="题9动力头控制案例中从快进转为工进的条件是什么"><a class="anchor" href="#题9动力头控制案例中从快进转为工进的条件是什么">#</a> 题9：动力头控制案例中，从快进转为工进的条件是什么？</h3>
+<p>答案：动力头按启动后先快进，当到达位置检测I0.1时，由快进步转换为工作进给步。</p>
+<h3 id="题10专用钻床控制中为什么要设置手动和自动两种方式"><a class="anchor" href="#题10专用钻床控制中为什么要设置手动和自动两种方式">#</a> 题10：专用钻床控制中为什么要设置手动和自动两种方式？</h3>
+<p>答案：自动方式用于正常生产循环，提高效率；手动方式用于调试、维护、单步检查和异常处理。两种方式要互锁，避免同时控制同一输出。</p>
+<div class="tags"><a href="/legacy/tags/%E5%B7%A5%E4%B8%9A%E6%8E%A7%E5%88%B6%E8%A3%85%E5%A4%87/" rel="tag"><i class="ic i-tag"></i>工业控制装备</a><a href="/legacy/tags/S7-1200/" rel="tag"><i class="ic i-tag"></i>S7-1200</a><a href="/legacy/tags/PLC/" rel="tag"><i class="ic i-tag"></i>PLC</a><a href="/legacy/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag"><i class="ic i-tag"></i>课程笔记</a></div></div><footer><div class="meta"><span class="item"><span class="icon"><i class="ic i-calendar-check"></i></span><span class="text">更新于 </span><time title="修改时间：2026-06-14 01:14:47" itemprop="dateModified" datetime="2026-06-14T01:14:47+08:00">2026-06-14</time></span></div><div class="reward"><button><i class="ic i-heartbeat"></i>赞赏</button><p>请我喝[茶]~(￣▽￣)~*</p><div id="qr"><div><img loading="lazy" src="/legacy/assets/wechatpay.avif" alt="曾阿牛 微信支付"><p>微信支付</p></div><div><img loading="lazy" src="/legacy/assets/alipay.avif" alt="曾阿牛 支付宝"><p>支付宝</p></div></div></div><div id="copyright"><ul><li class="author"><strong>本文作者：</strong>曾阿牛<i class="ic i-at"><em>@</em></i>终南山下，活死人墓</li><li class="link"><strong>本文链接：</strong><a href="https://www.dying4ever.cyou/2026/05/11/plc/%E7%AC%AC06%E7%AB%A0_%E6%95%B0%E5%AD%97%E9%87%8F%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%A2%AF%E5%BD%A2%E5%9B%BE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95/" title="第06章_数字量控制系统梯形图程序设计方法">https://www.dying4ever.cyou/2026/05/11/plc/第06章_数字量控制系统梯形图程序设计方法/</a></li><li class="license"><strong>版权声明：</strong>本站所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div></footer></article></div><div class="post-nav"><div class="item left"><a href="/legacy/2026/05/11/plc/%E7%AC%AC02%E7%AB%A0_%E5%8F%AF%E7%BC%96%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%99%A8%E5%89%8D%E8%A8%80%E4%B8%8E%E4%BD%8E%E5%8E%8B%E7%94%B5%E5%99%A8/" rel="prev" itemprop="url" data-background-image="/legacy/assets/head.webp" title="第02章_可编程控制器前言与低压电器"><span class="type">上一篇</span><span class="category"><i class="ic i-flag"></i>plc</span><h3>第02章_可编程控制器前言与低压电器</h3></a></div><div class="item right"><a href="/legacy/2026/05/11/plc/%E7%AC%AC05%E7%AB%A0_S7-1200%E7%94%A8%E6%88%B7%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84/" rel="next" itemprop="url" data-background-image="/legacy/images/banner.webp" title="第05章_S7-1200用户程序结构"><span class="type">下一篇</span><span class="category"><i class="ic i-flag"></i>plc</span><h3>第05章_S7-1200用户程序结构</h3></a></div></div><div class="wrap" id="comments"></div></div><div id="sidebar"><div class="inner"><div class="panels"><div class="inner"><div class="contents panel pjax" data-title="文章目录"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC6%E7%AB%A0-%E6%95%B0%E5%AD%97%E9%87%8F%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%A2%AF%E5%BD%A2%E5%9B%BE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text"> 第6章 数字量控制系统梯形图程序设计方法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%84%E6%96%99%E6%9D%A5%E6%BA%90"><span class="toc-number">1.1.</span> <span class="toc-text"> 资料来源</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%AC%E7%AB%A0%E8%84%89%E7%BB%9C"><span class="toc-number">1.2.</span> <span class="toc-text"> 1. 本章脉络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BB%8F%E9%AA%8C%E8%AE%BE%E8%AE%A1%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text"> 2. 经验设计法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#21-%E5%90%AF%E4%BF%9D%E5%81%9C%E7%94%B5%E8%B7%AF"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 2.1 启保停电路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#22-%E5%BB%B6%E6%97%B6%E6%8E%A5%E9%80%9A%E6%96%AD%E5%BC%80%E7%94%B5%E8%B7%AF"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 2.2 延时接通/断开电路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#23-%E9%97%AA%E7%83%81%E7%94%B5%E8%B7%AF"><span class="toc-number">1.3.3.</span> <span class="toc-text"> 2.3 闪烁电路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE-sfc"><span class="toc-number">1.4.</span> <span class="toc-text"> 3. 顺序功能图 SFC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E5%9F%BA%E6%9C%AC%E5%85%83%E7%B4%A0"><span class="toc-number">1.5.</span> <span class="toc-text"> 4. 顺序功能图基本元素</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#41-%E6%AD%A5-step"><span class="toc-number">1.5.1.</span> <span class="toc-text"> 4.1 步 Step</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#42-%E5%88%9D%E5%A7%8B%E6%AD%A5%E4%B8%8E%E6%B4%BB%E5%8A%A8%E6%AD%A5"><span class="toc-number">1.5.2.</span> <span class="toc-text"> 4.2 初始步与活动步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#43-%E5%8A%A8%E4%BD%9C%E6%88%96%E5%91%BD%E4%BB%A4"><span class="toc-number">1.5.3.</span> <span class="toc-text"> 4.3 动作或命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#44-%E6%9C%89%E5%90%91%E8%BF%9E%E7%BA%BF%E4%B8%8E%E8%BD%AC%E6%8D%A2%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.5.4.</span> <span class="toc-text"> 4.4 有向连线与转换条件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-number">1.6.</span> <span class="toc-text"> 5. 顺序功能图基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E8%A7%84%E5%88%99"><span class="toc-number">1.7.</span> <span class="toc-text"> 6. 转换实现规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#61-%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.7.1.</span> <span class="toc-text"> 6.1 转换实现条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#62-%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E6%93%8D%E4%BD%9C"><span class="toc-number">1.7.2.</span> <span class="toc-text"> 6.2 转换实现操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E9%A1%BA%E5%BA%8F%E6%8E%A7%E5%88%B6%E6%A2%AF%E5%BD%A2%E5%9B%BE%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95"><span class="toc-number">1.8.</span> <span class="toc-text"> 7. 顺序控制梯形图实现方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#71-%E8%B5%B7%E4%BF%9D%E5%81%9C%E8%AE%BE%E8%AE%A1%E6%B3%95"><span class="toc-number">1.8.1.</span> <span class="toc-text"> 7.1 起保停设计法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#72-%E7%BD%AE%E4%BD%8D%E5%A4%8D%E4%BD%8D%E8%AE%BE%E8%AE%A1%E6%B3%95"><span class="toc-number">1.8.2.</span> <span class="toc-text"> 7.2 置位复位设计法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E7%BB%84%E5%90%88%E6%9C%BA%E5%BA%8A%E5%8A%A8%E5%8A%9B%E5%A4%B4%E8%BF%90%E5%8A%A8%E6%A1%88%E4%BE%8B"><span class="toc-number">1.9.</span> <span class="toc-text"> 8. 组合机床动力头运动案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#81-%E6%8E%A7%E5%88%B6%E8%A6%81%E6%B1%82"><span class="toc-number">1.9.1.</span> <span class="toc-text"> 8.1 控制要求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#82-%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E6%8B%86%E5%88%86"><span class="toc-number">1.9.2.</span> <span class="toc-text"> 8.2 顺序功能图拆分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E4%B8%93%E7%94%A8%E9%92%BB%E5%BA%8A%E6%8E%A7%E5%88%B6%E5%AE%9E%E4%BE%8B"><span class="toc-number">1.10.</span> <span class="toc-text"> 9. 专用钻床控制实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#91-%E6%8E%A7%E5%88%B6%E8%A6%81%E6%B1%82%E6%A6%82%E8%A6%81"><span class="toc-number">1.10.1.</span> <span class="toc-text"> 9.1 控制要求概要</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#92-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E5%88%86%E9%85%8D"><span class="toc-number">1.10.2.</span> <span class="toc-text"> 9.2 输入输出分配</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#93-%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.10.3.</span> <span class="toc-text"> 9.3 程序结构建议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E5%9B%BE%E8%A1%A8%E7%B4%A2%E5%BC%95"><span class="toc-number">1.11.</span> <span class="toc-text"> 10. 图表索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E6%98%93%E9%94%99%E7%82%B9"><span class="toc-number">1.12.</span> <span class="toc-text"> 11. 易错点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E8%80%83%E5%89%8D%E8%A1%A5%E5%85%85sfc%E8%AE%BE%E8%AE%A1%E9%A2%98%E7%AD%94%E9%A2%98%E5%A5%97%E8%B7%AF"><span class="toc-number">1.13.</span> <span class="toc-text"> 12. 考前补充：SFC设计题答题套路</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#121-%E9%A1%BA%E5%BA%8F%E6%8E%A7%E5%88%B6%E8%AE%BE%E8%AE%A1%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.13.1.</span> <span class="toc-text"> 12.1 顺序控制设计步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#122-%E5%8D%95%E5%BA%8F%E5%88%97-%E9%80%89%E6%8B%A9%E5%BA%8F%E5%88%97-%E5%B9%B6%E5%88%97%E5%BA%8F%E5%88%97%E5%88%A4%E6%96%AD"><span class="toc-number">1.13.2.</span> <span class="toc-text"> 12.2 单序列、选择序列、并列序列判断</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#123-%E7%94%B1sfc%E8%BD%AC%E6%A2%AF%E5%BD%A2%E5%9B%BE%E7%9A%84%E6%A0%B8%E5%BF%83%E5%85%AC%E5%BC%8F"><span class="toc-number">1.13.3.</span> <span class="toc-text"> 12.3 由SFC转梯形图的核心公式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#124-%E7%BB%BC%E5%90%88%E9%A2%98%E5%AE%89%E5%85%A8%E6%A3%80%E6%9F%A5%E6%B8%85%E5%8D%95"><span class="toc-number">1.13.4.</span> <span class="toc-text"> 12.4 综合题安全检查清单</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E6%9C%AC%E7%AB%A0%E9%A2%84%E6%B5%8B%E9%A2%98%E4%B8%8E%E7%AD%94%E6%A1%88"><span class="toc-number">1.14.</span> <span class="toc-text"> 13. 本章预测题与答案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%981%E4%BB%80%E4%B9%88%E6%98%AF%E7%BB%8F%E9%AA%8C%E8%AE%BE%E8%AE%A1%E6%B3%95"><span class="toc-number">1.14.1.</span> <span class="toc-text"> 题1：什么是经验设计法？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%982%E4%BB%80%E4%B9%88%E6%98%AF%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%82%B9"><span class="toc-number">1.14.2.</span> <span class="toc-text"> 题2：什么是顺序功能图？有什么优点？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%983%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E4%B8%AD%E7%9A%84%E6%AD%A5%E6%98%AF%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D"><span class="toc-number">1.14.3.</span> <span class="toc-text"> 题3：顺序功能图中的“步”是什么意思？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%984%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E9%9C%80%E8%A6%81%E6%BB%A1%E8%B6%B3%E5%93%AA%E4%B8%A4%E4%B8%AA%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.14.4.</span> <span class="toc-text"> 题4：转换实现需要满足哪两个条件？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%985%E8%BD%AC%E6%8D%A2%E5%AE%9E%E7%8E%B0%E6%97%B6%E8%A6%81%E5%AE%8C%E6%88%90%E4%BB%80%E4%B9%88%E6%93%8D%E4%BD%9C"><span class="toc-number">1.14.5.</span> <span class="toc-text"> 题5：转换实现时要完成什么操作？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%986%E9%A1%BA%E5%BA%8F%E5%8A%9F%E8%83%BD%E5%9B%BE%E6%9C%89%E5%93%AA%E4%B8%89%E7%A7%8D%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-number">1.14.6.</span> <span class="toc-text"> 题6：顺序功能图有哪三种基本结构？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%987%E8%B5%B7%E4%BF%9D%E5%81%9C%E8%AE%BE%E8%AE%A1%E6%B3%95%E5%AE%9E%E7%8E%B0%E9%A1%BA%E5%BA%8F%E6%8E%A7%E5%88%B6%E6%97%B6%E7%A8%8B%E5%BA%8F%E9%80%9A%E5%B8%B8%E5%88%86%E4%B8%BA%E5%93%AA%E4%B8%A4%E9%83%A8%E5%88%86"><span class="toc-number">1.14.7.</span> <span class="toc-text"> 题7：起保停设计法实现顺序控制时程序通常分为哪两部分？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%988%E7%BD%AE%E4%BD%8D%E5%A4%8D%E4%BD%8D%E8%AE%BE%E8%AE%A1%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.14.8.</span> <span class="toc-text"> 题8：置位复位设计法的基本思想是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%989%E5%8A%A8%E5%8A%9B%E5%A4%B4%E6%8E%A7%E5%88%B6%E6%A1%88%E4%BE%8B%E4%B8%AD%E4%BB%8E%E5%BF%AB%E8%BF%9B%E8%BD%AC%E4%B8%BA%E5%B7%A5%E8%BF%9B%E7%9A%84%E6%9D%A1%E4%BB%B6%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.14.9.</span> <span class="toc-text"> 题9：动力头控制案例中，从快进转为工进的条件是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%9810%E4%B8%93%E7%94%A8%E9%92%BB%E5%BA%8A%E6%8E%A7%E5%88%B6%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%AE%BE%E7%BD%AE%E6%89%8B%E5%8A%A8%E5%92%8C%E8%87%AA%E5%8A%A8%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="toc-number">1.14.10.</span> <span class="toc-text"> 题10：专用钻床控制中为什么要设置手动和自动两种方式？</span></a></li></ol></li></ol></li></ol></div><div class="related panel pjax" data-title="系列文章"><ul><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC01%E7%AB%A0_%E5%B7%A5%E4%B8%9A%E6%8E%A7%E5%88%B6%E8%A3%85%E5%A4%87%E6%A6%82%E8%BF%B0/" rel="bookmark" title="第01章_工业控制装备概述">第01章_工业控制装备概述</a></li><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC07%E7%AB%A0_%E9%9B%86%E6%95%A3%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E4%B8%8E%E7%BB%84%E6%80%81/" rel="bookmark" title="第07章_集散控制系统与组态">第07章_集散控制系统与组态</a></li><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC02%E7%AB%A0_%E5%8F%AF%E7%BC%96%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%99%A8%E5%89%8D%E8%A8%80%E4%B8%8E%E4%BD%8E%E5%8E%8B%E7%94%B5%E5%99%A8/" rel="bookmark" title="第02章_可编程控制器前言与低压电器">第02章_可编程控制器前言与低压电器</a></li><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC05%E7%AB%A0_S7-1200%E7%94%A8%E6%88%B7%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84/" rel="bookmark" title="第05章_S7-1200用户程序结构">第05章_S7-1200用户程序结构</a></li><li class="active"><a href="/legacy/2026/05/11/plc/%E7%AC%AC06%E7%AB%A0_%E6%95%B0%E5%AD%97%E9%87%8F%E6%8E%A7%E5%88%B6%E7%B3%BB%E7%BB%9F%E6%A2%AF%E5%BD%A2%E5%9B%BE%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95/" rel="bookmark" title="第06章_数字量控制系统梯形图程序设计方法">第06章_数字量控制系统梯形图程序设计方法</a></li><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC04%E7%AB%A0_S7-1200%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E4%B8%8E%E6%8C%87%E4%BB%A4/" rel="bookmark" title="第04章_S7-1200程序设计基础与指令">第04章_S7-1200程序设计基础与指令</a></li><li><a href="/legacy/2026/05/11/plc/%E7%AC%AC03%E7%AB%A0_S7-1200%E7%A1%AC%E4%BB%B6%E4%B8%8E%E7%A1%AC%E4%BB%B6%E7%BB%84%E6%80%81/" rel="bookmark" title="第03章_S7-1200硬件与硬件组态">第03章_S7-1200硬件与硬件组态</a></li><li><a href="/legacy/2026/05/13/plc/%E5%B7%A5%E4%B8%9A%E6%8E%A7%E5%88%B6%E8%A3%85%E7%BD%AE_%E6%8C%89%E8%AF%BE%E7%A8%8B%E7%9B%AE%E6%A0%87%E5%88%86%E7%B1%BB_%E9%A2%98%E7%9B%AE%E7%AD%94%E6%A1%88%E9%AB%98%E5%88%86%E7%89%88/" rel="bookmark" title="工业控制装置_按课程目标分类_题目答案高分版">工业控制装置_按课程目标分类_题目答案高分版</a></li></ul></div><div class="overview panel" data-title="站点概览"><div class="sidebar-profile-card"><div class="author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><img class="image" loading="lazy" decoding="async" itemprop="image" alt="曾阿牛" src="/legacy/assets/head.avif"><p class="name" itemprop="name">曾阿牛</p><div class="description sidebar-typing" itemprop="description" data-words="I’M Zzzzzzzzzzzz|Por Una Cabeza"><span class="typing-text">Por Una Cabeza</span><span class="typing-cursor" aria-hidden="true">|</span></div></div><div class="social"><a target="_blank" rel="noopener" href="https://github.com/dying4ever" class="item github" title="https://github.com/dying4ever"><i class="ic i-github"></i></a><a href="mailto:zhangjingxuan@163.com" class="item email" title="mailto:zhangjingxuan@163.com"><i class="ic i-envelope"></i></a><a target="_blank" rel="noopener" href="https://www.douban.com/people/244425591/?_i=9515043jR6tETx" class="item douban" title="https://www.douban.com/people/244425591/?_i=9515043jR6tETx"><i class="ic i-douban"></i></a></div><div class="sidebar-contact"><div class="contact-row"><span class="label">LOCATION:</span><span class="value">NANJING</span></div></div><nav class="state"><div class="item posts"><a href="/legacy/archives/"><span class="count">131</span><span class="name">文章</span></a></div><div class="item categories"><a href="/legacy/categories/"><span class="count">37</span><span class="name">分类</span></a></div><div class="item tags"><a href="/legacy/tags/"><span class="count">44</span><span class="name">标签</span></a></div></nav><div class="menu"><li class="item"><a href="/legacy/" rel="section"><i class="ic i-home"></i>首页</a></li><li class="item"><a href="/legacy/about/" rel="section"><i class="ic i-user"></i>关于</a></li><li class="item"><a href="/legacy/projects/" rel="section"><i class="ic i-feather"></i>projects</a></li><li class="item"><a href="/legacy/categories/" rel="section"><i class="ic i-th"></i>分类</a></li><li class="item"><a href="/legacy/archives/" rel="section"><i class="ic i-list-alt"></i>归档</a></li><li class="item"><a href="/legacy/friends/" rel="section"><i class="ic i-heart"></i>友链</a></li></div></div><script>(() => {
+  const nodes = document.querySelectorAll('.sidebar-typing');
+  nodes.forEach((node) => {
+    if (node.dataset.ready === 'true') return;
+    node.dataset.ready = 'true';
+    const textNode = node.querySelector('.typing-text');
+    const words = (node.dataset.words || 'Por Una Cabeza').split('|').filter(Boolean);
+    if (!textNode || words.length < 1) return;
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    let hold = 0;
+    const tick = () => {
+      const word = words[wordIndex % words.length];
+      textNode.textContent = deleting ? word.slice(0, charIndex--) : word.slice(0, charIndex++);
+      if (!deleting && charIndex > word.length) {
+        if (hold < 42) {
+          hold++;
+          window.setTimeout(tick, 200);
+          return;
+        }
+        hold = 0;
+        deleting = true;
+      }
+      if (deleting && charIndex < 0) {
+        deleting = false;
+        wordIndex++;
+        charIndex = 0;
+      }
+      window.setTimeout(tick, deleting ? 170 : 220);
+    };
+    tick();
+  });
+})();</script></div></div></div><ul id="quick"><li class="prev pjax"><a href="/legacy/2026/05/11/plc/%E7%AC%AC05%E7%AB%A0_S7-1200%E7%94%A8%E6%88%B7%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a></li><li class="up"><i class="ic i-arrow-up"></i></li><li class="down"><i class="ic i-arrow-down"></i></li><li class="next pjax"><a href="/legacy/2026/05/11/plc/%E7%AC%AC02%E7%AB%A0_%E5%8F%AF%E7%BC%96%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%99%A8%E5%89%8D%E8%A8%80%E4%B8%8E%E4%BD%8E%E5%8E%8B%E7%94%B5%E5%99%A8/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a></li><li class="percent"></li></ul></div></div><div class="dimmer"></div></div><div id="player"></div></main><footer id="footer"><div class="inner"><div class="widgets"><div class="rpost pjax"><h2>最新评论</h2></div></div><div class="status"><div class="copyright">© 2025 -<span itemprop="copyrightYear">2026</span><span class="with-love"><i class="ic i-sakura rotate"></i></span><span class="author" itemprop="copyrightHolder">曾阿牛 @ Frostbitten Carpe Diem</span></div><div class="count"><span class="post-meta-item-icon"><i class="ic i-chart-area"></i></span><span title="站点总字数">1.3m 字</span><span class="post-meta-divider"> | </span><span class="post-meta-item-icon"><i class="ic i-coffee"></i></span><span title="站点阅读时长">19:17</span></div><div class="powered-by">基于 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> &amp; Theme.<a target="_blank" rel="noopener" href="https://github.com/theme-shoka-x/hexo-theme-shokaX/">ShokaX</a></div></div></div></footer></div><script data-config="" type="text/javascript">var LOCAL = {
+    ispost: true,
+    path: `2026/05/11/plc/第06章_数字量控制系统梯形图程序设计方法/`,
+    favicon: {
+        show: `不负韶华`,
+        hide: `以梦为马！`
+    },
+    search: {
+        placeholder: "文章搜索",
+        empty: "关于 「 ${query} 」，什么也没搜到",
+        stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    nocopy: "false",
+    copyright: `复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。`,
+    copy_tex: false,
+    katex: false,
+    mermaid: false,
+    audio: undefined,
+    nocopy: false,
+    outime: true,
+    template: `<div class="note warning"><p><span class="label warning">文章时效性提示</span><br>这是一篇发布于 {{publish}} 天前，最后一次更新在 {{updated}} 天前的文章，部分信息可能已经发生改变，请注意甄别。</p></div>`,
+    quiz: {
+        choice: `单选题`,
+        multiple: `多选题`,
+        true_false: `判断题`,
+        essay: `问答题`,
+        gap_fill: `填空题`,
+        mistake: `错题备注`
+    }
+};
+</script><script src="/legacy/js/siteInit.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script><script src="/legacy/js/gallery-random-covers.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script></body></html>

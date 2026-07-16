@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="具身智能Manipulation" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>具身智能Manipulation · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>具身智能Manipulation</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-04-10T21:12:16">2026-04-10</time>
+    <span class="content-meta__categories"><a href="/categories/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD/">具身智能</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E5%85%B7%E8%BA%AB%E6%99%BA%E8%83%BD/">具身智能</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#%E4%B8%80%E3%80%81%E6%8A%80%E6%9C%AF%E4%B8%83%E4%BB%A3%E8%8C%83%E5%BC%8F%E6%BC%94%E8%BF%9B">一、技术七代范式演进</a></li><li class="article-toc__level-3"><a href="#1.-%E4%BC%A0%E7%BB%9F%E6%8A%93%E5%8F%96%EF%BC%9A%E5%87%A0%E4%BD%95%E8%A7%84%E5%88%99%E9%98%B6%E6%AE%B5%EF%BC%88~2016%EF%BC%89">1. 传统抓取：几何规则阶段（~2016）</a></li><li class="article-toc__level-3"><a href="#2.-graspnet-%2F-cnn-%E9%A2%84%E6%B5%8B%E9%98%B6%E6%AE%B5%EF%BC%882017-%EF%BC%89">2. GraspNet / CNN 预测阶段（2017-）</a></li><li class="article-toc__level-3"><a href="#3.-saycan-%2F-rt%EF%BC%9Allm-%2B-robot-%E9%98%B6%E6%AE%B5%EF%BC%882022-2023%EF%BC%89">3. SayCan / RT：LLM + Robot 阶段（2022-2023）</a></li><li class="article-toc__level-3"><a href="#4.-act%EF%BC%9A%E5%8A%A8%E4%BD%9C%E5%88%86%E5%9D%97%E9%98%B6%E6%AE%B5%EF%BC%882023%EF%BC%89">4. ACT：动作分块阶段（2023）</a></li><li class="article-toc__level-3"><a href="#5.-diffusion-policy%EF%BC%9A%E5%A4%9A%E6%A8%A1%E6%80%81%E5%8A%A8%E4%BD%9C%E5%88%86%E5%B8%83%E9%98%B6%E6%AE%B5%EF%BC%882023%EF%BC%89">5. Diffusion Policy：多模态动作分布阶段（2023）</a></li><li class="article-toc__level-3"><a href="#6.-vla-%2B-flow%EF%BC%9A%E8%A7%86%E8%A7%89%E8%AF%AD%E8%A8%80%E5%88%B0%E5%8A%A8%E4%BD%9C%E7%BB%9F%E4%B8%80%E9%98%B6%E6%AE%B5%EF%BC%882024-2025%EF%BC%89">6. VLA + Flow：视觉语言到动作统一阶段（2024-2025）</a></li><li class="article-toc__level-3"><a href="#7.-world-model%EF%BC%9A%E6%83%B3%E8%B1%A1%E5%88%B0%E8%A1%8C%E5%8A%A8%E9%98%B6%E6%AE%B5%EF%BC%882025-%EF%BC%89">7. World Model：想象到行动阶段（2025-）</a></li><li class="article-toc__level-2"><a href="#%E4%BA%8C%E3%80%81%E8%B0%B7%E6%AD%8C%2Fdeepmind-%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86%E8%BF%87%E6%B8%A1%E6%80%A7%E5%B7%A5%E4%BD%9C(2022-2023)">二、谷歌/DeepMind 的一部分过渡性工作(2022-2023)</a></li><li class="article-toc__level-3"><a href="#1.-saycan%EF%BC%9A%E8%AF%AD%E8%A8%80%E8%A7%84%E5%88%92-%2B-%E6%8A%80%E8%83%BD%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5%EF%BC%882022%EF%BC%89">1. SayCan：语言规划 + 技能执行阶段（2022）</a></li><li class="article-toc__level-3"><a href="#2.-rt-1%EF%BC%9A%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%9C%BA%E5%99%A8%E4%BA%BA-transformer-%E9%98%B6%E6%AE%B5%EF%BC%882022.12%EF%BC%89">2. RT-1：大规模机器人 Transformer 阶段（2022.12）</a></li><li class="article-toc__level-3"><a href="#3.-rt-2%EF%BC%9Avla-%E9%9B%8F%E5%BD%A2%E6%AD%A3%E5%BC%8F%E5%87%BA%E7%8E%B0%EF%BC%882023.7%EF%BC%89">3. RT-2：VLA 雏形正式出现（2023.7）</a></li><li class="article-toc__level-3"><a href="#4.-open-x-embodiment%EF%BC%9A%E8%B7%A8%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%95%B0%E6%8D%AE%E9%98%B6%E6%AE%B5%EF%BC%882023.10%EF%BC%89">4. Open X-Embodiment：跨机器人大规模数据阶段（2023.10）</a></li><li class="article-toc__level-2"><a href="#%E4%B8%89%E3%80%81act%EF%BC%9Aaction-chunking-%E6%B6%88%E7%81%AD%E7%B4%AF%E7%A7%AF%E8%AF%AF%E5%B7%AE">三、ACT：Action Chunking 消灭累积误差</a></li><li class="article-toc__level-3"><a href="#1.-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%8F%90%E5%87%BA-act">1. 为什么会提出 ACT</a></li><li class="article-toc__level-3"><a href="#2.-act-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3">2. ACT 的核心思想</a></li><li class="article-toc__level-3"><a href="#3.-act-%E7%9A%84%E6%84%8F%E4%B9%89">3. ACT 的意义</a></li><li class="article-toc__level-3"><a href="#4.-aloha-%E4%B8%8E-act-%E7%9A%84%E5%85%B3%E7%B3%BB">4. ALOHA 与 ACT 的关系</a></li><li class="article-toc__level-2"><a href="#%E5%9B%9B%E3%80%81diffusion-policy%EF%BC%9A%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E6%94%B9%E5%8F%98%E4%BA%86%E4%B8%80%E5%88%87">四、Diffusion Policy：扩散模型改变了一切</a></li><li class="article-toc__level-3"><a href="#1.-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%87%BA%E7%8E%B0-diffusion-policy">1. 为什么会出现 Diffusion Policy</a></li><li class="article-toc__level-3"><a href="#2.-diffusion-policy-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3">2. Diffusion Policy 的核心思想</a></li><li class="article-toc__level-3"><a href="#3.-diffusion-policy-%E7%9A%84%E6%84%8F%E4%B9%89">3. Diffusion Policy 的意义</a></li><li class="article-toc__level-3"><a href="#4.-%E4%BB%8E-diffusion-%E5%88%B0-flow-matching">4. 从 Diffusion 到 Flow Matching</a></li><li class="article-toc__level-3"><a href="#5.-%E7%9B%B8%E5%85%B3%E6%89%A9%E5%B1%95%E6%96%B9%E5%90%91">5. 相关扩展方向</a></li><li class="article-toc__level-2"><a href="#%E4%BA%94%E3%80%81vla-%E5%85%A8%E9%9D%A2%E7%88%86%E5%8F%91%EF%BC%9A%E4%BB%8E%E9%97%AD%E6%BA%90%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%B0%E5%BC%80%E6%BA%90%E6%B6%88%E8%B4%B9%E7%BA%A7">五、VLA 全面爆发：从闭源大模型到开源消费级</a></li><li class="article-toc__level-3"><a href="#smolvla-%E5%92%8C-%CF%800-%E7%9A%84%E6%84%8F%E4%B9%89">SmolVLA 和 π0 的意义</a></li><li class="article-toc__level-2"><a href="#%E5%85%AD%E3%80%81%CF%80-%E7%B3%BB%E5%88%97%E5%AE%8C%E6%95%B4%E6%BC%94%E8%BF%9B%EF%BC%9A%E5%BF%AB%E9%80%9F%E8%BF%AD%E4%BB%A3%E7%9A%84%E8%8C%83%E6%9C%AC">六、π 系列完整演进：快速迭代的范本</a></li><li class="article-toc__level-3"><a href="#1.-%CF%800%EF%BC%9A%E7%BB%9F%E4%B8%80%E5%A4%A7%E8%84%91%E4%B8%8E%E5%B0%8F%E8%84%91">1. π0：统一大脑与小脑</a></li><li class="article-toc__level-3"><a href="#2.-%E4%B8%BA%E4%BB%80%E4%B9%88-%CF%800-%E5%BE%88%E9%87%8D%E8%A6%81">2. 为什么 π0 很重要</a></li><li class="article-toc__level-3"><a href="#3.-%CF%80-%E7%B3%BB%E5%88%97%E5%90%8E%E7%BB%AD%E6%BC%94%E8%BF%9B%E7%9A%84%E9%80%BB%E8%BE%91">3. π 系列后续演进的逻辑</a></li><li class="article-toc__level-2"><a href="#%E4%B8%83%E3%80%81%CF%80*0.6-%2B-recap%EF%BC%9Arl-is-back">七、π*0.6 + RECAP：RL is Back</a></li><li class="article-toc__level-3"><a href="#1.-%E4%B8%BA%E4%BB%80%E4%B9%88-vla-%E8%BF%98%E9%9C%80%E8%A6%81-rl">1. 为什么 VLA 还需要 RL</a></li><li class="article-toc__level-3"><a href="#2.-recap-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3">2. RECAP 的核心思想</a></li><li class="article-toc__level-3"><a href="#3.-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B8%80%E7%82%B9%E5%BE%88%E9%87%8D%E8%A6%81">3. 为什么这一点很重要</a></li><li class="article-toc__level-3"><a href="#4.-%E8%BF%99%E4%B8%80%E9%A1%B5%E7%9C%9F%E6%AD%A3%E6%83%B3%E8%A1%A8%E8%BE%BE%E4%BB%80%E4%B9%88">4. 这一页真正想表达什么</a></li><li class="article-toc__level-2"><a href="#%E5%85%AB%E3%80%81%E5%BC%80%E6%BA%90-vla-%E6%80%8E%E4%B9%88%E9%80%89%EF%BC%9A%CF%800-vs-gr00t-n1">八、开源 VLA 怎么选：π0 vs GR00T N1</a></li><li class="article-toc__level-3"><a href="#1.-%CF%800-%E8%B7%AF%E7%BA%BF%E7%9A%84%E7%89%B9%E7%82%B9">1. π0 路线的特点</a></li><li class="article-toc__level-3"><a href="#2.-gr00t-n1-%E8%B7%AF%E7%BA%BF%E7%9A%84%E7%89%B9%E7%82%B9">2. GR00T N1 路线的特点</a></li><li class="article-toc__level-3"><a href="#3.-%E8%BF%99%E4%B8%80%E9%A1%B5%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%84%8F%E6%80%9D">3. 这一页真正的意思</a></li><li class="article-toc__level-2"><a href="#%E4%B9%9D%E3%80%81world-model%EF%BC%9A%E5%85%88%E5%9C%A8%E8%84%91%E5%AD%90%E9%87%8C%E6%A8%A1%E6%8B%9F%EF%BC%8C%E5%86%8D%E5%8A%A8%E6%89%8B">九、World Model：先在脑子里模拟，再动手</a></li><li class="article-toc__level-3"><a href="#1.-%E4%B8%BA%E4%BB%80%E4%B9%88-vla-%E8%BF%98%E4%B8%8D%E5%A4%9F">1. 为什么 VLA 还不够</a></li><li class="article-toc__level-3"><a href="#2.-world-model-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3">2. World Model 的核心思想</a></li><li class="article-toc__level-3"><a href="#3.-%E8%BF%99%E4%B8%80%E6%96%B9%E5%90%91%E7%9A%84%E6%84%8F%E4%B9%89">3. 这一方向的意义</a></li><li class="article-toc__level-3"><a href="#4.-%E4%BB%A3%E8%A1%A8%E6%80%A7%E6%96%B9%E5%90%91">4. 代表性方向</a></li><li class="article-toc__level-2"><a href="#%E5%8D%81%E3%80%81%E6%96%B0%E6%89%8B%E8%B7%AF%E5%BE%84">十、新手路径</a></li><li class="article-toc__level-2"><a href="#%E5%8D%81%E4%B8%80%E3%80%81%E6%9C%AA%E6%9D%A5%E5%B1%95%E6%9C%9B%EF%BC%9A%E8%BF%99%E4%B8%AA%E9%A2%86%E5%9F%9F%E6%8E%A5%E4%B8%8B%E6%9D%A5%E5%BE%80%E5%93%AA%E8%B5%B0">十一、未来展望：这个领域接下来往哪走</a></li><li class="article-toc__level-3"><a href="#1.-vla-%2B-rl">1. VLA + RL</a></li><li class="article-toc__level-3"><a href="#2.-%E6%95%B0%E6%8D%AE%E9%A3%9E%E8%BD%AE">2. 数据飞轮</a></li><li class="article-toc__level-3"><a href="#3.-vla-%2B-world-model">3. VLA + World Model</a></li><li class="article-toc__level-3"><a href="#4.-%E5%BC%80%E6%BA%90%E7%94%9F%E6%80%81%E5%8A%A0%E9%80%9F">4. 开源生态加速</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="%E4%B8%80%E3%80%81%E6%8A%80%E6%9C%AF%E4%B8%83%E4%BB%A3%E8%8C%83%E5%BC%8F%E6%BC%94%E8%BF%9B" tabindex="-1">一、技术七代范式演进</h2>
+<p><img src="/2026/04/10/具身智能Manipulation/具身智能Manipulation.assets/image-2026_04_10_22.png" alt="" loading="lazy" decoding="async">
+<strong>机器人操作（Manipulation）技术的发展不是某一代完全推翻前一代，而是在前面能力的基础上不断叠加和扩展。</strong></p>
+<p>Manipulation 技术的七代演进逻辑：</p>
+<ol>
+<li><strong>传统抓取</strong>：解决“能不能抓”</li>
+<li><strong>GraspNet / CNN</strong>：解决“能不能从数据中<strong>学</strong>会抓”</li>
+<li><strong>SayCan / RT</strong>：解决“能不能<strong>听懂任务</strong>并调度技能”</li>
+<li><strong>ACT</strong>：解决“长时序动作如何<strong>减少误差累积</strong>”</li>
+<li><strong>Diffusion Policy</strong>：解决“<strong>多种合理动作</strong>如何生成”</li>
+<li><strong>VLA + Flow</strong>：解决“视觉、语言、动作如何统一建模”</li>
+<li><strong>World Model</strong>：解决“机器人如何先预测后行动”</li>
+</ol>
+<p><strong>从单步抓取 → 多任务控制 → 语言条件任务 → 稳定动作生成 → 通用视觉语言动作策略 → 具备预测和规划能力的智能体。</strong></p>
+<h3 id="1.-%E4%BC%A0%E7%BB%9F%E6%8A%93%E5%8F%96%EF%BC%9A%E5%87%A0%E4%BD%95%E8%A7%84%E5%88%99%E9%98%B6%E6%AE%B5%EF%BC%88~2016%EF%BC%89" tabindex="-1">1. 传统抓取：几何规则阶段（~2016）</h3>
+<p>这一阶段的核心任务是解决“机器人怎么抓住物体”。</p>
+<p>主要方法依赖：</p>
+<ul>
+<li>几何分析</li>
+<li>深度图/点云</li>
+<li>抓取姿态规划</li>
+<li>人工设计规则</li>
+</ul>
+<p>其特点是：</p>
+<ul>
+<li>可解释性强</li>
+<li>针对单步抓取效果较好</li>
+<li>更像局部技能，而不是完整任务策略</li>
+</ul>
+<p>局限在于：</p>
+<ul>
+<li>很难处理复杂长时序任务</li>
+<li>泛化能力弱</li>
+<li>不能理解语言和高层任务目标</li>
+</ul>
+<p>所以这一阶段解决的是最基础的“能抓”，但离“会做事”还很远。</p>
+<hr>
+<h3 id="2.-graspnet-%2F-cnn-%E9%A2%84%E6%B5%8B%E9%98%B6%E6%AE%B5%EF%BC%882017-%EF%BC%89" tabindex="-1">2. GraspNet / CNN 预测阶段（2017-）</h3>
+<p>这一阶段开始把<strong>深度学习</strong>引入抓取任务。</p>
+<p>核心变化是：</p>
+<ul>
+<li>不再完全依赖手工几何规则</li>
+<li>开始用 CNN 直接预测抓取点、抓取姿态或抓取质量</li>
+</ul>
+<p>相较于传统几何方法，这一阶段的提升在于：</p>
+<ul>
+<li>对复杂视觉场景的适应能力更强</li>
+<li>能从数据中学习抓取模式</li>
+<li>提高了抓取检测和泛化能力</li>
+</ul>
+<p>但它本质上还是在解决“抓哪里、怎么抓”的问题，<br>
+还没有真正进入“多步骤任务执行”和“通用机器人智能”的阶段。</p>
+<hr>
+<h3 id="3.-saycan-%2F-rt%EF%BC%9Allm-%2B-robot-%E9%98%B6%E6%AE%B5%EF%BC%882022-2023%EF%BC%89" tabindex="-1">3. SayCan / RT：LLM + Robot 阶段（2022-2023）</h3>
+<p>这一阶段的重要变化是：<br>
+<strong>机器人开始接入语言模型，能够理解任务指令。</strong></p>
+<p>代表性思路：</p>
+<ul>
+<li>用<strong>大语言模型</strong>做高层规划</li>
+<li>用机器人已有技能做低层执行</li>
+</ul>
+<p>这意味着机器人不再只是“看见物体去抓”，<br>
+而是开始能处理类似：</p>
+<ul>
+<li>“帮我拿一瓶水”</li>
+<li>“把桌子上的垃圾丢掉”</li>
+</ul>
+<p>这样的自然语言任务。</p>
+<p>这一代的意义在于：</p>
+<ul>
+<li><strong>第一次真正把“语言”和“机器人动作”连接起来</strong></li>
+<li>让机器人从“执行固定技能”走向“根据任务调度技能”</li>
+</ul>
+<p>但问题是：</p>
+<ul>
+<li><strong>高层规划和低层执行仍然是分开的</strong></li>
+<li>技能接口依赖人工设计</li>
+<li>任务链条一长，误差和不稳定性就会增加</li>
+</ul>
+<hr>
+<h3 id="4.-act%EF%BC%9A%E5%8A%A8%E4%BD%9C%E5%88%86%E5%9D%97%E9%98%B6%E6%AE%B5%EF%BC%882023%EF%BC%89" tabindex="-1">4. ACT：动作分块阶段（2023）</h3>
+<p>ACT 的核心思想是：<br>
+<strong>不要一帧一帧预测动作，而是一次预测一整段动作。</strong></p>
+<p>为什么会提出这个方法？<br>
+因为逐帧控制有一个严重问题：<br>
+前一帧错一点，后一帧继续接着错，误差会不断累积，导致长任务越来越不稳定。</p>
+<p>ACT 的解决方法是：</p>
+<ul>
+<li>把连续动作按 chunk 分块</li>
+<li>每次输出未来一小段动作序列</li>
+<li>提高长时序任务的稳定性</li>
+</ul>
+<p>它的重要意义在于：</p>
+<ul>
+<li>显著缓解累积误差问题</li>
+<li>特别适合双臂操作和精细任务</li>
+<li>成为后续很多方法的基础思想</li>
+</ul>
+<p>可以说，ACT 解决的是：
+<strong>机器人在长任务中“动作怎么稳定输出”的问题。</strong></p>
+<hr>
+<h3 id="5.-diffusion-policy%EF%BC%9A%E5%A4%9A%E6%A8%A1%E6%80%81%E5%8A%A8%E4%BD%9C%E5%88%86%E5%B8%83%E9%98%B6%E6%AE%B5%EF%BC%882023%EF%BC%89" tabindex="-1">5. Diffusion Policy：多模态动作分布阶段（2023）</h3>
+<p>这一阶段开始引入扩散模型来生成动作。</p>
+<p>它出现的原因是：<br>
+很多机器人任务不是只有唯一正确动作，而是存在<strong>多种合理路径</strong>。<br>
+例如抓一个杯子，可以从左边抓，也可以从右边抓。</p>
+<p>传统回归模型容易把这些不同解“平均”掉，结果就变成一个不合理的中间动作。<br>
+扩散模型则不同，它把动作生成看成“从噪声逐步去噪”的过程，因此更适合处理多模态动作分布。</p>
+<p>这一代的突破在于：</p>
+<ul>
+<li>能表示多个可能的合理动作轨迹</li>
+<li>对复杂接触任务更稳定</li>
+<li>显著提升操作任务表现</li>
+</ul>
+<p>所以 Diffusion Policy 解决的是：
+<strong>机器人动作不是单一答案时，该怎么生成合理动作。</strong></p>
+<hr>
+<h3 id="6.-vla-%2B-flow%EF%BC%9A%E8%A7%86%E8%A7%89%E8%AF%AD%E8%A8%80%E5%88%B0%E5%8A%A8%E4%BD%9C%E7%BB%9F%E4%B8%80%E9%98%B6%E6%AE%B5%EF%BC%882024-2025%EF%BC%89" tabindex="-1">6. VLA + Flow：视觉语言到动作统一阶段（2024-2025）</h3>
+<p>这一阶段的核心是 <strong>VLA（Vision-Language-Action）</strong>。</p>
+<p>也就是说，把：</p>
+<ul>
+<li>视觉输入</li>
+<li>语言指令</li>
+<li>动作输出</li>
+</ul>
+<p>放进同一个统一模型中。</p>
+<p>相比前面的路线，这一代不再是：</p>
+<ul>
+<li>语言模型负责规划</li>
+<li>单独控制器负责动作</li>
+</ul>
+<p>而是尝试直接学习：
+$$
+(\text{vision}, \text{language}) \rightarrow \text{action}
+$$</p>
+<p>这样做的意义是：</p>
+<ul>
+<li>模型结构更统一</li>
+<li>更容易形成跨任务、跨场景的泛化能力</li>
+<li>更接近真正的通用机器人策略</li>
+</ul>
+<p>其中 Flow Matching 可以看成 Diffusion 的进一步升级：</p>
+<ul>
+<li>推理更快</li>
+<li>轨迹生成更高效</li>
+<li>更适合高频控制</li>
+</ul>
+<p>因此这一阶段解决的是：
+<strong>如何把感知、语言理解和动作生成统一到一个端到端框架中。</strong></p>
+<hr>
+<h3 id="7.-world-model%EF%BC%9A%E6%83%B3%E8%B1%A1%E5%88%B0%E8%A1%8C%E5%8A%A8%E9%98%B6%E6%AE%B5%EF%BC%882025-%EF%BC%89" tabindex="-1">7. World Model：想象到行动阶段（2025-）</h3>
+<p>这一阶段比 VLA 更进一步。</p>
+<p>VLA 更像“看到就做”，是一种偏反射式的策略；<br>
+World Model 则强调：<br>
+<strong>机器人先在内部预测未来后果，再决定怎么行动。</strong></p>
+<p>也就是：</p>
+<ul>
+<li>先“想象”动作可能带来的结果</li>
+<li>再选择更优动作</li>
+<li>形成更强的规划和长期决策能力</li>
+</ul>
+<p>它的重要意义在于：</p>
+<ul>
+<li>不再只依赖当前观测直接反应</li>
+<li>开始具有“预测未来”的能力</li>
+<li>更适合复杂长任务、稀疏奖励任务和开放环境</li>
+</ul>
+<p>可以理解为，World Model 解决的是：
+<strong>机器人不仅要会动，还要会在动之前先想一想。</strong></p>
+<hr>
+<h2 id="%E4%BA%8C%E3%80%81%E8%B0%B7%E6%AD%8C%2Fdeepmind-%E7%9A%84%E4%B8%80%E9%83%A8%E5%88%86%E8%BF%87%E6%B8%A1%E6%80%A7%E5%B7%A5%E4%BD%9C(2022-2023)" tabindex="-1">二、谷歌/DeepMind 的一部分过渡性工作(2022-2023)</h2>
+<p><img src="/2026/04/10/具身智能Manipulation/具身智能Manipulation.assets/image-2026_04_10_22_1.png" alt="" loading="lazy" decoding="async"></p>
+<p><strong>Google / DeepMind 在 2022 到 2023 年间，通过一系列连续工作，把机器人操作从“语言调技能”逐步推进到了“视觉-语言-动作统一建模”的 VLA 范式。</strong><br>
+因此，这一页不是单独介绍几个模型，而是在展示一条非常清晰的技术演进路线：<br>
+<strong><a href="https://say-can.github.io/?utm_source=chatgpt.com" target="_blank" rel="noreferrer noopener">SayCan</a> → RT-1 → RT-2 → Open X-Embodiment。</strong></p>
+<ol>
+<li><strong>SayCan</strong>：解决“语言任务如何映射到机器人可执行技能”</li>
+<li><strong>RT-1</strong>：解决“机器人能不能直接学到统一的多任务控制策略”</li>
+<li><strong>RT-2</strong>：解决“视觉、语言、动作能不能统一到一个生成模型中”</li>
+<li><strong>Open X-Embodiment</strong>：解决“通用机器人模型所需的大规模跨平台数据从哪里来”</li>
+</ol>
+<p><strong>谷歌系工作一方面推动了机器人从“语言调技能”走向“VLA 范式”，另一方面也推动了通用机器人大模型所需的数据基础设施建设。</strong></p>
+<p><strong>SayCan 让机器人开始理解语言任务，RT-1 让机器人开始学统一策略，RT-2 让视觉-语言-动作真正合流，而 Open X-Embodiment 则为通用机器人策略提供了跨平台大规模数据底座。</strong></p>
+<hr>
+<h3 id="1.-saycan%EF%BC%9A%E8%AF%AD%E8%A8%80%E8%A7%84%E5%88%92-%2B-%E6%8A%80%E8%83%BD%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5%EF%BC%882022%EF%BC%89" tabindex="-1">1. SayCan：语言规划 + 技能执行阶段（2022）</h3>
+<p>SayCan 可以看成是这条路线的起点。</p>
+<p>它的核心思想不是让大模型直接输出机械臂底层动作，<br>
+而是把机器人系统拆成两层：
+==（zjx——Ps：貌似就是选择已经存在的技能）==</p>
+<ul>
+<li>上层：大语言模型负责理解任务，并选择“下一步应该做什么”</li>
+<li>下层：机器人已有技能系统负责判断“这个动作能不能做成”</li>
+</ul>
+<p>因此，SayCan 的本质是：
+<strong>把“应该做什么”和“能不能做到”结合起来进行决策。</strong></p>
+<p>例如，面对“帮我拿点喝的”这种指令时，<br>
+系统不会直接生成控制量，而是先在高层规划步骤，再从已有技能中==选择==当前最合适、最可执行的那个技能。</p>
+<p>这一代的重要意义在于：</p>
+<ul>
+<li>第一次比较完整地打通了“自然语言任务 → 机器人执行”这条链路</li>
+<li>让机器人开始具备基于语言指令调度技能的能力</li>
+<li>开启了 LLM + Robot 的研究范式</li>
+</ul>
+<p>但它的局限也很明显：</p>
+<ul>
+<li>高层规划和低层执行仍然是分开的</li>
+<li>依赖人工设计好的技能库</li>
+<li>不是端到端动作生成</li>
+<li>泛化能力仍然受限于已有技能集合</li>
+</ul>
+<p>所以 SayCan 解决的是：
+<strong>机器人如何理解语言任务，并从已有技能中选出合适的一步。</strong></p>
+<hr>
+<h3 id="2.-rt-1%EF%BC%9A%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%9C%BA%E5%99%A8%E4%BA%BA-transformer-%E9%98%B6%E6%AE%B5%EF%BC%882022.12%EF%BC%89" tabindex="-1">2. RT-1：大规模机器人 Transformer 阶段（2022.12）</h3>
+<p>RT-1 比 SayCan 更进一步。</p>
+<p>它不再只是在高层“选技能”，<br>
+<strong>而是尝试直接用一个统一的 Transformer 模型来学习：</strong></p>
+<ul>
+<li>图像输入</li>
+<li>语言指令</li>
+<li>动作输出</li>
+</ul>
+<p>RT-1 的意义在于：</p>
+<ul>
+<li>它把机器人控制看成一个可以通过大规模数据训练的序列建模问题</li>
+<li>证明了多任务、多场景、多机器人数据可以显著提升泛化能力</li>
+<li>让机器人策略开始向“大模型化”方向发展</li>
+</ul>
+<p>PPT 中提到 RT-1 使用了：</p>
+<ul>
+<li>13 台机器人</li>
+<li>130k demo</li>
+<li>700+ 任务</li>
+</ul>
+<p>这些数字体现出的重点不是规模本身，而是一个关键结论：</p>
+<blockquote>
+<p><strong>机器人控制也可以像视觉、语言任务一样，通过大规模数据驱动训练出统一策略。</strong> :contentReference[oaicite:2]{index=2} (<a href="https://robotics-transformer1.github.io/?utm_source=chatgpt.com" target="_blank" rel="noreferrer noopener">robotics-transformer1.github.io</a>)</p>
+</blockquote>
+<p>这一代解决的是：
+<strong>机器人能不能不再依赖手工技能拼接，而是直接学会多任务控制策略。</strong></p>
+<p>但它仍然不是完整 VLA，<br>
+因为它更偏向“视觉 + 任务条件 → 动作”，语言推理和语义泛化能力还有限。</p>
+<hr>
+<h3 id="3.-rt-2%EF%BC%9Avla-%E9%9B%8F%E5%BD%A2%E6%AD%A3%E5%BC%8F%E5%87%BA%E7%8E%B0%EF%BC%882023.7%EF%BC%89" tabindex="-1">3. RT-2：VLA 雏形正式出现（2023.7）</h3>
+<p>RT-2 是这一页最关键的里程碑。</p>
+<p>它最重要的创新是：<br>
+<strong>把动作表示成 ==token==，让视觉语言模型像生成文本一样生成动作。</strong></p>
+<p>也就是说，在 RT-2 中：</p>
+<ul>
+<li>视觉输入可以编码进模型</li>
+<li>语言输入可以编码进模型</li>
+<li>动作输出也被离散化为 token 序列</li>
+</ul>
+<p>这样一来，模型的形式就变成了真正统一的：</p>
+<p>$$
+(\text{vision}, \text{language}) \rightarrow \text{action tokens}
+$$</p>
+<p>这就是为什么 RT-2 常被认为是早期 VLA 的代表作。</p>
+<p>这就是为什么 RT-2 常被视为早期 VLA 的代表性工作。<br>
+PPT 中给出的动作编码示例：</p>
+<p><code>&quot;1 128 91 241 5 101 127 217&quot;</code></p>
+<p>本质上就是在说明：<br>
+<strong>机器人动作第一次被纳入了类似语言生成的统一表示框架。</strong></p>
+<p>RT-2 的意义在于：</p>
+<ul>
+<li>第一次较清晰地把视觉、语言、动作放进同一生成模型</li>
+<li>让机器人可以借助 VLM 的语义能力来增强任务理解</li>
+<li>展现出一定的“涌现推理”能力，例如根据指令选择“可以当锤子的东西”</li>
+</ul>
+<p>因此，RT-2 解决的是：</p>
+<p><strong>如何把视觉理解、语言理解和动作生成统一到一个模型中。</strong></p>
+<p>不过它也有明显局限：</p>
+<ul>
+<li>模型大，部署成本高</li>
+<li>动作 token 化虽然统一了表示，但连续控制精度和实时性仍受限制</li>
+<li>开源和工程可复现性不足</li>
+</ul>
+<hr>
+<h3 id="4.-open-x-embodiment%EF%BC%9A%E8%B7%A8%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%95%B0%E6%8D%AE%E9%98%B6%E6%AE%B5%EF%BC%882023.10%EF%BC%89" tabindex="-1">4. Open X-Embodiment：跨机器人大规模数据阶段（2023.10）</h3>
+<p>如果说 RT-2 证明了 VLA 方向是可行的，<br>
+那么 Open X-Embodiment 解决的就是另一个关键问题：</p>
+<p><strong>通用机器人策略所需的大规模数据从哪里来？</strong></p>
+<p>机器人领域长期有一个很大的瓶颈：<br>
+每个实验室、每种机器人、每个任务的数据格式都不同，<br>
+导致数据很难共享，模型也很难像 NLP 和 CV 一样依赖超大规模统一数据集预训练。</p>
+<p>Open X-Embodiment 的核心贡献就是：</p>
+<ul>
+<li>把多个实验室的机器人数据整理为统一格式</li>
+<li>融合不同机器人 embodiment 的真实世界轨迹</li>
+<li>让不同平台的数据可以被同一个模型共同利用</li>
+<li>为通用机器人策略预训练提供数据基础</li>
+</ul>
+<p>公开资料显示，Open X-Embodiment 包含：</p>
+<ul>
+<li><strong>100 万+ 真实机器人轨迹</strong></li>
+<li><strong>22 种机器人 embodiment</strong></li>
+<li><strong>20 多家机构/21 个机构协作</strong></li>
+<li><strong>500+ 技能、15 万+ 任务规模</strong></li>
+</ul>
+<p>因此，它的重要性不在于“又提出了一个新结构”，<br>
+而在于它把机器人研究从：</p>
+<p><strong>单实验室、小数据、单平台闭环</strong></p>
+<p>推进到了：</p>
+<p><strong>跨平台、大规模、标准化数据驱动</strong></p>
+<p>这一代真正解决的是：</p>
+<p><strong>通用机器人模型所需的数据规模、多样性和标准化问题。</strong></p>
+<p>同时，Open X-Embodiment 不只是一个数据集概念，<br>
+它背后还对应了 RT-X 这类跨机器人策略研究，说明作者们不只是“收集数据”，而是在探索：</p>
+<blockquote>
+<p><strong>能否训练出真正跨 embodiment 的通用机器人策略。</strong></p>
+</blockquote>
+<p>所以它在这页里的作用非常关键：<br>
+SayCan、RT-1、RT-2 给出了“模型范式”，<br>
+而 Open X-Embodiment 给出了“把这种范式做大的数据基础设施”。</p>
+<hr>
+<h2 id="%E4%B8%89%E3%80%81act%EF%BC%9Aaction-chunking-%E6%B6%88%E7%81%AD%E7%B4%AF%E7%A7%AF%E8%AF%AF%E5%B7%AE" tabindex="-1">三、ACT：Action Chunking 消灭累积误差</h2>
+<p><img src="/2026/04/10/具身智能Manipulation/具身智能Manipulation.assets/image-2026_04_10_23.png" alt="" loading="lazy" decoding="async">
+这一页的核心观点是：<br>
+<strong>ACT 的提出，标志着机器人操作研究开始正面解决“长时序任务中的动作累积误差”问题。</strong><br>
+它的重要性不在于模型特别大，而在于它抓住了机器人控制中的一个关键痛点：<br>
+<strong>逐帧预测虽然直观，但误差会一步一步积累，最终导致长任务崩掉。</strong></p>
+<ol>
+<li><strong>逐帧预测</strong> 的主要问题是累积误差</li>
+<li><strong>ACT</strong> 通过动作分块，缓解了这一问题</li>
+<li><strong>ALOHA</strong> 让这条路线具备了低成本采数和真机验证能力</li>
+<li>因此，ACT 成为了后续很多操作策略方法的基础</li>
+</ol>
+<p>所以，这一页的核心可以概括为：</p>
+<p><strong>ACT 解决的不是“机器人会不会动”，而是“机器人在长任务中怎么更稳定地持续输出动作”。</strong></p>
+<hr>
+<h3 id="1.-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%8F%90%E5%87%BA-act" tabindex="-1">1. 为什么会提出 ACT</h3>
+<p>在很多早期的模仿学习或控制方法中，<br>
+模型通常每一时刻只预测当前一步动作。</p>
+<p>这种方式的问题在于：</p>
+<ul>
+<li>当前一步如果稍微错一点</li>
+<li>下一步又是在前一步错误基础上继续预测</li>
+<li>误差会沿时间不断传播和放大</li>
+</ul>
+<p>因此，在长时序、精细操作任务中，<br>
+逐帧预测很容易出现：</p>
+<ul>
+<li>动作越来越偏</li>
+<li>接触过程不稳定</li>
+<li>任务越长越容易失败</li>
+</ul>
+<p>所以 ACT 的提出，本质上是在解决：</p>
+<p><strong>机器人长任务中，动作为什么会越做越偏。</strong></p>
+<hr>
+<h3 id="2.-act-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3" tabindex="-1">2. ACT 的核心思想</h3>
+<p>ACT 的核心思想是：</p>
+<p><strong>不要一帧一帧预测动作，而是一次预测一整段动作。</strong></p>
+<p>也就是说，模型不是只输出当前时刻的一个动作，<br>
+而是输出未来一小段连续动作序列，也就是一个 action chunk。</p>
+<p>这样做的好处是：</p>
+<ul>
+<li>可以从更长时间范围上建模动作</li>
+<li>减少逐帧闭环带来的误差累积</li>
+<li>让动作生成更加平滑和稳定</li>
+</ul>
+<p>因此，ACT 不只是“改了一种输出形式”，<br>
+而是在动作时间结构上做了重要改变。</p>
+<hr>
+<h3 id="3.-act-%E7%9A%84%E6%84%8F%E4%B9%89" tabindex="-1">3. ACT 的意义</h3>
+<p>ACT 的重要意义在于：</p>
+<ul>
+<li>它显著缓解了长时序任务中的累积误差问题</li>
+<li>特别适合双臂协作、精细操作和连续接触任务</li>
+<li>让机器人在较少示教数据下也能取得较高成功率</li>
+<li>成为后续很多操作策略方法的基础思想</li>
+</ul>
+<p>PPT 中提到：</p>
+<ul>
+<li>10 分钟示教即可达到较高成功率</li>
+<li>ALOHA 全开源双臂系统推动了这一方向快速传播</li>
+</ul>
+<p>这说明 ACT 的影响力不仅来自论文本身，<br>
+还来自它与低成本数据采集系统结合后，真正提升了具身智能实验的可复现性。:contentReference[oaicite:2]{index=2}</p>
+<hr>
+<h3 id="4.-aloha-%E4%B8%8E-act-%E7%9A%84%E5%85%B3%E7%B3%BB" tabindex="-1">4. ALOHA 与 ACT 的关系</h3>
+<p>ALOHA 是 ACT 这条路线的重要承载平台。</p>
+<p>它的价值在于：</p>
+<ul>
+<li>提供了低成本、可复现的双臂遥操作系统</li>
+<li>支持快速采集示教数据</li>
+<li>让 ACT 这类方法不再只是论文方法，而是可以直接在真实系统中验证</li>
+</ul>
+<p>后续像：</p>
+<ul>
+<li>ALOHA Unleashed</li>
+<li>Mobile ALOHA</li>
+</ul>
+<p>都说明这条路线已经从“实验室验证”走向“更复杂真实任务”的扩展。</p>
+<p>因此，ACT 的影响并不是孤立的模型创新，<br>
+而是和“可采集数据、可做真机实验、可复现”的系统路线绑在一起的。:contentReference[oaicite:3]{index=3}</p>
+<hr>
+<h2 id="%E5%9B%9B%E3%80%81diffusion-policy%EF%BC%9A%E6%89%A9%E6%95%A3%E6%A8%A1%E5%9E%8B%E6%94%B9%E5%8F%98%E4%BA%86%E4%B8%80%E5%88%87" tabindex="-1">四、Diffusion Policy：扩散模型改变了一切</h2>
+<p>这一页的核心观点是：<br>
+<strong>Diffusion Policy 的意义在于，它把机器人动作生成从“单点回归”推进到了“多模态分布建模”。</strong><br>
+这使得机器人在面对存在多种合理解的任务时，不再被迫预测一个折中的错误动作，而是能够生成一条合理的动作路径。</p>
+<ol>
+<li>机器人动作往往是多模态的，不存在唯一正确解</li>
+<li>普通回归容易把多种解平均掉，导致无效动作</li>
+<li>Diffusion Policy 用生成式建模更好地表示合理动作分布</li>
+<li>这条路线后续又进一步演化到 Flow Matching 等更高效方法</li>
+</ol>
+<p>所以，这一页的核心可以概括为：</p>
+<p><strong>Diffusion Policy 让机器人动作建模从“单点预测”进入了“多模态生成”阶段。</strong></p>
+<hr>
+<h3 id="1.-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%87%BA%E7%8E%B0-diffusion-policy" tabindex="-1">1. 为什么会出现 Diffusion Policy</h3>
+<p>在很多机器人任务中，<br>
+同一个目标往往不止一种正确动作路径。</p>
+<p>例如抓一个物体：</p>
+<ul>
+<li>可以从左边接近</li>
+<li>也可以从右边接近</li>
+<li>可以先抬高再伸过去</li>
+<li>也可以先平移再下压</li>
+</ul>
+<p>也就是说，动作分布往往是多模态的。</p>
+<p>如果用普通回归模型去学这些动作，<br>
+模型很容易把这些不同解“平均”起来，<br>
+最后输出一个不合理的中间动作。</p>
+<p>因此，Diffusion Policy 的提出，本质上是在解决：</p>
+<p><strong>当一个任务存在多种合理动作时，模型该如何表示这种多样性。</strong></p>
+<hr>
+<h3 id="2.-diffusion-policy-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3" tabindex="-1">2. Diffusion Policy 的核心思想</h3>
+<p>Diffusion Policy 的基本思路是：</p>
+<p><strong>把动作生成看成一个从噪声逐步去噪的过程。</strong></p>
+<p>它不是直接回归出一个确定动作，<br>
+而是逐步生成一条合理动作轨迹。</p>
+<p>这样做的好处是：</p>
+<ul>
+<li>更适合建模复杂、多模态的动作分布</li>
+<li>可以生成多种不同但合理的动作路径</li>
+<li>更适合复杂接触、精细操作和长时序任务</li>
+</ul>
+<p>因此，Diffusion Policy 的核心不是“用了扩散模型”这么简单，<br>
+而是它改变了机器人动作建模的思维方式：</p>
+<p><strong>动作不是一个唯一答案，而是一个条件分布。</strong></p>
+<hr>
+<h3 id="3.-diffusion-policy-%E7%9A%84%E6%84%8F%E4%B9%89" tabindex="-1">3. Diffusion Policy 的意义</h3>
+<p>PPT 中提到：</p>
+<ul>
+<li>其在多个任务上平均超越此前 SOTA 46.9%</li>
+<li>在机器人领域，这是极大的性能跃迁</li>
+</ul>
+<p>这说明扩散模型在机器人中的价值非常明显：</p>
+<ul>
+<li>它更能适应真实任务中的多解性</li>
+<li>对接触过程和动作细节更鲁棒</li>
+<li>在复杂操作任务上比简单回归更有优势</li>
+</ul>
+<p>因此，这一代的核心突破在于：</p>
+<p><strong>机器人动作生成不再只是预测“一个点”，而是建模“一类合理轨迹”。</strong></p>
+<hr>
+<h3 id="4.-%E4%BB%8E-diffusion-%E5%88%B0-flow-matching" tabindex="-1">4. 从 Diffusion 到 Flow Matching</h3>
+<p>PPT 中还提到：</p>
+<p><strong>Flow Matching 可以看作 Diffusion 的升级版。</strong></p>
+<p>这意味着：</p>
+<ul>
+<li>Diffusion 路线证明了“生成式动作建模”是有效的</li>
+<li>后续工作则开始继续追求更高效的推理和更快的动作生成</li>
+</ul>
+<p>因此，Diffusion Policy 的意义不仅在于它本身效果好，<br>
+还在于它为后续的：</p>
+<ul>
+<li>Flow Matching</li>
+<li>更高频控制</li>
+<li>更轻量生成式动作模型</li>
+</ul>
+<p>铺平了道路。</p>
+<hr>
+<h3 id="5.-%E7%9B%B8%E5%85%B3%E6%89%A9%E5%B1%95%E6%96%B9%E5%90%91" tabindex="-1">5. 相关扩展方向</h3>
+<p>PPT 中提到的相关方向包括：</p>
+<ul>
+<li><strong>UMI</strong>：通用操作接口</li>
+<li><strong>RDT-1B</strong>：更大规模的机器人基础模型</li>
+<li><strong>DP3</strong>：面向 3D 点云的扩展版本</li>
+</ul>
+<p>这些工作共同说明：</p>
+<p><strong>Diffusion 不再只是一个单独技巧，而是在逐渐成为机器人操作策略建模的重要范式。</strong></p>
+<hr>
+<h2 id="%E4%BA%94%E3%80%81vla-%E5%85%A8%E9%9D%A2%E7%88%86%E5%8F%91%EF%BC%9A%E4%BB%8E%E9%97%AD%E6%BA%90%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%88%B0%E5%BC%80%E6%BA%90%E6%B6%88%E8%B4%B9%E7%BA%A7" tabindex="-1">五、VLA 全面爆发：从闭源大模型到开源消费级</h2>
+<p><img src="/2026/04/10/具身智能Manipulation/具身智能Manipulation.assets/image-2026_04_10_23_3.png" alt="" loading="lazy" decoding="async">
+PPT 中列出了几个代表性方向：</p>
+<ul>
+<li><strong>RT-2</strong>：第一个广为人知的 VLA 代表</li>
+<li><strong>OpenVLA</strong>：首个影响力很大的开源 VLA</li>
+<li><strong>Octo</strong>：全开源通用策略</li>
+<li><strong>HPT</strong>：异构预训练路线</li>
+<li><strong>SmolVLA</strong>：更轻量、消费级可训练</li>
+<li><strong>π0</strong>：VLM + Flow Matching 路线</li>
+</ul>
+<h3 id="smolvla-%E5%92%8C-%CF%800-%E7%9A%84%E6%84%8F%E4%B9%89" tabindex="-1">SmolVLA 和 π0 的意义</h3>
+<p>PPT 特别强调了：</p>
+<ul>
+<li><strong>SmolVLA</strong>：消费级 GPU 可训练</li>
+<li><strong>π0</strong>：VLM + Flow Matching，50Hz 控制，openpi 开源</li>
+</ul>
+<p>这两条线非常有代表性：</p>
+<p>SmolVLA 说明：</p>
+<blockquote>
+<p>VLA 不一定非要超大参数才能有研究价值。</p>
+</blockquote>
+<p>π0 说明：</p>
+<blockquote>
+<p>VLA 不仅要会理解，还要能高频、连续、稳定地产生动作。</p>
+</blockquote>
+<p>因此，这一阶段不只是“把模型做小”，<br>
+而是在同时追求：</p>
+<ul>
+<li>通用性</li>
+<li>可训练性</li>
+<li>可微调性</li>
+<li>实时性</li>
+<li>开源可复现性</li>
+</ul>
+<hr>
+<h2 id="%E5%85%AD%E3%80%81%CF%80-%E7%B3%BB%E5%88%97%E5%AE%8C%E6%95%B4%E6%BC%94%E8%BF%9B%EF%BC%9A%E5%BF%AB%E9%80%9F%E8%BF%AD%E4%BB%A3%E7%9A%84%E8%8C%83%E6%9C%AC" tabindex="-1">六、π 系列完整演进：快速迭代的范本</h2>
+<p><img src="/2026/04/10/具身智能Manipulation/具身智能Manipulation.assets/image-2026_04_10_23_4.png" alt="" loading="lazy" decoding="async">
+这一页的核心观点是：<br>
+<strong>π 系列展示了具身智能领域一种非常典型的发展模式：先用一个强有力的基础架构打开局面，再通过快速迭代不断补足速度、泛化、异构数据利用和持续学习能力。</strong></p>
+<hr>
+<h3 id="1.-%CF%800%EF%BC%9A%E7%BB%9F%E4%B8%80%E5%A4%A7%E8%84%91%E4%B8%8E%E5%B0%8F%E8%84%91" tabindex="-1">1. π0：统一大脑与小脑</h3>
+<p>PPT 中把 π0 概括为：</p>
+<ul>
+<li>「大脑」PaliGemma VLM（3B）</li>
+<li>「小脑」Flow Matching Action Expert（300M）</li>
+</ul>
+<p>这个比喻很直观。</p>
+<p>它的含义是：</p>
+<ul>
+<li>大脑负责理解视觉和语言任务</li>
+<li>小脑负责高频、连续地输出动作</li>
+</ul>
+<p>这种设计说明 π0 并不是让一个大模型直接包办一切，<br>
+而是把“理解”和“控制”分工处理。</p>
+<p>其核心意义在于：</p>
+<ul>
+<li>保留大模型的语义理解能力</li>
+<li>同时兼顾机器人控制对实时性和精细动作的要求</li>
+</ul>
+<hr>
+<h3 id="2.-%E4%B8%BA%E4%BB%80%E4%B9%88-%CF%800-%E5%BE%88%E9%87%8D%E8%A6%81" tabindex="-1">2. 为什么 π0 很重要</h3>
+<p>π0 的重要性在于，它尝试同时解决两个问题：</p>
+<p>第一，如何利用 VLM 的强语义能力；<br>
+第二，如何让机器人动作生成足够快、足够稳定。</p>
+<p>PPT 中强调：</p>
+<ul>
+<li>VLM + Flow Matching</li>
+<li>50Hz 动作输出</li>
+<li>openpi 开源</li>
+</ul>
+<p>这说明 π0 的目标不是只做一个“会说会看”的模型，<br>
+而是一个真正能用于高频控制的 VLA 系统。</p>
+<hr>
+<h3 id="3.-%CF%80-%E7%B3%BB%E5%88%97%E5%90%8E%E7%BB%AD%E6%BC%94%E8%BF%9B%E7%9A%84%E9%80%BB%E8%BE%91" tabindex="-1">3. π 系列后续演进的逻辑</h3>
+<p>PPT 给出的后续演进包括：</p>
+<ul>
+<li><strong>π0-FAST</strong>：强调训练速度提升</li>
+<li><strong>π0.5</strong>：强调异构数据联合训练与未见环境泛化</li>
+<li><strong>π0.6</strong>：进一步升级骨干网络与系统能力</li>
+<li><strong>π*0.6</strong>：通过 RECAP 把 RL 引入 VLA</li>
+</ul>
+<p>从这条线可以看出，π 系列不是单一模型，<br>
+而是一条持续补能力的路线。</p>
+<p>它的迭代逻辑大致是：</p>
+<ol>
+<li>先把 VLA 跑通</li>
+<li>再提升训练和推理效率</li>
+<li>再增强跨任务、跨环境泛化</li>
+<li>最后引入持续学习和 RL 提升能力上限</li>
+</ol>
+<p>因此，π 系列的价值不只是某一版模型效果好，<br>
+而在于它展示了：</p>
+<p><strong>VLA 如何从“能跑”逐步进化到“更快、更稳、更会学”。</strong></p>
+<hr>
+<h2 id="%E4%B8%83%E3%80%81%CF%80*0.6-%2B-recap%EF%BC%9Arl-is-back" tabindex="-1">七、π*0.6 + RECAP：RL is Back</h2>
+<p><img src="/2026/04/10/具身智能Manipulation/具身智能Manipulation.assets/image-2026_04_10_23_5.png" alt="" loading="lazy" decoding="async">
+这一页的核心观点是：<br>
+<strong>纯模仿学习虽然已经能让机器人学会很多技能，但它的上限始终受限于示教数据；RECAP 这类方法的意义，在于让 VLA 开始具备“越用越好”的能力。</strong></p>
+<hr>
+<h3 id="1.-%E4%B8%BA%E4%BB%80%E4%B9%88-vla-%E8%BF%98%E9%9C%80%E8%A6%81-rl" tabindex="-1">1. 为什么 VLA 还需要 RL</h3>
+<p>在纯模仿学习框架下，<br>
+机器人学到的本质上是“人怎么做，我就怎么做”。</p>
+<p>这带来一个很明显的上限：</p>
+<ul>
+<li>如果示教里没有覆盖某种情况，模型就容易失败</li>
+<li>如果部署环境比训练环境更复杂，模型适应能力有限</li>
+<li>如果机器人执行中犯错，它通常不会自动变得更好</li>
+</ul>
+<p>因此，纯模仿学习的能力上限，往往被示教质量和覆盖范围锁死。</p>
+<p>这就是为什么 PPT 会强调：</p>
+<p><strong>之前所有 VLA 基本都是纯模仿学习路线。</strong></p>
+<hr>
+<h3 id="2.-recap-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3" tabindex="-1">2. RECAP 的核心思想</h3>
+<p>PPT 中把 RECAP 概括为三阶段：</p>
+<ol>
+<li>
+<p><strong>示教预训练</strong><br>
+用示教和离线 RL 打基础策略</p>
+</li>
+<li>
+<p><strong>专家介入纠正</strong><br>
+人在回路，对大错误进行纠偏</p>
+</li>
+<li>
+<p><strong>自主 RL 提升</strong><br>
+通过价值评估与条件化生成，继续提升策略质量</p>
+</li>
+</ol>
+<p>这条路线的核心含义是：</p>
+<p><strong>机器人不再只是复现人的示范，而是开始利用部署经验继续优化自己。</strong></p>
+<hr>
+<h3 id="3.-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B8%80%E7%82%B9%E5%BE%88%E9%87%8D%E8%A6%81" tabindex="-1">3. 为什么这一点很重要</h3>
+<p>这意味着机器人策略从：</p>
+<ul>
+<li>静态的模仿模型</li>
+</ul>
+<p>变成了：</p>
+<ul>
+<li>能在部署中继续提升的学习型智能体</li>
+</ul>
+<p>PPT 中给出的例子包括：</p>
+<ul>
+<li>浓缩咖啡任务长时间稳定执行</li>
+<li>衣物折叠应对未见材质</li>
+<li>工厂包装箱组装</li>
+<li>机器人竞赛挑战</li>
+</ul>
+<p>这些例子本质上都在说明：</p>
+<p><strong>RL 的引入开始帮助 VLA 突破纯示教上限。</strong></p>
+<hr>
+<h3 id="4.-%E8%BF%99%E4%B8%80%E9%A1%B5%E7%9C%9F%E6%AD%A3%E6%83%B3%E8%A1%A8%E8%BE%BE%E4%BB%80%E4%B9%88" tabindex="-1">4. 这一页真正想表达什么</h3>
+<p>“RL is Back” 这句话的重点不是说传统强化学习原封不动回来了，<br>
+而是说在 VLA 时代，RL 又重新变得重要了。</p>
+<p>因为 VLA 解决了：</p>
+<ul>
+<li>感知</li>
+<li>语言理解</li>
+<li>动作生成</li>
+<li>初始技能获取</li>
+</ul>
+<p>而 RL 接下来要解决的是：</p>
+<ul>
+<li>部署中持续改进</li>
+<li>更强的泛化</li>
+<li>超越人类示教上限</li>
+<li>从错误中恢复并学习</li>
+</ul>
+<p>因此，这一页真正标志的是：</p>
+<p><strong>具身智能开始从“会模仿”走向“会自我提升”。</strong></p>
+<hr>
+<h2 id="%E5%85%AB%E3%80%81%E5%BC%80%E6%BA%90-vla-%E6%80%8E%E4%B9%88%E9%80%89%EF%BC%9A%CF%800-vs-gr00t-n1" tabindex="-1">八、开源 VLA 怎么选：π0 vs GR00T N1</h2>
+<p><img src="/2026/04/10/具身智能Manipulation/具身智能Manipulation.assets/image-2026_04_10_23_6.png" alt="" loading="lazy" decoding="async">
+这一页的核心观点是：<br>
+<strong>当前开源具身智能路线已经不止一条，不同路线的重点不同；选择哪条路线，取决于你是偏算法研究，还是偏系统落地与 Sim2Real。</strong></p>
+<hr>
+<h3 id="1.-%CF%800-%E8%B7%AF%E7%BA%BF%E7%9A%84%E7%89%B9%E7%82%B9" tabindex="-1">1. π0 路线的特点</h3>
+<p>PPT 中给出的 π0 特征包括：</p>
+<ul>
+<li>动作头：Flow Matching</li>
+<li>架构：VLM + Action Expert</li>
+<li>开源：推理、微调、权重</li>
+<li>RL：支持 RECAP</li>
+<li>微调：1-20h 数据</li>
+<li>生态：社区主导</li>
+</ul>
+<p>从这些特点可以看出，π0 更强调：</p>
+<ul>
+<li>前沿算法路线</li>
+<li>VLA 架构创新</li>
+<li>低门槛微调</li>
+<li>社区快速迭代</li>
+</ul>
+<p>因此，π0 更适合：</p>
+<ul>
+<li>跟踪最新具身智能论文</li>
+<li>做 manipulation 方向研究</li>
+<li>做开源 VLA 微调实验</li>
+<li>从小规模真实数据快速起步</li>
+</ul>
+<hr>
+<h3 id="2.-gr00t-n1-%E8%B7%AF%E7%BA%BF%E7%9A%84%E7%89%B9%E7%82%B9" tabindex="-1">2. GR00T N1 路线的特点</h3>
+<p>PPT 中给出的 GR00T N1 特征包括：</p>
+<ul>
+<li>动作头：扩散 Transformer</li>
+<li>架构：双系统 System 1 + 2</li>
+<li>开源：完全开源</li>
+<li>RL：Sim2Real RL</li>
+<li>微调：开箱即用</li>
+<li>生态：Isaac Sim + Cosmos</li>
+</ul>
+<p>这说明 GR00T 更强调：</p>
+<ul>
+<li>系统级平台整合</li>
+<li>仿真与现实协同</li>
+<li>人形机器人和平台化能力</li>
+<li>NVIDIA 生态支撑下的工程闭环</li>
+</ul>
+<p>因此，GR00T 更适合：</p>
+<ul>
+<li>想做完整系统搭建</li>
+<li>依赖仿真平台加速开发</li>
+<li>做 Sim2Real 迁移</li>
+<li>偏工程平台化部署</li>
+</ul>
+<hr>
+<h3 id="3.-%E8%BF%99%E4%B8%80%E9%A1%B5%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%84%8F%E6%80%9D" tabindex="-1">3. 这一页真正的意思</h3>
+<p>这页并不是简单比较哪个更强，<br>
+而是在提醒读者：</p>
+<p><strong>开源 VLA 已经进入路线分化阶段。</strong></p>
+<p>也就是说，未来不会只有一个统一答案，<br>
+而会出现不同生态下的不同主线：</p>
+<ul>
+<li>一条偏社区、偏研究、偏 manipulation 的路线</li>
+<li>一条偏平台、偏系统、偏仿真到现实的大工程路线</li>
+</ul>
+<p>所以选择框架时，<br>
+关键不是“谁最好”，<br>
+而是“谁更适合你的目标”。</p>
+<hr>
+<h2 id="%E4%B9%9D%E3%80%81world-model%EF%BC%9A%E5%85%88%E5%9C%A8%E8%84%91%E5%AD%90%E9%87%8C%E6%A8%A1%E6%8B%9F%EF%BC%8C%E5%86%8D%E5%8A%A8%E6%89%8B" tabindex="-1">九、World Model：先在脑子里模拟，再动手</h2>
+<p><img src="/2026/04/10/具身智能Manipulation/具身智能Manipulation.assets/image-2026_04_10_23_7.png" alt="" loading="lazy" decoding="async">
+这一页的核心观点是：<br>
+<strong>VLA 更偏“看到就做”的反射式策略，而 World Model 的目标是让机器人先预测未来后果，再选择动作。</strong><br>
+因此，World Model 被看作具身智能下一阶段的重要方向。:contentReference[oaicite:4]{index=4}</p>
+<hr>
+<h3 id="1.-%E4%B8%BA%E4%BB%80%E4%B9%88-vla-%E8%BF%98%E4%B8%8D%E5%A4%9F" tabindex="-1">1. 为什么 VLA 还不够</h3>
+<p>VLA 的优势在于：</p>
+<ul>
+<li>感知、语言、动作统一</li>
+<li>端到端建模能力强</li>
+<li>多任务泛化能力好</li>
+</ul>
+<p>但它仍然更像一种“反应式系统”：</p>
+<ul>
+<li>看见当前场景</li>
+<li>理解当前任务</li>
+<li>立刻输出动作</li>
+</ul>
+<p>这在很多任务上已经足够强，<br>
+但在更复杂、长时序、需要规划和试错的任务中，<br>
+仅靠当前观测直接反应可能还不够。</p>
+<p>因此，下一步自然会提出一个问题：</p>
+<p><strong>机器人能不能在行动前，先想象一下结果会怎样？</strong></p>
+<hr>
+<h3 id="2.-world-model-%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3" tabindex="-1">2. World Model 的核心思想</h3>
+<p>World Model 的核心思想是：</p>
+<p><strong>学习一个内部世界模型，用来预测动作会带来什么后果。</strong></p>
+<p>这样机器人就不再只是“看见就做”，<br>
+而是可以：</p>
+<ul>
+<li>先模拟未来可能状态</li>
+<li>比较不同动作的结果</li>
+<li>再选择更优动作</li>
+</ul>
+<p>也就是说，它让机器人开始具备：</p>
+<ul>
+<li>预测能力</li>
+<li>规划能力</li>
+<li>更长时域的决策能力</li>
+</ul>
+<hr>
+<h3 id="3.-%E8%BF%99%E4%B8%80%E6%96%B9%E5%90%91%E7%9A%84%E6%84%8F%E4%B9%89" tabindex="-1">3. 这一方向的意义</h3>
+<p>PPT 中提到：</p>
+<ul>
+<li>短期：World Model 可作为数据增强工具</li>
+<li>中期：与 VLA 深度融合</li>
+<li>长期：成为机器人“大脑”的一部分</li>
+</ul>
+<p>这说明 World Model 当前并不一定是直接替代 VLA，<br>
+而更像是在逐步增强 VLA：</p>
+<ul>
+<li>先帮助生成更多训练数据</li>
+<li>再帮助提升泛化和规划</li>
+<li>最终与动作策略深度耦合</li>
+</ul>
+<p>因此，它的真正意义在于：</p>
+<p><strong>把机器人从“高水平反射”进一步推进到“具备内部预测和想象能力”。</strong></p>
+<hr>
+<h3 id="4.-%E4%BB%A3%E8%A1%A8%E6%80%A7%E6%96%B9%E5%90%91" tabindex="-1">4. 代表性方向</h3>
+<p>PPT 中列出的方向包括：</p>
+<ul>
+<li><strong>UniSim</strong></li>
+<li><strong>DreamerV3</strong></li>
+<li><strong>NVIDIA Cosmos / GR00T Dreams</strong></li>
+<li><strong>GigaBrain</strong></li>
+</ul>
+<p>这些工作虽然路径不同，<br>
+但共同目标都是：</p>
+<p><strong>让机器人能通过内部世界建模，获得更强的规划、生成和泛化能力。</strong></p>
+<hr>
+<h2 id="%E5%8D%81%E3%80%81%E6%96%B0%E6%89%8B%E8%B7%AF%E5%BE%84" tabindex="-1">十、新手路径</h2>
+<p><img src="/2026/04/10/具身智能Manipulation/具身智能Manipulation.assets/image-2026_04_10_23_8.png" alt="" loading="lazy" decoding="async"></p>
+<h2 id="%E5%8D%81%E4%B8%80%E3%80%81%E6%9C%AA%E6%9D%A5%E5%B1%95%E6%9C%9B%EF%BC%9A%E8%BF%99%E4%B8%AA%E9%A2%86%E5%9F%9F%E6%8E%A5%E4%B8%8B%E6%9D%A5%E5%BE%80%E5%93%AA%E8%B5%B0" tabindex="-1">十一、未来展望：这个领域接下来往哪走</h2>
+<ol>
+<li>VLA + RL 将推动机器人持续学习</li>
+<li>数据飞轮会成为比单纯算法更关键的竞争点</li>
+<li>VLA 与 World Model 的融合可能通向更通用的物理智能</li>
+<li>开源生态会继续加速整个领域发展</li>
+</ol>
+<p>所以，这一页的核心可以概括为：</p>
+<p><strong>具身智能的未来，不只是更大模型，而是更强数据闭环、更强自我提升能力，以及更完整的预测—行动统一架构。</strong>
+<img src="/2026/04/10/具身智能Manipulation/具身智能Manipulation.assets/image-2026_04_10_23_9.png" alt="" loading="lazy" decoding="async"></p>
+<h3 id="1.-vla-%2B-rl" tabindex="-1">1. VLA + RL</h3>
+<p>PPT 认为：</p>
+<ul>
+<li>PI 用 RECAP 开了头</li>
+<li>VLA + RL 是最有前景的研究方向之一</li>
+</ul>
+<p>这说明未来一个重要趋势是：</p>
+<p><strong>机器人不再只依赖离线示教，而是开始从部署中继续提升。</strong></p>
+<p>这会推动具身智能从静态模仿系统走向持续学习系统。</p>
+<hr>
+<h3 id="2.-%E6%95%B0%E6%8D%AE%E9%A3%9E%E8%BD%AE" tabindex="-1">2. 数据飞轮</h3>
+<p>PPT 特别强调：</p>
+<p><strong>数据飞轮比单纯算法更重要。</strong></p>
+<p>这是因为在具身智能里，<br>
+数据不仅难采，而且决定了：</p>
+<ul>
+<li>泛化上限</li>
+<li>场景覆盖范围</li>
+<li>模型适应能力</li>
+<li>真实部署效果</li>
+</ul>
+<p>所以未来谁能建立更高效的数据采集、筛选、纠错、回流机制，<br>
+谁就更可能建立优势。</p>
+<hr>
+<h3 id="3.-vla-%2B-world-model" tabindex="-1">3. VLA + World Model</h3>
+<p>PPT 给出的判断是：</p>
+<p><strong>VLA + World Model 很可能是通用物理智能的最终形态。</strong></p>
+<p>这个判断背后的逻辑是：</p>
+<ul>
+<li>VLA 擅长感知理解与动作输出</li>
+<li>World Model 擅长未来预测与规划</li>
+<li>两者结合，更有可能形成完整的机器人智能闭环</li>
+</ul>
+<p>因此，这很可能是未来几年最重要的融合方向之一。</p>
+<hr>
+<h3 id="4.-%E5%BC%80%E6%BA%90%E7%94%9F%E6%80%81%E5%8A%A0%E9%80%9F" tabindex="-1">4. 开源生态加速</h3>
+<p>PPT 中强调：</p>
+<ul>
+<li>LeRobot</li>
+<li>openpi</li>
+<li>GR00T</li>
+</ul>
+<p>这些开源生态发展很快。</p>
+<p>这意味着未来具身智能不会只由少数大厂封闭推动，<br>
+而会越来越依赖：</p>
+<ul>
+<li>开源框架</li>
+<li>社区协作</li>
+<li>可复现系统</li>
+<li>云端部署与共享平台</li>
+</ul>
+<hr>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/04/02/SAFE-_Multitask_Failure_Detection_for_Vision-Language-Action_Models/"><small>上一篇</small><strong>SAFE-_Multitask_Failure_Detection_for_Vision-Language-Action_Models</strong></a>
+        <a href="/2026/04/15/Libero/"><small>下一篇</small><strong>Libero</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

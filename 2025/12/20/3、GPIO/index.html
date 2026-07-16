@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="3、GPIO" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>3、GPIO · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>3、GPIO</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-12-20T20:27:49">2025-12-20</time>
+    <span class="content-meta__categories"><a href="/categories/stm32/">stm32</a><a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/">嵌入式_--（沈捷）</a></span>
+    <span class="content-meta__tags"><a href="/tags/stm32/">stm32</a><a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/">嵌入式_--（沈捷）</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#1.%E5%AE%9A%E4%B9%89">1.定义</a></li><li class="article-toc__level-3"><a href="#2.%E5%AE%9E%E6%88%98">2.实战</a></li><li class="article-toc__level-3"><a href="#3%E3%80%81stm32%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%8Ec%E8%AF%AD%E8%A8%80">3、stm32寄存器与c语言</a></li><li class="article-toc__level-3"><a href="#3.-gpio-%E9%AB%98%E4%BD%8E%E7%94%B5%E5%B9%B3%E9%A9%B1%E5%8A%A8%E8%83%BD%E5%8A%9B%E4%B8%8D%E5%90%8C">3. GPIO 高低电平驱动能力不同</a></li><li class="article-toc__level-3"><a href="#%E5%9B%9B%E3%80%81%E6%8B%89%E7%94%B5%E6%B5%81-vs-%E7%81%8C%E7%94%B5%E6%B5%81">四、拉电流 vs 灌电流</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<p><img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_22_15_1.png" alt="" loading="lazy" decoding="async"></p>
+<ol>
+<li>
+<p><strong>保护二极管</strong>：当瞬间电压进入I/O引脚时，若此电压大于VDD(3.3V)，则上方的保护二极管导通。
+​ 当瞬间电压小于VSS(0V)，下方保护二极管导通。
+​ 若输入电压在0~3.3V之间，那么2个二极管均不会导通。
+此结构只能抵御一瞬间的电压波动，长时间高电压接入I/O口依旧会损坏芯片。</p>
+</li>
+<li>
+<p><strong>上拉/下拉电阻输入</strong> ：为悬空的输入引脚提供一个<strong>默认的稳定电平</strong>。
+上拉 (P-UP) ： 内部电阻将其连接到 VDD，使默认电平为高电平。
+下拉 (P-DOWN) ： 内部电阻将其连接到 VSS，使默认电平为低电平。</p>
+</li>
+<li>
+<p><strong>施密特触发器/TTL肖特基触发器</strong>：电压比较器，有效消除输入信号中的噪声和抖动。高于上限输出高，低于上限输出低。</p>
+</li>
+<li>
+<p><strong>输入数据寄存器-IDR</strong> Input Data Register：存储施密特触发器输出的电平值（0或1），CPU 通过读取IDR得知引脚电平。</p>
+</li>
+<li>
+<p><strong>输出数据寄存器-ODR</strong> Output Data Register)：存储引脚期望的输出电平，ODR 的值会直接控制P-MOS 和 N-MOS，CPU <strong>读取 ODR</strong> 读取“期望的输出值”，而非“引脚的实际电平”。</p>
+</li>
+<li>
+<p><strong>位设置/清除寄存器-BSRR</strong> Bit Set/Reset Register：快速地设置或清除 ODR 中的某一位。</p>
+</li>
+<li>
+<p><strong>N-MOS和P-MOS</strong>：
+<img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_22_17_3.png" alt="" loading="lazy" decoding="async">
+​ 在<strong>推挽模式</strong>下，STM32对IO口输出有绝对的控制权
+​ 输出数据寄存器为1，P-MOS激活，N-MOS断开，输出接入VDD，输出高电平；
+​ 输出数据寄存器为0，P-MOS断开，N-MOS激活，输出接入VSS，输出低电平；</p>
+<p>​ 在<strong>开漏模式</strong>下，P-MOS管失效，只有N-MOS管工作
+​ 输出数据寄存器为1，P-MOS无效，N-MOS关闭，GPIO引脚处于“高阻态”，输出电压由<strong>外部电路</strong>决定。
+​ 输出数据寄存器为0，P-MOS无效，N-MOS导通，输出接入VSS，输出低电平；</p>
+</li>
+</ol>
+<blockquote>
+<p>[!NOTE] 应用
+     开漏输出一般应用在
+     ① I2C、SMBUS 通讯等需要“线与”功能的总线电路中。
+     ②除此之外，还用在电平不匹配的场合，如需要输出 5 伏的高电平，就可以在外部接一个上拉电阻，上拉电源为 5 V，并且把引脚设置为开漏模式，当输出高阻态时，由上拉电阻和电源向外输出 5V电平，如右图所示。
+     <img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_22_15_2.png" alt="" loading="lazy" decoding="async"></p>
+</blockquote>
+<blockquote>
+<p>[!NOTE]
+“高阻态”：就是悬空，既不是高电平，也不是低电平，引脚上的电压未定义，易收到电磁信号的干扰。</p>
+</blockquote>
+<h3 id="1.%E5%AE%9A%E4%B9%89" tabindex="-1">1.定义</h3>
+<p>通用I/O：简称GPIO，是I/O的最基本形式。一般使用正逻辑，高电平对应数字信号“1”，低电平对应数字信号“0”
+<img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_22_15.png" alt="" loading="lazy" decoding="async"></p>
+<h3 id="2.%E5%AE%9E%E6%88%98" tabindex="-1">2.实战</h3>
+<h4 id="%E7%BC%96%E7%A8%8B%E6%AD%A5%E9%AA%A4%EF%BC%9A" tabindex="-1">编程步骤：</h4>
+<p>第一步：使能GPIOx口的时钟<br>
+第二步：指明GPIOx口的哪一位，这一位的速度大小以及模式。<br>
+第三步：调用GPIOx口初始化函数，进行初始化。<br>
+第四步：调用GPIO-SetBits函数，进行相应为的置位。</p>
+<h4 id="%E5%87%BD%E6%95%B0%E4%B8%80%E8%A7%88" tabindex="-1">函数一览</h4>
+<p><img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_24_20.png" alt="" loading="lazy" decoding="async"></p>
+<h4 id="%E5%AE%9E%E4%BE%8B%E5%A6%82%E4%B8%8B%EF%BC%9A" tabindex="-1">实例如下：</h4>
+<p><strong>对于单个GPIO口的初始化如下</strong></p>
+<pre class="code-frame"><code class="hljs language-plaintext"></code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext"></code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; //设置为推挽输出
+GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // IO口速度为50MHz
+</code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext"></code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext"></code></pre>
+<p>输出：</p>
+<pre class="code-frame"><code class="hljs language-plaintext">HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);//输出低电平
+HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//翻转电平
+</code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">state = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
+
+</code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext"></code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOE, ENABLE);
+</code></pre>
+<p>第三步：调用GPIOA口初始化函数，进行初始化。
+第四步：调用GPIO-SetBits函数，进行相应为的置位。
+把第二、三、四步合并分别设置GPIOA和GPIOE
+先设置GPIOA</p>
+<pre class="code-frame"><code class="hljs language-plaintext">GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; //设置为推挽输出
+GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // IO口速度为50MHz
+GPIO_Init(GPIOA,&amp;GPIO-InitST); //根据设定参数初始化GPIOA
+GPIO_SetBits(GPIOA,GPIO_Pin_4); //输出高
+</code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; //设置为推挽输出
+GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; // IO口速度为50MHz
+GPIO_Init(GPIOE,&amp;GPIO-InitST); //根据设定参数初始化GPIOE
+GPIO_SetBits(GPIOE,GPIO_Pin_3); //输出高
+</code></pre>
+<p>配置终端触发方式（上升沿/下降沿/双边沿）</p>
+<pre class="code-frame"><code class="hljs language-plaintext"></code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+</code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">{
+    if (GPIO_Pin == GPIO_PIN_13)
+    {
+        // 按键响应代码
+    }
+}
+
+</code></pre>
+<p>​ (1)、在STM32内部为了省电，所有外设（GPIO、USART、TIM…）默认是“关机”状态，即时钟被关闭。第一步永远是打开这个部门的电源（时钟）。
+<img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_22_15_3.png" alt="" loading="lazy" decoding="async"><br>
+<em>GPIO 配置与操作函数</em></p>
+<pre class="code-frame"><code class="hljs language-plaintext"></code></pre>
+<blockquote>
+<p>[!NOTE] GPIO_Init(<strong>GPIOA</strong>, &amp;GPIO_InitStruct) <strong>为什么第一个参数实际填写<code>GPIOA</code>而不是<code>&amp;GPIOA</code>
+在 <code>stm32f10x.h</code>头文件中，有这样一行定义：<code>#define GPIOA ((GPIO_TypeDef *) 0x40010800)</code>所以 <code>GPIOA</code>本身已经是一个</strong>指针**，它不是一个变量，而是一个宏定义 ，它代表的就是一个地址。</p>
+</blockquote>
+<p>（2）、这些参数在<code>stm32f10x_gpio.h</code>头文件搜索
+<img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_22_16.png" alt="" loading="lazy" decoding="async">
+<em>GPIO初始化结构体</em>
+<img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_22_16_1.png" alt="" loading="lazy" decoding="async">
+<em>GPIO模式</em>
+<img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_22_16_2.png" alt="" loading="lazy" decoding="async">
+<em>GPIO引脚宏定义</em>
+<img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_22_16_3.png" alt="" loading="lazy" decoding="async"></p>
+<h3 id="3%E3%80%81stm32%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%8Ec%E8%AF%AD%E8%A8%80" tabindex="-1">3、stm32寄存器与c语言</h3>
+<p><img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_22_16_4.png" alt="" loading="lazy" decoding="async"></p>
+<ol>
+<li>
+<p><strong>核心原理：</strong> STM32中<strong>每一个硬件寄存器</strong>（ODR, IDR…）都对应一个<strong>固定的物理内存地址</strong>。CPU 通过读写<strong>固定的物理内存地址</strong>来控制硬件（寄存器）。</p>
+</li>
+<li>
+<p><strong>基地址 (Base Address)：</strong></p>
+<ul>
+<li>每个<strong>外设</strong>（如 <code>GPIOA</code>）都有一个起始地址。</li>
+<li><code>GPIOA</code> 基地址 = <code>0x40010800</code></li>
+<li><code>GPIOB</code> 基地址 = <code>0x40010C00</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>GPIO_TypeDef</code> 结构体：</strong></p>
+<ul>
+<li>它是一个C语言的 <strong>“地图”</strong> ，<strong>定义了</strong><code>GPIOA</code> 内部所有寄存器（<code>CRL</code>, <code>CRH</code>, <code>IDR</code>, <code>ODR</code>…）的<strong>排列顺序和偏移量</strong>。</li>
+</ul>
+</li>
+<li>
+<p><strong>偏移地址 (Offset)：</strong></p>
+<ul>
+<li>寄存器在“地图”上相对于基地址的位置。</li>
+<li>因为寄存器大多是 <code>uint32_t</code>（4字节），所以偏移量是 <code>0x00</code>, <code>0x04</code>, <code>0x08</code>…</li>
+<li><code>ODR</code> 寄存器的偏移量 = <code>0x0C</code></li>
+</ul>
+</li>
+<li>
+<p><strong>绝对地址 (Absolute Address)：</strong></p>
+<ul>
+<li>绝对地址 = 基地址 + 偏移地址</li>
+<li><strong>举例 (GPIOA 的 ODR)：</strong><code>0x40010800</code> (GPIOA 基地址) + <code>0x0C</code> (ODR 偏移量) = <code>0x4001080C</code></li>
+</ul>
+</li>
+<li>
+<p><strong>C 代码翻译：</strong></p>
+<ul>
+<li><strong>C 代码：</strong><code>GPIOA-&gt;ODR = 0x0001;</code></li>
+<li><strong><code>GPIOA</code></strong> 是一个指向基地址 <code>0x40010800</code> 的<strong>指针</strong> ：*<em>#define GPIOA ((GPIO_TypeDef <em>)GPIOA_BASE)</em></em></li>
+<li><a href="https://www.cnblogs.com/jzssuanfa/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%AC%94%E8%AE%B0.md#c-rule" target="_blank" rel="noreferrer noopener"><strong>-&gt;ODR</strong></a>是C语言语法，告诉编译器去 <code>GPIO_TypeDef</code><strong>结构体</strong>“地图”上查找 <code>ODR</code> 的偏移量（<code>0x0C</code>）。</li>
+<li><strong>编译器操作：</strong> 生成机器码，将 <code>0x0001</code> 这个值，写入到最终的绝对地址 <code>0x4001080C</code>。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!NOTE] Title
+个人理解：<strong>STM32 正是利用了 <code>struct</code> 结构体能自动处理偏移量的特性，来满足了访问硬件寄存器时“基地址 + 偏移地址”的需求。</strong></p>
+</blockquote>
+<p><strong><code>GPIOA</code></strong>：获取<strong>基地址</strong> (<code>0x40010800</code>)。
+<code>ODR</code>：查找 <code>ODR</code> 成员对应的<strong>偏移地址</strong> (<code>0x0C</code>)。
+= 0x0001：将值 <code>0x0001</code> 写入到算出来的<strong>绝对地址</strong> (<code>0x40010800 + 0x0C = 0x4001080C</code>) 中。</p>
+<pre class="code-frame"><code class="hljs language-plaintext"></code></pre>
+<p><img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_22_17.png" alt="" loading="lazy" decoding="async"></p>
+<h4 id="1.-%E5%8D%95%E4%B8%AA-gpio-%E5%BC%95%E8%84%9A%E7%94%B5%E6%B5%81%E9%99%90%E5%88%B6" tabindex="-1">1. 单个 GPIO 引脚电流限制</h4>
+<p><img src="/2025/12/20/3、GPIO/3、GPIO.assets/image-2025_12_24_21.png" alt="" loading="lazy" decoding="async"></p>
+<ul>
+<li>常见 MCU（如 STM32）：
+<ul>
+<li><strong>最大电流</strong>：≈ 20 mA</li>
+<li><strong>推荐工作电流</strong>：<strong>2 ~ 8 mA</strong></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>超过推荐值可能导致：</p>
+<ul>
+<li>IO 发热</li>
+<li>电平不稳</li>
+<li>长期可靠性下降</li>
+</ul>
+</blockquote>
+<h4 id="2.-mcu-%E6%80%BB%E7%94%B5%E6%B5%81%E9%99%90%E5%88%B6" tabindex="-1">2. MCU 总电流限制</h4>
+<ul>
+<li>多个 GPIO 同时工作时，<strong>总电流也有限制</strong></li>
+<li>典型值（以 STM32 为例）：
+<ul>
+<li>所有 GPIO 累计电流：≈ <strong>120 ~ 150 mA</strong></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>常见问题：</p>
+<ul>
+<li>单个 LED 正常</li>
+<li>多个 LED 同时点亮 → 芯片异常</li>
+</ul>
+</blockquote>
+<h3 id="3.-gpio-%E9%AB%98%E4%BD%8E%E7%94%B5%E5%B9%B3%E9%A9%B1%E5%8A%A8%E8%83%BD%E5%8A%9B%E4%B8%8D%E5%90%8C" tabindex="-1">3. GPIO 高低电平驱动能力不同</h3>
+<ul>
+<li>输出高电平：<strong>拉电流（Source）</strong></li>
+<li>输出低电平：<strong>灌电流（Sink）</strong></li>
+<li>两者能力 <strong>通常不对称</strong></li>
+</ul>
+<h4 id="%E4%BA%8C%E3%80%81%E6%8B%89%E7%94%B5%E6%B5%81%EF%BC%88source-current%EF%BC%89" tabindex="-1">二、拉电流（Source Current）</h4>
+<p><strong>拉电流</strong>：<br>
+GPIO 输出 <strong>高电平</strong> 时，<strong>向外部负载提供电流</strong> 的能力。</p>
+<h5 id="%E4%B8%89%E3%80%81%E7%81%8C%E7%94%B5%E6%B5%81%EF%BC%88sink-current%EF%BC%89" tabindex="-1">三、灌电流（Sink Current）</h5>
+<p><strong>灌电流</strong>：<br>
+GPIO 输出 <strong>低电平</strong> 时，<strong>从外部负载吸收电流</strong> 的能力。</p>
+<h3 id="%E5%9B%9B%E3%80%81%E6%8B%89%E7%94%B5%E6%B5%81-vs-%E7%81%8C%E7%94%B5%E6%B5%81" tabindex="-1">四、拉电流 vs 灌电流</h3>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>拉电流</th>
+<th>灌电流</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPIO 电平</td>
+<td>高电平</td>
+<td>低电平</td>
+</tr>
+<tr>
+<td>电流方向</td>
+<td>GPIO → 负载</td>
+<td>负载 → GPIO</td>
+</tr>
+<tr>
+<td>驱动能力</td>
+<td>较弱</td>
+<td><strong>较强（推荐）</strong></td>
+</tr>
+<tr>
+<td>工程常用</td>
+<td>少</td>
+<td><strong>多</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>工程经验</strong>：<br>
+MCU 的 <strong>灌电流能力通常强于拉电流能力</strong></p>
+</blockquote>
+<p>参考：<a href="https://www.cnblogs.com/jzssuanfa/p/19339924#_68" target="_blank" rel="noreferrer noopener">https://www.cnblogs.com/jzssuanfa/p/19339924#_68</a></p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/11/20/git+hugo/"><small>上一篇</small><strong>git+hugo</strong></a>
+        <a href="/2025/12/22/4、beep蜂鸣器/"><small>下一篇</small><strong>4、beep蜂鸣器</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

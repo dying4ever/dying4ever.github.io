@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="linux驱动CH341+给权限" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>linux驱动CH341+给权限 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>linux驱动CH341+给权限</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-11-09T17:51:12">2025-11-09</time>
+    <span class="content-meta__categories"><a href="/categories/ubuntu/">ubuntu</a></span>
+    <span class="content-meta__tags"><a href="/tags/ubuntu/">ubuntu</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#%E4%B8%80%E3%80%81%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5">一、错误排查</a></li><li class="article-toc__level-2"><a href="#%E4%BA%8C%E3%80%81%E8%A3%85%E9%A9%B1%E5%8A%A8">二、装驱动</a></li><li class="article-toc__level-2"><a href="#%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81">依赖冲突</a></li><li class="article-toc__level-2"><a href="#%E8%AE%BE%E7%BD%AE%E6%9D%83%E9%99%90">设置权限</a></li><li class="article-toc__level-2"><a href="#%E9%A9%B1%E5%8A%A8%E6%B5%8B%E8%AF%95%E7%A8%8B%E5%BA%8F">驱动测试程序</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="%E4%B8%80%E3%80%81%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5" tabindex="-1">一、错误排查</h2>
+<p>遇到情况：lsusb有信息，ls /dev/tty* 没信息
+插拔usb设备,查看信息</p>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo dmesg | tail -n 30
+</code></pre>
+<p>初步确认jetson orin nano jetpack版本6.2（linux内核5.15.148）可能没有ch341驱动
+查看内核版本信息(内核版本一定要匹配！)</p>
+<pre class="code-frame"><code class="hljs language-plaintext">uname -r
+</code></pre>
+<h2 id="%E4%BA%8C%E3%80%81%E8%A3%85%E9%A9%B1%E5%8A%A8" tabindex="-1">二、装驱动</h2>
+<p>具体参考：<a href="https://keaa.net/linux-ch34x-driver.html#:~:text=%E5%9C%A8%E5%AE%98%E6%96%B9Linux%E5%86%85%E6%A0%B8%E7%89%88%E6%9C%AC%E4%B8%AD%E8%87%AAKernel2.6%E4%BB%A5%E5%90%8E%E5%B0%B1%E9%BB%98%E8%AE%A4%E5%8C%85%E5%90%AB%E4%BA%86%E5%AF%B9CH340%2FCH341%E8%8A%AF%E7%89%87%E7%9A%84%E9%A9%B1%E5%8A%A8%E6%94%AF%E6%8C%81%EF%BC%8C%E5%B9%B6%E4%B8%94%E8%83%BD%E6%88%90%E5%8A%9F%E8%AF%86%E5%88%AB%E9%A9%B1%E5%8A%A8%E3%80%82,%E7%94%A8%E4%B8%B2%E5%8F%A3%E8%BD%AF%E4%BB%B6%E6%AD%A3%E5%B8%B8%E6%89%93%E5%BC%80%E4%B8%B2%E5%8F%A3%E5%8D%B4%E6%97%A0%E6%B3%95%E6%94%B6%E5%8F%91%EF%BC%8C%E5%85%B6%E5%AE%9E%E6%98%AF%E8%8A%AF%E7%89%87%E5%AE%98%E6%96%B9%E6%9B%B4%E6%96%B0%E8%8A%AF%E7%89%87%E7%89%88%E6%9C%AC%EF%BC%8C%E8%BF%99%E6%97%B6%E5%80%99%E5%8F%AA%E9%9C%80%E8%A6%81%E7%94%A8%E8%8A%AF%E7%89%87%E5%AE%98%E7%BD%91%E6%8F%90%E4%BE%9B%E7%9A%84%E6%96%B0%E9%A9%B1%E5%8A%A8%E8%BF%9B%E8%A1%8C%E6%9B%BF%E6%8D%A2%E5%8D%B3%E5%8F%AF%E4%BD%BF%E7%94%A8%E3%80%82" target="_blank" rel="noreferrer noopener">https://keaa.net/linux-ch34x-driver.html#:~:text=在官方Linux内核版本中自Kernel2.6以后就默认包含了对CH340%2FCH341芯片的驱动支持，并且能成功识别驱动。,用串口软件正常打开串口却无法收发，其实是芯片官方更新芯片版本，这时候只需要用芯片官网提供的新驱动进行替换即可使用。</a>
+驱动下载地址：<a href="https://www.wch.cn/downloads/category/67.html" target="_blank" rel="noreferrer noopener">https://www.wch.cn/downloads/category/67.html</a>
+<a href="ubuntu/linux%E9%A9%B1%E5%8A%A8CH341+%E7%BB%99%E6%9D%83%E9%99%90.assets/0edabc6a0264ad9c9f1885965e947464_MD5.jpeg">Open: image-20251109180411587.png</a>
+<img src="/2025/11/09/linux驱动CH341+给权限/linux驱动CH341+给权限.assets/image-20251109180418.jpeg" alt="" loading="lazy" decoding="async">
+解压后确认路径（不能有中文名，不能有（1）这种字符）</p>
+<pre class="code-frame"><code class="hljs language-plaintext">unzip CH341SER_LINUX.ZIP
+cd CH341SER_LINUX
+make
+sudo make load
+</code></pre>
+<p>显示 insmod ch34x.ko则装成功，但这样重启驱动还是会丢，每次make load非常繁琐，故要设置开机自动加载驱动
+把34x改成对应版本，这里是341</p>
+<pre class="code-frame"><code class="hljs language-plaintext"> sudo cp ch34x.ko /lib/modules/$(uname -r)/kernel/drivers/usb/serial/
+ sudo depmod
+</code></pre>
+<h2 id="%E4%BE%9D%E8%B5%96%E5%86%B2%E7%AA%81" tabindex="-1">依赖冲突</h2>
+<p>再次运行</p>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo dmesg | tail -n 30
+</code></pre>
+<p>发现显示</p>
+<pre class="code-frame"><code class="hljs language-plaintext">new full-speed USB device number 10 using tegra-xusb 
+[ 1511.403647] usb_ch341 1-2.4:1.0: ttyCH341USB0: ch341 USB device 
+[ 1511.492491] usb 1-2.4: usbfs: interface 0 claimed by usb_ch341 while &#x27;brltty&#x27; sets config #1 
+[ 1511.493807] usb_ch341 1-2.4:1.0: ch341 usb device disconnect.
+</code></pre>
+<p>和brltty冲突了，遂查brltty是什么服务（盲人屏幕阅读器，用不到这个服务，故停止服务并删除）
+参考博客：<a href="https://blog.csdn.net/weixin_49203415/article/details/136319128" target="_blank" rel="noreferrer noopener">https://blog.csdn.net/weixin_49203415/article/details/136319128</a></p>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo systemctl stop brltty
+sudo systemctl disable brltty
+sudo apt remove brltty
+</code></pre>
+<p>支持，ls /dev/tty* 显示ttyCH341USB!
+..但是串口依旧无法访问
+测试发现给读写权限后有用，故有下步</p>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo chmod 666 /dev/ttyCH341USB0
+</code></pre>
+<h2 id="%E8%AE%BE%E7%BD%AE%E6%9D%83%E9%99%90" tabindex="-1">设置权限</h2>
+<p>1.先查内容（CH341 的厂商 ID 和产品 ID 可以用 <code>lsusb</code> 查看，比如你的是 <code>1a86:7523</code></p>
+<pre class="code-frame"><code class="hljs language-plaintext">lsusb
+sudo nano /etc/udev/rules.d/99-ch341.rules
+</code></pre>
+<p>2.添加内容</p>
+<pre class="code-frame"><code class="hljs language-plaintext">SUBSYSTEM==&quot;tty&quot;, ATTRS{idVendor}==&quot;1a86&quot;, ATTRS{idProduct}==&quot;7523&quot;, MODE=&quot;0666&quot;
+</code></pre>
+<p>3.保存后，重新加载udev规则</p>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo udevadm control --reload-rules
+sudo udevadm trigger
+</code></pre>
+<p>4.再插拔设备后，你就可以直接用普通用户访问了。</p>
+<h2 id="%E9%A9%B1%E5%8A%A8%E6%B5%8B%E8%AF%95%E7%A8%8B%E5%BA%8F" tabindex="-1">驱动测试程序</h2>
+<pre class="code-frame"><code class="hljs language-plaintext">#!/usr/bin/env python3
+import serial
+import time
+
+# 串口配置
+PORT = &#x27;/dev/ttyCH341USB0&#x27;  # 你的 CH341 串口设备
+BAUDRATE = 115200
+
+try:
+    ser = serial.Serial(PORT, BAUDRATE, timeout=0.1)
+    print(f&quot;串口已打开: {PORT} @ {BAUDRATE} baud&quot;)
+except Exception as e:
+    print(f&quot;打开串口失败: {e}&quot;)
+    exit(1)
+
+def read_serial():
+    while True:
+        try:
+            if ser.in_waiting:
+                data = ser.readline().decode(&#x27;utf-8&#x27;, errors=&#x27;ignore&#x27;).strip()
+                if data:
+                    print(f&quot;接收: {data}&quot;)
+        except Exception as e:
+            print(f&quot;读取串口出错: {e}&quot;)
+
+def send_serial(msg: str):
+    try:
+        ser.write((msg + &#x27;\n&#x27;).encode(&#x27;utf-8&#x27;))
+        print(f&quot;发送: {msg}&quot;)
+    except Exception as e:
+        print(f&quot;发送串口出错: {e}&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    import threading
+
+    # 启动接收线程
+    t = threading.Thread(target=read_serial, daemon=True)
+    t.start()
+
+    print(&quot;输入要发送的消息，按 Ctrl+C 退出&quot;)
+    try:
+        while True:
+            s = input(&quot;&gt; &quot;)
+            if s:
+                send_serial(s)
+    except KeyboardInterrupt:
+        print(&quot;退出程序&quot;)
+        ser.close()
+
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/11/08/清华园/"><small>上一篇</small><strong>清华园</strong></a>
+        <a href="/2025/11/20/git+hugo/"><small>下一篇</small><strong>git+hugo</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

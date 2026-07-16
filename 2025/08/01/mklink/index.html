@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="mklink" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>mklink · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>mklink</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-08-01T15:11:02">2025-08-01</time>
+    <span class="content-meta__categories"><a href="/categories/%E6%8A%80%E5%B7%A7/">技巧</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E6%8A%80%E5%B7%A7/">技巧</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#1-%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E5%92%8C%E7%94%A8%E9%80%94">1 基本功能和用途</a></li><li class="article-toc__level-3"><a href="#2-%E5%91%BD%E4%BB%A4%E8%AF%AD%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0">2 命令语法和参数</a></li><li class="article-toc__level-3"><a href="#3-%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B">3 使用示例</a></li><li class="article-toc__level-3"><a href="#3.1-%E5%88%9B%E5%BB%BA%3D%3D%E6%96%87%E4%BB%B6%3D%3D%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5">3.1 创建==文件==符号链接</a></li><li class="article-toc__level-3"><a href="#3.2-%E5%88%9B%E5%BB%BA%3D%3D%E7%9B%AE%E5%BD%95%3D%3D%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5(%E6%96%87%E4%BB%B6%E5%A4%B9)">3.2 创建==目录==符号链接(文件夹)</a></li><li class="article-toc__level-3"><a href="#3.3-%E5%88%9B%E5%BB%BA%E7%A1%AC%E9%93%BE%E6%8E%A5">3.3 创建硬链接</a></li><li class="article-toc__level-3"><a href="#3.4-%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95%E8%81%94%E6%8E%A5">3.4 创建目录联接</a></li><li class="article-toc__level-3"><a href="#4-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">4 注意事项</a></li><li class="article-toc__level-3"><a href="#obsidian%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6%E5%A4%B9%E6%96%B9%E6%B3%95">obsidian共享文件夹方法</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="1-%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E5%92%8C%E7%94%A8%E9%80%94" tabindex="-1">1 基本功能和用途</h3>
+<p>在Windows系统里，文件和文件夹通常是独立存储和访问的。但有时候，你可能希望某个文件或文件夹在不同位置能有“分身”，方便在不同路径下访问相同的内容，或者在不同应用场景下复用配置、数据等。<code>mklink</code> 命令就可以帮助你实现这个目的，它创建的链接能让你在不复制文件或文件夹的情况下，从多个位置访问同一资源，节省磁盘空间，也方便管理。</p>
+<h3 id="2-%E5%91%BD%E4%BB%A4%E8%AF%AD%E6%B3%95%E5%92%8C%E5%8F%82%E6%95%B0" tabindex="-1">2 命令语法和参数</h3>
+<p><code>mklink</code> 命令的基本语法如下：</p>
+<pre class="code-frame"><code class="hljs language-bash">mklink [/D] [/H] [/J] Link Target
+</code></pre>
+<ul>
+<li>
+<p><strong>参数说明</strong>：</p>
+</li>
+<li>
+<p><code>/D</code>：创建目录符号链接。如果要为文件夹创建符号链接，就需要使用这个参数。</p>
+</li>
+<li>
+<p><code>/H</code>：创建硬链接而不是符号链接。硬链接本质上是同一个文件的多个名称，它们指向磁盘上相同的数据块。</p>
+</li>
+<li>
+<p><code>/J</code>：创建目录联接。目录联接类似于目录符号链接，但它只能用于本地磁盘分区。</p>
+</li>
+<li>
+<p><code>Link</code>：指定要创建的符号链接或硬链接的名称，需要包含完整的路径。</p>
+</li>
+<li>
+<p><code>Target</code>：指定链接所指向的目标文件或目录，同样需要完整路径。</p>
+</li>
+</ul>
+<h3 id="3-%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B" tabindex="-1">3 使用示例</h3>
+<h3 id="3.1-%E5%88%9B%E5%BB%BA%3D%3D%E6%96%87%E4%BB%B6%3D%3D%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5" tabindex="-1">3.1 创建==文件==符号链接</h3>
+<pre class="code-frame"><code class="hljs language-bash">mklink C:\Users\Username\LinkToFile.txt C:\Users\Username\OriginalFile.txt
+</code></pre>
+<p>这个命令在 <code>C:\Users\Username</code> 目录下创建了一个名为 <code>LinkToFile.txt</code> 的==符号链接==，它指向 <code>OriginalFile.txt</code>。之后访问 <code>LinkToFile.txt</code> 就相当于访问 <code>OriginalFile.txt</code>。</p>
+<h3 id="3.2-%E5%88%9B%E5%BB%BA%3D%3D%E7%9B%AE%E5%BD%95%3D%3D%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5(%E6%96%87%E4%BB%B6%E5%A4%B9)" tabindex="-1">3.2 创建==目录==符号链接(文件夹)</h3>
+<pre class="code-frame"><code class="hljs language-bash">mklink /D C:\Users\Username\LinkToFolder C:\Users\Username\OriginalFolder
+</code></pre>
+<p>这里使用了 <code>/D</code> 参数，在 <code>C:\Users\Username</code> 目录下创建了一个名为 <code>LinkToFolder</code> 的==目录符号链接==，它指向 <code>OriginalFolder</code>。</p>
+<h3 id="3.3-%E5%88%9B%E5%BB%BA%E7%A1%AC%E9%93%BE%E6%8E%A5" tabindex="-1">3.3 创建硬链接</h3>
+<pre class="code-frame"><code class="hljs language-bash">mklink /H C:\Users\Username\HardLinkToFile.txt C:\Users\Username\OriginalFile.txt
+</code></pre>
+<p>此命令创建了一个硬链接 <code>HardLinkToFile.txt</code>，它和 <code>OriginalFile.txt</code> 指向磁盘上相同的数据，==对其中一个文件的修改会同时反映到另一个文件上。==</p>
+<h3 id="3.4-%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95%E8%81%94%E6%8E%A5" tabindex="-1">3.4 创建目录联接</h3>
+<pre class="code-frame"><code class="hljs language-bash">mklink /J C:\Users\Username\JunctionToFolder C:\Users\Username\OriginalFolder
+</code></pre>
+<p>通过 <code>/J</code> 参数创建了一个目录联接 <code>JunctionToFolder</code>，它指向 <code>OriginalFolder</code>。</p>
+<h3 id="4-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9" tabindex="-1">4 注意事项</h3>
+<ul>
+<li>
+<p><strong>权限要求</strong>：在某些情况下，创建符号链接可能需要管理员权限。如果遇到权限不足的提示，需要以管理员身份运行命令提示符。</p>
+</li>
+<li>
+<p><strong>链接类型差异</strong>：符号链接和硬链接、目录联接有不同的特性和使用场景。</p>
+</li>
+<li>
+<p>符号链接更灵活，可以跨磁盘分区，但可能会因为目标文件或目录的移动而失效；</p>
+</li>
+<li>
+<p>硬链接只能用于文件，且只能在同一磁盘分区内创建；</p>
+</li>
+<li>
+<p>目录联接只能用于目录，同样一般局限于本地磁盘分区。</p>
+</li>
+</ul>
+<h3 id="obsidian%E5%85%B1%E4%BA%AB%E6%96%87%E4%BB%B6%E5%A4%B9%E6%96%B9%E6%B3%95" tabindex="-1">obsidian共享文件夹方法</h3>
+<ol>
+<li>
+<p>关闭所有 Obsidian 仓库：确保在操作过程中没有 Obsidian 正在运行，避免出现冲突。</p>
+</li>
+<li>
+<p>找到配置和插件目录：</p>
+</li>
+</ol>
+<ul>
+<li>配置文件通常位于<code>仓库路径\Obsidian</code>目录下。</li>
+<li>插件目录在<code>仓库路径\Obsidian\plugins</code>。</li>
+</ul>
+<ol start="3">
+<li>创建<a href="https://zhida.zhihu.com/search?content_id=254082108&amp;content_type=Article&amp;match_order=1&amp;q=%E7%AC%A6%E5%8F%B7%E9%93%BE%E6%8E%A5&amp;zhida_source=entity" target="_blank" rel="noreferrer noopener">符号链接</a>：</li>
+</ol>
+<ul>
+<li>打开命令提示符（以管理员身份运行）。</li>
+<li>假设你有两个仓库Vault1和Vault2，要让Vault2使用Vault1的配置和插件。可以使用以下命令创建符号链接：</li>
+</ul>
+<pre class="code-frame"><code class="hljs language-bash">mklink /D <span class="hljs-string">&quot;仓库路径\Vault2\.obsidian&quot;</span> <span class="hljs-string">&quot;仓库路径\Vault1\.obsidian&quot;</span>
+</code></pre>
+<p>如果你只想同步插件，修改上面的路径：</p>
+<pre class="code-frame"><code class="hljs language-bash">mklink /D <span class="hljs-string">&quot;仓库路径\Vault2\.obsidian\plugins&quot;</span> <span class="hljs-string">&quot;仓库路径\Vault1\.obsidian\plugins&quot;</span>
+</code></pre>
+<p>仓库路径可以通过 obsidian 仓库上右键点击“在系统资源管理器中显示”查看。</p>
+<p><strong><em>注意：运行代码前，应删除被同步仓库下对应名称的文件夹，不然会报错，提示文件已存在。比如，运行上面的代码前，应删除Vault2仓库的 <code>.obsidian</code> 或 <code>.obsidian\plugins</code> 文件夹。</em></strong></p>
+<ol start="4">
+<li>如果有Vault3、Vault4，重复上面的代码，将Vault2替换为Vault3、Vault4即可。</li>
+</ol>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/25/2.1、opencv基础（绘图）/"><small>上一篇</small><strong>2.1、opencv基础（绘图）</strong></a>
+        <a href="/2025/09/05/一种基于可微分物理平台的机器人模型图语法生成方法/"><small>下一篇</small><strong>一种基于可微分物理平台的机器人模型图语法生成方法</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"><meta name="renderer" content="webkit"><link rel="icon" type="image/ico" sizes="32x32" href="/legacy/assets/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/legacy/assets/favicon.jpg"><link rel="alternate" href="/legacy/rss.xml" title="终南山下，活死人墓" type="application/rss+xml"><link rel="alternate" href="/legacy/atom.xml" title="终南山下，活死人墓" type="application/atom+xml"><link rel="alternate" type="application/json" title="终南山下，活死人墓" href="https://www.dying4ever.cyou/feed.json"><link rel="preload" href="/legacy/fonts/StoryScript-Regular.woff2" as="font" type="font/woff2" crossorigin="crossorigin"><link rel="modulepreload" href="/legacy/js/siteInit.js"><link rel="modulepreload" href="/legacy/js/copy-tex-TYOT4Z7A.js"><link rel="modulepreload" href="/legacy/js/post-PEEX3S2R.js"><link rel="modulepreload" href="/legacy/js/chunk-N4ACASAP.js"><link rel="modulepreload" href="/legacy/js/chunk-K2JFEYFH.js"><link rel="stylesheet" href="/legacy/css/siteInit.css" media="none" onload="this.media='all'"><link rel="preload" href="/legacy/images/banner.webp" as="image" fetchpriority="high"><meta name="keywords" content="stm32"><meta name="description" content="Por Una Cabeza"><link rel="canonical" href="https://www.dying4ever.cyou/2025/07/17/stm32/%E5%AE%9A%E6%97%B6%E5%99%A8/"><link rel="stylesheet" href="/legacy/css/post.css?v=0.5.4"><link rel="stylesheet" href="/legacy/css/mermaid.css?v=0.5.4"><!-- 临时处理--><title>定时器</title><meta name="generator" content="Hexo 7.3.0"></head><body itemscope="" itemtype="http://schema.org/WebPage"><div id="loading"><div class="cat"><div class="body"></div><div class="head"><div class="face"></div></div><div class="foot"><div class="tummy-end"></div><div class="bottom"></div><div class="legs left"></div><div class="legs right"></div></div><div class="paw"><div class="hands left"></div><div class="hands right"></div></div></div></div><div id="pagefind_mount"></div><div id="container"><header id="header" itemscope="" itemtype="http://schema.org/WPHeader"><div class="inner"><div id="brand"><div class="pjax"><h1 itemprop="name headline">定时器</h1><div class="meta"><span class="item" title="创建时间：2025-07-17 19:56:27"><span class="icon"><i class="ic i-calendar"></i></span><span class="text">发表于</span><time itemprop="dateCreated datePublished" datetime="2025-07-17T19:56:27+08:00">2025-07-17</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span class="text">本文字数</span><span>3.2k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span class="text">阅读时长</span><span>3 分钟</span></span></div></div></div><nav id="nav"><div class="inner"><div class="toggle"><div class="lines" aria-label="切换导航栏"><span class="line"></span><span class="line"></span><span class="line"></span></div></div><ul class="menu"><li class="item title"><a href="/legacy/" rel="start">Frostbitten Carpe Diem</a></li></ul><ul class="right" id="rightNav"><li class="item theme"><i class="ic i-sun"></i></li><li class="item search"><i class="ic i-search"></i></li></ul></div></nav></div><div class="pjax" id="imgs"><img src="/legacy/images/banner.webp" loading="eager" decoding="async" fetchpriority="high" alt="终南山下，活死人墓"></div></header><div id="waves"><svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path></defs><g class="parallax"><use xlink:href="#gentle-wave" x="48" y="0"></use><use xlink:href="#gentle-wave" x="48" y="3"></use><use xlink:href="#gentle-wave" x="48" y="5"></use><use xlink:href="#gentle-wave" x="48" y="7"></use></g></svg></div><main><div class="inner"><div class="pjax" id="main"><div class="article wrap"><div class="breadcrumb" itemlistelement="" itemscope="" itemtype="https://schema.org/BreadcrumbList"><i class="ic i-home"></i><span><a href="/legacy/">首页</a></span><i class="ic i-angle-right"></i><span class="current" itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/legacy/categories/stm32/" itemprop="item" rel="index" title="分类于stm32"><span itemprop="name">stm32<meta itemprop="position" content="0"></span></a></span></div><article class="post block" itemscope="itemscope" itemtype="http://schema.org/Article" data-pagefind-body="data-pagefind-body" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://www.dying4ever.cyou/2025/07/17/stm32/%E5%AE%9A%E6%97%B6%E5%99%A8/"><span hidden="hidden" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="image" content="/legacy/assets/head.png"><meta itemprop="name" content="曾阿牛"><meta itemprop="description" content="welcome my blog, Por Una Cabeza"></span><span hidden="hidden" itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="终南山下，活死人墓"></span><div class="body md" itemprop="articleBody"><hr>
+<h1 id="定时器interal-clock别忘记"><a class="anchor" href="#定时器interal-clock别忘记">#</a> 定时器：(interal clock别忘记!!)</h1>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>T</mi></mrow><annotation encoding="application/x-tex">T
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span></span></span></span></span></p>
+<p><strong>工作在定时模式时：</strong></p>
+<p><strong>内部时钟</strong>CK_INT</p>
+<p><strong>定时器时钟</strong>TIM_CLK</p>
+<h2 id="1内部时钟"><a class="anchor" href="#1内部时钟">#</a> 1.内部时钟</h2>
+<p><img loading="lazy" src="%E5%AE%9A%E6%97%B6%E5%99%A8.assets/image-20251202143201487.avif" alt=""><br>
+**PSC：**分频，psc/系统主频=计数器的“1”次有多久，<br>
+(16 位 PSC 最大值 65535)<br>
+**ARR：**周期，多少个psc更新一次</p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>T</mi><mo>=</mo><mo stretchy="false">[</mo><mo stretchy="false">(</mo><mi>P</mi><mi>S</mi><mi>C</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>∗</mo><mtext>（</mtext><mi>A</mi><mi>R</mi><mi>R</mi><mo>+</mo><mn>1</mn><mtext>）</mtext><mo stretchy="false">]</mo><mi mathvariant="normal">/</mi><mi>f</mi></mrow><annotation encoding="application/x-tex">T=[(PSC+1)*（ARR+1）]/f
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[(</span><span class="mord mathnormal" style="margin-right:0.07153em;">PSC</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord cjk_fallback">（</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.00773em;">RR</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord cjk_fallback">）</span><span class="mclose">]</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span></span></span></span></span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>例：系统时钟</mtext><mo>=</mo><mn>80</mn><mi>M</mi><mi>h</mi><mi>z</mi><mtext>，设周期</mtext><mo>=</mo><mn>1</mn><mi>m</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">例：系统时钟=80Mhz，设周期=1ms
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord cjk_fallback">例：系统时钟</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">80</span><span class="mord mathnormal" style="margin-right:0.10903em;">M</span><span class="mord mathnormal">h</span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mord cjk_fallback">，设周期</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span><span class="mord mathnormal">m</span><span class="mord mathnormal">s</span></span></span></span></span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>0.001</mn><mo>=</mo><mo stretchy="false">[</mo><mo stretchy="false">(</mo><mn>799</mn><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo>∗</mo><mn>100</mn><mo stretchy="false">]</mo><mi mathvariant="normal">/</mi><mo stretchy="false">(</mo><mn>79999999</mn><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">0.001=[(799+1)*100]/(79 999 999+1)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.001</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[(</span><span class="mord">799</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">100</span><span class="mclose">]</span><span class="mord">/</span><span class="mopen">(</span><span class="mord">79999999</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span></span></p>
+<p><img loading="lazy" src="%E5%AE%9A%E6%97%B6%E5%99%A8.assets/image-20251202145206964.avif" alt=""></p>
+<h5 id="定时器代码"><a class="anchor" href="#定时器代码">#</a> 定时器代码：</h5>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>HAL_TIM_Base_Start_IT(&amp;htim2);//打开终端</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>//终端处理函数</span></span>
+<span class="line"><span>void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>	if(htim==&amp;htim2)//if (htim-&gt;Instance == TIM2)</span></span>
+<span class="line"><span>	{</span></span>
+<span class="line"><span>	led_toggle(LED_0);</span></span>
+<span class="line"><span>	}</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h2 id="2外部时钟"><a class="anchor" href="#2外部时钟">#</a> 2.外部时钟</h2>
+<h2 id="3pwm产生波"><a class="anchor" href="#3pwm产生波">#</a> 3.PWM产生波</h2>
+<h3 id="原理"><a class="anchor" href="#原理">#</a> 原理:</h3>
+<p>​	<strong>ARR（Auto Reload Register）</strong>：决定 PWM 信号的周期。例如，若 ARR=99，则定时器计数从 0 到 99，形成一个 PWM 周期。</p>
+<p>​	<strong>CCR（Capture/Compare Register</strong>）：决定高电平时间。例如，若 CCR3=50，则输出高电平持续 50 个计数值，对应的占空比大致为 50/100=50%。</p>
+<p>​	<strong>预分频器PSC（Prescaler）</strong>：将系统时钟分频后作为定时器的计数时钟。比如，如果系统时钟为 80MHz，预分频器设为 79，则定时器计数频率为 80MHz/80 = 1MHz，也就是每个计数 1μs。</p>
+<p>​	<strong>Auto-reload preload(影子寄存器)</strong>  ：在程序中更新ARR或CRR(即改变占空比时使用)，用于“缓冲写入值、延后更新”的硬件机制，能让 STM32 的定时器 <strong>在更新参数时更加平滑、安全、同步</strong>，避免在关键时刻跳变或抖动。</p>
+<h3 id="输入捕获模式"><a class="anchor" href="#输入捕获模式">#</a> 输入捕获模式:</h3>
+<p>STM32 定时器的输入捕获模式可以捕获信号边沿时定时器的计数值。通常的配置方法是：</p>
+<ul>
+<li>使用<strong>通道1</strong>捕获上升沿（标记周期开始），得到一个周期的总计数值（记为 capture1）。</li>
+<li>使用<strong>通道2</strong>捕获高电平结束的边沿（例如上升沿到下降沿之间），得到高电平持续的计数值（记为 capture2）。</li>
+</ul>
+<h3 id="cubemx-配置"><a class="anchor" href="#cubemx-配置">#</a> CubeMX 配置:</h3>
+<ol>
+<li><strong>TIM2 配置（PWM 输出）：</strong>
+<ul>
+<li>模式：选择 PWM Generation</li>
+<li>通道：配置 CH3 为 PWM 输出</li>
+<li>设置 ARR、CCR3、预分频器等（例如 ARR=99, CCR3=50, Prescaler=79）</li>
+</ul>
+</li>
+<li><strong>TIM3 配置（输入捕获）：</strong>
+<ul>
+<li>模式：选择 PWM Input 模式</li>
+<li>通道：配置 CH1 捕获上升沿，CH2 捕获下降沿</li>
+<li>设置预分频器同样设为 79，保证计数单位一致</li>
+<li>配置好对应的 GPIO（例如连接到需要测量的 PWM 信号）</li>
+</ul>
+</li>
+<li><strong>中断设置：</strong>
+<ul>
+<li>为 TIM3 开启输入捕获中断（如果需要中断方式测量）。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>[!NOTE]</p>
+<p>不要中断           <strong>TIM2--CH2:PA1</strong></p>
+<p>​		          <strong>TIM2--CH3:PA2</strong>    //这里是PA2</p>
+<p>(要用杜邦线吧PA2和另外一个测频率的引脚(PA6)相连)</p>
+</blockquote>
+<p><a href="%E5%AE%9A%E6%97%B6%E5%99%A8.assets/a0f22801e060a47b717d936228020300_MD5.jpg">Open: image-20251202153314505.jpg</a><br>
+<img loading="lazy" src="%E5%AE%9A%E6%97%B6%E5%99%A8.assets/a0f22801e060a47b717d936228020300_MD5.avif" alt=""></p>
+<h5 id="初始化"><a class="anchor" href="#初始化">#</a> 初始化：</h5>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>	HAL_TIM_PWM_Start(&amp;htim2,TIM_CHANNEL_3);</span></span>
+<span class="line"><span>	TIM2 -&gt; CCR3 =50;//CCR3 寄存器:在PWM模式下,CCR的值决定了PWM输出的高电平持续时间。</span></span></code></pre>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>D</mi><mi>u</mi><mi>t</mi><mi>y</mi><mo>=</mo><mi>C</mi><mi>C</mi><mi>R</mi><mi mathvariant="normal">/</mi><mo stretchy="false">(</mo><mi>A</mi><mi>R</mi><mi>R</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">(</mo><mi>A</mi><mi>R</mi><mi>R</mi><mo>=</mo><mn>99</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">Duty= CCR/(ARR+1)  (ARR=99)
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mord mathnormal">u</span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">CCR</span><span class="mord">/</span><span class="mopen">(</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.00773em;">RR</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mopen">(</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.00773em;">RR</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">99</span><span class="mclose">)</span></span></span></span></span></p>
+<h2 id="4pwm测频"><a class="anchor" href="#4pwm测频">#</a> 4.PWM测频</h2>
+<p>有两种方法,这里只说PWM测频的<br>
+[文件已丢失]</p>
+<h5 id="cubemx配置"><a class="anchor" href="#cubemx配置">#</a> cubemx配置：</h5>
+<p>[文件已丢失]</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>    HAL_TIM_IC_Start_IT(&amp;htim3, TIM_CHANNEL_1); // 捕获上升沿（周期）</span></span>
+<span class="line"><span>    HAL_TIM_IC_Start(&amp;htim3, TIM_CHANNEL_2);  // 捕获下降沿（高电平时间）(可以没有)</span></span></code></pre>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>uint32_t capture1;</span></span>
+<span class="line"><span>uint32_t capture2;//	捕获某个边沿时 CNT 的当前值（计数值）</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>float freq;</span></span>
+<span class="line"><span>float duty;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)</span></span>
+<span class="line"><span>{</span></span>
+<span class="line"><span>		if(htim -&gt; Instance ==TIM3 &amp;&amp; htim -&gt; Channel == HAL_TIM_ACTIVE_CHANNEL_1)</span></span>
+<span class="line"><span>		{</span></span>
+<span class="line"><span>			capture1 = HAL_TIM_ReadCapturedValue(&amp;htim3,TIM_CHANNEL_1)+1;// 捕获上升沿（周期）</span></span>
+<span class="line"><span>			capture2 = HAL_TIM_ReadCapturedValue(&amp;htim3,TIM_CHANNEL_2)+1; // 捕获下降沿（高电平时间）</span></span>
+<span class="line"><span>			//TIM1-&gt;CNT = 0;</span></span>
+<span class="line"><span>			freq= 80000000/ (80 * capture1);</span></span>
+<span class="line"><span>			duty =((float)capture2/capture1);//测量的占空比,输出捕获</span></span>
+<span class="line"><span>			//duty = (float)TIM2-&gt;CCR/(TIM2-AAR+1);//自己生成的占空比</span></span>
+<span class="line"><span>		}</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<h2 id="5比较"><a class="anchor" href="#5比较">#</a> 5.比较</h2>
+<h4 id="1中断回调"><a class="anchor" href="#1中断回调">#</a> 1.中断回调:</h4>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>//（2550）输入捕获中断,只需要改PSC,计算频率、占空比</span></span>
+<span class="line"><span>void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)</span></span>
+<span class="line"><span>//（2547）定时器周期溢出中断回调,需要改PSC和ARR,做周期性任务</span></span>
+<span class="line"><span>void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)</span></span>
+<span class="line"><span></span></span></code></pre>
+<h4 id="2初始化"><a class="anchor" href="#2初始化">#</a> 2.初始化：</h4>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>//PWM输出</span></span>
+<span class="line"><span>HAL_TIM_PWM_Start(&amp;htim2,TIM_CHANNEL_2);</span></span>
+<span class="line"><span>TIM2-&gt;CCR2 = 50;</span></span>
+<span class="line"><span>//输入捕获中断</span></span>
+<span class="line"><span>HAL_TIM_IC_Start_IT(&amp;htim3,TIM_CHANNEL_2);</span></span>
+<span class="line"><span>//定时器中断,一定要加IT</span></span>
+<span class="line"><span>HAL_TIM_Base_Start_IT(&amp;htim4);</span></span></code></pre>
+<h2 id="6电路图"><a class="anchor" href="#6电路图">#</a> 6.电路图</h2>
+<p><img loading="lazy" src="%E5%AE%9A%E6%97%B6%E5%99%A8.assets/image-20251202152113030.avif" alt=""></p>
+<div class="tags"><a href="/legacy/tags/stm32/" rel="tag"><i class="ic i-tag"></i>stm32</a></div></div><footer><div class="meta"><span class="item"><span class="icon"><i class="ic i-calendar-check"></i></span><span class="text">更新于 </span><time title="修改时间：2026-06-14 01:14:47" itemprop="dateModified" datetime="2026-06-14T01:14:47+08:00">2026-06-14</time></span></div><div class="reward"><button><i class="ic i-heartbeat"></i>赞赏</button><p>请我喝[茶]~(￣▽￣)~*</p><div id="qr"><div><img loading="lazy" src="/legacy/assets/wechatpay.avif" alt="曾阿牛 微信支付"><p>微信支付</p></div><div><img loading="lazy" src="/legacy/assets/alipay.avif" alt="曾阿牛 支付宝"><p>支付宝</p></div></div></div><div id="copyright"><ul><li class="author"><strong>本文作者：</strong>曾阿牛<i class="ic i-at"><em>@</em></i>终南山下，活死人墓</li><li class="link"><strong>本文链接：</strong><a href="https://www.dying4ever.cyou/2025/07/17/stm32/%E5%AE%9A%E6%97%B6%E5%99%A8/" title="定时器">https://www.dying4ever.cyou/2025/07/17/stm32/定时器/</a></li><li class="license"><strong>版权声明：</strong>本站所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div></footer></article></div><div class="post-nav"><div class="item left"><a href="/legacy/2025/07/17/stm32/%E4%B8%B2%E5%8F%A3DMA/" rel="prev" itemprop="url" data-background-image="/legacy/assets/xiaoyu.webp" title="串口DMA"><span class="type">上一篇</span><span class="category"><i class="ic i-flag"></i>stm32</span><h3>串口DMA</h3></a></div><div class="item right"><a href="/legacy/2025/07/17/stm32/%E4%B8%B2%E5%8F%A3/" rel="next" itemprop="url" data-background-image="/legacy/assets/xiaoyu.webp" title="串口"><span class="type">下一篇</span><span class="category"><i class="ic i-flag"></i>stm32</span><h3>串口</h3></a></div></div><div class="wrap" id="comments"></div></div><div id="sidebar"><div class="inner"><div class="panels"><div class="inner"><div class="contents panel pjax" data-title="文章目录"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8interal-clock%E5%88%AB%E5%BF%98%E8%AE%B0"><span class="toc-number">1.</span> <span class="toc-text"> 定时器：(interal clock别忘记!!)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E5%86%85%E9%83%A8%E6%97%B6%E9%92%9F"><span class="toc-number">1.1.</span> <span class="toc-text"> 1.内部时钟</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%9A%E6%97%B6%E5%99%A8%E4%BB%A3%E7%A0%81"><span class="toc-number">1.1.0.0.1.</span> <span class="toc-text"> 定时器代码：</span></a></li></ol></li></ol></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E5%A4%96%E9%83%A8%E6%97%B6%E9%92%9F"><span class="toc-number">1.2.</span> <span class="toc-text"> 2.外部时钟</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3pwm%E4%BA%A7%E7%94%9F%E6%B3%A2"><span class="toc-number">1.3.</span> <span class="toc-text"> 3.PWM产生波</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.3.1.</span> <span class="toc-text"> 原理:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E6%8D%95%E8%8E%B7%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.3.2.</span> <span class="toc-text"> 输入捕获模式:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cubemx-%E9%85%8D%E7%BD%AE"><span class="toc-number">1.3.3.</span> <span class="toc-text"> CubeMX 配置:</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.3.3.0.1.</span> <span class="toc-text"> 初始化：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4pwm%E6%B5%8B%E9%A2%91"><span class="toc-number">1.4.</span> <span class="toc-text"> 4.PWM测频</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#cubemx%E9%85%8D%E7%BD%AE"><span class="toc-number">1.4.0.0.1.</span> <span class="toc-text"> cubemx配置：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E6%AF%94%E8%BE%83"><span class="toc-number">1.5.</span> <span class="toc-text"> 5.比较</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E4%B8%AD%E6%96%AD%E5%9B%9E%E8%B0%83"><span class="toc-number">1.5.0.1.</span> <span class="toc-text"> 1.中断回调:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.5.0.2.</span> <span class="toc-text"> 2.初始化：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E7%94%B5%E8%B7%AF%E5%9B%BE"><span class="toc-number">1.6.</span> <span class="toc-text"> 6.电路图</span></a></li></div><div class="related panel pjax" data-title="系列文章"><ul><li><a href="/legacy/2025/07/17/stm32/99%E6%B4%BE/" rel="bookmark" title="99派">99派</a></li><li><a href="/legacy/2025/07/17/stm32/flash/" rel="bookmark" title="flash">flash</a></li><li><a href="/legacy/2025/07/17/stm32/ADC/" rel="bookmark" title="ADC">ADC</a></li><li><a href="/legacy/2025/07/17/stm32/key/" rel="bookmark" title="key">key</a></li><li><a href="/legacy/2025/07/17/stm32/i2c/" rel="bookmark" title="i2c">i2c</a></li><li><a href="/legacy/2025/07/17/stm32/led_lcd/" rel="bookmark" title="led_lcd">led_lcd</a></li><li><a href="/legacy/2025/07/17/stm32/%E4%B8%80%E4%BA%9B%E5%90%8A%E7%9A%84%E6%8A%80%E5%B7%A7/" rel="bookmark" title="一些吊的技巧">一些吊的技巧</a></li><li><a href="/legacy/2025/07/17/stm32/rtc/" rel="bookmark" title="rtc">rtc</a></li><li><a href="/legacy/2025/07/17/stm32/%E4%B8%B2%E5%8F%A3/" rel="bookmark" title="串口">串口</a></li><li class="active"><a href="/legacy/2025/07/17/stm32/%E5%AE%9A%E6%97%B6%E5%99%A8/" rel="bookmark" title="定时器">定时器</a></li><li><a href="/legacy/2025/07/17/stm32/%E4%B8%B2%E5%8F%A3DMA/" rel="bookmark" title="串口DMA">串口DMA</a></li><li><a href="/legacy/2025/07/22/stm32/%E9%BE%99%E8%8A%AF2k3000_%E8%81%94%E7%BD%91/" rel="bookmark" title="龙芯2k3000_联网">龙芯2k3000_联网</a></li><li><a href="/legacy/2025/10/28/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/1%E3%80%81%E5%B5%8C%E5%85%A5%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%BF%B0/" rel="bookmark" title="1、嵌入式系统概述">1、嵌入式系统概述</a></li><li><a href="/legacy/2025/10/28/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/2%E3%80%81%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/" rel="bookmark" title="2、硬件基础">2、硬件基础</a></li><li><a href="/legacy/2025/11/06/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/%E7%82%B9%E7%81%AF/" rel="bookmark" title="点灯">点灯</a></li><li><a href="/legacy/2025/12/20/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/3%E3%80%81GPIO/" rel="bookmark" title="3、GPIO">3、GPIO</a></li><li><a href="/legacy/2025/12/22/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/4%E3%80%81beep%E8%9C%82%E9%B8%A3%E5%99%A8/" rel="bookmark" title="4、beep蜂鸣器">4、beep蜂鸣器</a></li><li><a href="/legacy/2025/12/24/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/5%E3%80%81%E4%B8%AD%E6%96%AD/" rel="bookmark" title="5、中断">5、中断</a></li><li><a href="/legacy/2025/12/25/stm32/%E5%B5%8C%E5%85%A5%E5%BC%8F_--%EF%BC%88%E6%B2%88%E6%8D%B7%EF%BC%89/6%E3%80%81%E4%B8%B2%E8%A1%8C%E9%80%9A%E4%BF%A1/" rel="bookmark" title="6、串行通信">6、串行通信</a></li></ul></div><div class="overview panel" data-title="站点概览"><div class="sidebar-profile-card"><div class="author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><img class="image" loading="lazy" decoding="async" itemprop="image" alt="曾阿牛" src="/legacy/assets/head.avif"><p class="name" itemprop="name">曾阿牛</p><div class="description sidebar-typing" itemprop="description" data-words="I’M Zzzzzzzzzzzz|Por Una Cabeza"><span class="typing-text">Por Una Cabeza</span><span class="typing-cursor" aria-hidden="true">|</span></div></div><div class="social"><a target="_blank" rel="noopener" href="https://github.com/dying4ever" class="item github" title="https://github.com/dying4ever"><i class="ic i-github"></i></a><a href="mailto:zhangjingxuan@163.com" class="item email" title="mailto:zhangjingxuan@163.com"><i class="ic i-envelope"></i></a><a target="_blank" rel="noopener" href="https://www.douban.com/people/244425591/?_i=9515043jR6tETx" class="item douban" title="https://www.douban.com/people/244425591/?_i=9515043jR6tETx"><i class="ic i-douban"></i></a></div><div class="sidebar-contact"><div class="contact-row"><span class="label">LOCATION:</span><span class="value">NANJING</span></div></div><nav class="state"><div class="item posts"><a href="/legacy/archives/"><span class="count">131</span><span class="name">文章</span></a></div><div class="item categories"><a href="/legacy/categories/"><span class="count">37</span><span class="name">分类</span></a></div><div class="item tags"><a href="/legacy/tags/"><span class="count">44</span><span class="name">标签</span></a></div></nav><div class="menu"><li class="item"><a href="/legacy/" rel="section"><i class="ic i-home"></i>首页</a></li><li class="item"><a href="/legacy/about/" rel="section"><i class="ic i-user"></i>关于</a></li><li class="item"><a href="/legacy/projects/" rel="section"><i class="ic i-feather"></i>projects</a></li><li class="item"><a href="/legacy/categories/" rel="section"><i class="ic i-th"></i>分类</a></li><li class="item"><a href="/legacy/archives/" rel="section"><i class="ic i-list-alt"></i>归档</a></li><li class="item"><a href="/legacy/friends/" rel="section"><i class="ic i-heart"></i>友链</a></li></div></div><script>(() => {
+  const nodes = document.querySelectorAll('.sidebar-typing');
+  nodes.forEach((node) => {
+    if (node.dataset.ready === 'true') return;
+    node.dataset.ready = 'true';
+    const textNode = node.querySelector('.typing-text');
+    const words = (node.dataset.words || 'Por Una Cabeza').split('|').filter(Boolean);
+    if (!textNode || words.length < 1) return;
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    let hold = 0;
+    const tick = () => {
+      const word = words[wordIndex % words.length];
+      textNode.textContent = deleting ? word.slice(0, charIndex--) : word.slice(0, charIndex++);
+      if (!deleting && charIndex > word.length) {
+        if (hold < 42) {
+          hold++;
+          window.setTimeout(tick, 200);
+          return;
+        }
+        hold = 0;
+        deleting = true;
+      }
+      if (deleting && charIndex < 0) {
+        deleting = false;
+        wordIndex++;
+        charIndex = 0;
+      }
+      window.setTimeout(tick, deleting ? 170 : 220);
+    };
+    tick();
+  });
+})();</script></div></div></div><ul id="quick"><li class="prev pjax"><a href="/legacy/2025/07/17/stm32/%E4%B8%B2%E5%8F%A3/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a></li><li class="up"><i class="ic i-arrow-up"></i></li><li class="down"><i class="ic i-arrow-down"></i></li><li class="next pjax"><a href="/legacy/2025/07/17/stm32/%E4%B8%B2%E5%8F%A3DMA/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a></li><li class="percent"></li></ul></div></div><div class="dimmer"></div></div><div id="player"></div></main><footer id="footer"><div class="inner"><div class="widgets"><div class="rpost pjax"><h2>最新评论</h2></div></div><div class="status"><div class="copyright">© 2025 -<span itemprop="copyrightYear">2026</span><span class="with-love"><i class="ic i-sakura rotate"></i></span><span class="author" itemprop="copyrightHolder">曾阿牛 @ Frostbitten Carpe Diem</span></div><div class="count"><span class="post-meta-item-icon"><i class="ic i-chart-area"></i></span><span title="站点总字数">1.3m 字</span><span class="post-meta-divider"> | </span><span class="post-meta-item-icon"><i class="ic i-coffee"></i></span><span title="站点阅读时长">19:17</span></div><div class="powered-by">基于 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> &amp; Theme.<a target="_blank" rel="noopener" href="https://github.com/theme-shoka-x/hexo-theme-shokaX/">ShokaX</a></div></div></div></footer></div><script data-config="" type="text/javascript">var LOCAL = {
+    ispost: true,
+    path: `2025/07/17/stm32/定时器/`,
+    favicon: {
+        show: `不负韶华`,
+        hide: `以梦为马！`
+    },
+    search: {
+        placeholder: "文章搜索",
+        empty: "关于 「 ${query} 」，什么也没搜到",
+        stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    nocopy: "false",
+    copyright: `复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。`,
+    copy_tex: false,
+    katex: false,
+    mermaid: false,
+    audio: undefined,
+    nocopy: false,
+    outime: true,
+    template: `<div class="note warning"><p><span class="label warning">文章时效性提示</span><br>这是一篇发布于 {{publish}} 天前，最后一次更新在 {{updated}} 天前的文章，部分信息可能已经发生改变，请注意甄别。</p></div>`,
+    quiz: {
+        choice: `单选题`,
+        multiple: `多选题`,
+        true_false: `判断题`,
+        essay: `问答题`,
+        gap_fill: `填空题`,
+        mistake: `错题备注`
+    }
+};
+</script><script src="/legacy/js/siteInit.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script><script src="/legacy/js/gallery-random-covers.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script></body></html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><meta http-equiv="X-UA-COMPATIBLE" content="IE=edge,chrome=1"><meta name="renderer" content="webkit"><link rel="icon" type="image/ico" sizes="32x32" href="/legacy/assets/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/legacy/assets/favicon.jpg"><link rel="alternate" href="/legacy/rss.xml" title="终南山下，活死人墓" type="application/rss+xml"><link rel="alternate" href="/legacy/atom.xml" title="终南山下，活死人墓" type="application/atom+xml"><link rel="alternate" type="application/json" title="终南山下，活死人墓" href="https://www.dying4ever.cyou/feed.json"><link rel="preload" href="/legacy/fonts/StoryScript-Regular.woff2" as="font" type="font/woff2" crossorigin="crossorigin"><link rel="modulepreload" href="/legacy/js/siteInit.js"><link rel="modulepreload" href="/legacy/js/copy-tex-TYOT4Z7A.js"><link rel="modulepreload" href="/legacy/js/post-PEEX3S2R.js"><link rel="modulepreload" href="/legacy/js/chunk-N4ACASAP.js"><link rel="modulepreload" href="/legacy/js/chunk-K2JFEYFH.js"><link rel="stylesheet" href="/legacy/css/siteInit.css" media="none" onload="this.media='all'"><link rel="preload" href="/legacy/images/banner.webp" as="image" fetchpriority="high"><meta name="keywords" content="Python,"><meta name="description" content="Por Una Cabeza"><link rel="canonical" href="https://www.dying4ever.cyou/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2)/"><link rel="stylesheet" href="/legacy/css/post.css?v=0.5.4"><link rel="stylesheet" href="/legacy/css/mermaid.css?v=0.5.4"><!-- 临时处理--><title>2.2、图像处理(2-1_几何变换)</title><meta name="generator" content="Hexo 7.3.0"></head><body itemscope="" itemtype="http://schema.org/WebPage"><div id="loading"><div class="cat"><div class="body"></div><div class="head"><div class="face"></div></div><div class="foot"><div class="tummy-end"></div><div class="bottom"></div><div class="legs left"></div><div class="legs right"></div></div><div class="paw"><div class="hands left"></div><div class="hands right"></div></div></div></div><div id="pagefind_mount"></div><div id="container"><header id="header" itemscope="" itemtype="http://schema.org/WPHeader"><div class="inner"><div id="brand"><div class="pjax"><h1 itemprop="name headline">2.2、图像处理(2-1_几何变换)</h1><div class="meta"><span class="item" title="创建时间：2025-07-17 19:41:51"><span class="icon"><i class="ic i-calendar"></i></span><span class="text">发表于</span><time itemprop="dateCreated datePublished" datetime="2025-07-17T19:41:51+08:00">2025-07-17</time></span><span class="item" title="本文字数"><span class="icon"><i class="ic i-pen"></i></span><span class="text">本文字数</span><span>6.1k</span><span class="text">字</span></span><span class="item" title="阅读时长"><span class="icon"><i class="ic i-clock"></i></span><span class="text">阅读时长</span><span>6 分钟</span></span></div></div></div><nav id="nav"><div class="inner"><div class="toggle"><div class="lines" aria-label="切换导航栏"><span class="line"></span><span class="line"></span><span class="line"></span></div></div><ul class="menu"><li class="item title"><a href="/legacy/" rel="start">Frostbitten Carpe Diem</a></li></ul><ul class="right" id="rightNav"><li class="item theme"><i class="ic i-sun"></i></li><li class="item search"><i class="ic i-search"></i></li></ul></div></nav></div><div class="pjax" id="imgs"><img src="/legacy/images/banner.webp" loading="eager" decoding="async" fetchpriority="high" alt="终南山下，活死人墓"></div></header><div id="waves"><svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"></path></defs><g class="parallax"><use xlink:href="#gentle-wave" x="48" y="0"></use><use xlink:href="#gentle-wave" x="48" y="3"></use><use xlink:href="#gentle-wave" x="48" y="5"></use><use xlink:href="#gentle-wave" x="48" y="7"></use></g></svg></div><main><div class="inner"><div class="pjax" id="main"><div class="article wrap"><div class="breadcrumb" itemlistelement="" itemscope="" itemtype="https://schema.org/BreadcrumbList"><i class="ic i-home"></i><span><a href="/legacy/">首页</a></span><i class="ic i-angle-right"></i><span itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/legacy/categories/Python/" itemprop="item" rel="index" title="分类于Python"><span itemprop="name">Python<meta itemprop="position" content="0"></span></a></span><i class="ic i-angle-right"></i><span class="current" itemprop="itemListElement" itemscope="itemscope" itemtype="https://schema.org/ListItem"><a href="/legacy/categories/Python/opencv/" itemprop="item" rel="index" title="分类于opencv"><span itemprop="name">opencv<meta itemprop="position" content="1"></span></a></span></div><article class="post block" itemscope="itemscope" itemtype="http://schema.org/Article" data-pagefind-body="data-pagefind-body" lang="zh-CN"><link itemprop="mainEntityOfPage" href="https://www.dying4ever.cyou/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2)/"><span hidden="hidden" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><meta itemprop="image" content="/legacy/assets/head.png"><meta itemprop="name" content="曾阿牛"><meta itemprop="description" content="welcome my blog, Por Una Cabeza"></span><span hidden="hidden" itemprop="publisher" itemscope="itemscope" itemtype="http://schema.org/Organization"><meta itemprop="name" content="终南山下，活死人墓"></span><div class="body md" itemprop="articleBody"><hr>
+<h2 id="2图像处理"><a class="anchor" href="#2图像处理">#</a> 2，图像处理</h2>
+<h3 id="2-1-几何变换"><a class="anchor" href="#2-1-几何变换">#</a> 2-1 几何变换</h3>
+<h4 id="2-1-1-图像的缩放"><a class="anchor" href="#2-1-1-图像的缩放">#</a> 2-1-1 图像的缩放</h4>
+<p>缩放是对图像的大小进行调整，即使图像放大或缩小。</p>
+<p>1，API</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>cv2.resize(src,dsize,fx=0,fy=0,interpolation=cv2.INTER_LINEAR)</span></span></code></pre>
+<p>参数：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>- src : ## 输入图像</span></span>
+<span class="line"><span>- dsize: ## 绝对尺寸，直接指定调整后图像的大小</span></span>
+<span class="line"><span>- fx,fy: ## 相对尺寸，将dsize设置为None，然后将fx和fy设置为比例因子即可</span></span>
+<span class="line"><span>- interpolation：## 插值方法，</span></span></code></pre>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127115410.avif" alt=""></p>
+<p>2，演示</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>import cv2 as cv</span></span>
+<span class="line"><span># 1. 读取图片</span></span>
+<span class="line"><span>img1 = cv.imread("./image/dog.jpeg")</span></span>
+<span class="line"><span># 2.图像缩放</span></span>
+<span class="line"><span># 2.1 绝对尺寸</span></span>
+<span class="line"><span>rows,cols = img1.shape[:2]</span></span>
+<span class="line"><span>res = cv.resize(img1,(2*cols,2*rows),interpolation=cv.INTER_CUBIC)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 2.2 相对尺寸</span></span>
+<span class="line"><span>res1 = cv.resize(img1,None,fx=0.5,fy=0.5)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 3 图像显示</span></span>
+<span class="line"><span># 3.1 使用opencv显示图像(不推荐)</span></span>
+<span class="line"><span>cv.imshow("orignal",img1)</span></span>
+<span class="line"><span>cv.imshow("enlarge",res)</span></span>
+<span class="line"><span>cv.imshow("shrink）",res1)</span></span>
+<span class="line"><span>cv.waitKey(0)</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 3.2 使用matplotlib显示图像</span></span>
+<span class="line"><span>fig,axes=plt.subplots(nrows=1,ncols=3,figsize=(10,8),dpi=100)</span></span>
+<span class="line"><span>axes[0].imshow(res[:,:,::-1])</span></span>
+<span class="line"><span>axes[0].set_title("绝对尺度（放大）")</span></span>
+<span class="line"><span>axes[1].imshow(img1[:,:,::-1])</span></span>
+<span class="line"><span>axes[1].set_title("原图")</span></span>
+<span class="line"><span>axes[2].imshow(res1[:,:,::-1])</span></span>
+<span class="line"><span>axes[2].set_title("相对尺度（缩小）")</span></span>
+<span class="line"><span>plt.show()</span></span></code></pre>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127115623.avif" alt=""></p>
+<h4 id="2-1-2-图像平移"><a class="anchor" href="#2-1-2-图像平移">#</a> 2-1-2 图像平移</h4>
+<p>图像平移将图像按照指定方向和距离，移动到相应的位置。</p>
+<p>API</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>cv.warpAffine(img,M,dsize)</span></span></code></pre>
+<p>参数：</p>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127120134.avif" alt=""></p>
+<p>需求是将图像的像素点移动(50,100)的距离：</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>import numpy as np</span></span>
+<span class="line"><span>import cv2 as cv</span></span>
+<span class="line"><span>import matplotlib.pyplot as plt</span></span>
+<span class="line"><span># 1. 读取图像</span></span>
+<span class="line"><span>img1 = cv.imread("./image/image2.jpg")</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 2. 图像平移</span></span>
+<span class="line"><span>rows,cols = img1.shape[:2]</span></span>
+<span class="line"><span>M = np.float32([[1,0,100],[0,1,50]])# 平移矩阵</span></span>
+<span class="line"><span>dst = cv.warpAffine(img1,M,(cols,rows))</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 3. 图像显示</span></span>
+<span class="line"><span>fig,axes=plt.subplots(nrows=1,ncols=2,figsize=(10,8),dpi=100)</span></span>
+<span class="line"><span>axes[0].imshow(img1[:,:,::-1])</span></span>
+<span class="line"><span>axes[0].set_title("原图")</span></span>
+<span class="line"><span>axes[1].imshow(dst[:,:,::-1])</span></span>
+<span class="line"><span>axes[1].set_title("平移后结果")</span></span>
+<span class="line"><span>plt.show()</span></span></code></pre>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127120154.avif" alt=""></p>
+<h4 id="2-1-3-图像旋转"><a class="anchor" href="#2-1-3-图像旋转">#</a> 2-1-3 图像旋转</h4>
+<p>图像旋转是指图像按照某个位置转动一定角度的过程，旋转中图像仍保持这原始尺寸。图像旋转后图像的水平对称轴、垂直对称轴及中心坐标原点都可能会发生变换，因此需要对图像旋转中的坐标进行相应转换。</p>
+<p>那图像是怎么进行旋转的呢？如下图所示：</p>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127120308.avif" alt=""></p>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127120401.avif" alt=""></p>
+<p>在OpenCV中图像旋转首先根据旋转角度和旋转中心获取旋转矩阵，然后根据旋转矩阵进行变换，即可实现任意角度和任意中心的旋转效果。</p>
+<ol>
+<li>
+<p>API</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>cv2.getRotationMatrix2D(center, angle, scale)</span></span></code></pre>
+<p>参数：</p>
+<ul>
+<li>center：旋转中心</li>
+<li>angle：旋转角度</li>
+<li>scale：缩放比例</li>
+</ul>
+<p>返回：</p>
+<ul>
+<li>
+<p>M：旋转矩阵</p>
+<p>调用cv.warpAffine完成图像的旋转</p>
+</li>
+</ul>
+</li>
+<li>
+<p>示例</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>import numpy as np</span></span>
+<span class="line"><span>import cv2 as cv</span></span>
+<span class="line"><span>import matplotlib.pyplot as plt</span></span>
+<span class="line"><span># 1 读取图像</span></span>
+<span class="line"><span>img = cv.imread("./image/image2.jpg")</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 2 图像旋转</span></span>
+<span class="line"><span>rows,cols = img.shape[:2]</span></span>
+<span class="line"><span># 2.1 生成旋转矩阵</span></span>
+<span class="line"><span>M = cv.getRotationMatrix2D((cols/2,rows/2),90,1)</span></span>
+<span class="line"><span># 2.2 进行旋转变换</span></span>
+<span class="line"><span>dst = cv.warpAffine(img,M,(cols,rows))</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 3 图像展示</span></span>
+<span class="line"><span>fig,axes=plt.subplots(nrows=1,ncols=2,figsize=(10,8),dpi=100)</span></span>
+<span class="line"><span>axes[0].imshow(img1[:,:,::-1])</span></span>
+<span class="line"><span>axes[0].set_title("原图")</span></span>
+<span class="line"><span>axes[1].imshow(dst[:,:,::-1])</span></span>
+<span class="line"><span>axes[1].set_title("旋转后结果")</span></span>
+<span class="line"><span>plt.show()</span></span></code></pre>
+</li>
+</ol>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127120429.avif" alt=""></p>
+<h4 id="2-1-4-仿射变换"><a class="anchor" href="#2-1-4-仿射变换">#</a> 2-1-4 仿射变换</h4>
+<p>图像的仿射变换涉及到图像的形状位置角度的变化，是深度学习预处理中常到的功能,仿射变换主要是对图像的缩放，旋转，翻转和平移等操作的组合。</p>
+<p>那什么是图像的仿射变换，如下图所示，图1中的点1, 2 和 3 与图二中三个点一一映射, 仍然形成三角形, 但形状已经大大改变，通过这样两组三点（感兴趣点）求出仿射变换， 接下来我们就能把仿射变换应用到图像中所有的点中，就完成了图像的仿射变换。</p>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127123026.avif" alt=""></p>
+<p>需要注意的是，对于图像而言，宽度方向是x，高度方向是y，坐标的顺序和图像像素对应下标一致。所以原点的位置不是左下角而是右上角，y的方向也不是向上，而是向下。</p>
+<p>在仿射变换中，原图中所有的平行线在结果图像中同样平行。为了创建这个矩阵我们需要从原图像中找到三个点以及他们在输出图像中的位置。然后cv2.getAﬃneTransform 会创建一个 2x3 的矩阵，最后这个矩阵会被传给函数 cv2.warpAﬃne。</p>
+<p>示例</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>import numpy as np</span></span>
+<span class="line"><span>import cv2 as cv</span></span>
+<span class="line"><span>import matplotlib.pyplot as plt</span></span>
+<span class="line"><span># 1 图像读取</span></span>
+<span class="line"><span>img = cv.imread("./image/image2.jpg")</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 2 仿射变换</span></span>
+<span class="line"><span>rows,cols = img.shape[:2]</span></span>
+<span class="line"><span># 2.1 创建变换矩阵</span></span>
+<span class="line"><span>pts1 = np.float32([[50,50],[200,50],[50,200]])</span></span>
+<span class="line"><span>pts2 = np.float32([[100,100],[200,50],[100,250]])</span></span>
+<span class="line"><span>M = cv.getAffineTransform(pts1,pts2)</span></span>
+<span class="line"><span># 2.2 完成仿射变换</span></span>
+<span class="line"><span>dst = cv.warpAffine(img,M,(cols,rows))</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 3 图像显示</span></span>
+<span class="line"><span>fig,axes=plt.subplots(nrows=1,ncols=2,figsize=(10,8),dpi=100)</span></span>
+<span class="line"><span>axes[0].imshow(img[:,:,::-1])</span></span>
+<span class="line"><span>axes[0].set_title("原图")</span></span>
+<span class="line"><span>axes[1].imshow(dst[:,:,::-1])</span></span>
+<span class="line"><span>axes[1].set_title("仿射后结果")</span></span>
+<span class="line"><span>plt.show()</span></span></code></pre>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127123053.avif" alt=""></p>
+<h4 id="2-1-5-透射变换"><a class="anchor" href="#2-1-5-透射变换">#</a> 2-1-5  透射变换</h4>
+<p>透射变换是视角变化的结果，是指利用透视中心、像点、目标点三点共线的条件，按透视旋转定律使承影面（透视面）绕迹线（透视轴）旋转某一角度，破坏原有的投影光线束，仍能保持承影面上投影几何图形不变的变换。</p>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127123435.avif" alt=""></p>
+<p>![](2.2、图像处理(2-1 几何变换).assets/image-20240127123502.png)</p>
+<ol>
+<li>
+<p>示例</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>import numpy as np</span></span>
+<span class="line"><span>import cv2 as cv</span></span>
+<span class="line"><span>import matplotlib.pyplot as plt</span></span>
+<span class="line"><span># 1 读取图像</span></span>
+<span class="line"><span>img = cv.imread("./image/image2.jpg")</span></span>
+<span class="line"><span># 2 透射变换</span></span>
+<span class="line"><span>rows,cols = img.shape[:2]</span></span>
+<span class="line"><span># 2.1 创建变换矩阵</span></span>
+<span class="line"><span>pts1 = np.float32([[56,65],[368,52],[28,387],[389,390]])</span></span>
+<span class="line"><span>pts2 = np.float32([[100,145],[300,100],[80,290],[310,300]])</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>T = cv.getPerspectiveTransform(pts1,pts2)</span></span>
+<span class="line"><span># 2.2 进行变换</span></span>
+<span class="line"><span>dst = cv.warpPerspective(img,T,(cols,rows))</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># 3 图像显示</span></span>
+<span class="line"><span>fig,axes=plt.subplots(nrows=1,ncols=2,figsize=(10,8),dpi=100)</span></span>
+<span class="line"><span>axes[0].imshow(img[:,:,::-1])</span></span>
+<span class="line"><span>axes[0].set_title("原图")</span></span>
+<span class="line"><span>axes[1].imshow(dst[:,:,::-1])</span></span>
+<span class="line"><span>axes[1].set_title("透射后结果")</span></span>
+<span class="line"><span>plt.show()</span></span></code></pre>
+</li>
+</ol>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127123550.avif" alt=""></p>
+<h4 id="2-1-6-图像金字塔"><a class="anchor" href="#2-1-6-图像金字塔">#</a> 2-1-6 图像金字塔</h4>
+<p>图像金字塔是图像多尺度表达的一种，最主要用于图像的分割，是一种以多分辨率来解释图像的有效但概念简单的结构。</p>
+<p>图像金字塔用于机器视觉和图像压缩，一幅图像的金字塔是一系列以金字塔形状排列的分辨率逐步降低，且来源于同一张原始图的图像集合。其通过梯次向下采样获得，直到达到某个终止条件才停止采样。</p>
+<p>金字塔的底部是待处理图像的高分辨率表示，而顶部是低分辨率的近似，层级越高，图像越小，分辨率越低。</p>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127123631.avif" alt=""></p>
+<ol>
+<li>
+<p>API</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>cv.pyrUp(img)       #对图像进行上采样</span></span>
+<span class="line"><span>cv.pyrDown(img)        #对图像进行下采样</span></span></code></pre>
+</li>
+<li>
+<p>示例</p>
+<pre class="shiki shiki-themes vitesse-light vitesse-dark" style="background-color:#ffffff;--shiki-dark-bg:#121212;color:#393a34;--shiki-dark:#dbd7caee" tabindex="0"><code class="language-text"><span class="line"><span>import numpy as np</span></span>
+<span class="line"><span>import cv2 as cv</span></span>
+<span class="line"><span>import matplotlib.pyplot as plt</span></span>
+<span class="line"><span># 1 图像读取</span></span>
+<span class="line"><span>img = cv.imread("./image/image2.jpg")</span></span>
+<span class="line"><span># 2 进行图像采样</span></span>
+<span class="line"><span>up_img = cv.pyrUp(img)  # 上采样操作</span></span>
+<span class="line"><span>img_1 = cv.pyrDown(img)  # 下采样操作</span></span>
+<span class="line"><span># 3 图像显示</span></span>
+<span class="line"><span>cv.imshow('enlarge', up_img)</span></span>
+<span class="line"><span>cv.imshow('original', img)</span></span>
+<span class="line"><span>cv.imshow('shrink', img_1)</span></span>
+<span class="line"><span>cv.waitKey(0)</span></span>
+<span class="line"><span>cv.destroyAllWindows()</span></span></code></pre>
+</li>
+</ol>
+<p><img loading="lazy" src="2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2).assets/image-20240127124054.avif" alt=""></p>
+<h4 id="2-1-7-总结"><a class="anchor" href="#2-1-7-总结">#</a> 2-1-7 总结</h4>
+<p><strong>总结</strong></p>
+<ol>
+<li>
+<p>图像缩放：对图像进行放大或缩小</p>
+<p>cv.resize()</p>
+</li>
+<li>
+<p>图像平移：</p>
+<p>指定平移矩阵后，调用cv.warpAffine()平移图像</p>
+</li>
+<li>
+<p>图像旋转：</p>
+<p>调用cv.getRotationMatrix2D获取旋转矩阵，然后调用cv.warpAffine()进行旋转</p>
+</li>
+<li>
+<p>仿射变换：</p>
+<p>调用cv.getAffineTransform将创建变换矩阵，最后该矩阵将传递给cv.warpAffine()进行变换</p>
+</li>
+<li>
+<p>透射变换：</p>
+<p>通过函数cv.getPerspectiveTransform()找到变换矩阵，将cv.warpPerspective()进行投射变换</p>
+</li>
+<li>
+<p>金字塔</p>
+<p>图像金字塔是图像多尺度表达的一种，使用的API：</p>
+<p>cv.pyrUp(): 向上采样</p>
+<p>cv.pyrDown(): 向下采样</p>
+</li>
+</ol>
+<div class="tags"><a href="/legacy/tags/Python/" rel="tag"><i class="ic i-tag"></i>Python</a><a href="/legacy/tags/opencv/" rel="tag"><i class="ic i-tag"></i>opencv</a></div></div><footer><div class="meta"><span class="item"><span class="icon"><i class="ic i-calendar-check"></i></span><span class="text">更新于 </span><time title="修改时间：2026-06-14 01:14:47" itemprop="dateModified" datetime="2026-06-14T01:14:47+08:00">2026-06-14</time></span></div><div class="reward"><button><i class="ic i-heartbeat"></i>赞赏</button><p>请我喝[茶]~(￣▽￣)~*</p><div id="qr"><div><img loading="lazy" src="/legacy/assets/wechatpay.avif" alt="曾阿牛 微信支付"><p>微信支付</p></div><div><img loading="lazy" src="/legacy/assets/alipay.avif" alt="曾阿牛 支付宝"><p>支付宝</p></div></div></div><div id="copyright"><ul><li class="author"><strong>本文作者：</strong>曾阿牛<i class="ic i-at"><em>@</em></i>终南山下，活死人墓</li><li class="link"><strong>本文链接：</strong><a href="https://www.dying4ever.cyou/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2)/" title="2.2、图像处理(2-1_几何变换)">https://www.dying4ever.cyou/2025/07/17/Python/opencv/2.2、图像处理(2-1_几何变换)/</a></li><li class="license"><strong>版权声明：</strong>本站所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</a> 许可协议。转载请注明出处！</li></ul></div></footer></article></div><div class="post-nav"><div class="item left"><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-2_%E5%BD%A2%E6%80%81%E5%AD%A6%E6%93%8D%E4%BD%9C)/" rel="prev" itemprop="url" data-background-image="/legacy/assets/xiaoyu.webp" title="2.2、图像处理(2-2_形态学操作)"><span class="type">上一篇</span><span class="category"><i class="ic i-flag"></i>opencv</span><h3>2.2、图像处理(2-2_形态学操作)</h3></a></div><div class="item right"><a href="/legacy/2025/07/17/Python/opencv/2.1%E3%80%81opencv%E5%9F%BA%E7%A1%80/" rel="next" itemprop="url" data-background-image="/legacy/assets/head.webp" title="2.1、opencv基础"><span class="type">下一篇</span><span class="category"><i class="ic i-flag"></i>opencv</span><h3>2.1、opencv基础</h3></a></div></div><div class="wrap" id="comments"></div></div><div id="sidebar"><div class="inner"><div class="panels"><div class="inner"><div class="contents panel pjax" data-title="文章目录"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text"> 2，图像处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2"><span class="toc-number">1.1.</span> <span class="toc-text"> 2-1 几何变换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-1-%E5%9B%BE%E5%83%8F%E7%9A%84%E7%BC%A9%E6%94%BE"><span class="toc-number">1.1.1.</span> <span class="toc-text"> 2-1-1 图像的缩放</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-2-%E5%9B%BE%E5%83%8F%E5%B9%B3%E7%A7%BB"><span class="toc-number">1.1.2.</span> <span class="toc-text"> 2-1-2 图像平移</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-3-%E5%9B%BE%E5%83%8F%E6%97%8B%E8%BD%AC"><span class="toc-number">1.1.3.</span> <span class="toc-text"> 2-1-3 图像旋转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-4-%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2"><span class="toc-number">1.1.4.</span> <span class="toc-text"> 2-1-4 仿射变换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-5-%E9%80%8F%E5%B0%84%E5%8F%98%E6%8D%A2"><span class="toc-number">1.1.5.</span> <span class="toc-text"> 2-1-5  透射变换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-6-%E5%9B%BE%E5%83%8F%E9%87%91%E5%AD%97%E5%A1%94"><span class="toc-number">1.1.6.</span> <span class="toc-text"> 2-1-6 图像金字塔</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-7-%E6%80%BB%E7%BB%93"><span class="toc-number">1.1.7.</span> <span class="toc-text"> 2-1-7 总结</span></a></li></ol></li></ol></li></ol></div><div class="related panel pjax" data-title="系列文章"><ul><li><a href="/legacy/2025/07/17/Python/opencv/2.1%E3%80%81opencv%E5%9F%BA%E7%A1%80/" rel="bookmark" title="2.1、opencv基础">2.1、opencv基础</a></li><li class="active"><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-1_%E5%87%A0%E4%BD%95%E5%8F%98%E6%8D%A2)/" rel="bookmark" title="2.2、图像处理(2-1_几何变换)">2.2、图像处理(2-1_几何变换)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-2_%E5%BD%A2%E6%80%81%E5%AD%A6%E6%93%8D%E4%BD%9C)/" rel="bookmark" title="2.2、图像处理(2-2_形态学操作)">2.2、图像处理(2-2_形态学操作)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-4_%E7%9B%B4%E6%96%B9%E5%9B%BE)/" rel="bookmark" title="2.2、图像处理(2-4_直方图)">2.2、图像处理(2-4_直方图)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-3_%E5%9B%BE%E5%83%8F%E5%B9%B3%E6%BB%91)/" rel="bookmark" title="2.2、图像处理(2-3_图像平滑)">2.2、图像处理(2-3_图像平滑)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-5_%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B)/" rel="bookmark" title="2.2、图像处理(2-5_边缘检测)">2.2、图像处理(2-5_边缘检测)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-6_%E6%A8%A1%E6%9D%BF%E5%8C%B9%E9%85%8D%E9%9C%8D%E5%A4%AB%E5%8F%98%E6%8D%A2)/" rel="bookmark" title="2.2、图像处理(2-6_模板匹配霍夫变换)">2.2、图像处理(2-6_模板匹配霍夫变换)</a></li><li><a href="/legacy/2025/07/17/Python/opencv/3%EF%BC%8C%E5%9B%BE%E5%83%8F%E7%9A%84%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E5%92%8C%E6%8F%8F%E8%BF%B0/" rel="bookmark" title="3，图像的特征提取和描述">3，图像的特征提取和描述</a></li><li><a href="/legacy/2025/07/17/Python/opencv/5%EF%BC%8C%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB%E6%A1%88%E4%BE%8B/" rel="bookmark" title="5，人脸识别案例">5，人脸识别案例</a></li><li><a href="/legacy/2025/07/17/Python/opencv/4%EF%BC%8C%E8%A7%86%E9%A2%91%E6%93%8D%E4%BD%9C/" rel="bookmark" title="4，视频操作">4，视频操作</a></li><li><a href="/legacy/2025/07/17/Python/opencv/%E6%99%BA%E8%83%BD%E8%BD%A6/" rel="bookmark" title="智能车">智能车</a></li><li><a href="/legacy/2025/07/17/Python/opencv/%E6%A6%82%E8%BF%B0/" rel="bookmark" title="概述">概述</a></li><li><a href="/legacy/2025/07/17/Python/opencv/%E5%9F%8E%E5%B8%82%E9%81%93%E8%B7%AF%E8%AF%86%E5%88%AB/" rel="bookmark" title="城市道路识别">城市道路识别</a></li><li><a href="/legacy/2025/07/25/Python/opencv/2.1%E3%80%81opencv%E5%9F%BA%E7%A1%80%EF%BC%88%E7%BB%98%E5%9B%BE%EF%BC%89/" rel="bookmark" title="2.1、opencv基础（绘图）">2.1、opencv基础（绘图）</a></li><li><a href="/legacy/2025/11/02/Python/opencv/hsv%E7%9F%A5%E8%AF%86/" rel="bookmark" title="hsv知识">hsv知识</a></li></ul></div><div class="overview panel" data-title="站点概览"><div class="sidebar-profile-card"><div class="author" itemprop="author" itemscope="itemscope" itemtype="http://schema.org/Person"><img class="image" loading="lazy" decoding="async" itemprop="image" alt="曾阿牛" src="/legacy/assets/head.avif"><p class="name" itemprop="name">曾阿牛</p><div class="description sidebar-typing" itemprop="description" data-words="I’M Zzzzzzzzzzzz|Por Una Cabeza"><span class="typing-text">Por Una Cabeza</span><span class="typing-cursor" aria-hidden="true">|</span></div></div><div class="social"><a target="_blank" rel="noopener" href="https://github.com/dying4ever" class="item github" title="https://github.com/dying4ever"><i class="ic i-github"></i></a><a href="mailto:zhangjingxuan@163.com" class="item email" title="mailto:zhangjingxuan@163.com"><i class="ic i-envelope"></i></a><a target="_blank" rel="noopener" href="https://www.douban.com/people/244425591/?_i=9515043jR6tETx" class="item douban" title="https://www.douban.com/people/244425591/?_i=9515043jR6tETx"><i class="ic i-douban"></i></a></div><div class="sidebar-contact"><div class="contact-row"><span class="label">LOCATION:</span><span class="value">NANJING</span></div></div><nav class="state"><div class="item posts"><a href="/legacy/archives/"><span class="count">131</span><span class="name">文章</span></a></div><div class="item categories"><a href="/legacy/categories/"><span class="count">37</span><span class="name">分类</span></a></div><div class="item tags"><a href="/legacy/tags/"><span class="count">44</span><span class="name">标签</span></a></div></nav><div class="menu"><li class="item"><a href="/legacy/" rel="section"><i class="ic i-home"></i>首页</a></li><li class="item"><a href="/legacy/about/" rel="section"><i class="ic i-user"></i>关于</a></li><li class="item"><a href="/legacy/projects/" rel="section"><i class="ic i-feather"></i>projects</a></li><li class="item"><a href="/legacy/categories/" rel="section"><i class="ic i-th"></i>分类</a></li><li class="item"><a href="/legacy/archives/" rel="section"><i class="ic i-list-alt"></i>归档</a></li><li class="item"><a href="/legacy/friends/" rel="section"><i class="ic i-heart"></i>友链</a></li></div></div><script>(() => {
+  const nodes = document.querySelectorAll('.sidebar-typing');
+  nodes.forEach((node) => {
+    if (node.dataset.ready === 'true') return;
+    node.dataset.ready = 'true';
+    const textNode = node.querySelector('.typing-text');
+    const words = (node.dataset.words || 'Por Una Cabeza').split('|').filter(Boolean);
+    if (!textNode || words.length < 1) return;
+    let wordIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+    let hold = 0;
+    const tick = () => {
+      const word = words[wordIndex % words.length];
+      textNode.textContent = deleting ? word.slice(0, charIndex--) : word.slice(0, charIndex++);
+      if (!deleting && charIndex > word.length) {
+        if (hold < 42) {
+          hold++;
+          window.setTimeout(tick, 200);
+          return;
+        }
+        hold = 0;
+        deleting = true;
+      }
+      if (deleting && charIndex < 0) {
+        deleting = false;
+        wordIndex++;
+        charIndex = 0;
+      }
+      window.setTimeout(tick, deleting ? 170 : 220);
+    };
+    tick();
+  });
+})();</script></div></div></div><ul id="quick"><li class="prev pjax"><a href="/legacy/2025/07/17/Python/opencv/2.1%E3%80%81opencv%E5%9F%BA%E7%A1%80/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a></li><li class="up"><i class="ic i-arrow-up"></i></li><li class="down"><i class="ic i-arrow-down"></i></li><li class="next pjax"><a href="/legacy/2025/07/17/Python/opencv/2.2%E3%80%81%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86(2-2_%E5%BD%A2%E6%80%81%E5%AD%A6%E6%93%8D%E4%BD%9C)/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a></li><li class="percent"></li></ul></div></div><div class="dimmer"></div></div><div id="player"></div></main><footer id="footer"><div class="inner"><div class="widgets"><div class="rpost pjax"><h2>最新评论</h2></div></div><div class="status"><div class="copyright">© 2025 -<span itemprop="copyrightYear">2026</span><span class="with-love"><i class="ic i-sakura rotate"></i></span><span class="author" itemprop="copyrightHolder">曾阿牛 @ Frostbitten Carpe Diem</span></div><div class="count"><span class="post-meta-item-icon"><i class="ic i-chart-area"></i></span><span title="站点总字数">1.3m 字</span><span class="post-meta-divider"> | </span><span class="post-meta-item-icon"><i class="ic i-coffee"></i></span><span title="站点阅读时长">19:17</span></div><div class="powered-by">基于 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> &amp; Theme.<a target="_blank" rel="noopener" href="https://github.com/theme-shoka-x/hexo-theme-shokaX/">ShokaX</a></div></div></div></footer></div><script data-config="" type="text/javascript">var LOCAL = {
+    ispost: true,
+    path: `2025/07/17/Python/opencv/2.2、图像处理(2-1_几何变换)/`,
+    favicon: {
+        show: `不负韶华`,
+        hide: `以梦为马！`
+    },
+    search: {
+        placeholder: "文章搜索",
+        empty: "关于 「 ${query} 」，什么也没搜到",
+        stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    nocopy: "false",
+    copyright: `复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。`,
+    copy_tex: false,
+    katex: false,
+    mermaid: false,
+    audio: undefined,
+    nocopy: false,
+    outime: true,
+    template: `<div class="note warning"><p><span class="label warning">文章时效性提示</span><br>这是一篇发布于 {{publish}} 天前，最后一次更新在 {{updated}} 天前的文章，部分信息可能已经发生改变，请注意甄别。</p></div>`,
+    quiz: {
+        choice: `单选题`,
+        multiple: `多选题`,
+        true_false: `判断题`,
+        essay: `问答题`,
+        gap_fill: `填空题`,
+        mistake: `错题备注`
+    }
+};
+</script><script src="/legacy/js/siteInit.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script><script src="/legacy/js/gallery-random-covers.js?v=0.5.4" type="module" fetchpriority="high" defer=""></script></body></html>

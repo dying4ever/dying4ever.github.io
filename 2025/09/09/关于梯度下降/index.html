@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="关于梯度下降" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>关于梯度下降 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>关于梯度下降</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-09-09T22:42:50">2025-09-09</time>
+    <span class="content-meta__categories"><a href="/categories/%E8%AE%BA%E6%96%87/">论文</a><a href="/categories/robograamar/">robograamar</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E8%AE%BA%E6%96%87/">论文</a><a href="/tags/robograamar/">robograamar</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#1.-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4robogrammar%E7%9A%84%E8%AF%AD%E6%B3%95%E6%98%AF%E2%80%9C%E7%A6%BB%E6%95%A3%E7%9A%84%E2%80%9D%EF%BC%9F">1. 为什么说RoboGrammar的语法是“离散的”？</a></li><li class="article-toc__level-3"><a href="#2.-%E5%8F%AF%E5%BE%AE%E5%88%86%E6%80%A7%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AE%83%E6%98%AF%E6%95%B0%E5%AD%A6%E7%9A%84%EF%BC%9F">2. 可微分性是什么？为什么它是数学的？</a></li><li class="article-toc__level-3"><a href="#3.-%E5%85%B3%E9%94%AE%E5%8C%BA%E5%88%AB%EF%BC%9A%E7%A6%BB%E6%95%A3%E7%9A%84%E8%AF%AD%E6%B3%95-vs.-%E8%BF%9E%E7%BB%AD%E7%9A%84%E5%8F%AF%E5%BE%AE%E5%88%86%E6%80%A7">3. 关键区别：离散的语法 vs. 连续的可微分性</a></li><li class="article-toc__level-3"><a href="#4.-%E4%BD%A0%E7%9A%84%E4%B8%93%E5%88%A9%EF%BC%9A%E2%80%9C%E5%8F%AF%E5%BE%AE%E5%88%86%E7%89%A9%E7%90%86%E5%B9%B3%E5%8F%B0%E2%80%9D%E5%A6%82%E4%BD%95%E7%A0%B4%E5%B1%80%EF%BC%9F">4. 你的专利：“可微分物理平台”如何破局？</a></li><li class="article-toc__level-3"><a href="#%E5%85%B3%E8%81%94%E4%B8%8E%E5%8D%87%E5%8D%8E%EF%BC%9A%E4%BD%A0%E7%9A%84%E4%B8%93%E5%88%A9%E5%A6%82%E4%BD%95%E4%B8%8E%E2%80%9C%E8%AF%AD%E6%B3%95%E2%80%9D%E6%A6%82%E5%BF%B5%E7%BB%93%E5%90%88%EF%BC%9F">关联与升华：你的专利如何与“语法”概念结合？</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="1.-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4robogrammar%E7%9A%84%E8%AF%AD%E6%B3%95%E6%98%AF%E2%80%9C%E7%A6%BB%E6%95%A3%E7%9A%84%E2%80%9D%EF%BC%9F" tabindex="-1">1. 为什么说RoboGrammar的语法是“离散的”？</h3>
+<p>这里的“离散”指的是它的<strong>决策空间</strong>和<strong>输出空间</strong>。</p>
+<ul>
+<li><strong>决策是分类选择（Categorical Choices）</strong>：在应用语法规则生成机器人时，每一步都面临一系列离散的选择：“我是应用规则A还是规则B？”。这就像造句时，你决定下一个词是用“跑步”还是“跳跃”，这是非此即彼的选择，没有“跑跳之间”的中间状态。同样，语法规则决定的是“这里放一个关节”还是“这里放一根连杆”，是“延长身体”还是“终止身体”。</li>
+<li><strong>输出是符号和拓扑（Symbols &amp; Topology）</strong>：语法生成的最终结果是一个由<strong>符号</strong>（代表特定组件）通过<strong>连接关系</strong>构成的<strong>图结构</strong>。这个图结构的性质是变化的：拓扑连接关系可能不同，组件的类型也可能不同（例如，一个是旋转关节，另一个是线性关节）。这种变化是<strong>阶跃式的、不连续的</strong>。</li>
+</ul>
+<p><strong>举个例子：</strong>
+语法规则可能让你选择生成一条“腿”或一个“轮子”。在“腿”的分支下，你又可以选择用1节、2节或3节连杆来构成这条腿。<strong>“腿”和“轮子”之间、“1节”和“2节”之间，没有平滑的过渡。</strong> 你无法生成一个“0.3个轮子+0.7条腿”的混合结构，也无法生成一根“1.5节”长的连杆。这就是“离散”的含义。</p>
+<h3 id="2.-%E5%8F%AF%E5%BE%AE%E5%88%86%E6%80%A7%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AE%83%E6%98%AF%E6%95%B0%E5%AD%A6%E7%9A%84%EF%BC%9F" tabindex="-1">2. 可微分性是什么？为什么它是数学的？</h3>
+<p><strong>可微分性</strong>的核心在于<strong>梯度</strong>。</p>
+<ul>
+<li><strong>数学本质</strong>：一个函数在某一点可微，意味着它在这一点的附近是<strong>光滑、连续</strong>的，其变化可以用一个线性近似（即导数或梯度）来完美描述。梯度指明了函数值增长最快的方向。</li>
+<li><strong>在优化中的威力</strong>：现代机器学习和优化（如训练神经网络）的巨大成功，很大程度上依赖于<strong>梯度下降</strong>。如果我们有一个损失函数 <code>L(θ)</code>，其中 <code>θ</code> 是参数，计算梯度 <code>∇L/∂θ</code> 就能告诉我们如何微调 <code>θ</code>（<code>θ = θ - α * ∇L/∂θ</code>）才能使损失 <code>L</code> 下降。这是一种<strong>指向性极强、效率极高的优化方式</strong>。</li>
+</ul>
+<h3 id="3.-%E5%85%B3%E9%94%AE%E5%8C%BA%E5%88%AB%EF%BC%9A%E7%A6%BB%E6%95%A3%E7%9A%84%E8%AF%AD%E6%B3%95-vs.-%E8%BF%9E%E7%BB%AD%E7%9A%84%E5%8F%AF%E5%BE%AE%E5%88%86%E6%80%A7" tabindex="-1">3. 关键区别：离散的语法 vs. 连续的可微分性</h3>
+<p>现在我们把两者对立起来看，就发现了RoboGrammar的固有局限：</p>
+<p><strong>RoboGrammar的语法离散性，与基于梯度的优化方法从根本上不兼容。</strong></p>
+<ul>
+<li><strong>你无法计算“选择规则A而不是规则B”的梯度</strong>。这个选择是一个离散的、不可导的决策过程。你怎么对一个“if-else”语句求导？</li>
+<li>因此，RoboGrammar<strong>无法</strong>使用梯度下降来优化机器人的<strong>拓扑结构</strong>。它只能退而求其次，使用<strong>缺乏指向性的搜索算法</strong>（如其提出的GHS、MCTS或随机搜索）在庞大的离散空间中进行“猜测-验证-学习”，这本质上是一种<strong>试错法</strong>，效率远低于梯度下降。</li>
+</ul>
+<p><strong>它的优化流程是：</strong>
+<code>生成一个设计（离散决策） -&gt; 仿真评估（得到分数） -&gt; 根据分数更新搜索策略 -&gt; 生成下一个设计</code>
+这是一个<strong>外部循环优化</strong>。</p>
+<h3 id="4.-%E4%BD%A0%E7%9A%84%E4%B8%93%E5%88%A9%EF%BC%9A%E2%80%9C%E5%8F%AF%E5%BE%AE%E5%88%86%E7%89%A9%E7%90%86%E5%B9%B3%E5%8F%B0%E2%80%9D%E5%A6%82%E4%BD%95%E7%A0%B4%E5%B1%80%EF%BC%9F" tabindex="-1">4. 你的专利：“可微分物理平台”如何破局？</h3>
+<p>你的专利思想之所以先进，就在于它试图<strong>绕过“离散的语法决策”</strong>，或者将其<strong>转化为一个可微分流程的一部分</strong>。</p>
+<p><strong>可微分物理平台的核心贡献是：它让仿真器的输出（性能）对于输入（模型参数）变得可微。</strong></p>
+<p>假设你的机器人“图语”不再仅仅是描述拓扑的符号，而是<strong>一个参数化的模型</strong>（例如一个URDF文件），其中包含了许多<strong>连续参数</strong>：</p>
+<ul>
+<li><code>θ = [连杆1长度, 连杆1半径, 连杆1质量, 关节1阻尼, 关节1限位, ..., 控制神经网络的权重]</code></li>
+</ul>
+<p><strong>你的可微分优化流程将是：</strong></p>
+<ol>
+<li><strong>前向传播</strong>：将参数 <code>θ</code> 送入可微分仿真器，模拟机器人运动，计算任务损失 <code>L</code>。</li>
+<li><strong>反向传播</strong>：<strong>可微分仿真器</strong>会计算损失 <code>L</code> 关于所有参数 <code>θ</code> 的梯度 <code>∂L/∂θ</code>。这个梯度包含了极其宝贵的信息：“如果我把连杆稍微加长一点，性能会变得更好还是更差？好多少？”</li>
+<li><strong>梯度下降更新</strong>：直接使用这个梯度来更新参数：<code>θ = θ - α * ∂L/∂θ</code>。</li>
+</ol>
+<p>这是一个<strong>内部梯度优化</strong>，其效率远超外部搜索。</p>
+<h3 id="%E5%85%B3%E8%81%94%E4%B8%8E%E5%8D%87%E5%8D%8E%EF%BC%9A%E4%BD%A0%E7%9A%84%E4%B8%93%E5%88%A9%E5%A6%82%E4%BD%95%E4%B8%8E%E2%80%9C%E8%AF%AD%E6%B3%95%E2%80%9D%E6%A6%82%E5%BF%B5%E7%BB%93%E5%90%88%EF%BC%9F" tabindex="-1">关联与升华：你的专利如何与“语法”概念结合？</h3>
+<p>你的专利并不一定要完全抛弃“语法”的概念。你可以赋予它新的、更强大的内涵：</p>
+<ol>
+<li>
+<p><strong>作为初始化器（Hybrid Approach）</strong>：你可以使用RoboGrammar的语法来<strong>生成有潜力的初始拓扑结构</strong>（离散过程）。然后，将这个结构<strong>解析为一个参数化模型</strong>，丢进你的<strong>可微分物理平台</strong>中，去优化它的<strong>连续参数</strong>（尺寸、质量、控制等）。这相当于用语法做“宏观架构搜索”，用可微分优化做“微观参数调优”。</p>
+</li>
+<li>
+<p><strong>作为约束器（Differentiable Grammar）</strong>：更前沿的思路是，尝试让“语法”本身也变得可微分。例如，用神经网络来学习规则的应用概率，或者用松弛法将离散的拓扑选择近似为连续的、可导的决策。这样，你甚至可以用梯度下降来<strong>学习最优的拓扑结构</strong>本身。这虽然极具挑战性，但代表了最高水平的创新。</p>
+</li>
+</ol>
+<p><strong>总结一下关联与区别：</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">特性</th>
+<th style="text-align:left">RoboGrammar (离散语法)</th>
+<th style="text-align:left">你的专利 (可微分平台)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>核心</strong></td>
+<td style="text-align:left"><strong>搜索</strong> (Search)</td>
+<td style="text-align:left"><strong>优化</strong> (Optimization)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>空间</strong></td>
+<td style="text-align:left"><strong>离散的</strong> 拓扑空间</td>
+<td style="text-align:left"><strong>连续的</strong> 参数空间</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>驱动</strong></td>
+<td style="text-align:left">性能评分 (Score)</td>
+<td style="text-align:left"><strong>梯度</strong> (Gradient)</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>方法</strong></td>
+<td style="text-align:left">图启发式搜索、MCTS</td>
+<td style="text-align:left"><strong>梯度下降</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>效率</strong></td>
+<td style="text-align:left">较低，依赖大量仿真</td>
+<td style="text-align:left"><strong>理论上更高</strong>，梯度提供明确方向</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>输出</strong></td>
+<td style="text-align:left">结构+控制器 (分离)</td>
+<td style="text-align:left"><strong>结构参数+控制器 (联合端到端优化)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>所以，<strong>可微分性是数学引擎，而语法是设计语言的语法</strong>。RoboGrammar创造了一门优美的设计语言，但只能用“猜”的方式来造句。你的专利则是要打造一台强大的“语法修正引擎”，能够计算出如何微调句子中的每一个词（连续参数），让整个句子（机器人性能）变得更好。这才是根本性的进步。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/09/09/recursive_graph_grammar/"><small>上一篇</small><strong>recursive_graph_grammar</strong></a>
+        <a href="/2025/10/07/网络调试/"><small>下一篇</small><strong>网络调试</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

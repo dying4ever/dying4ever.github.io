@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="第10章_ViT" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>第10章_ViT · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>第10章_ViT</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-06-02T14:47:48">2026-06-02</time>
+    <span class="content-meta__categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/categories/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E7%AC%AC-10-%E7%AB%A0-%E8%A7%86%E8%A7%89-transformer-vit">第 10 章 视觉 Transformer ViT</a></li><li class="article-toc__level-2"><a href="#%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC">本章概括</a></li><li class="article-toc__level-2"><a href="#vit-%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3">ViT 基本思想</a></li><li class="article-toc__level-2"><a href="#patch-embedding">Patch Embedding</a></li><li class="article-toc__level-2"><a href="#transformer-encoder">Transformer Encoder</a></li><li class="article-toc__level-2"><a href="#vit-%E4%BB%A3%E7%A0%81%E6%95%B4%E7%90%86%EF%BC%9A%E5%8A%A0%E8%BD%BD%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B">ViT 代码整理：加载预训练模型</a></li><li class="article-toc__level-2"><a href="#vit-%E4%BB%A3%E7%A0%81%E6%95%B4%E7%90%86%EF%BC%9A%E5%BE%AE%E8%B0%83%E5%88%86%E7%B1%BB%E5%A4%B4">ViT 代码整理：微调分类头</a></li><li class="article-toc__level-2"><a href="#swin-transformer">Swin Transformer</a></li><li class="article-toc__level-2"><a href="#%E5%9B%BE%E7%A4%BA%E8%AF%B4%E6%98%8E">图示说明</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="%E7%AC%AC-10-%E7%AB%A0-%E8%A7%86%E8%A7%89-transformer-vit" tabindex="-1">第 10 章 视觉 Transformer ViT</h1>
+<h2 id="%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC" tabindex="-1">本章概括</h2>
+<p>本章介绍 Transformer 在视觉任务中的应用。ViT 将图像划分为 patch，把每个 patch 映射为 token，再输入 Transformer Encoder。后续 Swin Transformer 通过窗口注意力和移动窗口构建层次化视觉特征。重点是理解图像如何被序列化以及窗口注意力如何降低计算量。</p>
+<h2 id="vit-%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3" tabindex="-1">ViT 基本思想</h2>
+<p>ViT 把图像划分为固定大小的 patch。每个 patch 展平成向量后通过线性层映射为 token，并加入位置编码。若图像大小为 $H\times W$，patch 大小为 $P\times P$，则 token 数为：</p>
+<p>$$
+N=\frac{HW}{P^2}
+$$</p>
+<p>patch 越小，token 越多，细节更丰富，但注意力计算量更大。</p>
+<h2 id="patch-embedding" tabindex="-1">Patch Embedding</h2>
+<p>每个 patch $x_p$ 映射为嵌入向量：</p>
+<p>$$
+z_0=[x_{class};x_p^1E;x_p^2E;\cdots;x_p^NE]+E_{pos}
+$$</p>
+<p>$x_{class}$ 是分类 token，$E$ 是 patch 投影矩阵，$E_{pos}$ 是位置编码。分类任务通常使用最终的 class token 表示整幅图像。</p>
+<h2 id="transformer-encoder" tabindex="-1">Transformer Encoder</h2>
+<p>ViT 使用标准 Transformer Encoder，包括多头自注意力、MLP、残差连接和 LayerNorm。自注意力让任意 patch 之间可以直接交互，因此能建模长距离依赖。</p>
+<h2 id="vit-%E4%BB%A3%E7%A0%81%E6%95%B4%E7%90%86%EF%BC%9A%E5%8A%A0%E8%BD%BD%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B" tabindex="-1">ViT 代码整理：加载预训练模型</h2>
+<p>这段代码用于加载预训练 ViT，并在测试集上做分类评估。</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> torch
+<span class="hljs-keyword">from</span> torchvision <span class="hljs-keyword">import</span> datasets, transforms, models
+
+device = torch.device(<span class="hljs-string">&quot;cuda&quot;</span> <span class="hljs-keyword">if</span> torch.cuda.is_available() <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;cpu&quot;</span>)
+model = models.vit_b_16(pretrained=<span class="hljs-literal">True</span>).to(device)
+model.<span class="hljs-built_in">eval</span>()
+
+transform = transforms.Compose([
+    transforms.Resize((<span class="hljs-number">224</span>, <span class="hljs-number">224</span>)),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[<span class="hljs-number">0.485</span>, <span class="hljs-number">0.456</span>, <span class="hljs-number">0.406</span>],
+                         std=[<span class="hljs-number">0.229</span>, <span class="hljs-number">0.224</span>, <span class="hljs-number">0.225</span>])
+])
+
+test_dataset = datasets.ImageFolder(<span class="hljs-string">&quot;/path/to/val&quot;</span>, transform=transform)
+test_loader = torch.utils.data.DataLoader(
+    test_dataset, batch_size=<span class="hljs-number">32</span>, shuffle=<span class="hljs-literal">False</span>, num_workers=<span class="hljs-number">4</span>
+)
+</code></pre>
+<p><code>Resize((224,224))</code> 把输入调整到 ViT 预训练尺寸；<code>Normalize()</code> 使用 ImageNet 均值和标准差；<code>batch_size</code> 越大吞吐可能越高，但显存占用也越大。</p>
+<h2 id="vit-%E4%BB%A3%E7%A0%81%E6%95%B4%E7%90%86%EF%BC%9A%E5%BE%AE%E8%B0%83%E5%88%86%E7%B1%BB%E5%A4%B4" tabindex="-1">ViT 代码整理：微调分类头</h2>
+<p>这段代码用于把预训练 ViT 迁移到新的分类任务。</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn
+<span class="hljs-keyword">from</span> torchvision <span class="hljs-keyword">import</span> models
+
+num_classes = <span class="hljs-number">10</span>
+model = models.vit_b_16(pretrained=<span class="hljs-literal">True</span>)
+model.heads.head = nn.Linear(model.heads.head.in_features, num_classes)
+model = model.to(device)
+</code></pre>
+<p>替换 <code>model.heads.head</code> 后，模型输出类别数变为下游任务类别数。若训练数据较少，可冻结 backbone 只训练分类头；若数据充足，可全模型微调。</p>
+<h2 id="swin-transformer" tabindex="-1">Swin Transformer</h2>
+<p>Swin Transformer 使用窗口自注意力，把注意力限制在局部窗口中，从而降低计算量。普通全局注意力复杂度约为 $O(N^2)$，窗口注意力只在窗口内计算，复杂度明显降低。</p>
+<p>移动窗口 shifted window 让相邻窗口之间交换信息，弥补固定窗口无法跨窗口建模的问题。Swin 还通过 patch merging 构建层次化特征，类似 CNN 中分辨率逐步降低、通道数逐步增加的结构。</p>
+<h2 id="%E5%9B%BE%E7%A4%BA%E8%AF%B4%E6%98%8E" tabindex="-1">图示说明</h2>
+<p>ViT 图示重点看三步：图像切 patch、patch 变 token、token 输入 Transformer。Swin 图示重点看窗口划分和移动窗口：前者降低计算量，后者实现跨窗口信息交互。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/06/02/第11章_特征点检测与匹配/"><small>上一篇</small><strong>第11章_特征点检测与匹配</strong></a>
+        <a href="/2026/06/02/第09章_Transformer/"><small>下一篇</small><strong>第09章_Transformer</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

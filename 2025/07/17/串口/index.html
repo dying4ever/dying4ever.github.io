@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="串口" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>串口 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>串口</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/stm32/">stm32</a></span>
+    <span class="content-meta__tags"><a href="/tags/stm32/">stm32</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E4%B8%B2%E5%8F%A3">串口</a></li><li class="article-toc__level-3"><a href="#%E5%8F%91%E9%80%81">发送</a></li><li class="article-toc__level-3"><a href="#%E6%8E%A5%E6%94%B6">接收</a></li><li class="article-toc__level-3"><a href="#%E6%8E%A5%E6%94%B6%2C%E4%BD%86%E5%8F%AA%E6%8E%A5%E6%94%B6%E5%87%86%E7%A1%AE%E4%BF%A1%E6%81%AF%2C%E5%90%A6%E5%88%99error">接收,但只接收准确信息,否则error</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h1 id="%E4%B8%B2%E5%8F%A3" tabindex="-1">串口</h1>
+<p>[文件已丢失]</p>
+<p>[文件已丢失]</p>
+<p>中断使能</p>
+<h3 id="%E5%8F%91%E9%80%81" tabindex="-1">发送</h3>
+<p>&amp;huart1（全是uart！！）</p>
+<pre class="code-frame"><code class="hljs language-plaintext">char send_buf[20];
+sprintf(send_buf,&quot;123&quot;);
+HAL_UART_Transmit(&amp;huart1,(uint8_t*)send_buf,strlen(send_buf),100);
+</code></pre>
+<h3 id="%E6%8E%A5%E6%94%B6" tabindex="-1">接收</h3>
+<p>&amp;huart1（全是uart！！）</p>
+<pre class="code-frame"><code class="hljs language-plaintext">HAL_UART_Receive_IT(&amp;huart1,&amp;rx_buf,1);//使能中断
+</code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">uint8_t rx_buf;
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if (huart-&gt;Instance ==USART1)//只有这里是 USART1
+	{
+	HAL_UART_Transmit(huart ,&amp;rx_buf,1,50);
+	HAL_UART_Receive_IT(huart,&amp;rx_buf,1);//全是huart
+	}
+}
+</code></pre>
+<h3 id="%E6%8E%A5%E6%94%B6%2C%E4%BD%86%E5%8F%AA%E6%8E%A5%E6%94%B6%E5%87%86%E7%A1%AE%E4%BF%A1%E6%81%AF%2C%E5%90%A6%E5%88%99error" tabindex="-1">接收,但只接收准确信息,否则error</h3>
+<p>定时器配0.1ms，波特率9600，因为接收一个消息需要10/9600≈103ms</p>
+<pre class="code-frame"><code class="hljs language-plaintext">	HAL_TIM_Base_Start(&amp;htim8);
+</code></pre>
+<pre class="code-frame"><code class="hljs language-plaintext">void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if (huart-&gt;Instance ==USART1)
+	{
+	TIM4 -&gt;CNT =0;
+	rx_flag =1;
+	rx[i++] = rx_buf;
+	HAL_UART_Receive_IT(huart,&amp;rx_buf,1);
+	}
+}
+
+
+void show(void)
+{
+	if(rx_flag&amp;&amp;TIM8 -&gt; CNT &gt;150)
+	{
+		if(rx[0]==&#x27;i&#x27;&amp;&amp; rx[1]==&#x27;l&#x27;&amp;&amp; rx[2]==&#x27;o&#x27;&amp;&amp; rx[3]==&#x27;v&#x27;&amp;&amp; rx[4]==&#x27;e&#x27;)
+		{
+			sprintf(send ,&quot;right \n\r&quot;);
+		HAL_UART_Transmit(&amp;huart1,(uint8_t*)send,strlen(send),100);
+			
+		}
+		else
+			{
+			sprintf(send ,&quot;error \n\r&quot;);
+		HAL_UART_Transmit(&amp;huart1,(uint8_t*)send,strlen(send),100);
+		}
+		rx_flag = 0;
+		i=0;
+	}
+	
+}
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/串口DMA/"><small>上一篇</small><strong>串口DMA</strong></a>
+        <a href="/2025/07/17/一些吊的技巧/"><small>下一篇</small><strong>一些吊的技巧</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="智能车" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>智能车 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>智能车</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:41:51">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/Python/">Python</a><a href="/categories/opencv/">opencv</a></span>
+    <span class="content-meta__tags"><a href="/tags/Python/">Python</a><a href="/tags/opencv/">opencv</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#1.-%E7%BB%93%E6%9E%84%E5%85%83%E7%B4%A0%E5%88%9B%E5%BB%BA">1. 结构元素创建</a></li><li class="article-toc__level-3"><a href="#2.-%E5%BC%80%E8%BF%90%E7%AE%97%E5%8E%BB%E5%99%AA">2. 开运算去噪</a></li><li class="article-toc__level-3"><a href="#3.-%E6%8E%A9%E8%86%9C%E5%88%9D%E5%A7%8B%E5%8C%96">3. 掩膜初始化</a></li><li class="article-toc__level-3"><a href="#4.-%E7%A7%8D%E5%AD%90%E7%82%B9%E8%AE%BE%E7%BD%AE">4. 种子点设置</a></li><li class="article-toc__level-3"><a href="#5.-%E7%BB%98%E5%88%B6%E7%A7%8D%E5%AD%90%E5%8C%BA%E5%9F%9F">5. 绘制种子区域</a></li><li class="article-toc__level-3"><a href="#6.-%E6%B3%9B%E6%B4%AA%E5%A1%AB%E5%85%85%E5%8F%82%E6%95%B0">6. 泛洪填充参数</a></li><li class="article-toc__level-3"><a href="#7.-%E6%89%A7%E8%A1%8C%E6%B3%9B%E6%B4%AA%E5%A1%AB%E5%85%85">7. 执行泛洪填充</a></li><li class="article-toc__level-3"><a href="#8.-%E6%8F%90%E5%8F%96%E9%81%93%E8%B7%AF%E6%8E%A9%E8%86%9C">8. 提取道路掩膜</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<p>0黑色,1白色</p>
+<pre class="code-frame"><code class="hljs language-plaintext">static inline cv::Mat find_road(cv::Mat&amp; frame)
+{
+    // 获取一个2x2的十字形结构元素
+    cv::Mat kernel = cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(2, 2));
+    // 对二值化后的帧进行开运算，去除噪声
+    cv::morphologyEx(binarizedFrame, morphologyExFrame, cv::MORPH_OPEN, kernel);
+
+    // 创建一个全零的掩膜，大小为行跟踪高度+2，列跟踪宽度+2
+    cv::Mat mask = cv::Mat::zeros(line_tracking_height + 2, line_tracking_width + 2, CV_8UC1);
+
+    // 设置种子点，位于行跟踪宽度的中间，行跟踪高度的倒数第二行
+    cv::Point seedPoint(line_tracking_width / 2, line_tracking_height - 10);
+
+    // 在开运算后的帧中绘制一个半径为10的白色圆
+    cv::circle(morphologyExFrame, seedPoint, 10, 255, -1);
+
+    // 设置填充颜色为128
+    cv::Scalar newVal(128);
+
+    // 设置上下差异为20
+    cv::Scalar loDiff = cv::Scalar(20);
+    cv::Scalar upDiff = cv::Scalar(20);
+
+    // 对开运算后的帧进行泛洪填充，填充颜色为128，上下差异为20
+    cv::floodFill(morphologyExFrame, mask, seedPoint, newVal, 0, loDiff, upDiff, 8);
+
+    // 创建一个全零的输出图像，大小为行跟踪宽度，行跟踪高度
+    cv::Mat outputImage = cv::Mat::zeros(line_tracking_width, line_tracking_height, CV_8UC1);
+
+    // 将掩膜中的图像复制到输出图像中
+    mask(cv::Rect(1, 1, line_tracking_width, line_tracking_height)).copyTo(outputImage);
+
+    // 返回输出图像
+    return outputImage;
+}
+</code></pre>
+<h3 id="1.-%E7%BB%93%E6%9E%84%E5%85%83%E7%B4%A0%E5%88%9B%E5%BB%BA" tabindex="-1">1. 结构元素创建</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">cv::Mat kernel = cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(2, 2));
+</code></pre>
+<ul>
+<li><strong>功能</strong>：创建2x2的十字形结构元素</li>
+<li><strong>为什么用</strong>：十字形结构能有效处理线状结构（如道路标线），小尺寸(2x2)适合去除微小噪声</li>
+<li><strong>效果</strong>：为后续形态学操作准备基础核</li>
+</ul>
+<h3 id="2.-%E5%BC%80%E8%BF%90%E7%AE%97%E5%8E%BB%E5%99%AA" tabindex="-1">2. 开运算去噪</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">cv::morphologyEx(binarizedFrame, morphologyExFrame, cv::MORPH_OPEN, kernel);
+</code></pre>
+<ul>
+<li><strong>功能</strong>：对二值图像执行开运算（先腐蚀后膨胀）</li>
+<li><strong>为什么用</strong>：
+<ul>
+<li>消除细小噪声点（如路面碎石、图像噪点）</li>
+<li>保持道路主体结构完整（十字核能更好保留线状特征）</li>
+</ul>
+</li>
+<li><strong>效果</strong>：获得更干净的道路二值图像</li>
+</ul>
+<h3 id="3.-%E6%8E%A9%E8%86%9C%E5%88%9D%E5%A7%8B%E5%8C%96" tabindex="-1">3. 掩膜初始化</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">cv::Mat mask = cv::Mat::zeros(line_tracking_height + 2, line_tracking_width + 2, CV_8UC1);
+</code></pre>
+<ul>
+<li><strong>功能</strong>：创建比原图大2像素的掩膜</li>
+<li><strong>为什么+2</strong>：OpenCV的floodFill要求掩膜尺寸必须为<code>(width+2) x (height+2)</code></li>
+<li><strong>效果</strong>：为泛洪填充提供符合规范的存储空间</li>
+</ul>
+<h3 id="4.-%E7%A7%8D%E5%AD%90%E7%82%B9%E8%AE%BE%E7%BD%AE" tabindex="-1">4. 种子点设置</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">cv::Point seedPoint(line_tracking_width / 2, line_tracking_height - 10);
+</code></pre>
+<ul>
+<li><strong>功能</strong>：在图像底部中间位置设置种子点</li>
+<li><strong>为什么用</strong>：
+<ul>
+<li>假设车辆通常位于道路中央（宽度中点）</li>
+<li>距底部10像素：避开图像边缘，确保在道路区域内</li>
+</ul>
+</li>
+<li><strong>效果</strong>：为区域生长确定起始位置</li>
+</ul>
+<h3 id="5.-%E7%BB%98%E5%88%B6%E7%A7%8D%E5%AD%90%E5%8C%BA%E5%9F%9F" tabindex="-1">5. 绘制种子区域</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">cv::circle(morphologyExFrame, seedPoint, 10, 255, -1);
+</code></pre>
+<ul>
+<li><strong>功能</strong>：以种子点为中心画半径为10的实心白圆</li>
+<li><strong>为什么用</strong>：
+<ul>
+<li>确保种子区域足够大（避免落在小孔洞/裂缝中）</li>
+<li>强制连接可能断裂的道路区域</li>
+</ul>
+</li>
+<li><strong>效果</strong>：创建可靠的泛洪填充起始区域</li>
+</ul>
+<h3 id="6.-%E6%B3%9B%E6%B4%AA%E5%A1%AB%E5%85%85%E5%8F%82%E6%95%B0" tabindex="-1">6. 泛洪填充参数</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">cv::Scalar newVal(128);       // 填充值
+cv::Scalar loDiff(20), upDiff(20); // 容差
+</code></pre>
+<ul>
+<li><strong>参数意义</strong>：
+<ul>
+<li><code>newVal=128</code>：填充灰度值（中等灰色）</li>
+<li><code>loDiff/upDiff=20</code>：允许的像素值浮动范围</li>
+</ul>
+</li>
+<li><strong>为什么用20</strong>：在二值图像中，20的容差能覆盖从深灰(235)到纯白(255)的渐变</li>
+</ul>
+<h3 id="7.-%E6%89%A7%E8%A1%8C%E6%B3%9B%E6%B4%AA%E5%A1%AB%E5%85%85" tabindex="-1">7. 执行泛洪填充</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">cv::floodFill(morphologyExFrame, mask, seedPoint, newVal, 0, loDiff, upDiff, 8);
+</code></pre>
+<ul>
+<li><strong>功能</strong>：从种子点开始区域生长</li>
+<li><strong>参数解析</strong>：
+<ul>
+<li><code>8</code>：使用8连通域（考虑对角线方向）</li>
+<li><code>0</code>：无标志位（默认行为）</li>
+</ul>
+</li>
+<li><strong>效果</strong>：将道路连通区域标记为128（掩膜中对应区域变为1）</li>
+</ul>
+<h3 id="8.-%E6%8F%90%E5%8F%96%E9%81%93%E8%B7%AF%E6%8E%A9%E8%86%9C" tabindex="-1">8. 提取道路掩膜</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">cv::Mat outputImage = cv::Mat::zeros(line_tracking_width, line_tracking_height, CV_8UC1);
+mask(cv::Rect(1, 1, line_tracking_width, line_tracking_height)).copyTo(outputImage);
+</code></pre>
+<ul>
+<li><strong>功能</strong>：从大掩膜中裁剪有效区域</li>
+<li><strong>Rect(1,1,...)</strong>：去除floodFill添加的边界</li>
+<li><strong>效果</strong>：获得与原图同尺寸的道路二值掩膜（道路=1，背景=0）</li>
+</ul>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/概述/"><small>上一篇</small><strong>概述</strong></a>
+        <a href="/2025/07/17/5，人脸识别案例/"><small>下一篇</small><strong>5，人脸识别案例</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="第08章_CNN" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>第08章_CNN · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>第08章_CNN</h1>
+      
+      <div class="content-meta">
+    <time datetime="2026-06-02T14:47:48">2026-06-02</time>
+    <span class="content-meta__categories"><a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/categories/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+    <span class="content-meta__tags"><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a href="/tags/%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">数字图像处理</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E7%AC%AC-8-%E7%AB%A0-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-cnn">第 8 章 卷积神经网络 CNN</a></li><li class="article-toc__level-2"><a href="#%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC">本章概括</a></li><li class="article-toc__level-2"><a href="#%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0">卷积神经网络概述</a></li><li class="article-toc__level-2"><a href="#%E5%8D%B7%E7%A7%AF-convolution">卷积 Convolution</a></li><li class="article-toc__level-2"><a href="#%E6%B1%A0%E5%8C%96-pooling">池化 Pooling</a></li><li class="article-toc__level-2"><a href="#relu-%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0">ReLU 激活函数</a></li><li class="article-toc__level-2"><a href="#%E6%89%B9%E5%BD%92%E4%B8%80%E5%8C%96-batch-normalization">批归一化 Batch Normalization</a></li><li class="article-toc__level-2"><a href="#%E7%BB%8F%E5%85%B8-cnn-%E7%BB%93%E6%9E%84">经典 CNN 结构</a></li><li class="article-toc__level-3"><a href="#vgg">VGG</a></li><li class="article-toc__level-3"><a href="#resnet">ResNet</a></li><li class="article-toc__level-2"><a href="#%E4%BB%A3%E7%A0%81%E6%95%B4%E7%90%86">代码整理</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><h1 id="%E7%AC%AC-8-%E7%AB%A0-%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-cnn" tabindex="-1">第 8 章 卷积神经网络 CNN</h1>
+<h2 id="%E6%9C%AC%E7%AB%A0%E6%A6%82%E6%8B%AC" tabindex="-1">本章概括</h2>
+<p>本章介绍 CNN 在图像任务中的基本结构，包括卷积层、池化层、ReLU、批归一化、经典网络 VGG 和 ResNet。重点是理解卷积如何提取局部特征，以及深层网络如何通过残差连接提高训练稳定性。</p>
+<h2 id="%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0" tabindex="-1">卷积神经网络概述</h2>
+<p>CNN 适合处理图像，因为它利用局部连接、权值共享和平移等变性。图像输入通常为 $H\times W\times C$ 张量，卷积层提取局部特征，池化层降低分辨率，最后通过全连接层或全局池化完成分类。</p>
+<h2 id="%E5%8D%B7%E7%A7%AF-convolution" tabindex="-1">卷积 Convolution</h2>
+<p>二维卷积输出可写为：</p>
+<p>$$
+y(i,j)=\sum_m\sum_n x(i+m,j+n)w(m,n)+b
+$$</p>
+<p>其中 $x$ 是输入，$w$ 是卷积核，$b$ 是偏置。卷积核学习边缘、纹理、局部形状等特征。</p>
+<p>卷积层常见参数：</p>
+<ul>
+<li><code>in_channels</code>：输入通道数，例如灰度图为 1，RGB 图为 3。</li>
+<li><code>out_channels</code>：卷积核个数，也是输出特征图通道数。</li>
+<li><code>kernel_size</code>：卷积核大小，如 $3\times3$ 或 $5\times5$。</li>
+<li><code>stride</code>：步幅，越大输出尺寸越小。</li>
+<li><code>padding</code>：边缘填充，用于控制输出尺寸并保留边界信息。</li>
+</ul>
+<p>输出尺寸为：</p>
+<p>$$
+H_{out}=\left\lfloor\frac{H+2P-K}{S}\right\rfloor+1
+$$</p>
+<p>其中 $H$ 为输入尺寸，$P$ 为 padding，$K$ 为卷积核大小，$S$ 为 stride。</p>
+<h2 id="%E6%B1%A0%E5%8C%96-pooling" tabindex="-1">池化 Pooling</h2>
+<p>池化用于降低特征图尺寸并增强局部平移鲁棒性。最大池化保留局部最大响应，适合突出显著特征；平均池化保留局部平均信息，平滑性更强。</p>
+<h2 id="relu-%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0" tabindex="-1">ReLU 激活函数</h2>
+<p>ReLU 定义为：</p>
+<p>$$
+\operatorname{ReLU}(x)=\max(0,x)
+$$</p>
+<p>它引入非线性，并缓解 sigmoid/tanh 的梯度饱和问题。负值被置零，正值保持不变。</p>
+<h2 id="%E6%89%B9%E5%BD%92%E4%B8%80%E5%8C%96-batch-normalization" tabindex="-1">批归一化 Batch Normalization</h2>
+<p>BN 对 mini-batch 中的特征进行归一化：</p>
+<p>$$
+\hat{x}=\frac{x-\mu_B}{\sqrt{\sigma_B^2+\epsilon}}
+$$</p>
+<p>再通过可学习参数恢复表达能力：</p>
+<p>$$
+y=\gamma\hat{x}+\beta
+$$</p>
+<p>BN 可稳定训练、加快收敛，并在一定程度上起到正则化作用。</p>
+<h2 id="%E7%BB%8F%E5%85%B8-cnn-%E7%BB%93%E6%9E%84" tabindex="-1">经典 CNN 结构</h2>
+<h3 id="vgg" tabindex="-1">VGG</h3>
+<p>VGG 使用大量 $3\times3$ 卷积堆叠构建深层网络。小卷积核叠加可以扩大感受野，同时减少参数量并增加非线性层数。</p>
+<h3 id="resnet" tabindex="-1">ResNet</h3>
+<p>ResNet 引入残差连接：</p>
+<p>$$
+y=F(x)+x
+$$</p>
+<p>其中 $F(x)$ 是残差分支，$x$ 是捷径连接。残差连接让网络学习输入与输出之间的差值，缓解深层网络退化问题。</p>
+<h2 id="%E4%BB%A3%E7%A0%81%E6%95%B4%E7%90%86" tabindex="-1">代码整理</h2>
+<p>这段代码用于加载预训练 ResNet50，并自动选择 GPU 或 CPU。</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> torch
+<span class="hljs-keyword">from</span> torchvision <span class="hljs-keyword">import</span> models
+
+device = torch.device(<span class="hljs-string">&quot;cuda&quot;</span> <span class="hljs-keyword">if</span> torch.cuda.is_available() <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;cpu&quot;</span>)
+model = models.resnet50(pretrained=<span class="hljs-literal">True</span>).to(device)
+model.<span class="hljs-built_in">eval</span>()
+</code></pre>
+<p><code>torch.device()</code> 用于选择运行设备；<code>models.resnet50(pretrained=True)</code> 加载在大规模数据集上预训练的模型；<code>.to(device)</code> 把模型移动到 GPU 或 CPU。若改为训练模式，需要调用 <code>model.train()</code>，并配合损失函数和优化器更新参数。</p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2026/06/02/第09章_Transformer/"><small>上一篇</small><strong>第09章_Transformer</strong></a>
+        <a href="/2026/06/02/第07章_图像分割/"><small>下一篇</small><strong>第07章_图像分割</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

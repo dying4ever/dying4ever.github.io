@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ros2基本代码" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>ros2基本代码 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>ros2基本代码</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/ros2/">ros2</a></span>
+    <span class="content-meta__tags"><a href="/tags/ros2/">ros2</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#ros2%E5%AE%89%E8%A3%85">ros2安装</a></li><li class="article-toc__level-3"><a href="#%E5%AE%89%E8%A3%85%3A">安装:</a></li><li class="article-toc__level-3"><a href="#%E5%8D%B8%E8%BD%BD%3A">卸载:</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="ros2%E5%AE%89%E8%A3%85" tabindex="-1">ros2安装</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">wget http://fishros.com/install -O fishros &amp;&amp; bash fishros
+</code></pre>
+<h3 id="%E5%AE%89%E8%A3%85%3A" tabindex="-1">安装:</h3>
+<p>jetson,树莓派:arm64</p>
+<p>apt install:(一定要加./)</p>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo apt install ./Downloads/名字.deb
+</code></pre>
+<p>apt-get install:用来从“软件源”安装“软件包名称”的，不是用来装本地 <code>.deb</code> 文件的。</p>
+<h3 id="%E5%8D%B8%E8%BD%BD%3A" tabindex="-1">卸载:</h3>
+<p><strong>通过Synaptic Package Manager删除</strong></p>
+<p>Synaptic Package Manager 是基于APT的图形化包管理工具，</p>
+<p>它不仅能列出ubuntu系统中所有已经安装的程序，还可以用于安装、卸载、升级软件。</p>
+<p>系统默认没有此工具，因此需要先通过命令行来安装它。</p>
+<pre class="code-frame"><code class="hljs language-plaintext">sudo apt update
+sudo apt install synaptic
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/yolo/"><small>上一篇</small><strong>yolo</strong></a>
+        <a href="/2025/07/17/Cursor/"><small>下一篇</small><strong>Cursor</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

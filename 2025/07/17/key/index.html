@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="key" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>key · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>key</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/stm32/">stm32</a></span>
+    <span class="content-meta__tags"><a href="/tags/stm32/">stm32</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-1"><a href="#%E6%8C%89%E9%94%AE">按键</a></li><li class="article-toc__level-3"><a href="#1.%E6%9C%80%E6%99%AE%E9%80%9A%E7%9A%84%E6%A8%A1%E6%9D%BFb1">1.最普通的模板B1</a></li><li class="article-toc__level-3"><a href="#2.%E5%8F%8C%E5%87%BB%2B%E5%8D%95%E5%87%BBb2">2.双击+单击B2</a></li><li class="article-toc__level-3"><a href="#3.%E4%B8%89%E5%87%BB%2B%E5%8F%8C%E5%87%BB%2B%E5%8D%95%E5%87%BBb3">3.三击+双击+单击B3</a></li><li class="article-toc__level-3"><a href="#4.%E9%95%BF%E6%8C%89%E6%9D%BE%E6%89%8B%E6%A3%80%E6%B5%8B%2B%E5%8D%95%E5%87%BBb4">4.长按松手检测+单击B4</a></li><li class="article-toc__level-3"><a href="#5.%E9%95%BF%E6%8C%89%E6%8C%89%E4%B8%8B%E6%A3%80%E6%B5%8B%2B%E5%8D%95%E5%87%BBb4">5.长按按下检测+单击B4</a></li><li class="article-toc__level-3"><a href="#%3C%E4%BB%A5%E4%B8%8A%E9%83%BD%E8%A6%81%E5%8A%A0%E5%AE%9A%E6%97%B6%E5%99%A8%E4%B8%AD%E6%96%AD%E5%92%8C%E8%AE%BE%E7%BD%AE%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%3E">&lt;以上都要加定时器中断和设置全局变量&gt;</a></li><li class="article-toc__level-3"><a href="#%E5%90%88%E5%9C%A8%E4%B8%80%E8%B5%B7">合在一起</a></li><li class="article-toc__level-3"><a href="#%E5%AD%99%E8%80%81%E5%B8%88%E7%9A%84%E6%8C%89%E9%94%AE">孙老师的按键</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h1 id="%E6%8C%89%E9%94%AE" tabindex="-1">按键</h1>
+<h3 id="1.%E6%9C%80%E6%99%AE%E9%80%9A%E7%9A%84%E6%A8%A1%E6%9D%BFb1" tabindex="-1">1.最普通的模板B1</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">//B1*********
+uint8_t B1_state;
+uint8_t B1_last_state;
+void key_scan(void)
+{
+//***按键消抖***
+static uint16_t last ;
+uint16_t now = uwTick;
+if ((now - last )&lt;20)
+	return;
+last = now;	
+
+//1.状态赋值
+	B1_state= HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_0);
+//2.检测按键
+	//B1***
+	if(B1_state == 0 &amp;&amp; B1_last_state == 1)
+	{	//单机操作
+		count++;
+	}
+//3.状态再赋值
+	B1_last_state=B1_state ;
+}
+	
+
+</code></pre>
+<h3 id="2.%E5%8F%8C%E5%87%BB%2B%E5%8D%95%E5%87%BBb2" tabindex="-1">2.双击+单击B2</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">//B2*********
+uint8_t B2_state;
+uint8_t B2_last_state;
+//判断两次按下间隔时间
+uint32_t current_time_B2; //用于记录B2当前按下的时间
+uint32_t last_time_B2; //用于记录B2当前按下的时间
+
+uint32_t click_count_B2; //点击次数，判断是否双击
+
+uint32_t click_time_B2; //点击定时器
+uint32_t click_flag_B2; //点击标志，记录事件是否发生
+
+void key_scan(void)
+{
+//1.状态赋值
+	B2_state= HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_1);
+//2.检测按键
+	//B2***
+	if(B2_state == 0 &amp;&amp; B2_last_state == 1)
+	{
+		//Ⅰ.记录当前时间
+		current_time_B2 = uwTick;
+		if(click_count_B2 ==1 &amp;&amp;(current_time_B2-last_time_B2) &lt; 300)
+		{	
+			//双击操作
+			count+=2;
+			//Ⅱ.重置点击次数，点击标志
+			click_count_B2 = 0;
+			click_flag_B2 = 0;
+		}
+		else
+		{	
+		  //Ⅰ.表示第一次按下按键
+ 			click_count_B2 = 1;	
+          //Ⅱ.这两个为handle_B2做准备************************************B2这句在else里,B3在else外面
+			click_flag_B2 = 1;
+			click_time_B2 = 0 ;
+		}
+	      //Ⅲ.为检测连击做准备
+			last_time_B2 = current_time_B2;
+	}
+//3.状态再赋值
+	B2_last_state=B2_state ;
+}
+
+
+void handle_B2(void)
+{
+	if (click_flag_B2 &amp;&amp; click_time_B2 &gt;300)//click_time_B2定时器一直在增加
+	{
+		//单击操作
+		count++;
+		
+		click_count_B2 = 0;
+		click_flag_B2 = 0;
+		
+	}
+}
+</code></pre>
+<h3 id="3.%E4%B8%89%E5%87%BB%2B%E5%8F%8C%E5%87%BB%2B%E5%8D%95%E5%87%BBb3" tabindex="-1">3.三击+双击+单击B3</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">//B3*********
+uint8_t B3_state;
+uint8_t B3_last_state;
+//判断两次按下间隔时间
+uint32_t current_time_B3; //用于记录B3当前按下的时间
+uint32_t last_time_B3; //用于记录B3当前按下的时间
+
+uint32_t click_count_B3; //点击次数，判断是否双击
+
+uint32_t click_time_B3; //点击定时器
+uint32_t click_flag_B3; //点击标志，记录事件是否发生
+
+void key_scan(void)
+{
+//1.状态赋值
+	B3_state= HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_2);
+//2.检测按键
+//B3***
+	if (B3_state==0 &amp;&amp; B3_last_state==1)
+	{	
+		//Ⅰ.记录当前时间
+		current_time_B2 = uwTick;
+		if(click_count_B3 &amp;&amp; (last_time_B3 - current_time_B3)&lt;300)
+		{	
+			//Ⅱ.记录次数
+			click_count_B3++;
+			if(click_count_B3==3)
+			{
+			//三击操作	
+				count+=3;
+			//Ⅲ.重置点击次数，点击标志
+			click_count_B3=0;
+			click_flag_B3=0;
+			}
+		}
+		else
+		{	
+			 //Ⅰ.表示第一次按下按键
+			click_count_B3 = 1;
+		}
+        	//Ⅱ.为检测连击做准备
+	        last_time_B3 = current_time_B3;
+ 		   //Ⅲ.这两个为handle_B3做准备
+            click_flag_B3 = 1;//第一次按下标志
+            click_time_B3 = 0;//第一次按下，点击计时器=0，可以开始记时了
+  }
+//3.状态再赋值
+	B3_last_state=B3_state ;
+}
+
+void handle_B3(void)
+{
+	if (click_flag_B3 &amp;&amp; click_time_B3 &gt;300)//click_time_B2定时器一直在增加
+	{
+		if (click_count_B3==1)
+		{
+		//单击操作
+		count++;
+		}
+		else if(click_count_B3==2)
+		{
+		//双击操作
+		count+=2;
+		}
+		click_count_B3= 0;
+		click_flag_B3 = 0;
+	}
+}
+</code></pre>
+<h3 id="4.%E9%95%BF%E6%8C%89%E6%9D%BE%E6%89%8B%E6%A3%80%E6%B5%8B%2B%E5%8D%95%E5%87%BBb4" tabindex="-1">4.长按松手检测+单击B4</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">//B4*********
+uint8_t B4_state;
+uint8_t B4_last_state;
+
+uint32_t press_duration_B4;
+uint32_t press_flag_B4;
+
+void key_scan(void)
+{
+//1.状态赋值
+	B4_state= HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);
+//2.检测按键
+//B4长按，松手检测***
+		if (B4_state==0 &amp;&amp; B4_last_state==1)//开始按
+		{
+		press_flag_B4 = 1;
+		press_duration_B4 = 0;
+		}
+		else if (B4_state==1 &amp;&amp; B4_last_state==0)//结束按
+		{
+			if (press_flag_B4)
+			{
+				if (press_duration_B4 &gt;= 1000)
+					count = 0;//长按操作
+				else 
+					count ++;//未长按，松手则为单击
+			}
+		}
+//3.状态再赋值
+	B4_last_state=B4_state ;
+}
+</code></pre>
+<h3 id="5.%E9%95%BF%E6%8C%89%E6%8C%89%E4%B8%8B%E6%A3%80%E6%B5%8B%2B%E5%8D%95%E5%87%BBb4" tabindex="-1">5.长按按下检测+单击B4</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">uint8_t B4_state;
+uint8_t B4_last_state;
+uint32_t press_duration_B4;
+
+//检测部分有不同
+if(B4_state == 0 &amp;&amp; B4_last_state == 1)
+{
+		press_duration_B4 = 0;
+}
+else if (B4_state == 0 &amp;&amp; B4_last_state == 0)
+{
+				if (press_duration_B4 &gt;= 1000)//如果长按超过一秒
+				{
+						//长按操作
+						count--;
+				}
+ }//注意else跟上面,{}不能省略
+else if (B4_state == 1 &amp;&amp; B4_last_state == 0)
+				if (press_duration_B4 &lt;= 1000)
+				{
+						//单击操作
+						count-=2;
+				}
+
+
+</code></pre>
+<h3 id="%3C%E4%BB%A5%E4%B8%8A%E9%83%BD%E8%A6%81%E5%8A%A0%E5%AE%9A%E6%97%B6%E5%99%A8%E4%B8%AD%E6%96%AD%E5%92%8C%E8%AE%BE%E7%BD%AE%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%3E" tabindex="-1">&lt;以上都要加定时器中断和设置全局变量&gt;</h3>
+<h5 id="%E5%9C%A8headfile.h%E9%87%8C" tabindex="-1">在headfile.h里</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">extern int count;
+
+extern uint32_t click_time_B2; //点击定时器
+extern uint32_t click_flag_B2; //点击标志，记录事件是否发生
+
+extern uint32_t click_time_B3; //点击定时器
+extern uint32_t click_flag_B3; //点击标志，记录事件是否发生
+
+extern uint32_t press_duration_B4;
+extern uint32_t press_flag_B4;
+</code></pre>
+<h5 id="%E5%9C%A8fun.h%E9%87%8C" tabindex="-1">在fun.h里</h5>
+<pre class="code-frame"><code class="hljs language-plaintext">void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+ if (htim-&gt;Instance ==TIM2)
+ {
+//双击B2
+ if (click_flag_B2)
+		click_time_B2++;
+	  handle_B2();
+//三击B3
+	 if (click_flag_B3)
+		click_time_B3++;
+	  handle_B3();
+//长按松手检测B4	 
+	  if (press_flag_B4)
+		press_duration_B4++;
+//长按按下检测B4	 	
+	    press_duration_B4++;
+	 
+ }
+}
+</code></pre>
+<h3 id="%E5%90%88%E5%9C%A8%E4%B8%80%E8%B5%B7" tabindex="-1">合在一起</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">#include &quot;headfile.h&quot;
+
+
+//B1*********
+uint8_t B1_state;
+uint8_t B1_last_state;
+
+//B2*********
+uint8_t B2_state;
+uint8_t B2_last_state;
+//判断两次按下间隔时间
+uint32_t current_time_B2; //用于记录B2当前按下的时间
+uint32_t last_time_B2; //用于记录B2当前按下的时间
+
+uint32_t click_time_B2; //点击定时器
+uint32_t click_count_B2; //点击次数，判断是否双击
+uint32_t click_flag_B2; //点击标志，记录事件是否发生
+
+//B3*********
+uint8_t B3_state;
+uint8_t B3_last_state;
+//判断两次按下间隔时间
+uint32_t current_time_B3; //用于记录B2当前按下的时间
+uint32_t last_time_B3; //用于记录B2当前按下的时间
+
+uint32_t click_time_B3; //点击定时器
+uint32_t click_count_B3; //点击次数，判断是否双击
+uint32_t click_flag_B3; //点击标志，记录事件是否发生
+
+//B4*********
+//松手检测
+//uint8_t B4_state;
+//uint8_t B4_last_state;
+//uint32_t press_duration_B4;
+//uint32_t press_flag_B4;
+//按下检测
+uint8_t B4_state;
+uint8_t B4_last_state;
+uint32_t press_duration_B4;
+
+
+void key_scan(void){
+//1.状态赋值
+	B1_state= HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_0);
+	B2_state= HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_1);
+	B3_state= HAL_GPIO_ReadPin(GPIOB,GPIO_PIN_2);
+	B4_state= HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_0);
+//2.检测按键
+	//B1***
+	if(B1_state == 0 &amp;&amp; B1_last_state == 1)
+	{
+		count++;
+	}
+	//B2***
+	if(B2_state == 0 &amp;&amp; B2_last_state == 1)
+	{
+		current_time_B2 = uwTick;
+		if(click_count_B2 ==1 &amp;&amp;(current_time_B2-last_time_B2) &lt; 300)
+		{	
+			//双击操作
+			count+=2;
+			//重置点击次数，点击标志
+			click_count_B2 = 0;
+			click_flag_B2 = 0;
+		}
+		else
+		{	//表示第一次按下按键，点击次数=1
+ 			click_count_B2 = 1;
+		  //这两个为handle_B2做准备
+			click_flag_B2 = 1;
+			click_time_B2 = 0 ;
+			
+		}
+			last_time_B2 = current_time_B2;
+	}
+	//B3***
+	if (B3_state==0 &amp;&amp; B3_last_state==1)
+	{
+		current_time_B2 = uwTick;
+		if(click_count_B3 &amp;&amp; (last_time_B3 - current_time_B3)&lt;300)
+		{
+		click_count_B3++;
+			if(click_count_B3==3)
+			{//三击操作	
+				count+=3;
+			click_count_B3=0;
+			click_flag_B3=0;
+			}
+		}
+		else
+		{
+			click_count_B3 = 1;
+
+		}
+					//这两个为handle_B3做准备
+		 click_flag_B3 = 1;//第一次按下标志
+		 click_time_B3 = 0;//第一次按下，点击计时器=0，可以开始记时了
+	 last_time_B3 = current_time_B3;
+
+	}
+//	//B4长按，松手检测***
+//		if (B4_state==0 &amp;&amp; B4_last_state==1)//开始按
+//		{
+//		press_flag_B4 = 1;
+//		press_duration_B4 = 0;
+//		}
+//		else if (B4_state==1 &amp;&amp; B4_last_state==0)//结束按
+//		{
+//			if (press_flag_B4)
+//			{
+//				if (press_duration_B4 &gt;= 1000)
+//					count = 0;//长按操作
+//				else 
+//					count ++;//未长按，松手则为单击
+//			}
+//		}
+	
+	if(B4_state == 0 &amp;&amp; B4_last_state == 1)
+	{
+		press_duration_B4 = 0;
+	}
+	else if (B4_state == 0 &amp;&amp; B4_last_state == 0)
+	{
+						if (press_duration_B4 &gt;= 1000)//如果长按超过一秒
+						{
+							//长按操作
+							count--;
+						}
+  }//注意else跟上面,{}不能省略
+	else if (B4_state == 1 &amp;&amp; B4_last_state == 0)
+						if (press_duration_B4 &lt;= 1000)
+						{
+							//单击操作
+							count-=2;
+						}
+  //3.状态再赋值
+	B1_last_state=B1_state ;
+	B2_last_state=B2_state ;
+	B3_last_state=B3_state ;
+	B4_last_state=B4_state ;
+}
+
+
+void handle_B2(void)
+{
+	if (click_flag_B2 &amp;&amp; click_time_B2 &gt;300)//click_time_B2定时器一直在增加
+	{
+		//单击操作
+		count++;
+		
+		click_count_B2 = 0;
+		click_flag_B2 = 0;
+		
+	}
+}
+
+void handle_B3(void)
+{
+	if (click_flag_B3 &amp;&amp; click_time_B3 &gt;300)//click_time_B2定时器一直在增加
+	{
+		if (click_count_B3==1)
+		{
+		//单击操作
+		count++;
+		}
+		else if(click_count_B3==2)
+		{
+		//双击操作
+		count+=2;
+		}
+		click_count_B3= 0;
+		click_flag_B3 = 0;
+	}
+}
+
+//****************fun.c**************************
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+ if (htim-&gt;Instance ==TIM2)
+ { if (click_flag_B2)
+		click_time_B2++;
+	  handle_B2();
+	 
+	 if (click_flag_B3)
+		click_time_B3++;
+	  handle_B3();
+	 
+//	  if (press_flag_B4)
+//		press_duration_B4++;
+	 press_duration_B4++;
+ }
+}
+</code></pre>
+<h3 id="%E5%AD%99%E8%80%81%E5%B8%88%E7%9A%84%E6%8C%89%E9%94%AE" tabindex="-1">孙老师的按键</h3>
+<pre class="code-frame"><code class="hljs language-plaintext">*key 检测*/
+struct GPIO_KEY
+{
+    GPIO_TypeDef      *port;
+    uint16_t          pin;
+    uint16_t          active_value;
+};
+static const struct GPIO_KEY key[] =
+{
+    {GPIOB, GPIO_PIN_0, 0},
+    {GPIOB, GPIO_PIN_1, 0},
+    {GPIOB, GPIO_PIN_2, 0},
+    {GPIOA, GPIO_PIN_0, 0},
+};
+
+#define NUM_KEYS  4
+typedef enum
+{
+    KEY_UP   = 0,      // 按键抬起状态
+    KEY_DEBOUNCE,      // 按键消抖状态
+    KEY_WAIT_RELEASE   // 按键等待释放状态
+}KEY_STATE;
+//全局变量
+KEY_STATE KeyState = KEY_UP;     // 按键状态指示变量，初值为按键抬起状态
+volatile uint8_t KeyFlag  = 0;   // 按键有效标志，0：无效；大于1：有效    
+uint8_t key_numb = 0;
+    
+uint8_t get_key_flag(void)
+{
+    if(KeyFlag )
+    {
+        KeyFlag = 0;
+        printf(&quot;\r\nkey=%d\r\n&quot;,key_numb);
+        return key_numb+1;        
+    }
+    else
+        return 0;
+}
+
+void KeyScan(void)
+{
+    static int pressed_time;
+    switch(KeyState)
+    {
+      case KEY_UP:    // 按键抬起状态
+      {
+          // 读到低电平，转换到按键消抖状态
+      for(int i = 0; i &lt; NUM_KEYS; i++)
+      {
+        if(HAL_GPIO_ReadPin(key[i].port, key[i].pin) == key[i].active_value)
+        {
+                    KeyState = KEY_DEBOUNCE;   // 读到低电平，转换到按键消抖状态
+          key_numb = i;
+                    pressed_time = 0;
+          break;
+        }
+      }
+      break;                 
+      }
+      case KEY_DEBOUNCE:  // 按键消抖状态
+    { 
+            // 读到低电平，转换到按键等待释放状态，并设置按键有效标志
+            if(HAL_GPIO_ReadPin(key[key_numb].port, key[key_numb].pin) == key[key_numb].active_value)
+            {
+                 KeyState = KEY_WAIT_RELEASE;   // 读到低电平，转换到按键消抖状态
+                 pressed_time ++;
+                break;
+            }
+            // 读到高电平，表明是干扰信号，转换到按键抬起状态
+            else   
+            {
+                KeyState = KEY_UP;
+            }
+      break;                 
+      }
+      case KEY_WAIT_RELEASE:  // 按键释放状态
+      {
+          // 读到高电平，说明按键释放，转换到按键抬起状态
+      if(HAL_GPIO_ReadPin(key[key_numb].port, key[key_numb].pin) == !key[key_numb].active_value)
+          {
+            KeyState = KEY_UP;
+                KeyFlag  = 1;  // 设置按键有效标志  
+                if(pressed_time&gt;100)
+                    key_numb += 100;
+          }
+            else
+            {
+                pressed_time++;
+            }
+      break;                 
+      }
+      default: break;
+    }
+}
+
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/led_lcd/"><small>上一篇</small><strong>led_lcd</strong></a>
+        <a href="/2025/07/17/i2c/"><small>下一篇</small><strong>i2c</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="3，图像的特征提取和描述" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>3，图像的特征提取和描述 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>3，图像的特征提取和描述</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:41:51">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/Python/">Python</a><a href="/categories/opencv/">opencv</a></span>
+    <span class="content-meta__tags"><a href="/tags/Python/">Python</a><a href="/tags/opencv/">opencv</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-2"><a href="#3%EF%BC%8C%E5%9B%BE%E5%83%8F%E7%9A%84%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E5%92%8C%E6%8F%8F%E8%BF%B0">3，图像的特征提取和描述</a></li><li class="article-toc__level-3"><a href="#3-1-harris%E8%A7%92%E7%82%B9%E6%A3%80%E6%B5%8B">3-1 Harris角点检测</a></li><li class="article-toc__level-3"><a href="#3-2-shi-tomasi%E8%A7%92%E7%82%B9%E6%A3%80%E6%B5%8B">3-2 Shi-Tomasi角点检测</a></li><li class="article-toc__level-3"><a href="#3-3-sift%2Fsurf%E7%AE%97%E6%B3%95">3-3 SIFT/SURF算法</a></li><li class="article-toc__level-3"><a href="#3-4-fast%E7%AE%97%E6%B3%95">3-4 Fast算法</a></li><li class="article-toc__level-3"><a href="#3-5-orb-%E7%AE%97%E6%B3%95">3-5 ORB 算法</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h2 id="3%EF%BC%8C%E5%9B%BE%E5%83%8F%E7%9A%84%E7%89%B9%E5%BE%81%E6%8F%90%E5%8F%96%E5%92%8C%E6%8F%8F%E8%BF%B0" tabindex="-1">3，图像的特征提取和描述</h2>
+<h3 id="3-1-harris%E8%A7%92%E7%82%B9%E6%A3%80%E6%B5%8B" tabindex="-1">3-1 Harris角点检测</h3>
+<p>在OpenCV中实现Hariis检测使用的API是：</p>
+<pre class="code-frame"><code class="hljs language-python">dst=cv.cornerHarris(src, blockSize, ksize, k)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>img：数据类型为 ﬂoat32 的输入图像。</li>
+<li>blockSize：角点检测中要考虑的邻域大小。</li>
+<li>ksize：sobel求导使用的核大小</li>
+<li>k ：角点检测方程中的自由参数，取值参数为 [0.04，0.06].</li>
+</ul>
+<p>示例：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np 
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 读取图像，并转换成灰度图像</span>
+img = cv.imread(<span class="hljs-string">&#x27;./image/chessboard.jpg&#x27;</span>)
+gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+<span class="hljs-comment"># 2 角点检测</span>
+<span class="hljs-comment"># 2.1 输入图像必须是 float32</span>
+gray = np.float32(gray)
+
+<span class="hljs-comment"># 2.2 最后一个参数在 0.04 到 0.05 之间</span>
+dst = cv.cornerHarris(gray,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">0.04</span>)
+<span class="hljs-comment"># 3 设置阈值，将角点绘制出来，阈值根据图像进行选择</span>
+img[dst&gt;<span class="hljs-number">0.001</span>*dst.<span class="hljs-built_in">max</span>()] = [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">255</span>]
+<span class="hljs-comment"># 4 图像显示</span>
+plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>),dpi=<span class="hljs-number">100</span>)
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;Harris角点检测&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+<p><img src="/2025/07/17/3，图像的特征提取和描述/3，图像的特征提取和描述.assets/image-20240127190622.png" alt="" loading="lazy" decoding="async"></p>
+<p>Harris角点检测的优缺点：</p>
+<p>优点：</p>
+<ul>
+<li>旋转不变性，椭圆转过一定角度但是其形状保持不变（特征值保持不变）</li>
+<li>对于图像灰度的仿射变化具有部分的不变性，由于仅仅使用了图像的一介导数，对于图像灰度平移变化不变；对于图像灰度尺度变化不变</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>对尺度很敏感，不具备几何尺度不变性。</li>
+<li>提取的角点是像素级的</li>
+</ul>
+<h3 id="3-2-shi-tomasi%E8%A7%92%E7%82%B9%E6%A3%80%E6%B5%8B" tabindex="-1">3-2 Shi-Tomasi角点检测</h3>
+<p>在OpenCV中实现Shi-Tomasi角点检测使用API:</p>
+<pre class="code-frame"><code class="hljs language-python">corners = cv2.goodFeaturesToTrack ( image, maxcorners, qualityLevel, minDistance )
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>Image: 输入灰度图像</li>
+<li>maxCorners : 获取角点数的数目。</li>
+<li>qualityLevel：该参数指出最低可接受的角点质量水平，在0-1之间。</li>
+<li>minDistance：角点之间最小的欧式距离，避免得到相邻特征点。</li>
+</ul>
+<p>返回：</p>
+<ul>
+<li>Corners: 搜索到的角点，在这里所有低于质量水平的角点被排除掉，然后把合格的角点按质量排序，然后将质量较好的角点附近（小于最小欧式距离）的角点删掉，最后找到maxCorners个角点返回。</li>
+</ul>
+<p><strong>示例：</strong></p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 读取图像</span>
+img = cv.imread(<span class="hljs-string">&#x27;./img/tv.jpg&#x27;</span>)
+gray = cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+<span class="hljs-comment"># 2 角点检测</span>
+corners = cv.goodFeaturesToTrack(gray,<span class="hljs-number">1000</span>,<span class="hljs-number">0.01</span>,<span class="hljs-number">10</span>)
+<span class="hljs-comment"># 3 绘制角点</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> corners:
+    x,y = i.ravel()
+    cv.circle(img,(<span class="hljs-built_in">int</span>(x),<span class="hljs-built_in">int</span>(y)),<span class="hljs-number">2</span>,(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">255</span>),-<span class="hljs-number">1</span>)
+<span class="hljs-comment"># 4 图像展示</span>
+plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>),dpi=<span class="hljs-number">100</span>)
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;shi-tomasi角点检测&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+<p>结果如下：</p>
+<p><img src="/2025/07/17/3，图像的特征提取和描述/3，图像的特征提取和描述.assets/image-20240127193051.png" alt="" loading="lazy" decoding="async"></p>
+<p><strong>总结</strong></p>
+<ol>
+<li>
+<p>Harris算法</p>
+<p>思想：通过图像的局部的小窗口观察图像，角点的特征是窗口沿任意方向移动都会导致图像灰度的明显变化。</p>
+<p>API: cv.cornerHarris()</p>
+</li>
+<li>
+<p>Shi-Tomasi算法</p>
+<p>对Harris算法的改进，能够更好地检测角点</p>
+<p>API: cv2.goodFeatureToTrack()</p>
+</li>
+</ol>
+<h3 id="3-3-sift%2Fsurf%E7%AE%97%E6%B3%95" tabindex="-1">3-3 SIFT/SURF算法</h3>
+<p>在OpenCV中利用SIFT检测关键点的流程如下所示：</p>
+<h4 id="3-1-%E5%AE%9E%E4%BE%8B%E5%8C%96sift" tabindex="-1">3-1 实例化sift</h4>
+<pre class="code-frame"><code class="hljs language-python">sift = cv.xfeatures2d.SIFT_create()
+</code></pre>
+<h4 id="3-2-%E5%88%A9%E7%94%A8sift.detectandcompute()%E6%A3%80%E6%B5%8B%E5%85%B3%E9%94%AE%E7%82%B9%E5%B9%B6%E8%AE%A1%E7%AE%97" tabindex="-1">3-2 利用sift.detectAndCompute()检测关键点并计算</h4>
+<pre class="code-frame"><code class="hljs language-python">kp,des = sift.detectAndCompute(gray,<span class="hljs-literal">None</span>)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>gray: 进行关键点检测的图像，注意是灰度图像</li>
+</ul>
+<p>返回：</p>
+<ul>
+<li>kp: 关键点信息，包括位置，尺度，方向信息</li>
+<li>des: 关键点描述符，每个关键点对应128个梯度信息的特征向量</li>
+</ul>
+<h4 id="3--3.%E5%B0%86%E5%85%B3%E9%94%AE%E7%82%B9%E6%A3%80%E6%B5%8B%E7%BB%93%E6%9E%9C%E7%BB%98%E5%88%B6%E5%9C%A8%E5%9B%BE%E5%83%8F%E4%B8%8A" tabindex="-1">3- 3.将关键点检测结果绘制在图像上</h4>
+<pre class="code-frame"><code class="hljs language-python">cv.drawKeypoints(image, keypoints, outputimage, color, flags)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>image: 原始图像</li>
+<li>keypoints：关键点信息，将其绘制在图像上</li>
+<li>outputimage：输出图片，可以是原始图像</li>
+<li>color：颜色设置，通过修改（b,g,r）的值,更改画笔的颜色，b=蓝色，g=绿色，r=红色。</li>
+<li>flags：绘图功能的标识设置
+<ol>
+<li>cv2.DRAW_MATCHES_FLAGS_DEFAULT：创建输出图像矩阵，使用现存的输出图像绘制匹配对和特征点，对每一个关键点只绘制中间点</li>
+<li>cv2.DRAW_MATCHES_FLAGS_DRAW_OVER_OUTIMG：不创建输出图像矩阵，而是在输出图像上绘制匹配对</li>
+<li>cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS：对每一个特征点绘制带大小和方向的关键点图形</li>
+<li>cv2.DRAW_MATCHES_FLAGS_NOT_DRAW_SINGLE_POINTS：单点的特征点不被绘制</li>
+</ol>
+</li>
+</ul>
+<p>SURF算法的应用与上述流程是一致，这里就不在赘述。</p>
+<p>示例：</p>
+<p>利用SIFT算法在中央电视台的图片上检测关键点，并将其绘制出来：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv 
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 读取图像</span>
+img = cv.imread(<span class="hljs-string">&#x27;./image/tv.jpg&#x27;</span>)
+gray= cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+<span class="hljs-comment"># 2 sift关键点检测</span>
+<span class="hljs-comment"># 2.1 实例化sift对象</span>
+sift = cv.xfeatures2d.SIFT_create()
+
+<span class="hljs-comment"># 2.2 关键点检测：kp关键点信息包括方向，尺度，位置信息，des是关键点的描述符</span>
+kp,des=sift.detectAndCompute(gray,<span class="hljs-literal">None</span>)
+<span class="hljs-comment"># 2.3 在图像上绘制关键点的检测结果</span>
+cv.drawKeypoints(img,kp,img,flags=cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+<span class="hljs-comment"># 3 图像显示</span>
+plt.figure(figsize=(<span class="hljs-number">8</span>,<span class="hljs-number">6</span>),dpi=<span class="hljs-number">100</span>)
+plt.imshow(img[:,:,::-<span class="hljs-number">1</span>]),plt.title(<span class="hljs-string">&#x27;sift检测&#x27;</span>)
+plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+<p><img src="/2025/07/17/3，图像的特征提取和描述/3，图像的特征提取和描述.assets/image-20240127194522.png" alt="" loading="lazy" decoding="async"></p>
+<ul>
+<li></li>
+</ul>
+<hr>
+<h3 id="3-4-fast%E7%AE%97%E6%B3%95" tabindex="-1">3-4 Fast算法</h3>
+<h4 id="1-1-%E5%8E%9F%E7%90%86" tabindex="-1">1-1 原理</h4>
+<p>我们前面已经介绍过几个特征检测器，它们的效果都很好，特别是SIFT和SURF算法，但是从实时处理的角度来看，效率还是太低了。为了解决这个问题，Edward Rosten和Tom Drummond在2006年提出了FAST算法，并在2010年对其进行了修正。</p>
+<p><strong>FAST</strong> (全称Features from accelerated segment test)是一种用于角点检测的算法，该算法的原理是取图像中检测点，以该点为圆心的周围邻域内像素点判断检测点是否为角点，通俗的讲就是<strong>若一个像素周围有一定数量的像素与该点像素值不同，则认为其为角点</strong>。</p>
+<h5 id="1.1.1-fast%E7%AE%97%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B" tabindex="-1">1.1.1 <strong>FAST算法的基本流程</strong></h5>
+<ol>
+<li>
+<p>在图像中选取一个像素点 p，来判断它是不是关键点。$$I_p$$等于像素点 p的灰度值。</p>
+</li>
+<li>
+<p>以r为半径画圆，覆盖p点周围的M个像素，通常情狂下，设置 r=3，则 M=16，如下图所示：</p>
+<p><img src="/2025/07/17/3，图像的特征提取和描述/3，图像的特征提取和描述.assets/image-20240229131100.jpg" alt="" loading="lazy" decoding="async"></p>
+</li>
+<li>
+<p>设置一个阈值t，如果在这 16 个像素点中存在 n 个连续像素点的灰度值都高于$$I_p + t$$，或者低于$$I_p - t$$，那么像素点 p 就被认为是一个角点。如上图中的虚线所示，n 一般取值为 12。</p>
+</li>
+<li>
+<p>由于在检测特征点时是需要对图像中所有的像素点进行检测，然而图像中的绝大多数点都不是特征点，如果对每个像素点都进行上述的检测过程，那显然会浪费许多时间，因此采用一种进行<strong>非特征点判别</strong>的方法：首先对候选点的周围每个 90 度的点：1，9，5，13 进行测试（先测试 1 和 19, 如果它们符合阈值要求再测试 5 和 13）。如果 p 是角点，那么这四个点中至少有 3 个要符合阈值要求，否则直接剔除。对保留下来的点再继续进行测试（是否有 12 的点符合阈值要求）。</p>
+</li>
+</ol>
+<p>虽然这个检测器的效率很高，但它有以下几条缺点：</p>
+<ul>
+<li>获得的候选点比较多</li>
+<li>特征点的选取不是最优的，因为它的效果取决与要解决的问题和角点的分布情况。</li>
+<li>进行非特征点判别时大量的点被丢弃</li>
+<li>检测到的很多特征点都是相邻的</li>
+</ul>
+<p>前 3 个问题可以通过机器学习的方法解决，最后一个问题可以使用非最大值抑制的方法解决。</p>
+<h5 id="1.1.2-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9A%84%E8%A7%92%E7%82%B9%E6%A3%80%E6%B5%8B%E5%99%A8" tabindex="-1"><strong>1.1.2 机器学习的角点检测器</strong></h5>
+<ol>
+<li>
+<p>选择一组训练图片（最好是跟最后应用相关的图片）</p>
+</li>
+<li>
+<p>使用 FAST 算法找出每幅图像的特征点，对图像中的每一个特征点，将其周围的 16 个像素存储构成一个向量P。</p>
+<p><img src="/2025/07/17/3，图像的特征提取和描述/3，图像的特征提取和描述.assets/image-20191010114459.png" alt="" loading="lazy" decoding="async"></p>
+</li>
+<li>
+<p>每一个特征点的 16 像素点都属于下列三类中的一种</p>
+<p><img src="/2025/07/17/3，图像的特征提取和描述/3，图像的特征提取和描述.assets/image-20240229131100-001.jpg" alt="" loading="lazy" decoding="async"></p>
+</li>
+<li>
+<p>根据这些像素点的分类，特征向量 P 也被分为 3 个子集：Pd ，Ps ，Pb，</p>
+</li>
+<li>
+<p>定义一个新的布尔变量$$K_p$$，如果 p 是角点就设置为 Ture，如果不是就设置为 False。</p>
+</li>
+<li>
+<p>利用特征值向量p，目标值是$K_p$，训练ID3 树（决策树分类器）。</p>
+</li>
+<li>
+<p>将构建好的决策树运用于其他图像的快速的检测。</p>
+</li>
+</ol>
+<h5 id="1.1.3-%E9%9D%9E%E6%9E%81%E5%A4%A7%E5%80%BC%E6%8A%91%E5%88%B6" tabindex="-1">1.1.3 <strong>非极大值抑制</strong></h5>
+<p><strong>在筛选出来的候选角点中有很多是紧挨在一起的，需要通过非极大值抑制来消除这种影响。</strong></p>
+<p>为所有的候选角点都确定一个打分函数$$V $$ ， $$V $$的值可这样计算：先分别计算$$I_p$$与圆上16个点的像素值差值，取绝对值，再将这16个绝对值相加，就得到了$$V $$的值
+$$
+V = \sum_{i}^{16}|I_p-I_i|
+$$
+最后比较毗邻候选角点的 V 值，把V值较小的候选角点pass掉。</p>
+<p>FAST算法的思想与我们对角点的直观认识非常接近，化繁为简。FAST算法比其它角点的检测算法快，但是在噪声较高时不够稳定，这需要设置合适的阈值。</p>
+<h4 id="1-2-%E5%AE%9E%E7%8E%B0" tabindex="-1">1-2 实现</h4>
+<p>OpenCV中的FAST检测算法是用传统方法实现的，</p>
+<p><strong>1.实例化fast</strong></p>
+<pre class="code-frame"><code class="hljs language-python">fast = =cv.FastFeatureDetector_create( threshold, nonmaxSuppression)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>threshold：阈值t，有默认值10</li>
+<li>nonmaxSuppression：是否进行非极大值抑制，默认值True</li>
+</ul>
+<p>返回：</p>
+<ul>
+<li>Fast：创建的FastFeatureDetector对象</li>
+</ul>
+<p><strong>2.利用fast.detect检测关键点，没有对应的关键点描述</strong></p>
+<pre class="code-frame"><code class="hljs language-python">kp = fast.detect(grayImg, <span class="hljs-literal">None</span>)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>gray: 进行关键点检测的图像，注意是灰度图像</li>
+</ul>
+<p>返回：</p>
+<ul>
+<li>kp: 关键点信息，包括位置，尺度，方向信息</li>
+</ul>
+<p><strong>3.将关键点检测结果绘制在图像上，与在sift中是一样的</strong></p>
+<pre class="code-frame"><code class="hljs language-python">cv.drawKeypoints(image, keypoints, outputimage, color, flags)
+</code></pre>
+<p>示例：</p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 读取图像</span>
+img = cv.imread(<span class="hljs-string">&#x27;./image/tv.jpg&#x27;</span>)
+<span class="hljs-comment"># 2 Fast角点检测</span>
+<span class="hljs-comment"># 2.1 创建一个Fast对象，传入阈值，注意：可以处理彩色空间图像</span>
+fast = cv.FastFeatureDetector_create(threshold=<span class="hljs-number">30</span>)
+
+<span class="hljs-comment"># 2.2 检测图像上的关键点</span>
+kp = fast.detect(img,<span class="hljs-literal">None</span>)
+<span class="hljs-comment"># 2.3 在图像上绘制关键点</span>
+img2 = cv.drawKeypoints(img, kp, <span class="hljs-literal">None</span>, color=(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">255</span>))
+
+<span class="hljs-comment"># 2.4 输出默认参数</span>
+<span class="hljs-built_in">print</span>( <span class="hljs-string">&quot;Threshold: {}&quot;</span>.<span class="hljs-built_in">format</span>(fast.getThreshold()) )
+<span class="hljs-built_in">print</span>( <span class="hljs-string">&quot;nonmaxSuppression:{}&quot;</span>.<span class="hljs-built_in">format</span>(fast.getNonmaxSuppression()) )
+<span class="hljs-built_in">print</span>( <span class="hljs-string">&quot;neighborhood: {}&quot;</span>.<span class="hljs-built_in">format</span>(fast.getType()) )
+<span class="hljs-built_in">print</span>( <span class="hljs-string">&quot;Total Keypoints with nonmaxSuppression: {}&quot;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-built_in">len</span>(kp)) )
+
+
+<span class="hljs-comment"># 2.5 关闭非极大值抑制</span>
+fast.setNonmaxSuppression(<span class="hljs-number">0</span>)
+kp = fast.detect(img,<span class="hljs-literal">None</span>)
+
+<span class="hljs-built_in">print</span>( <span class="hljs-string">&quot;Total Keypoints without nonmaxSuppression: {}&quot;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-built_in">len</span>(kp)) )
+<span class="hljs-comment"># 2.6 绘制为进行非极大值抑制的结果</span>
+img3 = cv.drawKeypoints(img, kp, <span class="hljs-literal">None</span>, color=(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">255</span>))
+
+<span class="hljs-comment"># 3 绘制图像</span>
+fig,axes=plt.subplots(nrows=<span class="hljs-number">1</span>,ncols=<span class="hljs-number">2</span>,figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>),dpi=<span class="hljs-number">100</span>)
+axes[<span class="hljs-number">0</span>].imshow(img2[:,:,::-<span class="hljs-number">1</span>])
+axes[<span class="hljs-number">0</span>].set_title(<span class="hljs-string">&quot;加入非极大值抑制&quot;</span>)
+axes[<span class="hljs-number">1</span>].imshow(img3[:,:,::-<span class="hljs-number">1</span>])
+axes[<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&quot;未加入非极大值抑制&quot;</span>)
+plt.show()
+</code></pre>
+<p>结果：</p>
+<p><img src="/2025/07/17/3，图像的特征提取和描述/3，图像的特征提取和描述.assets/image-20191010120822.png" alt="" loading="lazy" decoding="async"></p>
+<hr>
+<h3 id="3-5-orb-%E7%AE%97%E6%B3%95" tabindex="-1">3-5  ORB 算法</h3>
+<h4 id="2.1-%E5%8E%9F%E7%90%86" tabindex="-1">2.1 原理</h4>
+<p>SIFT和SURF算法是受专利保护的，在使用他们时我们是要付费的，但是ORB（Oriented Fast and Rotated Brief）不需要，它可以用来对图像中的关键点快速创建特征向量，并用这些特征向量来识别图像中的对象。</p>
+<h5 id="2.1.1-orb%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B" tabindex="-1">2.1.1 ORB算法流程</h5>
+<p>ORB算法结合了Fast和Brief算法，提出了构造金字塔，为Fast特征点添加了方向，从而使得关键点具有了尺度不变性和旋转不变性。具体流程描述如下：</p>
+<ul>
+<li>构造尺度金字塔，金字塔共有n层，与SIFT不同的是，每一层仅有一幅图像。第s层的尺度为：</li>
+</ul>
+<p>$$
+\sigma_s=\sigma_0^s
+$$</p>
+<p>$$\sigma_0$$是初始尺度，默认为1.2，原图在第0层。</p>
+<p><img src="/2025/07/17/3，图像的特征提取和描述/3，图像的特征提取和描述.assets/image-20191010145652.png" alt="" loading="lazy" decoding="async"></p>
+<p>第s层图像的大小：
+$$
+SIZE = (H*\frac{1}{\sigma_s})\times(W*\frac{1}{\sigma_s})
+$$</p>
+<ul>
+<li>
+<p>在不同的尺度上利用Fast算法检测特征点，采用Harris角点响应函数，根据角点的响应值排序，选取前N个特征点，作为本尺度的特征点。</p>
+</li>
+<li>
+<p>计算特征点的主方向，计算以特征点为圆心半径为r的圆形邻域内的灰度质心位置，将从特征点位置到质心位置的方向做特征点的主方向。</p>
+</li>
+</ul>
+<p>计算方法如下:
+$$
+m_{pq}=\sum_{x,y}x^py^qI(x,y)
+$$
+质心位置：
+$$
+C=(\frac{m_{10}}{m_{00}},\frac{m_{01}}{m_{10}})
+$$
+主方向：
+$$
+\theta = arctan(m_{01},m_{10})
+$$</p>
+<ul>
+<li>为了解决旋转不变性，将特征点的邻域旋转到主方向上利用Brief算法构建特征描述符，至此就得到了ORB的特征描述向量。</li>
+</ul>
+<h5 id="2.1.2-brief%E7%AE%97%E6%B3%95" tabindex="-1">2.1.2 BRIEF算法</h5>
+<p><strong>BRIEF是一种特征描述子提取算法，并非特征点的提取算法，一种生成二值化描述子的算法，不提取代价低，匹配只需要使用简单的汉明距离(Hamming Distance)利用比特之间的异或操作就可以完成。因此，时间代价低，空间代价低，效果还挺好是最大的优点。</strong></p>
+<p><strong>算法的步骤介绍如下</strong>：</p>
+<ol>
+<li>
+<p><strong>图像滤波</strong>：原始图像中存在噪声时，会对结果产生影响，所以需要对图像进行滤波，去除部分噪声。</p>
+</li>
+<li>
+<p><strong>选取点对</strong>：以特征点为中心，取S*S的邻域窗口，在窗口内随机选取N组点对，一般N=128,256,512，默认是256，关于如何选取随机点对，提供了五种形式，结果如下图所示：</p>
+<ul>
+<li>
+<p>x,y方向平均分布采样</p>
+</li>
+<li>
+<p>x,y均服从Gauss(0,S^2/25)各向同性采样</p>
+</li>
+<li>
+<p>x服从Gauss(0,S^2/25)，y服从Gauss(0,S^2/100)采样</p>
+</li>
+<li>
+<p>x,y从网格中随机获取</p>
+</li>
+<li>
+<p>x一直在(0,0)，y从网格中随机选取</p>
+<p><img src="/2025/07/17/3，图像的特征提取和描述/3，图像的特征提取和描述.assets/image-20191010153907.png" alt="" loading="lazy" decoding="async"></p>
+</li>
+</ul>
+<p>图中一条线段的两个端点就是一组点对，其中第二种方法的结果比较好。</p>
+</li>
+<li>
+<p><strong>构建描述符</strong>：假设x,y是某个点对的两个端点，p(x),p(y)是两点对应的像素值，则有：
+$$
+t(x,y)=\begin{cases}1	&amp;if p(x)&gt;p(y)\
+0&amp;	else\end{cases}
+$$
+对每一个点对都进行上述的二进制赋值，形成BRIEF的关键点的描述特征向量，该向量一般为 128-512 位的字符串，其中仅包含 1 和 0，如下图所示：</p>
+<p><img src="/2025/07/17/3，图像的特征提取和描述/3，图像的特征提取和描述.assets/image-20191010161944.png" alt="" loading="lazy" decoding="async"></p>
+</li>
+</ol>
+<h4 id="2-2-%E5%AE%9E%E7%8E%B0" tabindex="-1">2-2 实现</h4>
+<p>在OPenCV中实现ORB算法，使用的是：</p>
+<p><strong>1.实例化ORB</strong></p>
+<pre class="code-frame"><code class="hljs language-python">orb = cv.xfeatures2d.orb_create(nfeatures)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>nfeatures: 特征点的最大数量</li>
+</ul>
+<p><strong>2.利用orb.detectAndCompute()检测关键点并计算</strong></p>
+<pre class="code-frame"><code class="hljs language-python">kp,des = orb.detectAndCompute(gray,<span class="hljs-literal">None</span>)
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>gray: 进行关键点检测的图像，注意是灰度图像</li>
+</ul>
+<p>返回：</p>
+<ul>
+<li>kp: 关键点信息，包括位置，尺度，方向信息</li>
+<li>des: 关键点描述符，每个关键点BRIEF特征向量，二进制字符串，</li>
+</ul>
+<p><strong>3.将关键点检测结果绘制在图像上</strong></p>
+<pre class="code-frame"><code class="hljs language-python">cv.drawKeypoints(image, keypoints, outputimage, color, flags)
+</code></pre>
+<p><strong>示例：</strong></p>
+<pre class="code-frame"><code class="hljs language-python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">import</span> cv2 <span class="hljs-keyword">as</span> cv
+<span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-comment"># 1 图像读取</span>
+img = cv.imread(<span class="hljs-string">&#x27;./image/tv.jpg&#x27;</span>)
+
+<span class="hljs-comment"># 2 ORB角点检测</span>
+<span class="hljs-comment"># 2.1 实例化ORB对象</span>
+orb = cv.ORB_create(nfeatures=<span class="hljs-number">500</span>)
+<span class="hljs-comment"># 2.2 检测关键点,并计算特征描述符</span>
+kp,des = orb.detectAndCompute(img,<span class="hljs-literal">None</span>)
+
+<span class="hljs-built_in">print</span>(des.shape)
+
+<span class="hljs-comment"># 3 将关键点绘制在图像上</span>
+img2 = cv.drawKeypoints(img, kp, <span class="hljs-literal">None</span>, color=(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">255</span>), flags=<span class="hljs-number">0</span>)
+
+<span class="hljs-comment"># 4. 绘制图像</span>
+plt.figure(figsize=(<span class="hljs-number">10</span>,<span class="hljs-number">8</span>),dpi=<span class="hljs-number">100</span>)
+plt.imshow(img2[:,:,::-<span class="hljs-number">1</span>])
+plt.xticks([]), plt.yticks([])
+plt.show()
+</code></pre>
+<p><img src="/2025/07/17/3，图像的特征提取和描述/3，图像的特征提取和描述.assets/image-20240127201959.png" alt="" loading="lazy" decoding="async"></p>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/4，视频操作/"><small>上一篇</small><strong>4，视频操作</strong></a>
+        <a href="/2025/07/17/2.2、图像处理(2-6_模板匹配霍夫变换)/"><small>下一篇</small><strong>2.2、图像处理(2-6_模板匹配霍夫变换)</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>

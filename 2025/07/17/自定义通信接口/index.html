@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="自定义通信接口" />
+    <meta name="theme-color" content="#17130f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/assets/content-site.css" />
+    <title>自定义通信接口 · 终南山下，活死人墓</title>
+  </head>
+  <body class="content-site article-page">
+    <a class="skip-link" href="#content-main">跳到正文</a>
+    <header class="content-nav">
+      <a class="content-brand" href="/" aria-label="返回首页">
+        <span aria-hidden="true">山</span><strong>DYING4EVER</strong>
+      </a>
+      <button class="content-menu" type="button" aria-expanded="false" aria-controls="content-navigation">菜单</button>
+      <nav id="content-navigation" aria-label="主要导航"><a href="/about/">关于我</a><a href="/categories/">分类</a><a href="/friends/">友链</a><a href="/archives/">归档</a><a href="/legacy/">旧版</a></nav>
+    </header>
+    <section class="content-masthead">
+    <div class="content-masthead__landscape" aria-hidden="true"></div>
+    <div class="content-masthead__ink" aria-hidden="true"></div>
+    <div class="content-masthead__copy">
+      <p>NOTES</p>
+      <h1>自定义通信接口</h1>
+      
+      <div class="content-meta">
+    <time datetime="2025-07-17T19:56:27">2025-07-17</time>
+    <span class="content-meta__categories"><a href="/categories/ros2/">ros2</a></span>
+    <span class="content-meta__tags"><a href="/tags/ros2/">ros2</a></span>
+  </div>
+    </div>
+  </section>
+    <main id="content-main" tabindex="-1"><div class="article-layout">
+    <aside class="article-toc" aria-label="文章目录">
+    <button type="button" aria-expanded="false">目录</button>
+    <ol><li class="article-toc__level-3"><a href="#msg%EF%BC%9A">msg：</a></li></ol>
+  </aside>
+    <article class="article-paper">
+      <div class="markdown-body"><hr>
+<h3 id="msg%EF%BC%9A" tabindex="-1">msg：</h3>
+<p><strong>1.</strong></p>
+<p>​	rosidl_default_generators:用于将自定义的消息文件转化为c++/python源码；</p>
+<p>​	builtin_interfaces、geometry_msgs:ros2的消息接口功能包,可以用时间接口Time</p>
+<pre class="code-frame"><code class="hljs language-plaintext">ros2 pkg create 名字 --build-type ament_cmake --dependencies rosidl_default_generators builtin_interfaces --license Apache-2.0//
+</code></pre>
+<p><strong>2.</strong></p>
+<p>​	新建msg/名字.msg文件（驼峰命名法）</p>
+<p>​	如果以来其他包，省略msg，例如：builtin_interface/Time_stamp#记录时间戳</p>
+<p><strong>3.</strong></p>
+<p>​</p>
+<p>CMakeLists.txt</p>
+<pre class="code-frame"><code class="hljs language-plaintext">cmake_minimum_required(VERSION 3.8)
+project(infantry_msgs)
+
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 20)
+endif()
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES &quot;Clang&quot;)
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+# Find packages
+find_package(rosidl_default_generators REQUIRED)
+find_package(builtin_interfaces REQUIRED)
+find_package(geometry_msgs REQUIRED)
+
+#************************************************
+#使用 file(GLOB ...) 命令来查找当前源代码目录中 msg 文件夹内所有的 .msg 文件，并将这些文件路径存储到 MSG_FILES 变量中。这样，无论你在 msg/ 文件夹中添加多少个 .msg 文件，它们都能自动被包含进来，无需手动列出每个文件。
+#RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}：相对路径，相对于当前 CMakeLists.txt 文件所在的目录（CMAKE_CURRENT_SOURCE_DIR）。
+#************************************************
+file(GLOB MSG_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} &quot;msg/*.msg&quot;)
+# file(GLOB SRV_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} &quot;srv/*.srv&quot;)
+#************************************************
+#rosidl_generate_interfaces 用来生成 ROS 2 消息接口文件，它会根据 MSG_FILES 中列出的 .msg 文件自动生成代码（如 C++、Python 等）。
+#************************************************
+rosidl_generate_interfaces(${PROJECT_NAME}
+  ${MSG_FILES}
+  # ${SRV_FILES}
+  DEPENDENCIES builtin_interfaces geometry_msgs
+)
+#************************************************
+#也可以直接写
+#rosidl_generate_interfaces(${PROJECT_NAME}
+#  &quot;msg/RobotStatus.msg&quot;
+#  &quot;srv/SetRobotTask.srv&quot;
+#  &quot;action/NavigateToGoal.action&quot;
+# DEPENDENCIES std_msgs action_msgs
+#)
+#************************************************
+ament_package()
+
+</code></pre>
+<p>package.xml</p>
+<pre class="code-frame"><code class="hljs language-plaintext">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;?xml-model href=&quot;http://download.ros.org/schema/package_format3.xsd&quot; schematypens=&quot;http://www.w3.org/2001/XMLSchema&quot;?&gt;
+&lt;package format=&quot;3&quot;&gt;
+  &lt;name&gt;tarkbot_msgs&lt;/name&gt;
+  &lt;version&gt;0.0.0&lt;/version&gt;
+  &lt;description&gt;A package containing custom messages, services, and actions for Tarkbot.&lt;/description&gt;
+  &lt;maintainer email=&quot;1607782513@qq.com&quot;&gt;zhangjingxuan&lt;/maintainer&gt;
+  &lt;license&gt;MIT&lt;/license&gt; &lt;!-- 这里可以填写你实际的许可证，比如 MIT 或 GPL --&gt;
+#**************************************************************
+  &lt;buildtool_depend&gt;ament_cmake&lt;/buildtool_depend&gt;
+  &lt;buildtool_depend&gt;rosidl_default_generators&lt;/buildtool_depend&gt;
+
+  &lt;depend&gt;std_msgs&lt;/depend&gt;
+  &lt;depend&gt;action_msgs&lt;/depend&gt;
+
+  &lt;member_of_group&gt;rosidl_interface_packages&lt;/member_of_group&gt;
+#**************************************************************
+  &lt;test_depend&gt;ament_lint_auto&lt;/test_depend&gt;
+  &lt;test_depend&gt;ament_lint_common&lt;/test_depend&gt;
+
+  &lt;export&gt;
+    &lt;build_type&gt;ament_cmake&lt;/build_type&gt;
+  &lt;/export&gt;
+&lt;/package&gt;
+</code></pre>
+</div>
+      <nav class="article-neighbors" aria-label="相邻文章">
+        <a href="/2025/07/17/速度节点/"><small>上一篇</small><strong>速度节点</strong></a>
+        <a href="/2025/07/17/机器人及智能大赛/"><small>下一篇</small><strong>机器人及智能大赛</strong></a>
+      </nav>
+    </article>
+  </div></main>
+    <footer class="content-footer">
+      <p>终南山下，活死人墓</p>
+      <a href="/changelog/">建站日志</a>
+    </footer>
+    <script src="/assets/content-site.js" defer></script>
+  </body>
+</html>
