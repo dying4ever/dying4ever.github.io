@@ -1,0 +1,20 @@
+[
+  {
+    "title": "样例｜一场电影之后",
+    "section": "film",
+    "date": "2026-07-17 20:30:00",
+    "route": "/2026/07/17/first-frame/"
+  },
+  {
+    "title": "样例｜七月的一天",
+    "section": "life",
+    "date": "2026-07-17 20:20:00",
+    "route": "/2026/07/17/a-july-note/"
+  },
+  {
+    "title": "样例｜把博客当作一个长期项目",
+    "section": "projects",
+    "date": "2026-07-17 20:10:00",
+    "route": "/2026/07/17/this-blog/"
+  }
+]

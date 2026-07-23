@@ -25,12 +25,27 @@
       <p>BUILD LOG</p>
       <h1>建站日志</h1>
       <div class="content-masthead__description">我的小破站</div>
-      
     </div>
   </section>
     <main id="content-main" tabindex="-1"><section class="standalone-paper">
     <article class="article-paper">
       <div class="markdown-body"><hr>
+<h1 id="2026-07-23" tabindex="-1">2026-07-23</h1>
+<h2 id="version1" tabindex="-1">version1</h2>
+<p>将已确认的沉浸式首页、序章、About、最近文章列表与三篇栏目样例统一发布到 GitHub。
+部署前检查发现无目录文章和无额外元信息的列表页会在生成 HTML 中留下缩进行尾空格；修复模板的可选片段拼接方式，并补充对应回归测试，避免以后新增可选字段为空的 Markdown 时再次出现。
+验证命令：<code>npm test</code>、<code>npm run build</code>、<code>git diff --check</code>。
+结果：79/79 单元测试通过；生产构建完成 134 篇 Markdown、231 条路由，部署树行尾检查通过。
+修改位置：<code>src/templates/article-page.js</code>、<code>src/templates/site-shell.js</code>、<code>tests/static-pages.test.js</code>。</p>
+<h1 id="2026-07-17" tabindex="-1">2026-07-17</h1>
+<h2 id="version1-1" tabindex="-1">version1</h2>
+<p>继续优化新版首页的连续滚动叙事：序章标题改为更醒目的鲜红竖排曲线，正文统一两字缩进，高亮句融入原段落，张爱玲《传奇》署名提前出现；山水、云雾、花瓣和雪景在场景之间连续过渡。
+首页原四张分类卡改为自动读取 Film、Life、Projects Markdown 的“最近”文章列表，并为三个栏目各补一篇可替换的样例文章。
+About 场景改为暖色水墨背景与居中圆形头像，补充 GitHub、豆瓣、网易云音乐图标入口及两段可编辑简介；桌面端鼠标悬浮头像时，四张分类卡淡入并缓慢旋绕漂浮，约一秒后自动淡出，触屏端保留点击展开。
+修复开发服务未重新载入导致 <code>/recent.json</code> 返回首页 HTML 的问题，并调整 About 构图整体下移，减少页面下半部分留白。
+验证命令：<code>npm test</code>、<code>npm run build</code>、<code>python tests/smoke.py</code>。
+结果：77/77 单元测试通过；生产构建完成 134 篇 Markdown、231 条路由；桌面端、移动端、悬浮动画、文章与资源浏览器检查通过。
+修改位置：<code>index.html</code>、<code>src/content.js</code>、<code>src/main.js</code>、<code>src/scroll-story.js</code>、<code>src/styles/</code>、<code>content/film/</code>、<code>content/life/</code>、<code>content/projects/</code>。</p>
 <h1 id="2026-07-16" tabindex="-1">2026-07-16</h1>
 <h2 id="version4" tabindex="-1">version4</h2>
 <p>完成独立 Markdown 站点迁移：将原有 131 篇文章及相对资源一次性复制到新项目，保留原日期地址、分类、标签和 Markdown 抬头。
@@ -48,7 +63,7 @@
 <p>优化沉浸式首页的封面、主页、序章与 About 转场：保留“终南山下，活死人墓”的原字体，正文与小字号改为仿宋阅读字体；提高序章文字对比度，并用深色—暖纸色—深色渐变消除全黑、全白硬切。
 补充山水推远、云雾、飞鸟、线条消散与视差动画；桌面端保留完整滚动叙事，移动端减少高成本动画并处理横向溢出。
 修改位置：<code>immersive/src/styles</code>、<code>immersive/src/scroll-story.js</code>、<code>immersive/src/motion.js</code>。</p>
-<h2 id="version1" tabindex="-1">version1</h2>
+<h2 id="version1-2" tabindex="-1">version1</h2>
 <p>完善 Markdown 内容页面：重整 About 章节，新增友链页面，补充分类和项目说明；分类页从 Markdown 页面回取引言，归档页恢复全部文章列表并修复无效标题嵌套。
 统一内容页正文使用仿宋阅读字体，大字号标题继续使用权衡度量体；分类、归档、About、项目和友链均完成 PC 与移动端访问检查。
 修改位置：<code>source/about/index.md</code>、<code>source/categories/index.md</code>、<code>source/projects/index.md</code>、<code>source/friends/index.md</code>、<code>themes/shokax/layout</code>、<code>source/_data/custom.styl</code>。</p>
@@ -65,14 +80,14 @@
 执行命令：npm run sync:obsidian、npm run build。
 结果：Build passed。
 修改位置：package.json、scripts/sync-obsidian-posts.ps1、source/_posts。</p>
-<h2 id="version1-1" tabindex="-1">version1</h2>
+<h2 id="version1-3" tabindex="-1">version1</h2>
 <p>将项目根目录“图库”中的 19 张图片转换为 WebP，并输出到 <code>source/images/gallery/</code> 作为首页封面图库。
 新增首页随机封面脚本，每次打开页面为置顶文章和精选分类随机分配图库图片；同一轮分配不重复，图库用完后才重新洗牌复用。
 执行命令：npm run build、npm run dev。
 结果：Build passed。
 修改位置：source/images/gallery、source/js/gallery-random-covers.js、themes/shokax/layout/_partials/layout.pug。</p>
 <h1 id="2026-06-09" tabindex="-1">2026-06-09</h1>
-<h2 id="version1-2" tabindex="-1">version1</h2>
+<h2 id="version1-4" tabindex="-1">version1</h2>
 <p>优化字体与首屏加载：将权衡度量体改为按本站实际标题和 About 用字生成的 woff2 子集，删除未引用的完整 ttf/woff2 字体文件。
 继续保留 Story Script 与权衡度量体的视觉效果，但移动端正文使用稳定中文 fallback，避免大字体阻塞首屏。
 确认首页、分类页、About 不再引用远程随机图、阿里 iconfont、JetBrains CDN、Google Fonts 和已关闭播放器预加载。
@@ -178,7 +193,7 @@
 按 Hexo deploy 配置发布到 <code>dying4ever/dying4ever.github.io</code>。
 执行 <code>npm run build -- --silent</code> 和 <code>npx hexo deploy</code>。
 修改位置：<code>source/_posts/建站日志.md</code>。</p>
-<h2 id="version1-3" tabindex="-1">version1</h2>
+<h2 id="version1-5" tabindex="-1">version1</h2>
 <p>统一建站日志格式，按 <code>AGENT.md</code> 改为日期一级标题、version 二级标题。
 精选分类封面改回与置顶文章相同的远程封面池，并由首页统一分配，避免同页分类封面 URL 重复。
 About 页面回退到最早的第一版文案。
@@ -207,18 +222,18 @@ About 页面回退到最早的第一版文案。
 发现 4000 端口被 <code>FoxitProtect</code> 占用，当前 Hexo 实时预览使用 5000 端口。
 执行 <code>npm run clean</code> 和 <code>npm run build</code>，Build passed。
 修改位置：<code>source/_posts/建站日志.md</code>、<code>D:\Obsidian 笔记目录\know\建站日志.md</code>。</p>
-<h2 id="version1-4" tabindex="-1">version1</h2>
+<h2 id="version1-6" tabindex="-1">version1</h2>
 <p>完成第一轮页面美化：调整首页入口、About 页面、Projects 页面和基础阅读样式。
 执行 <code>npm run build</code> 检查生成结果，Build passed。
 修改位置：<code>themes/shokax/layout/index.pug</code>、<code>source/about/index.md</code>、<code>source/projects/index.md</code>、<code>source/_data/custom.styl</code>、<code>_config.shokax.yml</code>。</p>
 <h1 id="2026-02-28" tabindex="-1">2026-02-28</h1>
-<h2 id="version1-5" tabindex="-1">version1</h2>
+<h2 id="version1-7" tabindex="-1">version1</h2>
 <p>拖了许久，完善了置顶发布。</p>
 <h1 id="2026-02-06" tabindex="-1">2026-02-06</h1>
-<h2 id="version1-6" tabindex="-1">version1</h2>
+<h2 id="version1-8" tabindex="-1">version1</h2>
 <p>改善了一些字体 bug，参考了一些自我介绍格式，又测了一次 MBTI。</p>
 <h1 id="2026-02-04" tabindex="-1">2026-02-04</h1>
-<h2 id="version1-7" tabindex="-1">version1</h2>
+<h2 id="version1-9" tabindex="-1">version1</h2>
 <p>经大佬指点，Hugo 框架转用 Hexo 框架，主题框架更加丰富完善。
 时间范围：26.2.4-26.2.5。</p>
 <hr>
