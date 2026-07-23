@@ -1,6 +1,6 @@
 ---
 title: 建站日志
-date: 2026-05-10 19:35:08
+date: 2026-07-17 17:16:16
 sticky: 1
 categories:
     - uncategorized
@@ -13,6 +13,18 @@ disableNunjucks: true
 ---
 
 ---
+
+# 2026-07-17
+
+## version1
+
+继续优化新版首页的连续滚动叙事：序章标题改为更醒目的鲜红竖排曲线，正文统一两字缩进，高亮句融入原段落，张爱玲《传奇》署名提前出现；山水、云雾、花瓣和雪景在场景之间连续过渡。
+首页原四张分类卡改为自动读取 Film、Life、Projects Markdown 的“最近”文章列表，并为三个栏目各补一篇可替换的样例文章。
+About 场景改为暖色水墨背景与居中圆形头像，补充 GitHub、豆瓣、网易云音乐图标入口及两段可编辑简介；桌面端鼠标悬浮头像时，四张分类卡淡入并缓慢旋绕漂浮，约一秒后自动淡出，触屏端保留点击展开。
+修复开发服务未重新载入导致 `/recent.json` 返回首页 HTML 的问题，并调整 About 构图整体下移，减少页面下半部分留白。
+验证命令：`npm test`、`npm run build`、`python tests/smoke.py`。
+结果：77/77 单元测试通过；生产构建完成 134 篇 Markdown、231 条路由；桌面端、移动端、悬浮动画、文章与资源浏览器检查通过。
+修改位置：`index.html`、`src/content.js`、`src/main.js`、`src/scroll-story.js`、`src/styles/`、`content/film/`、`content/life/`、`content/projects/`。
 
 # 2026-07-16
 

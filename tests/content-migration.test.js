@@ -46,3 +46,15 @@ test('keeps article-side asset folders next to migrated Markdown', async () => {
   assert.ok(relativeImage, 'expected a relative Markdown image');
   await access(path.resolve(path.dirname(markdownPath), relativeImage));
 });
+
+test('adds one Markdown sample to each new writing section', async () => {
+  for (const relativePath of [
+    'content/film/first-frame.md',
+    'content/life/a-july-note.md',
+    'content/projects/this-blog.md',
+  ]) {
+    const source = await readFile(path.join(projectRoot, relativePath), 'utf8');
+    assert.match(source, /^---\n[\s\S]*title:/);
+    assert.match(source, /\ndate:\s*2026-07-17/);
+  }
+});

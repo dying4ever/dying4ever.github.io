@@ -1,9 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
 
 import { collectLocalReferences, renderMarkdownWithToc } from '../src/content/markdown.js';
 import { renderArticlePage } from '../src/templates/article-page.js';
 import { renderListPage } from '../src/templates/list-page.js';
+
+const renderPagesSource = await readFile(
+  new URL('../src/content/render-pages.js', import.meta.url),
+  'utf8',
+);
 
 const fixtureDocument = Object.freeze({
   title: '山中一页',
@@ -90,4 +96,10 @@ test('uses visible heading text in the TOC instead of exposing legacy HTML tags'
     'π0: A Vision-Language-Action Flow Model',
   ]);
   assert.doesNotMatch(result.toc[0].text, /<span/);
+});
+
+test('serializes the Markdown-backed recent feed with the static routes', () => {
+  assert.match(renderPagesSource, /selectRecentEntries/);
+  assert.match(renderPagesSource, /recent\.json/);
+  assert.match(renderPagesSource, /JSON\.stringify/);
 });

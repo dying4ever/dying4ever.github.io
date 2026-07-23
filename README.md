@@ -66,6 +66,10 @@ python tests/smoke.py
 
 验收覆盖桌面开幕动画、山水长卷、序章、所有内容入口、131 篇 Notes、分类、归档、文章图片、手机菜单、横向溢出和控制台错误。
 
+## 维护日志
+
+每轮确认保留的网站改动都同步补充到 `content/pages/changelog.md`，按日期与版本倒序排列，让 `/changelog/` 始终先显示最新记录。日志写明主要变化、验证结果与修改位置；中间试验稿不单独记为正式版本。
+
 ## 部署
 
 将 `dist/` 作为静态站点根目录发布。`public/CNAME` 会随构建进入产物，用于 `https://www.dying4ever.cyou/`。发布产物中的 `/legacy/` 是一次迁移后的旧版快照，不参与新站 Markdown 渲染。

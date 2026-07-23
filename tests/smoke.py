@@ -117,8 +117,15 @@ def exercise_home_desktop(browser):
     assert page.locator("#cover").evaluate(
         "element => getComputedStyle(element).visibility"
     ) == "hidden"
+    assert page.locator("#recent").is_visible()
+    recent_items = page.locator("[data-recent-list] li")
+    assert recent_items.count() == 3
+    assert recent_items.first.locator("a").get_attribute("href").startswith(
+        f"{BASE_URL}/2026/07/17/"
+    )
+    assert recent_items.first.locator("time").inner_text() == "2026.07.17"
     assert page.locator("[data-portal]").count() == 4
-    assert all(page.locator("[data-portal]").nth(index).is_visible() for index in range(4))
+    assert not any(page.locator("[data-portal]").nth(index).is_visible() for index in range(4))
     page.screenshot(path=PREVIEWS / "desktop-home.png", full_page=False)
     assert_no_horizontal_overflow(page, "desktop home")
 
@@ -136,6 +143,22 @@ def exercise_home_desktop(browser):
     assert page.locator("[data-bird-flock]").evaluate(
         "element => Number.parseFloat(getComputedStyle(element).opacity)"
     ) > 0.6
+    midpoint_title = page.locator(".story-world__focus-title")
+    midpoint_metrics = midpoint_title.evaluate(
+        """
+        element => {
+          const style = getComputedStyle(element);
+          const range = document.createRange();
+          range.selectNodeContents(element);
+          return {
+            whiteSpace: style.whiteSpace,
+            lineRects: range.getClientRects().length,
+          };
+        }
+        """
+    )
+    assert midpoint_metrics["whiteSpace"] == "nowrap"
+    assert midpoint_metrics["lineRects"] == 1, midpoint_metrics
     page.screenshot(path=PREVIEWS / "desktop-story-world.png", full_page=False)
 
     page.evaluate("value => scrollTo(0, value.top + value.range * .62)", story)
@@ -146,6 +169,58 @@ def exercise_home_desktop(browser):
         "elements => elements.map(element => Number.parseFloat(getComputedStyle(element).opacity))"
     )
     assert min(opacities) >= 0.72, opacities
+    assert page.locator(".prologue-panel__title-char").count() == 6
+    assert page.locator("#prologue-title").get_attribute("aria-label") == "出名要趁早呀"
+    highlight = page.locator(".prologue-panel__highlight")
+    assert highlight.inner_text() == (
+        "呵，出名要趁早呀！来得太晚的话，快乐也不那么痛快。"
+    )
+    highlight_layout = highlight.evaluate(
+        """
+        element => ({
+          rects: [...element.getClientRects()].map(rect => ({ left: rect.left, width: rect.width })),
+          hasBreakBefore: element.previousSibling?.nodeName === 'BR',
+          hasTextBefore: element.previousSibling?.nodeType === Node.TEXT_NODE
+            && element.previousSibling.textContent.trim().length > 0,
+        })
+        """
+    )
+    assert len(highlight_layout["rects"]) >= 1, highlight_layout
+    assert not highlight_layout["hasBreakBefore"], highlight_layout
+    assert highlight_layout["hasTextBefore"], highlight_layout
+    quote_indent = paragraphs.first.evaluate(
+        """
+        element => {
+          const style = getComputedStyle(element);
+          return {
+            indent: Number.parseFloat(style.textIndent),
+            fontSize: Number.parseFloat(style.fontSize),
+          };
+        }
+        """
+    )
+    assert abs(quote_indent["indent"] - quote_indent["fontSize"] * 2) <= 1
+    attribution = page.locator(".prologue-panel__attribution")
+    assert attribution.evaluate("element => element.parentElement.matches('blockquote')")
+    assert attribution.evaluate("element => getComputedStyle(element).textAlign") == "right"
+    assert attribution.evaluate(
+        "element => Number.parseFloat(getComputedStyle(element).opacity)"
+    ) > 0.6
+    title_overlap = page.locator(".prologue-panel__title-char").evaluate_all(
+        """
+        elements => elements.some((element, index) => {
+          const next = elements[index + 1];
+          if (!next) return false;
+          const currentRect = element.getBoundingClientRect();
+          const nextRect = next.getBoundingClientRect();
+          return currentRect.bottom - nextRect.top > currentRect.height * .12;
+        })
+        """
+    )
+    assert not title_overlap, "prologue title characters overlap"
+    assert page.locator('[data-atmosphere="petal"]').evaluate(
+        "element => Number.parseFloat(getComputedStyle(element).opacity)"
+    ) > 0.3
     overlap = paragraphs.evaluate_all(
         """
         elements => elements.some((element, index) => {
@@ -161,10 +236,58 @@ def exercise_home_desktop(browser):
     assert not overlap, "prologue paragraphs overlap"
     page.screenshot(path=PREVIEWS / "standalone-prologue.png", full_page=False)
 
-    page.locator("#about-story").scroll_into_view_if_needed()
-    page.wait_for_timeout(700)
+    page.evaluate("value => scrollTo(0, value.top + value.range * .97)", story)
+    page.wait_for_timeout(1300)
     assert page.locator("#about-story-title").is_visible()
+    about_name_lines = page.locator("#about-story-title").evaluate(
+        """
+        element => {
+          const range = document.createRange();
+          range.selectNodeContents(element);
+          return range.getClientRects().length;
+        }
+        """
+    )
+    assert about_name_lines == 1
+    assert page.locator("#about-story").evaluate(
+        "element => Number.parseFloat(getComputedStyle(element).opacity)"
+    ) >= 0.92
+    portrait = page.locator(".about-story__portrait img")
+    page.wait_for_function(
+        "element => element.complete && element.naturalWidth > 0", arg=portrait.element_handle()
+    )
+    assert page.locator('[data-atmosphere="snow"]').evaluate(
+        "element => Number.parseFloat(getComputedStyle(element).opacity)"
+    ) > 0.12
+    portrait_metrics = portrait.evaluate(
+        """
+        element => ({
+          width: element.getBoundingClientRect().width,
+          height: element.getBoundingClientRect().height,
+          radius: getComputedStyle(element).borderRadius,
+        })
+        """
+    )
+    assert portrait_metrics["width"] <= 150, portrait_metrics
+    assert abs(portrait_metrics["width"] - portrait_metrics["height"]) <= 1, portrait_metrics
+    assert portrait_metrics["radius"] == "50%", portrait_metrics
+    assert page.locator("[data-about-note]").count() == 2
+    assert all(page.locator("[data-about-note]").nth(index).inner_text() for index in range(2))
+    assert page.locator(".about-story__socials a").count() == 3
+    assert page.locator(".about-story__socials svg").count() == 3
+
+    page.locator(".about-story__portrait").hover()
+    page.wait_for_timeout(700)
+    portals = page.locator(".about-story__portal")
+    assert portals.count() == 4
+    assert all(portals.nth(index).is_visible() for index in range(4))
+    assert min(portals.nth(index).evaluate(
+        "element => element.getBoundingClientRect().width"
+    ) for index in range(4)) >= 300
     page.screenshot(path=PREVIEWS / "desktop-about.png", full_page=False)
+    assert_no_horizontal_overflow(page, "desktop About portals")
+    page.wait_for_timeout(900)
+    assert not any(portals.nth(index).is_visible() for index in range(4))
     assert_clean(diagnostics, "desktop home")
     context.close()
 
@@ -202,7 +325,7 @@ def exercise_content_desktop(browser):
     page.screenshot(path=PREVIEWS / "standalone-article.png", full_page=False)
 
     page.goto(route_url("archives/"), wait_until="networkidle")
-    assert page.locator(".archive-group li a").count() == 131
+    assert page.locator(".archive-group li a").count() == 134
     page.goto(route_url("categories/"), wait_until="networkidle")
     assert page.locator(".taxonomy-card").count() >= 4
     page.screenshot(path=PREVIEWS / "standalone-categories.png", full_page=False)
@@ -230,9 +353,25 @@ def exercise_mobile(browser):
     page.wait_for_function(
         "document.documentElement.classList.contains('is-open')", timeout=3500
     )
-    assert page.locator("[data-portal]").count() == 4
+    assert page.locator("[data-recent-list] li").count() == 3
     assert_no_horizontal_overflow(page, "mobile home")
     page.screenshot(path=PREVIEWS / "standalone-mobile-home.png", full_page=False)
+
+    page.locator("#about-story").scroll_into_view_if_needed()
+    page.wait_for_timeout(400)
+    assert page.locator("#about-story-title").is_visible()
+    assert page.locator(".prologue-panel__title-char").count() == 6
+    mobile_portrait = page.locator(".about-story__portrait img")
+    page.wait_for_function(
+        "element => element.complete && element.naturalWidth > 0",
+        arg=mobile_portrait.element_handle(),
+    )
+    page.locator(".about-story__portrait").click()
+    assert page.locator(".about-story__portal-disclosure").get_attribute("open") is not None
+    assert page.locator(".about-story__portal").count() == 4
+    assert all(page.locator(".about-story__portal").nth(index).is_visible() for index in range(4))
+    assert_no_horizontal_overflow(page, "mobile story and About")
+    page.screenshot(path=PREVIEWS / "mobile-about.png", full_page=False)
 
     for route in ("about/", "categories/", "archives/", "notes/"):
         response = page.goto(route_url(route), wait_until="networkidle")
@@ -262,4 +401,4 @@ with sync_playwright() as playwright:
     exercise_mobile(browser)
     browser.close()
 
-print("Smoke checks passed: immersive home, 131 Markdown notes, routes, assets, desktop, and mobile.")
+print("Smoke checks passed: immersive home, 131 Notes plus 3 section samples, routes, assets, desktop, and mobile.")

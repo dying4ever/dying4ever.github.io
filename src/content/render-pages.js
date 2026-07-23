@@ -2,6 +2,7 @@ import { access, cp, mkdir, readFile, readdir, stat, writeFile } from 'node:fs/p
 import path from 'node:path';
 
 import { collectLocalReferences, renderMarkdownWithToc } from './markdown.js';
+import { selectRecentEntries } from './recent.js';
 import { renderArticlePage } from '../templates/article-page.js';
 import { renderListPage } from '../templates/list-page.js';
 import { escapeHtml, renderMasthead, renderSiteShell } from '../templates/site-shell.js';
@@ -152,6 +153,12 @@ function renderNotFound() {
 
 export async function renderStaticPages(model, outDir) {
   const warnings = [];
+
+  await writeFile(
+    path.join(outDir, 'recent.json'),
+    `${JSON.stringify(selectRecentEntries(model.documents), null, 2)}\n`,
+    'utf8',
+  );
 
   for (const [index, document] of model.documents.entries()) {
     const rendered = renderMarkdownWithToc(document.body, { assetBase: document.route });

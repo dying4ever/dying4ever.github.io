@@ -45,3 +45,31 @@ test('uses standalone Markdown overview content', () => {
     ['notes', 'film', 'life', 'projects'],
   );
 });
+
+test('exposes the exact prologue emphasis and concise About points', () => {
+  assert.equal(
+    SITE_CONTENT.prologueHighlight,
+    '呵，出名要趁早呀！来得太晚的话，快乐也不那么痛快。',
+  );
+  assert.equal(SITE_CONTENT.aboutPoints.length, 2);
+  assert.match(SITE_CONTENT.aboutPoints[0], /曾阿牛/);
+  assert.match(SITE_CONTENT.aboutPoints[1], /蛛儿/);
+});
+
+test('keeps all four category definitions available for the avatar disclosure', () => {
+  assert.deepEqual(
+    getPortalItems('http://localhost:4173/').map(({ id, label }) => ({ id, label })),
+    [
+      { id: 'notes', label: 'NOTES' },
+      { id: 'film', label: 'FILM' },
+      { id: 'life', label: 'LIFE' },
+      { id: 'projects', label: 'SOME PROJECTS' },
+    ],
+  );
+});
+
+test('keeps two editable About notes for the quiet background state', () => {
+  assert.equal(SITE_CONTENT.aboutNotes.length, 2);
+  assert.match(SITE_CONTENT.aboutNotes[0], /曾阿牛/);
+  assert.match(SITE_CONTENT.aboutNotes[1], /记录|博客|文字/);
+});

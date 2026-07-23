@@ -11,7 +11,7 @@
 .scroll-story {
   position: relative;
   isolation: isolate;
-  height: 500svh;
+  height: 650svh;
   color: #241e16;
   background: #cbb895;
 }
@@ -35,7 +35,8 @@
 }
 
 .story-world,
-.prologue-panel {
+.prologue-panel,
+.about-story {
   position: absolute;
   inset: 0;
   overflow: hidden;
@@ -169,7 +170,7 @@
   left: 50%;
   display: grid;
   place-content: center;
-  width: min(44rem, 52vw);
+  width: min(60rem, 82vw);
   min-height: min(19rem, 36vh);
   padding: 2rem;
   border: 0;
@@ -209,9 +210,91 @@
 .story-world__focus strong {
   margin: 1.1rem 0 1.5rem;
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4vw, 4.8rem);
   font-weight: 400;
   letter-spacing: 0.08em;
+}
+
+.story-world__focus-title {
+  font-size: clamp(1.72rem, 4vw, 4.8rem);
+  white-space: nowrap;
+}
+
+.journey-atmosphere {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity;
+}
+
+.journey-clouds,
+.journey-petals,
+.journey-snow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.journey-cloud {
+  position: absolute;
+  left: -24%;
+  width: 148%;
+  height: 30%;
+  filter: blur(20px);
+  background:
+    radial-gradient(ellipse at 14% 54%, rgba(238, 227, 204, 0.72) 0 7%, transparent 27%),
+    radial-gradient(ellipse at 42% 42%, rgba(229, 215, 189, 0.64) 0 10%, transparent 31%),
+    radial-gradient(ellipse at 73% 61%, rgba(240, 228, 204, 0.68) 0 9%, transparent 29%),
+    radial-gradient(ellipse at 91% 38%, rgba(220, 207, 183, 0.6) 0 7%, transparent 25%);
+  animation: journey-cloud-drift 26s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.journey-cloud--back {
+  top: 19%;
+  opacity: 0.42;
+}
+
+.journey-cloud--front {
+  top: 54%;
+  opacity: 0.66;
+  filter: blur(27px);
+  animation-direction: alternate-reverse;
+  animation-duration: 19s;
+}
+
+.journey-petals i,
+.journey-snow i {
+  position: absolute;
+  top: calc(8% + var(--particle-index) * 11%);
+  left: calc(9% + var(--particle-index) * 13%);
+  display: block;
+  will-change: transform, opacity;
+}
+
+.journey-petals i {
+  width: clamp(0.42rem, 0.64vw, 0.72rem);
+  height: clamp(0.72rem, 1vw, 1.08rem);
+  opacity: calc(0.36 + var(--particle-index) * 0.055);
+  border-radius: 75% 12% 70% 18%;
+  background: linear-gradient(145deg, #dc6a58, #9e2e29 72%);
+  box-shadow: 0 0 0.75rem rgba(143, 47, 40, 0.16);
+  transform: rotate(calc(var(--particle-index) * 29deg));
+  animation: journey-petal-fall calc(7s + var(--particle-index) * 0.7s) linear infinite;
+  animation-delay: calc(var(--particle-index) * -1.05s);
+}
+
+.journey-snow i {
+  width: calc(0.2rem + var(--particle-index) * 0.018rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(250, 244, 229, 0.82);
+  box-shadow: 0 0 0.55rem rgba(255, 250, 237, 0.4);
+  animation: journey-snow-fall calc(6.8s + var(--particle-index) * 0.58s) linear infinite;
+  animation-delay: calc(var(--particle-index) * -0.82s);
 }
 
 .prologue-panel {
@@ -253,8 +336,8 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(15rem, 0.62fr) minmax(32rem, 1.38fr);
-  gap: clamp(3rem, 7vw, 8rem);
+  grid-template-columns: minmax(12rem, 0.44fr) minmax(32rem, 1.56fr);
+  gap: clamp(3rem, 6vw, 7rem);
   align-items: center;
   width: min(78rem, 82vw);
   min-height: 76vh;
@@ -278,38 +361,44 @@
   align-self: stretch;
   display: grid;
   align-content: center;
-  padding-right: clamp(2rem, 5vw, 5rem);
+  justify-items: center;
+  padding-right: clamp(1.5rem, 3vw, 3rem);
   border-right: 1px solid rgba(198, 174, 129, 0.28);
 }
 
 .prologue-panel__intro h2 {
-  margin: 1.5rem 0 2rem;
-  color: #e2c895;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: max-content;
+  margin: 1.4rem auto 0;
+  color: #c74438;
   font-family: var(--font-display);
-  font-size: clamp(3.2rem, 5.8vw, 6.8rem);
+  font-size: clamp(4.8rem, 5.6vw, 7.2rem);
   font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: 0.08em;
+  line-height: 0.98;
+  letter-spacing: 0;
+  filter: drop-shadow(0 0.16rem 0.55rem rgba(28, 10, 8, 0.5));
 }
 
-.prologue-panel__intro > p:not(.prologue-panel__kicker) {
-  margin: 0;
-  color: rgba(235, 218, 183, 0.78);
-  font-family: var(--font-reading);
-  font-size: clamp(0.94rem, 1.1vw, 1.1rem);
-  line-height: 2;
+.prologue-panel__title-char {
+  display: block;
+  transform: translateX(var(--char-x)) rotate(var(--char-rotate));
+  transform-origin: center;
+  will-change: transform, opacity;
 }
 
-.prologue-panel__intro footer {
-  margin-top: 2.4rem;
-  color: #b79a67;
-  font-family: var(--font-reading);
-  font-size: 0.95rem;
-  letter-spacing: 0.12em;
-}
+.prologue-panel__title-char:nth-child(1) { --char-x: -0.12em; --char-rotate: -3deg; }
+.prologue-panel__title-char:nth-child(2) { --char-x: 0.16em; --char-rotate: 2deg; }
+.prologue-panel__title-char:nth-child(3) { --char-x: 0.28em; --char-rotate: -4deg; }
+.prologue-panel__title-char:nth-child(4) { --char-x: 0.04em; --char-rotate: 3deg; }
+.prologue-panel__title-char:nth-child(5) { --char-x: -0.24em; --char-rotate: -2deg; }
+.prologue-panel__title-char:nth-child(6) { --char-x: -0.06em; --char-rotate: 4deg; }
 
 .prologue-panel__quote {
+  position: relative;
   margin: 0;
+  padding-bottom: clamp(2.8rem, 7vh, 5rem);
 }
 
 .prologue-panel__quote p {
@@ -323,7 +412,31 @@
   line-height: 1.92;
   letter-spacing: 0.045em;
   text-align: left;
+  text-indent: 2em;
   text-shadow: 0 0.12rem 1.4rem rgba(0, 0, 0, 0.48);
+}
+
+.prologue-panel__highlight {
+  padding: 0.08em 0.18em 0.12em;
+  color: #271b13;
+  background: linear-gradient(180deg, transparent 8%, rgba(221, 193, 136, 0.9) 8% 92%, transparent 92%);
+  box-shadow: 0.12em 0 0 rgba(221, 193, 136, 0.9), -0.12em 0 0 rgba(221, 193, 136, 0.9);
+  font-weight: 700;
+  text-shadow: none;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.prologue-panel__attribution {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  color: #c2a66e;
+  font-family: var(--font-reading);
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  letter-spacing: 0.12em;
+  text-align: right;
 }
 
 .scroll-story__anchor {
@@ -335,28 +448,22 @@
 }
 
 .about-story {
-  position: relative;
+  position: absolute;
+  z-index: 9;
+  inset: 0;
   isolation: isolate;
   display: grid;
-  grid-template-columns: minmax(18rem, 0.75fr) minmax(24rem, 1.25fr);
-  align-items: center;
-  gap: clamp(4rem, 9vw, 11rem);
-  min-height: 118svh;
+  place-items: center;
+  min-height: 100%;
   overflow: hidden;
-  padding: clamp(9rem, 13vw, 14rem) max(var(--page-pad), 8vw) clamp(14rem, 21vw, 22rem);
+  padding: clamp(6rem, 9vw, 9rem) var(--page-pad) clamp(7rem, 10vw, 10rem);
   color: #292117;
   background:
-    linear-gradient(180deg,
-      #211b14 0%,
-      rgba(74, 60, 43, 0.94) 7%,
-      rgba(159, 137, 99, 0.9) 13%,
-      #cbb895 18%,
-      rgba(229, 215, 186, 0.24) 32%,
-      rgba(219, 201, 167, 0.08) 66%,
-      rgba(85, 68, 49, 0.66) 88%,
-      #0c0d0c 100%),
-    linear-gradient(90deg, rgba(226, 211, 181, 0.97) 0 28%, rgba(229, 215, 186, 0.78) 56%, rgba(218, 199, 163, 0.9)),
+    radial-gradient(circle at 50% 43%, rgba(244, 231, 202, 0.76), transparent 24%),
+    linear-gradient(180deg, rgba(31, 25, 18, 0.86) 0%, rgba(178, 153, 112, 0.16) 15%, transparent 45%, rgba(54, 43, 29, 0.18) 78%, rgba(12, 13, 12, 0.9) 100%),
+    linear-gradient(90deg, rgba(222, 205, 171, 0.84), rgba(231, 218, 190, 0.42) 50%, rgba(211, 190, 151, 0.82)),
     url("/images/story-stage.webp") center / cover no-repeat;
+  will-change: opacity, transform, filter;
 }
 
 .about-story::before {
@@ -364,9 +471,9 @@
   z-index: -1;
   inset: 0;
   content: "";
-  opacity: 0.18;
+  opacity: 0.2;
   background:
-    repeating-linear-gradient(90deg, transparent 0 8vw, rgba(43, 34, 23, 0.4) 8vw calc(8vw + 1px)),
+    repeating-linear-gradient(90deg, transparent 0 9vw, rgba(43, 34, 23, 0.34) 9vw calc(9vw + 1px)),
     url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E");
   mix-blend-mode: multiply;
 }
@@ -374,76 +481,352 @@
 .about-story::after {
   position: absolute;
   z-index: 1;
-  top: -12rem;
-  right: -12%;
-  left: -12%;
-  height: 27rem;
+  top: 34%;
+  left: 50%;
+  width: min(62rem, 82vw);
+  height: min(22rem, 40vh);
   content: "";
   pointer-events: none;
-  opacity: 0.58;
+  opacity: 0.5;
   background:
-    radial-gradient(ellipse at 18% 56%, rgba(238, 222, 190, 0.82) 0 8%, transparent 29%),
-    radial-gradient(ellipse at 52% 42%, rgba(231, 213, 179, 0.72) 0 10%, transparent 32%),
-    radial-gradient(ellipse at 84% 64%, rgba(240, 225, 194, 0.74) 0 8%, transparent 28%);
-  filter: blur(24px);
+    radial-gradient(ellipse at 13% 55%, rgba(244, 230, 200, 0.82) 0 8%, transparent 31%),
+    radial-gradient(ellipse at 48% 38%, rgba(231, 216, 186, 0.68) 0 13%, transparent 37%),
+    radial-gradient(ellipse at 86% 62%, rgba(241, 226, 195, 0.76) 0 9%, transparent 30%);
+  filter: blur(28px);
+  transform: translate(-50%, -50%);
 }
 
-.about-story__copy,
-.about-story__statement {
+.about-story__eyebrow,
+.about-story__profile {
   position: relative;
   z-index: 2;
 }
 
-.about-story__copy .section-kicker {
-  color: #91372b;
+.about-story__eyebrow {
+  position: absolute;
+  top: clamp(6rem, 10vh, 8rem);
+  left: max(var(--page-pad), 7vw);
+  margin: 0;
+  color: #96382e;
+  font-family: var(--font-latin);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.23em;
 }
 
-.about-story__copy h2 {
-  margin: 0 0 2rem;
-  font-family: var(--font-display);
-  font-size: clamp(4rem, 8vw, 9rem);
-  font-weight: 400;
-  line-height: 0.9;
-  letter-spacing: 0.08em;
+.about-story__profile {
+  display: grid;
+  justify-items: center;
+  width: min(38rem, 92vw);
+  text-align: center;
+  transform: translateY(clamp(2rem, 5.5vh, 3.5rem));
 }
 
-.about-story__copy > p:not(.section-kicker) {
-  max-width: 38rem;
-  margin: 0 0 2.4rem;
-  font-size: clamp(1.05rem, 1.35vw, 1.35rem);
-  line-height: 2.1;
+.about-story__portal-disclosure {
+  position: relative;
+  z-index: 3;
+  width: clamp(7.5rem, 9vw, 9rem);
+}
+
+.about-story__portrait {
+  position: relative;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 0.42rem;
+  border: 1px solid rgba(95, 66, 35, 0.6);
+  border-radius: 50%;
+  outline: 1px solid rgba(231, 210, 170, 0.56);
+  outline-offset: 0.35rem;
+  background: rgba(226, 207, 170, 0.72);
+  box-shadow: 0 1.8rem 4.5rem rgba(55, 38, 21, 0.28);
+  cursor: pointer;
+  list-style: none;
+  transition: transform 360ms var(--ease-out), box-shadow 360ms ease;
+}
+
+.about-story__portrait::-webkit-details-marker {
+  display: none;
+}
+
+.about-story__portrait::before,
+.about-story__portrait::after {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.about-story__portrait::before {
+  inset: -55%;
+  opacity: 0.78;
+  background:
+    radial-gradient(ellipse at 15% 51%, rgba(246, 234, 207, 0.94) 0 7%, transparent 25%),
+    radial-gradient(ellipse at 42% 17%, rgba(232, 218, 190, 0.88) 0 8%, transparent 27%),
+    radial-gradient(ellipse at 82% 42%, rgba(244, 231, 205, 0.9) 0 8%, transparent 26%),
+    radial-gradient(ellipse at 51% 86%, rgba(226, 211, 183, 0.78) 0 9%, transparent 29%);
+  filter: blur(12px);
+  animation: about-cloud-orbit 15s ease-in-out infinite alternate;
+}
+
+.about-story__portrait::after {
+  inset: -1rem;
+  border: 1px solid rgba(147, 108, 62, 0.34);
+  box-shadow: 0 0 2.2rem rgba(237, 220, 184, 0.34);
+}
+
+.about-story__portal-disclosure.is-portals-visible .about-story__portrait,
+.about-story__portal-disclosure:has(.about-story__portrait:focus-visible) .about-story__portrait,
+.about-story__portal-disclosure:not(.is-hover-mode)[open] .about-story__portrait {
+  box-shadow: 0 2.2rem 5.5rem rgba(55, 38, 21, 0.34);
+  transform: scale(1.035);
+}
+
+.about-story__portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  filter: sepia(0.12) saturate(0.82) contrast(1.04);
+}
+
+.about-story__portals {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: visibility 0s linear 520ms;
+}
+
+.about-story__portal-disclosure:not([open]) > .about-story__portals {
+  display: block;
+}
+
+.about-story__portal {
+  --drift-delay: 0s;
+  --drift-duration: 9.4s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  align-content: end;
+  width: clamp(17rem, 27vw, 31rem);
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  padding: 1rem;
+  color: #f0dfba;
+  border: 1px solid rgba(153, 112, 63, 0.46);
+  background:
+    linear-gradient(180deg, rgba(13, 13, 12, 0.18), rgba(10, 10, 9, 0.9)),
+    var(--portal-image) center / cover no-repeat;
+  box-shadow: 0 1.2rem 3rem rgba(54, 37, 21, 0.28);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.72);
+  transition: opacity 260ms ease, transform 520ms var(--ease-out), border-color 260ms ease;
+}
+
+.about-story__portal strong {
+  font-family: var(--font-latin);
+  font-size: clamp(0.95rem, 1.25vw, 1.28rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.about-story__portal > span:not(.about-story__portal-index) {
+  margin-top: 0.35rem;
+  color: rgba(239, 222, 187, 0.68);
+  font-size: 0.61rem;
   letter-spacing: 0.06em;
 }
 
-.about-story__copy a {
-  display: inline-flex;
-  gap: 1rem;
-  padding-bottom: 0.6rem;
-  border-bottom: 1px solid rgba(41, 33, 23, 0.48);
-  font-size: 0.9rem;
-  letter-spacing: 0.16em;
-}
-
-.about-story__statement {
-  margin: 0;
-  padding: 3rem 0 3rem clamp(2rem, 5vw, 6rem);
-  border-left: 1px solid rgba(41, 33, 23, 0.38);
-  font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4.2vw, 5.2rem);
-  line-height: 1.55;
-  letter-spacing: 0.05em;
-}
-
-.about-story__vertical {
+.about-story__portal-index {
   position: absolute;
-  top: 50%;
-  right: clamp(1rem, 2.5vw, 3rem);
-  margin: 0;
+  top: 0.7rem;
+  right: 0.75rem;
+  color: #d05848;
+  font-family: var(--font-latin);
+  font-size: 0.58rem;
+}
+
+.about-story__portal-disclosure.is-portals-visible .about-story__portals,
+.about-story__portal-disclosure:has(.about-story__portrait:focus-visible) .about-story__portals,
+.about-story__portal-disclosure:not(.is-hover-mode)[open] .about-story__portals {
+  pointer-events: auto;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.about-story__portal-disclosure.is-portals-visible .about-story__portal,
+.about-story__portal-disclosure:has(.about-story__portrait:focus-visible) .about-story__portal,
+.about-story__portal-disclosure:not(.is-hover-mode)[open] .about-story__portal {
+  animation: about-portal-drift var(--drift-duration) ease-in-out var(--drift-delay) infinite;
+  opacity: 1;
+  transform: translate(-50%, -50%) translate(var(--portal-x), var(--portal-y)) rotate(var(--portal-rotate)) scale(1);
+}
+
+.about-story__portal:hover,
+.about-story__portal:focus-visible {
+  z-index: 5;
+  border-color: rgba(206, 171, 108, 0.92);
+  transform: translate(-50%, -50%) translate(var(--portal-x), var(--portal-y)) rotate(0) scale(1.055) !important;
+}
+
+.about-story__portal--notes {
+  --drift-delay: -1.8s;
+  --drift-duration: 8.6s;
+  --portal-x: clamp(-31rem, -30vw, -20rem);
+  --portal-y: clamp(-13rem, -18vh, -9rem);
+  --portal-rotate: -3deg;
+}
+
+.about-story__portal--film {
+  --drift-delay: -5.1s;
+  --drift-duration: 10.4s;
+  --portal-x: clamp(20rem, 30vw, 31rem);
+  --portal-y: clamp(-13rem, -18vh, -9rem);
+  --portal-rotate: 3deg;
+}
+
+.about-story__portal--life {
+  --drift-delay: -3.4s;
+  --drift-duration: 9.2s;
+  --portal-x: clamp(-31rem, -30vw, -20rem);
+  --portal-y: clamp(9rem, 18vh, 13rem);
+  --portal-rotate: 2deg;
+}
+
+.about-story__portal--projects {
+  --drift-delay: -7.2s;
+  --drift-duration: 9.8s;
+  --portal-x: clamp(20rem, 30vw, 31rem);
+  --portal-y: clamp(9rem, 18vh, 13rem);
+  --portal-rotate: -2deg;
+}
+
+.about-story__name {
+  position: relative;
+  z-index: 4;
+  margin: 2.1rem 0 0;
   font-family: var(--font-display);
-  font-size: 0.92rem;
-  letter-spacing: 0.24em;
-  writing-mode: vertical-rl;
-  transform: translateY(-50%);
+  font-size: clamp(1.35rem, 1.8vw, 1.8rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.about-story__socials {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  color: rgba(45, 34, 23, 0.72);
+  border-top: 1px solid rgba(82, 60, 35, 0.25);
+  border-bottom: 1px solid rgba(82, 60, 35, 0.25);
+}
+
+.about-story__socials a {
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  aspect-ratio: 1;
+  transition: color 220ms ease, background 220ms ease;
+}
+
+.about-story__socials a + a {
+  border-left: 1px solid rgba(82, 60, 35, 0.25);
+}
+
+.about-story__socials a:hover,
+.about-story__socials a:focus-visible {
+  color: #7d2d27;
+  background: rgba(222, 198, 153, 0.28);
+}
+
+.about-story__socials svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  overflow: visible;
+  fill: currentColor;
+}
+
+.about-story__socials a[aria-label="豆瓣"] svg circle {
+  fill: #2f8f46;
+}
+
+.about-story__socials a[aria-label="豆瓣"] svg path {
+  fill: #f6ebd2;
+}
+
+.about-story__socials a[aria-label="网易云音乐"] svg circle {
+  fill: #c63f34;
+}
+
+.about-story__socials a[aria-label="网易云音乐"] svg path {
+  fill: none;
+  stroke: #f8ead0;
+  stroke-linecap: round;
+  stroke-width: 1.4;
+}
+
+.about-story__notes {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  pointer-events: none;
+}
+
+.about-story__note {
+  position: absolute;
+  margin: 0;
+  padding-top: 0.9rem;
+  color: rgba(54, 41, 27, 0.58);
+  border-top: 1px solid rgba(89, 65, 38, 0.24);
+  font-size: clamp(0.72rem, 0.85vw, 0.86rem);
+  line-height: 2;
+  letter-spacing: 0.08em;
+  text-align: left;
+  transition: opacity 360ms ease, transform 520ms var(--ease-out);
+}
+
+.about-story__note--identity {
+  bottom: clamp(5rem, 10vh, 8rem);
+  left: 34%;
+  width: min(20rem, 23vw);
+}
+
+.about-story__note--site {
+  right: 7%;
+  bottom: clamp(5.5rem, 12vh, 9rem);
+  width: min(28rem, 27vw);
+}
+
+.about-story.is-portals-visible .about-story__note,
+.about-story:has(.about-story__portrait:focus-visible) .about-story__note {
+  opacity: 0.08;
+  transform: translateY(0.8rem);
+}
+
+@keyframes about-cloud-orbit {
+  from { transform: rotate(-5deg) scale(0.96); opacity: 0.64; }
+  to { transform: rotate(7deg) scale(1.05); opacity: 0.88; }
+}
+
+@keyframes about-portal-drift {
+  0%, 100% { translate: -0.32rem -0.22rem; rotate: -0.65deg; }
+  24% { translate: 0.2rem -0.5rem; rotate: 0.35deg; }
+  52% { translate: 0.48rem 0.12rem; rotate: 0.78deg; }
+  76% { translate: -0.12rem 0.44rem; rotate: -0.22deg; }
 }
 
 @keyframes story-cloud-breathe {
@@ -454,6 +837,96 @@
 @keyframes bird-flock-breathe {
   from { transform: translateY(-3px) scaleY(0.96); }
   to { transform: translateY(4px) scaleY(1.06); }
+}
+
+@keyframes journey-cloud-drift {
+  from { transform: translate3d(-4%, 0, 0) scale(1.02); }
+  to { transform: translate3d(6%, 1.5rem, 0) scale(1.08); }
+}
+
+@keyframes journey-petal-fall {
+  0% { transform: translate3d(-4vw, -12vh, 0) rotate(0deg); opacity: 0; }
+  12% { opacity: 0.72; }
+  54% { transform: translate3d(7vw, 42vh, 0) rotate(220deg); }
+  100% { transform: translate3d(-2vw, 104vh, 0) rotate(520deg); opacity: 0; }
+}
+
+@keyframes journey-snow-fall {
+  0% { transform: translate3d(0, -10vh, 0); opacity: 0; }
+  16% { opacity: 0.82; }
+  62% { transform: translate3d(2.8vw, 58vh, 0); }
+  100% { transform: translate3d(-1.8vw, 104vh, 0); opacity: 0; }
+}
+
+.is-story-static .scroll-story {
+  height: auto;
+}
+
+.is-story-static .scroll-story__sticky {
+  position: relative;
+  height: auto;
+  overflow: visible;
+}
+
+.is-story-static .scroll-story .home-hero,
+.is-story-static .story-world,
+.is-story-static .prologue-panel,
+.is-story-static .about-story {
+  position: relative;
+  inset: auto;
+  min-height: 100svh;
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+.is-story-static .journey-atmosphere {
+  display: none;
+}
+
+.is-story-static .story-world__stripes {
+  clip-path: none;
+}
+
+.is-story-static .story-cloud,
+.is-story-static .bird-flock,
+.is-story-static .prologue-panel__quote p,
+.is-story-static .prologue-panel__attribution {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+}
+
+.is-story-static .prologue-panel__frame {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@media (min-width: 769px) and (max-width: 1100px) and (pointer: fine) {
+  .about-story__portal {
+    width: clamp(13rem, 25vw, 17rem);
+  }
+
+  .about-story__portal--notes,
+  .about-story__portal--life {
+    --portal-x: clamp(-18rem, -31vw, -13rem);
+  }
+
+  .about-story__portal--film,
+  .about-story__portal--projects {
+    --portal-x: clamp(13rem, 31vw, 18rem);
+  }
+
+  .about-story__portal--notes,
+  .about-story__portal--film {
+    --portal-y: -8.5rem;
+  }
+
+  .about-story__portal--life,
+  .about-story__portal--projects {
+    --portal-y: 8.5rem;
+  }
 }
 
 @media (max-width: 768px), (pointer: coarse) {
@@ -469,7 +942,8 @@
 
   .scroll-story .home-hero,
   .story-world,
-  .prologue-panel {
+  .prologue-panel,
+  .about-story {
     position: relative;
     inset: auto;
     min-height: 100svh;
@@ -500,6 +974,14 @@
     transform: translate(-50%, -50%) !important;
   }
 
+  .journey-atmosphere {
+    opacity: 0.58;
+  }
+
+  .journey-clouds { opacity: 0.46; }
+  .journey-petals { opacity: 0.5; }
+  .journey-snow { opacity: 0.42; }
+
   .prologue-panel {
     min-height: auto;
     padding: 6rem var(--page-pad);
@@ -520,6 +1002,7 @@
   }
 
   .prologue-panel__intro {
+    justify-items: start;
     padding: 0 0 2.2rem;
     border-right: 0;
     border-bottom: 1px solid rgba(198, 174, 129, 0.28);
@@ -549,24 +1032,88 @@
   }
 
   .about-story {
-    grid-template-columns: 1fr;
-    gap: 4rem;
-    padding-block: 7rem 10rem;
+    display: grid;
+    place-items: center;
+    padding-block: 8rem 10rem;
   }
 
-  .about-story__statement {
-    padding: 2rem 0 2rem 1.5rem;
-    font-size: clamp(2rem, 9vw, 3.7rem);
+  .about-story__eyebrow {
+    top: 5.5rem;
+    left: var(--page-pad);
   }
 
-  .about-story__vertical {
+  .about-story__profile {
+    width: 100%;
+  }
+
+  .about-story__portal-disclosure {
+    width: clamp(7.5rem, 36vw, 9rem);
+  }
+
+  .about-story__portal-disclosure:not([open]) > .about-story__portals {
     display: none;
+  }
+
+  .about-story__portal-disclosure[open] > .about-story__portals {
+    position: relative;
+    top: auto;
+    left: 50%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+    width: min(88vw, 26rem);
+    height: auto;
+    margin-top: 2rem;
+    pointer-events: auto;
+    visibility: visible;
+    transform: translateX(-50%);
+  }
+
+  .about-story__portal {
+    position: relative;
+    inset: auto;
+    width: auto;
+    min-height: 5.5rem;
+    animation: none !important;
+    opacity: 1;
+    rotate: none;
+    translate: none;
+    transform: none !important;
+  }
+
+  .about-story__name {
+    margin-top: 1.8rem;
+  }
+
+  .about-story__notes {
+    position: relative;
+    inset: auto;
+    display: grid;
+    gap: 1rem;
+    width: min(100%, 28rem);
+    margin-top: 3.5rem;
+    padding-inline: var(--page-pad);
+  }
+
+  .about-story__note {
+    position: relative;
+    inset: auto;
+    width: auto;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .story-cloud,
-  .bird-flock g {
+  .bird-flock g,
+  .journey-cloud,
+  .journey-petals i,
+  .journey-snow i,
+  .about-story__portrait::before,
+  .about-story__portal {
     animation: none !important;
+    rotate: none;
+    translate: none;
   }
 }

@@ -20,10 +20,28 @@ export function initScrollStory({ root = document, reducedMotion = false } = {})
   const prologueFrame = root.querySelector('.prologue-panel__frame');
   const prologueParts = [...root.querySelectorAll('[data-prologue-part]')];
   const prologueAttribution = root.querySelector('[data-prologue-attribution]');
+  const prologueTitleChars = [...root.querySelectorAll('.prologue-panel__title-char')];
+  const aboutStory = root.querySelector('.about-story');
+  const aboutStoryDetails = [
+    ...root.querySelectorAll(
+      '.about-story__eyebrow, .about-story__portrait, .about-story__name, .about-story__socials',
+    ),
+  ];
+  const journeyAtmosphere = root.querySelector('.journey-atmosphere');
+  const journeyClouds = [...root.querySelectorAll('.journey-cloud')];
+  const journeyPetals = root.querySelector('[data-atmosphere="petal"]');
+  const journeySnow = root.querySelector('[data-atmosphere="snow"]');
   const siteHeader = root.querySelector('.site-header');
   const supportsCinematicScroll = view.matchMedia('(min-width: 769px) and (pointer: fine)').matches;
 
-  if (!story || !stage || reducedMotion || !supportsCinematicScroll) {
+  if (
+    !story
+    || !stage
+    || !aboutStory
+    || !journeyAtmosphere
+    || reducedMotion
+    || !supportsCinematicScroll
+  ) {
     html.classList.add('is-story-static');
     return { destroy() {} };
   }
@@ -43,6 +61,18 @@ export function initScrollStory({ root = document, reducedMotion = false } = {})
   gsap.set(prologueFrame, { scale: 1.05 });
   gsap.set(prologueParts, { autoAlpha: 0, y: 18 });
   gsap.set(prologueAttribution, { autoAlpha: 0, y: 14 });
+  gsap.set(prologueTitleChars, { autoAlpha: 0, yPercent: 38 });
+  gsap.set(aboutStory, {
+    autoAlpha: 0,
+    yPercent: 5,
+    scale: 1.035,
+    filter: 'brightness(.72) sepia(.2)',
+  });
+  gsap.set(aboutStoryDetails, { autoAlpha: 0, y: 28 });
+  gsap.set(journeyAtmosphere, { autoAlpha: 0 });
+  gsap.set(journeyClouds, { autoAlpha: 0, xPercent: (index) => (index ? 5 : -6) });
+  gsap.set(journeyPetals, { autoAlpha: 0, xPercent: -5, yPercent: -4 });
+  gsap.set(journeySnow, { autoAlpha: 0, xPercent: 3, yPercent: -5 });
 
   const timeline = gsap.timeline({
     defaults: { ease: 'none' },
@@ -64,9 +94,16 @@ export function initScrollStory({ root = document, reducedMotion = false } = {})
       duration: 0.2,
       ease: 'power2.inOut',
     }, 0)
-    .to(storyWorld, { autoAlpha: 1, scale: 1, duration: 0.18 }, 0.02)
-    .fromTo(storyImage, { scale: 1.12 }, { scale: 1.02, duration: 0.46 }, 0.03)
+    .to(storyWorld, { autoAlpha: 1, scale: 1, duration: 0.17 }, 0.02)
+    .fromTo(storyImage, { scale: 1.12 }, { scale: 1.015, duration: 0.52 }, 0.03)
     .to(storyStripes, { clipPath: 'inset(0% 0 0 0)', duration: 0.24 }, 0.06)
+    .to(journeyAtmosphere, { autoAlpha: 1, duration: 0.16 }, 0.06)
+    .to(journeyClouds, {
+      autoAlpha: (index) => (index ? 0.58 : 0.38),
+      xPercent: (index) => (index ? -4 : 6),
+      duration: 0.48,
+      stagger: 0.02,
+    }, 0.07)
     .to(clouds, {
       autoAlpha: (index) => 0.3 + index * 0.1,
       xPercent: (index) => (index % 2 ? 12 : -11),
@@ -94,36 +131,81 @@ export function initScrollStory({ root = document, reducedMotion = false } = {})
       duration: 0.28,
       ease: 'power1.inOut',
     }, 0.22)
-    .to(storyFocus, { autoAlpha: 0, y: -28, scale: 0.94, duration: 0.13 }, 0.4)
+    .to(storyFocus, { autoAlpha: 0, y: -28, scale: 0.94, duration: 0.12 }, 0.36)
     .to(storyWorld, {
-      scale: 0.92,
-      autoAlpha: 0.58,
+      scale: 0.96,
+      autoAlpha: 0.66,
       filter: 'brightness(.68) sepia(.32) saturate(.85)',
-      duration: 0.26,
+      duration: 0.24,
       ease: 'power2.inOut',
-    }, 0.4)
-    .to(prologuePanel, { autoAlpha: 1, duration: 0.22 }, 0.43)
-    .to(prologueFrame, { scale: 1, duration: 0.24, ease: 'power2.out' }, 0.44)
-    .to(prologueParts, { autoAlpha: 0.78, y: 0, duration: 0.1, stagger: 0.015 }, 0.49)
-    .to(prologueParts[0], { autoAlpha: 1, duration: 0.09, ease: 'power2.out' }, 0.53)
-    .to(prologueParts[0], { autoAlpha: 0.78, duration: 0.06 }, 0.63)
-    .to(prologueParts[1], { autoAlpha: 1, duration: 0.09, ease: 'power2.out' }, 0.64)
-    .to(prologueParts[1], { autoAlpha: 0.78, duration: 0.06 }, 0.75)
-    .to(prologueParts[2], { autoAlpha: 1, duration: 0.1, ease: 'power2.out' }, 0.76)
-    .to(prologueAttribution, { autoAlpha: 1, y: 0, duration: 0.08 }, 0.86)
+    }, 0.36)
+    .to(prologuePanel, { autoAlpha: 1, duration: 0.2 }, 0.39)
+    .to(prologueFrame, { scale: 1, duration: 0.22, ease: 'power2.out' }, 0.4)
+    .to(prologueTitleChars, {
+      autoAlpha: 1,
+      yPercent: 0,
+      duration: 0.13,
+      stagger: 0.018,
+      ease: 'power2.out',
+    }, 0.42)
+    .to(journeyPetals, {
+      autoAlpha: 0.72,
+      xPercent: 4,
+      yPercent: 3,
+      duration: 0.28,
+      ease: 'power1.inOut',
+    }, 0.42)
+    .to(prologueParts, { autoAlpha: 0.78, y: 0, duration: 0.1, stagger: 0.015 }, 0.46)
+    .to(prologueParts[0], { autoAlpha: 1, duration: 0.075, ease: 'power2.out' }, 0.5)
+    .to(prologueParts[0], { autoAlpha: 0.78, duration: 0.05 }, 0.57)
+    .to(prologueParts[1], { autoAlpha: 1, duration: 0.075, ease: 'power2.out' }, 0.58)
+    .to(prologueParts[1], { autoAlpha: 0.78, duration: 0.05 }, 0.65)
+    .to(prologueParts[2], { autoAlpha: 1, duration: 0.08, ease: 'power2.out' }, 0.66)
+    .to(prologueAttribution, { autoAlpha: 1, y: 0, duration: 0.06 }, 0.53)
+    .addLabel('about-bridge', 0.76)
     .to([storyStripes, ...storyInk, birdFlock, storyFocus], {
       autoAlpha: 0,
-      duration: 0.08,
-    }, 0.9)
-    .to(prologueFrame, { scale: 0.96, autoAlpha: 0.22, duration: 0.08 }, 0.91)
-    .to(prologuePanel, { autoAlpha: 0, duration: 0.08 }, 0.92)
+      duration: 0.11,
+    }, 'about-bridge')
+    .to(prologueFrame, { scale: 0.985, yPercent: -2, duration: 0.11 }, 'about-bridge')
+    .to(prologuePanel, {
+      autoAlpha: 0,
+      duration: 0.12,
+      ease: 'power2.inOut',
+    }, 'about-bridge')
     .to(storyWorld, {
+      autoAlpha: 0.12,
+      scale: 1.055,
+      filter: 'brightness(.78) sepia(.26) saturate(.72)',
+      duration: 0.15,
+      ease: 'power2.inOut',
+    }, 'about-bridge')
+    .to(journeyPetals, { autoAlpha: 0.16, yPercent: 9, duration: 0.13 }, 'about-bridge')
+    .to(journeySnow, { autoAlpha: 0.68, xPercent: -2, yPercent: 2, duration: 0.15 }, 'about-bridge')
+    .to(aboutStory, {
       autoAlpha: 1,
+      yPercent: 0,
       scale: 1,
-      filter: 'brightness(1) sepia(.12) saturate(.78)',
-      duration: 0.08,
-    }, 0.92)
-    .to(siteHeader, { autoAlpha: 1, y: 0, duration: 0.07 }, 0.94);
+      filter: 'brightness(1) sepia(0)',
+      duration: 0.16,
+      ease: 'power2.out',
+    }, 'about-bridge')
+    .to(aboutStoryDetails, {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.12,
+      stagger: 0.016,
+      ease: 'power2.out',
+    }, 0.79)
+    .to(journeyClouds, {
+      autoAlpha: (index) => (index ? 0.48 : 0.3),
+      xPercent: (index) => (index ? 5 : -4),
+      duration: 0.2,
+    }, 0.8)
+    .to(journeySnow, { autoAlpha: 0.22, yPercent: 8, duration: 0.13 }, 0.88)
+    .to(journeyPetals, { autoAlpha: 0, duration: 0.08 }, 0.89)
+    .to(siteHeader, { autoAlpha: 1, y: 0, duration: 0.08 }, 0.91)
+    .to(aboutStory, { autoAlpha: 1, duration: 0.09 }, 0.91);
 
   const refresh = () => {
     ScrollTrigger.refresh();
