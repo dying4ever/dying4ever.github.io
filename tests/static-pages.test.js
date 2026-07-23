@@ -57,6 +57,23 @@ test('article template contains masthead metadata, TOC and parchment body', () =
   assert.match(html, /href="\/categories\/cpp\/"/);
 });
 
+test('article template does not leave indented whitespace when the TOC is empty', () => {
+  const document = {
+    ...fixtureDocument,
+    body: '没有标题的短文。',
+    categories: [],
+    tags: [],
+  };
+  const html = renderArticlePage({
+    document,
+    rendered: renderMarkdownWithToc(document.body, { assetBase: document.route }),
+    previous: null,
+    next: null,
+  });
+
+  assert.doesNotMatch(html, /[ \t]+$/m);
+});
+
 test('section template renders an intentional empty state', () => {
   const html = renderListPage({
     title: 'FILM',
@@ -69,6 +86,18 @@ test('section template renders an intentional empty state', () => {
   assert.match(html, /class="content-masthead"/);
   assert.match(html, /class="empty-state"/);
   assert.match(html, /此页正在等待第一篇记录/);
+});
+
+test('list template does not leave indented whitespace when masthead meta is empty', () => {
+  const html = renderListPage({
+    title: 'FILM',
+    eyebrow: '光影',
+    description: '电影与观看记录',
+    documents: [],
+    route: '/film/',
+  });
+
+  assert.doesNotMatch(html, /[ \t]+$/m);
 });
 
 test('collects balanced local asset paths while ignoring fenced examples', () => {

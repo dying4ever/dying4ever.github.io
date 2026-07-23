@@ -24,10 +24,13 @@ function renderNeighbor(document, label) {
 export function renderArticlePage({ document, rendered, previous, next }) {
   const categories = renderTaxonomy(document.categories, 'categories');
   const tags = renderTaxonomy(document.tags, 'tags');
+  const metaItems = [
+    `<time datetime="${document.date.replace(' ', 'T')}">${document.date.slice(0, 10)}</time>`,
+    categories ? `<span class="content-meta__categories">${categories}</span>` : '',
+    tags ? `<span class="content-meta__tags">${tags}</span>` : '',
+  ].filter(Boolean);
   const meta = `<div class="content-meta">
-    <time datetime="${document.date.replace(' ', 'T')}">${document.date.slice(0, 10)}</time>
-    ${categories ? `<span class="content-meta__categories">${categories}</span>` : ''}
-    ${tags ? `<span class="content-meta__tags">${tags}</span>` : ''}
+    ${metaItems.join('\n    ')}
   </div>`;
   const masthead = renderMasthead({
     eyebrow: document.section.toUpperCase(),
@@ -35,8 +38,8 @@ export function renderArticlePage({ document, rendered, previous, next }) {
     description: document.desc,
     meta,
   });
-  const content = `<div class="article-layout">
-    ${renderToc(rendered.toc)}
+  const toc = renderToc(rendered.toc);
+  const content = `<div class="article-layout">${toc ? `\n    ${toc}` : ''}
     <article class="article-paper">
       <div class="markdown-body">${rendered.html}</div>
       <nav class="article-neighbors" aria-label="相邻文章">

@@ -53,14 +53,17 @@ export function renderSiteShell({ title, description = '', route = '/', masthead
 }
 
 export function renderMasthead({ eyebrow, title, description = '', meta = '' }) {
+  const details = [
+    description ? `<div class="content-masthead__description">${escapeHtml(description)}</div>` : '',
+    meta,
+  ].filter(Boolean);
+
   return `<section class="content-masthead">
     <div class="content-masthead__landscape" aria-hidden="true"></div>
     <div class="content-masthead__ink" aria-hidden="true"></div>
     <div class="content-masthead__copy">
       <p>${escapeHtml(eyebrow)}</p>
-      <h1>${escapeHtml(title)}</h1>
-      ${description ? `<div class="content-masthead__description">${escapeHtml(description)}</div>` : ''}
-      ${meta}
+      <h1>${escapeHtml(title)}</h1>${details.length ? `\n      ${details.join('\n      ')}` : ''}
     </div>
   </section>`;
 }

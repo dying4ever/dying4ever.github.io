@@ -1,6 +1,6 @@
 ---
 title: 建站日志
-date: 2026-07-17 17:16:16
+date: 2026-07-23 23:14:27
 sticky: 1
 categories:
     - uncategorized
@@ -13,6 +13,16 @@ disableNunjucks: true
 ---
 
 ---
+
+# 2026-07-23
+
+## version1
+
+将已确认的沉浸式首页、序章、About、最近文章列表与三篇栏目样例统一发布到 GitHub。
+部署前检查发现无目录文章和无额外元信息的列表页会在生成 HTML 中留下缩进行尾空格；修复模板的可选片段拼接方式，并补充对应回归测试，避免以后新增可选字段为空的 Markdown 时再次出现。
+验证命令：`npm test`、`npm run build`、`git diff --check`。
+结果：79/79 单元测试通过；生产构建完成 134 篇 Markdown、231 条路由，部署树行尾检查通过。
+修改位置：`src/templates/article-page.js`、`src/templates/site-shell.js`、`tests/static-pages.test.js`。
 
 # 2026-07-17
 
