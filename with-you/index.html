@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="拖动爱心，在24道生活选择中探索彼此的相处倾向。">
+<title>你与站主的缘分程度 · with you.</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='.9em' font-size='56'%3E%F0%9F%92%97%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="./styles.css">
+<script src="./questions.js" defer></script>
+<script src="./scoring.js" defer></script>
+<script src="./config.js" defer></script>
+<script src="./cloud.js" defer></script>
+<script src="./app.js" defer></script>
+</head>
+<body>
+<div class="page-background" aria-hidden="true"></div>
+<main id="quiz-app">
+<header class="page-header"><span class="brand">with you.</span><span id="question-count" class="counter"></span></header>
+<h1 id="page-title">我们，会有怎样的缘分？</h1>
+<section id="quiz-screen" aria-label="答题区">
+<div class="progress-track" role="progressbar" aria-label="答题进度" aria-valuemin="0" aria-valuemax="24" aria-valuenow="0"><div id="progress-fill"></div></div>
+<div class="question-heading"><span id="question-domain"></span><details id="question-evidence"><summary>题目依据</summary><div id="question-sources"></div></details></div>
+<h2 id="question-title"></h2>
+<p class="drag-hint">拖动爱心，松手吸附；靠近更认同的一角。</p>
+<div class="choice-row top-row"><button type="button" id="choice-tl"></button><button type="button" id="choice-tr"></button></div>
+<div id="choice-board" class="choice-board" role="group" aria-label="25个吸附位置的偏好选择区域">
+<svg class="tethers" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line id="line-tl" x1="0" y1="0" x2="50" y2="50"/><line id="line-tr" x1="100" y1="0" x2="50" y2="50"/><line id="line-bl" x1="0" y1="100" x2="50" y2="50"/><line id="line-br" x1="100" y1="100" x2="50" y2="50"/></svg>
+<div id="grid-nodes" aria-hidden="true"></div>
+<span class="star" style="left:0;top:0" aria-hidden="true"><span id="star-tl">⭐️</span></span><span class="star" style="left:100%;top:0" aria-hidden="true"><span id="star-tr">⭐️</span></span><span class="star" style="left:0;top:100%" aria-hidden="true"><span id="star-bl">⭐️</span></span><span class="star" style="left:100%;top:100%" aria-hidden="true"><span id="star-br">⭐️</span></span>
+<button id="choice-heart" class="heart" type="button" aria-label="爱心选择器，使用方向键移动"><span class="heart-shape" aria-hidden="true"></span></button>
+</div>
+<div class="choice-row bottom-row"><button type="button" id="choice-bl"></button><button type="button" id="choice-br"></button></div>
+<p id="selection-status" class="selection-status" aria-live="polite"></p>
+<div class="quiz-actions"><button id="previous" type="button" class="button">上一题</button><button id="skip" type="button" class="button quiet">暂不确定</button><button id="next" type="button" class="button primary">确认位置 →</button></div>
+<p id="storage-warning" class="storage-warning" role="status" hidden>当前浏览器无法保存进度，请在本次完成。</p>
+</section>
+<section id="results-screen" aria-label="多维结果" hidden></section>
+</main>
+<noscript><p class="noscript">请启用 JavaScript 完成答题。</p></noscript>
+</body>
+</html>
