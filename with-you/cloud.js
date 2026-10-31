@@ -13,7 +13,7 @@ async function submit(payload){
   if(!response.ok){const message=body?.message||'';if(message.includes('too_many_submissions'))throw new Error('暂时提交较多，请稍后重试。');if(message.includes('unknown_questionnaire'))throw new Error('题库已更新，请刷新后再提交。');throw new Error('提交暂未成功，请稍后重试；本地答案不会丢失。');}
   if(!body?.id||!body?.scores)throw new Error('提交结果未确认，请稍后重试。');
   return body;
- }catch(error){if(error.name==='AbortError')throw new Error('提交超时，请重试。重复重试不会新增同一条记录。');throw error;}
+ }catch(error){if(error.name==='AbortError')throw new Error('提交超时，请重试。重复重试不会新增同一条记录。');if(error instanceof TypeError)throw new Error('暂时无法连接，请检查网络后重试；本地答案不会丢失。');throw error;}
  finally{clearTimeout(timer);}
 }
 global.WithYouCloud={configuration,makeId,submit};
