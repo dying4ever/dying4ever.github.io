@@ -3,10 +3,10 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><meta name="color-scheme" content="light"><title>答卷后台 · with you.</title>
 <link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./admin.css">
 <script src="./questions.js" defer></script><script src="./config.js?v=20261031-1" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="./admin.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="./admin.js?v=20261102-login1" defer></script>
 </head><body><main class="admin-app">
 <header class="admin-header"><a href="./" class="brand">with you.</a><h1>答卷后台</h1></header>
 <p id="admin-status" role="status"></p>
-<section id="login-panel"><p class="admin-note">使用已获授权的邮箱登录，验证后才能查看答卷。</p><form id="login-form"><label>登录邮箱<input id="admin-email" type="email" autocomplete="email" required placeholder="你的邮箱"></label><button id="login-button" type="submit" class="button primary">发送登录链接</button></form></section>
+<section id="login-panel"><p class="admin-note">使用站主邮箱收取登录邮件。请在发送邮件的同一个浏览器窗口中打开最新链接。</p><form id="login-form"><label>登录邮箱<input id="admin-email" type="email" autocomplete="email" required placeholder="你的邮箱"></label><button id="login-button" type="submit" class="button primary" disabled>正在检查登录…</button></form><p class="admin-note">每次发送后请等待邮件，无需反复点击。如果邮件在手机打开，可将链接复制到当前浏览器的地址栏。</p></section>
 <section id="records-panel" hidden><div class="admin-toolbar"><span id="record-count"></span><button id="refresh" type="button" class="button">刷新</button><button id="export-csv" type="button" class="button">导出已加载记录</button><button id="logout" type="button" class="button">退出登录</button></div><div id="records"></div><button id="load-more" type="button" class="button" hidden>加载更多</button></section>
 </main></body></html>
